@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <mutex>
 #include <random>
 #include <thread>
 #include <vector>
@@ -220,8 +221,21 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
     // threads can share one buffer. With multipath a bearing can deposit a
     // mirror into a neighbour, so each thread accumulates privately and the
     // results are summed once at the end.
+    //
+    // That private accumulator is nine megabytes at a typical size, and
+    // allocating it per call meant faulting in nine megabytes of fresh pages on
+    // every frame, which at sixty frames a second dominated the multipath path.
+    // It is kept and reused instead. The mutex is what makes reusing it safe if
+    // two threads ever call render at once; renders are serial in practice, so
+    // it is uncontended.
+    static std::mutex scratch_mutex;
+    static std::vector<double> scratch;
     const bool shared = !config.multipath_enabled;
-    std::vector<double> scratch(shared ? 0 : static_cast<size_t>(pixels) * (threads - 1), 0.0);
+    std::unique_lock<std::mutex> scratch_lock(scratch_mutex, std::defer_lock);
+    if (!shared) {
+        scratch_lock.lock();
+        scratch.assign(static_cast<size_t>(pixels) * (threads - 1), 0.0);
+    }
 
     std::vector<std::thread> workers;
     workers.reserve(threads);

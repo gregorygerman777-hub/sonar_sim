@@ -25,7 +25,7 @@ import scene as sc
 import sonar
 
 WIDTH, HEIGHT = 1560, 980
-DRAFT_SUBRAYS, FULL_SUBRAYS = 192, 1280
+DRAFT_SUBRAYS, MOVING_SUBRAYS, FULL_SUBRAYS = 192, 768, 1280
 N_AZIMUTH, N_RANGE, MAX_RANGE = 256, 512, 10.0
 FOV_DEG = 30.0
 HISTORY = 200
@@ -109,8 +109,18 @@ def surface_from(pixels):
                                    (width, height), "RGB")
 
 
+# One scaled surface per panel, allocated once. pygame.transform.scale can write
+# into a destination surface, which avoids allocating a full panel every frame.
+SCALED = {}
+
+
 def blit_panel(screen, pixels, rect):
-    screen.blit(pygame.transform.scale(surface_from(pixels), rect.size), rect.topleft)
+    key = id(rect)
+    if key not in SCALED:
+        # 24-bit to match what frombuffer produces; scale refuses mismatched formats.
+        SCALED[key] = pygame.Surface(rect.size, 0, 24)
+    pygame.transform.scale(surface_from(pixels), rect.size, SCALED[key])
+    screen.blit(SCALED[key], rect.topleft)
     pygame.draw.rect(screen, FRAME, rect, 1)
 
 
@@ -171,8 +181,14 @@ def main():
     range_history = np.full((HISTORY, N_RANGE), disp.FLOOR_DB)
 
     advance, frame, held, core_ms, running = 0.0, 0, None, 0.0, True
+    optical = None
     while running:
-        subrays = DRAFT_SUBRAYS if held is not None else FULL_SUBRAYS
+        # Full sampling only when the picture is standing still. A moving
+        # platform is redrawn often enough that the difference between 768 and
+        # 1280 sub-rays is invisible, and a held slider only needs a sketch.
+        moving = toggle_by_name["run"].state and by_name["surge m/s"].value > 0.0
+        subrays = (DRAFT_SUBRAYS if held is not None
+                   else MOVING_SUBRAYS if moving else FULL_SUBRAYS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -222,11 +238,14 @@ def main():
         image = sim.render(objects, position=position, axes=axes,
                            speckle=toggle_by_name["speckle"].state, seed=frame)
 
-        camera = sonar.OpticalCamera(width=160, height=120, focal_px=125.0,
-                                     position=position + np.array([0.0, 0.0, disp.CAMERA_RISE]),
-                                     axes=axes, attenuation_per_m=by_name["turbidity"].value,
-                                     light_intensity=150.0)
-        optical = camera.render(objects)
+        # The optical panel shows one row of a slowly changing scene, so it is
+        # refreshed on alternate frames rather than every one.
+        if optical is None or frame % 2 == 0:
+            camera = sonar.OpticalCamera(
+                width=160, height=120, focal_px=125.0,
+                position=position + np.array([0.0, 0.0, disp.CAMERA_RISE]), axes=axes,
+                attenuation_per_m=by_name["turbidity"].value, light_intensity=150.0)
+            optical = camera.render(objects)
         core_ms = 1000 * (time.perf_counter() - started)
 
         gain = by_name["gain dB"].value
