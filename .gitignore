@@ -1,0 +1,24 @@
+# Build products of the C++/Cython extension
+build/
+build_cmake/
+bindings/sonar.cpp
+*.so
+*.o
+*.a
+
+# Environment
+.venv
+.venv/
+__pycache__/
+*.pyc
+
+# Run outputs. output/ is the default destination for a single demo and
+# results/ is where run_all.sh puts a timestamped run; both are reproducible
+# from the code, so neither belongs in the history.
+output/
+results/
+
+# Kept: docs/hero_survey.gif is referenced by the README.
+!docs/hero_survey.gif
+
+.DS_Store
