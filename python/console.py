@@ -9,7 +9,8 @@ plotting library.
 
     .venv/bin/python python/console.py
 
-Keys: space runs and pauses the platform, r resets the run, q or escape quits.
+Keys: space runs and pauses the platform, f toggles fullscreen, r resets the
+run, q or escape quits. The window is resizable and the layout follows it.
 """
 
 import sys
@@ -24,7 +25,7 @@ import display as disp
 import scene as sc
 import sonar
 
-WIDTH, HEIGHT = 1560, 980
+DESIGN_W, DESIGN_H = 1560, 980
 DRAFT_SUBRAYS, MOVING_SUBRAYS, FULL_SUBRAYS = 192, 768, 1280
 N_AZIMUTH, N_RANGE, MAX_RANGE = 256, 512, 10.0
 FOV_DEG = 30.0
@@ -41,13 +42,36 @@ FRAME = (138, 20, 16)
 DIM = (122, 138, 128)
 PANEL = (13, 26, 13)
 
-POWER = pygame.Rect(60, 34, 1440, 66)
-COMPASS_Y, RELATIVE_Y = 106, 126
-MAIN = pygame.Rect(60, 150, 1440, 320)
-ASCAN = pygame.Rect(60, 486, 706, 56)
-OPTICAL = pygame.Rect(794, 486, 706, 56)
-BTR = pygame.Rect(60, 550, 706, 196)
-RTR = pygame.Rect(794, 550, 706, 196)
+# The console is laid out once at a design size and every rectangle is derived
+# from the actual window, so resizing and going fullscreen move the panels
+# instead of stretching a scaled bitmap. Rescaling geometry costs nothing per
+# frame; scaling a finished frame would cost several milliseconds of the budget
+# the pygame port just bought.
+def layout(width, height):
+    x = width / DESIGN_W
+    y = height / DESIGN_H
+
+    def rect(left, top, wide, high):
+        return pygame.Rect(round(left * x), round(top * y), round(wide * x), round(high * y))
+
+    panels = {
+        "power": rect(60, 34, 1440, 66),
+        "main": rect(60, 150, 1440, 320),
+        "ascan": rect(60, 486, 706, 56),
+        "optical": rect(794, 486, 706, 56),
+        "btr": rect(60, 550, 706, 196),
+        "rtr": rect(794, 550, 706, 196),
+        "compass_y": round(106 * y),
+        "relative_y": round(126 * y),
+        "banner": (round(60 * x), round(10 * y)),
+        "status": (round(900 * x), round(10 * y)),
+        "font": max(10, round(13 * min(x, y))),
+        "small": max(9, round(12 * min(x, y))),
+        "slider": [rect(150 + 470 * column, 800 + 28 * row, 240, 10)
+                   for column in (0, 1) for row in range(6)],
+        "toggle": [rect(1080, 796 + 28 * row, 16, 16) for row in range(5)],
+    }
+    return panels
 
 
 class Slider:
@@ -146,32 +170,39 @@ def polyline(screen, rect, values, low, high, colour, width=1):
 def main():
     pygame.init()
     pygame.display.set_caption("Forward-scan sonar console")
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    font = pygame.font.SysFont("Menlo,Monaco,Courier", 13)
-    small = pygame.font.SysFont("Menlo,Monaco,Courier", 12)
+    screen = pygame.display.set_mode((DESIGN_W, DESIGN_H), pygame.RESIZABLE)
     clock = pygame.time.Clock()
 
-    sliders = [
-        Slider(pygame.Rect(150, 800, 240, 10), "tilt", 0.0, 35.0, 16.0),
-        Slider(pygame.Rect(150, 828, 240, 10), "roll", 0.0, 90.0, 0.0),
-        Slider(pygame.Rect(150, 856, 240, 10), "beamwidth", 4.0, 30.0, 12.0),
-        Slider(pygame.Rect(150, 884, 240, 10), "freq kHz", 100.0, 2000.0, 900.0),
-        Slider(pygame.Rect(150, 912, 240, 10), "range m", 2.0, 8.0, 4.5, "{:.2f}"),
-        Slider(pygame.Rect(150, 940, 240, 10), "heading", 0.0, 359.0, 348.0),
-        Slider(pygame.Rect(620, 800, 240, 10), "wave mm", 0.0, 2.0, 0.0, "{:.2f}"),
-        Slider(pygame.Rect(620, 828, 240, 10), "turbidity", 0.02, 1.2, 0.10, "{:.2f}"),
-        Slider(pygame.Rect(620, 856, 240, 10), "texture", 0.0, 0.9, 0.45, "{:.2f}"),
-        Slider(pygame.Rect(620, 884, 240, 10), "surge m/s", 0.0, 2.0, 0.6, "{:.2f}"),
-        Slider(pygame.Rect(620, 912, 240, 10), "yaw deg/s", -40.0, 40.0, 0.0),
-        Slider(pygame.Rect(620, 940, 240, 10), "gain dB", -20.0, 20.0, 0.0),
-    ]
+    specs = [("tilt", 0.0, 35.0, 16.0, "{:.0f}"), ("roll", 0.0, 90.0, 0.0, "{:.0f}"),
+             ("beamwidth", 4.0, 30.0, 12.0, "{:.0f}"),
+             ("freq kHz", 100.0, 2000.0, 900.0, "{:.0f}"),
+             ("range m", 2.0, 8.0, 4.5, "{:.2f}"), ("heading", 0.0, 359.0, 348.0, "{:.0f}"),
+             ("wave mm", 0.0, 2.0, 0.0, "{:.2f}"), ("turbidity", 0.02, 1.2, 0.10, "{:.2f}"),
+             ("texture", 0.0, 0.9, 0.45, "{:.2f}"), ("surge m/s", 0.0, 2.0, 0.6, "{:.2f}"),
+             ("yaw deg/s", -40.0, 40.0, 0.0, "{:.0f}"), ("gain dB", -20.0, 20.0, 0.0, "{:.0f}")]
+    names = ["multipath", "speckle", "cylinder", "run", "detections"]
+
+    panels = layout(*screen.get_size())
+    sliders = [Slider(panels["slider"][index], label, low, high, value, fmt)
+               for index, (label, low, high, value, fmt) in enumerate(specs)]
+    toggles = [Toggle(panels["toggle"][index], label, state)
+               for index, (label, state) in enumerate(zip(names, [True, True, False, True, True]))]
     by_name = {slider.label: slider for slider in sliders}
-    toggles = [Toggle(pygame.Rect(1080, 796, 16, 16), "multipath", True),
-               Toggle(pygame.Rect(1080, 824, 16, 16), "speckle", True),
-               Toggle(pygame.Rect(1080, 852, 16, 16), "cylinder", False),
-               Toggle(pygame.Rect(1080, 880, 16, 16), "run", True),
-               Toggle(pygame.Rect(1080, 908, 16, 16), "detections", True)]
     toggle_by_name = {toggle.label: toggle for toggle in toggles}
+    font = pygame.font.SysFont("Menlo,Monaco,Courier", panels["font"])
+    small = pygame.font.SysFont("Menlo,Monaco,Courier", panels["small"])
+
+    def relayout(size):
+        """Recompute every rectangle for a new window size."""
+        nonlocal panels, font, small
+        panels = layout(*size)
+        for index, slider in enumerate(sliders):
+            slider.rect = panels["slider"][index]
+        for index, toggle in enumerate(toggles):
+            toggle.rect = panels["toggle"][index]
+        font = pygame.font.SysFont("Menlo,Monaco,Courier", panels["font"])
+        small = pygame.font.SysFont("Menlo,Monaco,Courier", panels["small"])
+        SCALED.clear()
 
     azimuth_axis = -0.5 * FOV_DEG + FOV_DEG * (np.arange(N_AZIMUTH) + 0.5) / N_AZIMUTH
     range_axis = MAX_RANGE / N_RANGE * (np.arange(N_RANGE) + 0.5)
@@ -181,7 +212,7 @@ def main():
     range_history = np.full((HISTORY, N_RANGE), disp.FLOOR_DB)
 
     advance, frame, held, core_ms, running = 0.0, 0, None, 0.0, True
-    optical = None
+    optical, fullscreen, windowed_size = None, False, (DESIGN_W, DESIGN_H)
     while running:
         # Full sampling only when the picture is standing still. A moving
         # platform is redrawn often enough that the difference between 768 and
@@ -199,6 +230,19 @@ def main():
                     toggle_by_name["run"].state = not toggle_by_name["run"].state
                 elif event.key == pygame.K_r:
                     advance = 0.0
+                elif event.key == pygame.K_f:
+                    # Rebuilding the display rather than toggling a flag, because
+                    # the layout has to be recomputed for the new size anyway.
+                    fullscreen = not fullscreen
+                    if fullscreen:
+                        windowed_size = screen.get_size()
+                        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                    else:
+                        screen = pygame.display.set_mode(windowed_size, pygame.RESIZABLE)
+                    relayout(screen.get_size())
+            elif event.type == pygame.VIDEORESIZE and not fullscreen:
+                screen = pygame.display.set_mode(event.size, pygame.RESIZABLE)
+                relayout(screen.get_size())
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for toggle in toggles:
                     if toggle.hit(event.pos):
@@ -260,64 +304,70 @@ def main():
         range_history[0] = centre_db
 
         screen.fill(INK)
+        power = panels["power"]
+        main_panel = panels["main"]
+        ascan = panels["ascan"]
+        optical_panel = panels["optical"]
+        btr = panels["btr"]
+        rtr = panels["rtr"]
 
         # Bearing power, with the reference line the console draws across the top.
-        pygame.draw.rect(screen, FRAME, POWER, 1)
-        pygame.draw.rect(screen, TRACE, pygame.Rect(POWER.x + 6, POWER.y + 10, 24, 44))
-        for offset in range(0, POWER.width, 12):
-            screen.set_at((POWER.x + offset, POWER.y + 6), (255, 255, 255))
-        polyline(screen, POWER, 1.0 + bearing_db / -disp.BEARING_FLOOR_DB, 0.0, 1.08, TRACE)
-        cursor = POWER.x + POWER.width // 2
-        pygame.draw.line(screen, TRACE, (cursor, POWER.y), (cursor, POWER.bottom), 2)
+        pygame.draw.rect(screen, FRAME, power, 1)
+        pygame.draw.rect(screen, TRACE, pygame.Rect(power.x + 6, power.y + 10, 24, 44))
+        for offset in range(0, power.width, 12):
+            screen.set_at((power.x + offset, power.y + 6), (255, 255, 255))
+        polyline(screen, power, 1.0 + bearing_db / -disp.BEARING_FLOOR_DB, 0.0, 1.08, TRACE)
+        cursor = power.x + power.width // 2
+        pygame.draw.line(screen, TRACE, (cursor, power.y), (cursor, power.bottom), 2)
 
         # Two scales: true bearing in red over relative bearing in blue.
         heading = by_name["heading"].value
         for tick in ticks:
-            x = MAIN.x + int(MAIN.width * (tick + 0.5 * FOV_DEG) / FOV_DEG)
+            x = main_panel.x + int(main_panel.width * (tick + 0.5 * FOV_DEG) / FOV_DEG)
             compass = small.render(f"{(heading + tick) % 360:03.0f}", True, MARK)
-            screen.blit(compass, (x - compass.get_width() // 2, COMPASS_Y))
+            screen.blit(compass, (x - compass.get_width() // 2, panels["compass_y"]))
             offset = small.render(f"{tick:+.0f}", True, RELATIVE)
-            screen.blit(offset, (x - offset.get_width() // 2, RELATIVE_Y))
+            screen.blit(offset, (x - offset.get_width() // 2, panels["relative_y"]))
 
         # Main display: bearing across, range downward.
-        blit_panel(screen, disp.to_pixels(decibels.T), MAIN)
+        blit_panel(screen, disp.to_pixels(decibels.T), main_panel)
         for metres in range(0, int(MAX_RANGE) + 1, 2):
-            y = MAIN.y + int(MAIN.height * metres / MAX_RANGE)
+            y = main_panel.y + int(main_panel.height * metres / MAX_RANGE)
             if metres:
-                pygame.draw.line(screen, (40, 12, 10), (MAIN.x + 1, y), (MAIN.right - 1, y))
-            label_left(screen, small, MAIN, f"{metres:2d}", y)
+                pygame.draw.line(screen, (40, 12, 10), (main_panel.x + 1, y), (main_panel.right - 1, y))
+            label_left(screen, small, main_panel, f"{metres:2d}", y)
         if toggle_by_name["detections"].state:
             peaks = np.argmax(decibels, axis=1)
             lit = decibels[np.arange(N_AZIMUTH), peaks] > disp.FLOOR_DB + 22.0
-            columns = MAIN.x + (np.nonzero(lit)[0] * MAIN.width) // N_AZIMUTH
-            rows = MAIN.y + (peaks[lit] * MAIN.height) // N_RANGE
+            columns = main_panel.x + (np.nonzero(lit)[0] * main_panel.width) // N_AZIMUTH
+            rows = main_panel.y + (peaks[lit] * main_panel.height) // N_RANGE
             for column, row in zip(columns, rows):
                 pygame.draw.rect(screen, MARK, (column, row, 2, 2))
 
-        pygame.draw.rect(screen, FRAME, ASCAN, 1)
-        polyline(screen, ASCAN, centre_db, disp.FLOOR_DB, 4.0, TRACE)
-        screen.blit(small.render("A-SCAN", True, MARK), (ASCAN.x + 6, ASCAN.y + 4))
+        pygame.draw.rect(screen, FRAME, ascan, 1)
+        polyline(screen, ascan, centre_db, disp.FLOOR_DB, 4.0, TRACE)
+        screen.blit(small.render("A-SCAN", True, MARK), (ascan.x + 6, ascan.y + 4))
 
-        pygame.draw.rect(screen, FRAME, OPTICAL, 1)
+        pygame.draw.rect(screen, FRAME, optical_panel, 1)
         row = optical[optical.shape[0] // 2]
-        polyline(screen, OPTICAL, row / max(row.max(), 1e-9), 0.0, 1.05, TRACE)
-        screen.blit(small.render("OPTICAL", True, MARK), (OPTICAL.x + 6, OPTICAL.y + 4))
+        polyline(screen, optical_panel, row / max(row.max(), 1e-9), 0.0, 1.05, TRACE)
+        screen.blit(small.render("OPTICAL", True, MARK), (optical_panel.x + 6, optical_panel.y + 4))
 
-        blit_panel(screen, disp.to_pixels(bearing_history, floor=disp.BEARING_FLOOR_DB), BTR)
-        blit_panel(screen, disp.to_pixels(range_history), RTR)
-        screen.blit(small.render("BEARING-TIME", True, MARK), (BTR.x + 6, BTR.y + 4))
-        screen.blit(small.render("RANGE-TIME", True, MARK), (RTR.x + 6, RTR.y + 4))
+        blit_panel(screen, disp.to_pixels(bearing_history, floor=disp.BEARING_FLOOR_DB), btr)
+        blit_panel(screen, disp.to_pixels(range_history), rtr)
+        screen.blit(small.render("BEARING-TIME", True, MARK), (btr.x + 6, btr.y + 4))
+        screen.blit(small.render("RANGE-TIME", True, MARK), (rtr.x + 6, rtr.y + 4))
         # Time runs downward in both records, so the left scale is pings ago.
-        for panel in (BTR, RTR):
+        for panel in (btr, rtr):
             for ago in range(0, HISTORY + 1, 50):
                 label_left(screen, small, panel, f"{ago:3d}",
                            panel.y + int(panel.height * ago / HISTORY))
         for tick in ticks[::2]:
-            label_below(screen, small, BTR,
-                        f"{tick:+.0f}", BTR.x + int(BTR.width * (tick + 0.5 * FOV_DEG) / FOV_DEG))
+            label_below(screen, small, btr,
+                        f"{tick:+.0f}", btr.x + int(btr.width * (tick + 0.5 * FOV_DEG) / FOV_DEG))
         for metres in range(0, int(MAX_RANGE) + 1, 2):
-            label_below(screen, small, RTR, f"{metres}",
-                        RTR.x + int(RTR.width * metres / MAX_RANGE))
+            label_below(screen, small, rtr, f"{metres}",
+                        rtr.x + int(rtr.width * metres / MAX_RANGE))
 
         for slider in sliders:
             slider.draw(screen, font)
@@ -329,11 +379,13 @@ def main():
         banner = (f"FSS  {by_name['freq kHz'].value:.0f} kHz  "
                   f"lambda {1000 * sim.wavelength_m:.2f} mm  alpha {alpha:.0f} dB/km  "
                   f"target {target_range:.2f} m  advance {advance:.2f} m")
-        screen.blit(font.render(banner, True, PHOSPHOR), (60, 10))
+        screen.blit(font.render(banner, True, PHOSPHOR), panels["banner"])
         status = (f"{subrays:4d} sub-rays  {N_AZIMUTH}x{N_RANGE}  "
                   f"core {core_ms:5.1f} ms  {clock.get_fps():5.1f} fps  "
-                  f"[space] run  [r] reset  [q] quit")
-        screen.blit(font.render(status, True, DIM), (900, 10))
+                  f"[space] run  [f] fullscreen  [r] reset  [q] quit")
+        rendered = font.render(status, True, DIM)
+        screen.blit(rendered, (screen.get_width() - rendered.get_width() - panels["banner"][0],
+                               panels["status"][1]))
 
         pygame.display.flip()
         clock.tick(FPS_CAP)
