@@ -1,0 +1,9 @@
+Cython>=3.0
+setuptools>=58
+numpy>=1.24
+matplotlib>=3.7
+pygame>=2.6
+Pillow>=10
+nbformat>=5.9
+nbclient>=0.10
+ipykernel>=6

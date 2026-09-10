@@ -1,0 +1,92 @@
+{
+  "box": {
+    "source": "python/mesh_assets.py, deterministic procedural geometry",
+    "license": "MIT",
+    "units": "metres",
+    "coordinate_convention": "right-handed X starboard Y forward Z up",
+    "reflectivity": "default 0.8 diffuse coefficient; uncalibrated",
+    "triangle_count": 12,
+    "dimensions_m": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "inconsistent_winding_edges": 0,
+    "signed_volume_m3": 1.0,
+    "self_intersections": "not exhaustively checked; table consists of closed boxes meeting at legs"
+  },
+  "sphere": {
+    "source": "python/mesh_assets.py, deterministic procedural geometry",
+    "license": "MIT",
+    "units": "metres",
+    "coordinate_convention": "right-handed X starboard Y forward Z up",
+    "reflectivity": "default 0.8 diffuse coefficient; uncalibrated",
+    "triangle_count": 360,
+    "dimensions_m": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "inconsistent_winding_edges": 0,
+    "signed_volume_m3": 0.5024246837676533,
+    "self_intersections": "not exhaustively checked; table consists of closed boxes meeting at legs"
+  },
+  "coral_rock": {
+    "source": "python/mesh_assets.py, deterministic procedural geometry",
+    "license": "MIT",
+    "units": "metres",
+    "coordinate_convention": "right-handed X starboard Y forward Z up",
+    "reflectivity": "default 0.8 diffuse coefficient; uncalibrated",
+    "triangle_count": 360,
+    "dimensions_m": [
+      1.1222466892282812,
+      1.067320026681219,
+      1.0631019391148786
+    ],
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "inconsistent_winding_edges": 0,
+    "signed_volume_m3": 0.5042084619353321,
+    "self_intersections": "not exhaustively checked; table consists of closed boxes meeting at legs"
+  },
+  "industrial_pipe": {
+    "source": "python/mesh_assets.py, deterministic procedural geometry",
+    "license": "MIT",
+    "units": "metres",
+    "coordinate_convention": "right-handed X starboard Y forward Z up",
+    "reflectivity": "default 0.8 diffuse coefficient; uncalibrated",
+    "triangle_count": 192,
+    "dimensions_m": [
+      1.2,
+      0.48,
+      0.48
+    ],
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "inconsistent_winding_edges": 0,
+    "signed_volume_m3": 0.11926381598324154,
+    "self_intersections": "not exhaustively checked; table consists of closed boxes meeting at legs"
+  },
+  "concave_table": {
+    "source": "python/mesh_assets.py, deterministic procedural geometry",
+    "license": "MIT",
+    "units": "metres",
+    "coordinate_convention": "right-handed X starboard Y forward Z up",
+    "reflectivity": "default 0.8 diffuse coefficient; uncalibrated",
+    "triangle_count": 60,
+    "dimensions_m": [
+      1.2,
+      0.8,
+      0.9
+    ],
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "inconsistent_winding_edges": 0,
+    "signed_volume_m3": 0.16915200000000005,
+    "self_intersections": "not exhaustively checked; table consists of closed boxes meeting at legs"
+  }
+}

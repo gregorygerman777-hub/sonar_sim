@@ -7,9 +7,10 @@ build:
 
 test: build
 	$(PYTHON) tests/test_units.py
+	$(PYTHON) tests/test_research.py
 
 demos: build
-	@for demo in python/demo*.py; do echo "--- $$demo"; $(PYTHON) $$demo; done
+	@for demo in python/demo*.py; do $(PYTHON) $$demo || exit $$?; done
 
 # Everything, into a fresh timestamped results directory.
 reproduce:
@@ -17,3 +18,6 @@ reproduce:
 
 clean:
 	rm -rf build build_cmake bindings/sonar.cpp *.so python/__pycache__
+
+console: build
+	$(PYTHON) python/research_console.py

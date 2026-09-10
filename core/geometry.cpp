@@ -1,4 +1,5 @@
 #include "geometry.h"
+#include "mesh.h"
 
 #include <cmath>
 
@@ -106,7 +107,7 @@ Hit intersect_sphere(const Sphere& sphere, const Vec3& origin, const Vec3& direc
     hit.valid = true;
     hit.t = t;
     hit.normal = normalize(point - sphere.centre);
-    hit.reflectivity = sphere.reflectivity * texture_factor(point, sphere.texture);
+    hit.reflectivity = sphere.reflectivity * texture_factor(point - sphere.centre, sphere.texture);
     return hit;
 }
 
@@ -172,7 +173,7 @@ Hit intersect_cylinder(const Cylinder& cylinder, const Vec3& origin, const Vec3&
     hit.t = best_t;
     hit.normal = dot(best_normal, direction) < 0 ? best_normal : best_normal * -1.0;
     hit.reflectivity = cylinder.reflectivity *
-                       texture_factor(origin + direction * best_t, cylinder.texture);
+                       texture_factor(origin + direction * best_t - cylinder.centre, cylinder.texture);
     return hit;
 }
 
@@ -189,6 +190,10 @@ Hit intersect_scene(const Scene& scene, const Vec3& origin, const Vec3& directio
     for (const Cylinder& cylinder : scene.cylinders) {
         const Hit hit = intersect_cylinder(cylinder, origin, direction);
         if (hit.valid && (!nearest.valid || hit.t < nearest.t)) nearest = hit;
+    }
+    for (const auto& mesh : scene.meshes) {
+        const Hit hit=intersect_mesh(mesh,origin,direction);
+        if(hit.valid && (!nearest.valid || hit.t<nearest.t)) nearest=hit;
     }
     return nearest;
 }

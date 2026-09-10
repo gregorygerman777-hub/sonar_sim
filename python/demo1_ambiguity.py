@@ -53,22 +53,22 @@ print(f"  relative to peak    {relative:.3e}")
 print(f"  tolerance           {TOLERANCE:.0e} of peak")
 print(f"  equal within it     {identical}")
 
-fig, axs = plt.subplots(1, 3, figsize=(16, 4.6))
+fig = plt.figure(figsize=(13, 9), constrained_layout=True)
+for index, sign in enumerate((1, -1)):
+    ax = fig.add_subplot(2, 2, index+1, projection="3d")
+    centre = sc.spherical_to_world(RANGE_M, AZIMUTH_DEG, sign*ELEVATION_DEG)
+    ax.scatter(*centre, s=150, c="#12707f")
+    ax.plot([0,centre[0]], [0,centre[1]], [0,centre[2]], color="#12707f")
+    ax.scatter(0,0,0,c="black")
+    ax.set(xlabel="X starboard (m)", ylabel="Y forward (m)", zlabel="Z up (m)",
+           zlim=(-1,1), title=f"Physical scene: elevation {sign*ELEVATION_DEG:+.0f} degrees")
+axs = [fig.add_subplot(2,2,3), fig.add_subplot(2,2,4)]
 for ax, image, title in [(axs[0], image_up, f"target at elevation +{ELEVATION_DEG:.0f}°"),
                          (axs[1], image_down, f"same target at −{ELEVATION_DEG:.0f}°")]:
     sc.show_image(ax, image, sim, reference=peak)
     ax.set(xlabel="range (m)", ylabel="azimuth (deg)", title=title, xlim=(5.2, 6.8))
 
-im = axs[2].imshow(difference / peak, origin="lower", aspect="auto", cmap="magma",
-                   extent=[sim.range_axis_m()[0], sim.range_axis_m()[-1],
-                           sim.azimuth_axis_deg()[0], sim.azimuth_axis_deg()[-1]],
-                   vmin=0, vmax=max(relative, 1e-16))
-axs[2].set(xlabel="range (m)", ylabel="azimuth (deg)", xlim=(5.2, 6.8),
-           title=f"|difference|, peak {relative:.1e} of signal")
-fig.colorbar(im, ax=axs[2], shrink=0.85)
-
-fig.suptitle("Two different 3-D configurations, one sonar image: the elevation ambiguity", y=1.0)
-fig.tight_layout()
+fig.suptitle(f"Elevation disappears: max difference {difference.max():.2e}, relative {relative:.2e}")
 figure_path = outputs.output_path("demo1_ambiguity.png")
 fig.savefig(figure_path, dpi=140)
 print(f"\nwrote {figure_path}")

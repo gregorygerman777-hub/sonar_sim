@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 
 struct Vec3 {
     double x = 0, y = 0, z = 0;
@@ -66,7 +67,16 @@ struct Cylinder {
     Texture texture;
 };
 
+struct TriangleMesh {
+    std::vector<Vec3> vertices;
+    std::vector<std::array<int,3>> triangles;
+    std::vector<Vec3> normals;
+    std::vector<double> reflectivities;
+    double scale = 1.0;
+};
+
 struct Scene {
+    std::vector<TriangleMesh> meshes;
     std::vector<Plane> planes;
     std::vector<Sphere> spheres;
     std::vector<Cylinder> cylinders;

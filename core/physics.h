@@ -9,6 +9,8 @@
 // beamformed axis, which for a forward-scan sonar is bearing, not elevation.
 // Applied across elevation it acts as a vertical aperture taper. It is even in
 // phi either way, so the +phi / -phi ambiguity survives it untouched.
+double shaded_beam_pattern(double phi, int elements, double spacing, double wavelength, int mode);
+
 double beam_pattern(double phi_rad, int element_count, double element_spacing_m,
                     double wavelength_m);
 

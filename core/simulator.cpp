@@ -74,7 +74,7 @@ void deposit_bearing(const SonarConfig& config, const Scene& scene, const Pose& 
                                  std::exp(-beam_data.absorption_per_m * hit.t);
 
         const int bin = static_cast<int>(hit.t * beam_data.inv_d_range);
-        if (bin >= 0 && bin < n_r)
+        if (config.direct_enabled && bin >= 0 && bin < n_r)
             image[a * n_r + bin] += sample_weight * ray.weight * intensity;
 
         if (!config.multipath_enabled) continue;
@@ -115,12 +115,12 @@ void deposit_bearing(const SonarConfig& config, const Scene& scene, const Pose& 
         // unrolled one cannot.
         const double mirror_azimuth = std::atan2(local_offset.x, local_offset.y);
         const int mirror_az_bin =
-            static_cast<int>((mirror_azimuth + 0.5 * beam_data.fov) / beam_data.d_theta);
+            static_cast<int>(std::floor((mirror_azimuth + 0.5 * beam_data.fov) / beam_data.d_theta));
         const bool mirror_in_beam = std::fabs(mirror_elevation) <= 0.5 * beam_data.beam &&
                                     mirror_az_bin >= 0 && mirror_az_bin < n_az;
         const double mirror_weight =
-            mirror_in_beam ? beam_pattern(mirror_elevation, config.array_element_count,
-                                          beam_data.spacing, beam_data.wavelength)
+            mirror_in_beam ? shaded_beam_pattern(mirror_elevation, config.array_element_count,
+                                          beam_data.spacing, beam_data.wavelength, config.beam_mode)
                            : 0.0;
 
         // Lambert is a backscatter law, so the bistatic term is taken as the
@@ -134,7 +134,7 @@ void deposit_bearing(const SonarConfig& config, const Scene& scene, const Pose& 
         // Two reciprocal paths of equal length: one arrives along the direct
         // bearing, the other along the mirrored one, each carrying half.
         const int ghost_bin = static_cast<int>(ghost_range * beam_data.inv_d_range);
-        if (ghost_bin >= 0 && ghost_bin < n_r) {
+        if (config.ghost_enabled && ghost_bin >= 0 && ghost_bin < n_r) {
             image[a * n_r + ghost_bin] += 0.5 * sample_weight * ray.weight * ghost;
             if (mirror_in_beam)
                 image[mirror_az_bin * n_r + ghost_bin] +=
@@ -145,7 +145,7 @@ void deposit_bearing(const SonarConfig& config, const Scene& scene, const Pose& 
         const double mirror = hit.reflectivity * cos_bounced * g2 * g2 / (b2 * b2) *
                               std::exp(-beam_data.absorption_per_m * bounced);
         const int mirror_bin = static_cast<int>(bounced * beam_data.inv_d_range);
-        if (mirror_in_beam && mirror_bin >= 0 && mirror_bin < n_r)
+        if (config.mirror_enabled && mirror_in_beam && mirror_bin >= 0 && mirror_bin < n_r)
             image[mirror_az_bin * n_r + mirror_bin] += sample_weight * mirror_weight * mirror;
     }
 }
@@ -159,7 +159,8 @@ void render_bearing(const SonarConfig& config, const Scene& scene, const Pose& b
 
     const int samples = config.motion_samples_per_bin > 1 ? config.motion_samples_per_bin : 1;
     const double dwell = config.sweep_duration_s / n_az;
-    const double sample_weight = 1.0 / samples;
+    const double sample_weight = 1.0 / samples /
+        (config.legacy_elevation_sum ? 1.0 : config.num_elevation_subrays);
 
     for (int k = 0; k < samples; ++k) {
         // Sample centres spread symmetrically about the bin's nominal instant, so
@@ -191,7 +192,7 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
     beam_data.inv_d_range = n_r / config.max_range_m;
 
     const double d_phi = config.num_elevation_subrays > 1
-                             ? beam_data.beam / (config.num_elevation_subrays - 1)
+                             ? beam_data.beam / (config.legacy_elevation_sum ? config.num_elevation_subrays - 1 : config.num_elevation_subrays)
                              : 0.0;
     std::vector<SubRay> subrays(std::max(config.num_elevation_subrays, 0));
     for (int s = 0; s < config.num_elevation_subrays; ++s) {
@@ -199,11 +200,11 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
         // which is what makes the one-ray case comparable to the analytic
         // intensity equation.
         const double phi =
-            config.num_elevation_subrays > 1 ? -0.5 * beam_data.beam + s * d_phi : 0.0;
+            config.num_elevation_subrays > 1 ? -0.5 * beam_data.beam + (s + (config.legacy_elevation_sum ? 0.0 : 0.5)) * d_phi : 0.0;
         subrays[s].cos_phi = std::cos(phi);
         subrays[s].sin_phi = std::sin(phi);
-        subrays[s].weight = beam_pattern(phi, config.array_element_count, beam_data.spacing,
-                                         beam_data.wavelength);
+        subrays[s].weight = shaded_beam_pattern(phi, config.array_element_count, beam_data.spacing,
+                                         beam_data.wavelength, config.beam_mode);
     }
 
     int threads = config.num_threads > 0

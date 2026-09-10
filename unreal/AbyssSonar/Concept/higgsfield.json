@@ -1,0 +1,11 @@
+{
+  "provider": "Higgsfield",
+  "job_id": "2ecaad5b-acf5-4207-80b9-a16c4d58ec84",
+  "status": "completed",
+  "requested_model": "nano_banana_pro",
+  "returned_model": "nano_banana_2",
+  "width": 2752,
+  "height": 1536,
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3J3gf7Hd9XREyvhzrOYsRSWDI7e/hf_20260909_144702_2ecaad5b-acf5-4207-80b9-a16c4d58ec84.png",
+  "use": "Visual concept only; no acoustic measurement, no mesh, no proof of Unreal runtime quality"
+}

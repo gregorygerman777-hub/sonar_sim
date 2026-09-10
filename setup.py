@@ -9,7 +9,7 @@ eigen = next((p for p in ("/opt/homebrew/include/eigen3", "/usr/include/eigen3",
 extension = Extension(
     "sonar",
     sources=["bindings/sonar.pyx", "core/geometry.cpp", "core/physics.cpp",
-             "core/simulator.cpp", "core/camera.cpp", "core/waveform.cpp"],
+             "core/mesh.cpp", "core/reconstruction.cpp", "core/simulator.cpp", "core/camera.cpp", "core/waveform.cpp"],
     include_dirs=["core"] + ([eigen] if eigen else []),
     language="c++",
     extra_compile_args=["-std=c++17", "-O3", "-pthread"],

@@ -1,358 +1,245 @@
-# Forward-Scan Sonar Simulator
+# Forward-scan sonar laboratory
 
-![A survey pass over a cylinder and a rock on the seabed](docs/hero_survey.gif)
+## Boat-mounted survey laboratory
 
-*A simulated survey pass: the bright flank of a cylinder lying on the seabed, the
-sharp acoustic shadow it throws, and a rock beside it, every frame rendered by the
-C++ core.*
+Run `./launch_survey.command` for a boat-mounted 3-D scene, synchronized live
+2-D sonar and a feasible volume accumulated from the actual survey pings.
+Includes sphere, cylinder, pipe and wreck targets, pose and acoustic controls,
+transparent water, camera orbit, screenshot/data export and PNG recording.
+See [controls and scientific boundaries](docs/survey_lab.md).
 
-A physically grounded imaging-sonar simulator. C++ core, Cython bindings, Python
-for scenes and demos.
+![Boat-mounted survey laboratory](docs/survey_preview.png)
 
-## The physics
+## Original research console
 
-**Geometry.** A 3-D point in the sonar frame, with `Y_s` along the acoustic axis,
-`Z_s` up and `X_s = Y_s × Z_s`:
+![Research console](docs/research_console.png)
+*A synchronized scene, range-bearing image, beam response, optical view and raw-data diagnostics; presentation effects are separate from acoustic measurements.*
 
-```
-P = r * [cos(phi) sin(theta), cos(phi) cos(theta), sin(phi)]
-```
+An undergraduate research-learning simulator exploring the elevation ambiguity
+of forward-scan sonar, first-hit shadows, simplified multipath, speckle and
+known-pose feasible-volume reconstruction. Built with AI coding assistance while
+testing the models and learning their assumptions. Not calibrated DIDSON imagery,
+institutionally endorsed work, or an exact reproduction of a research paper.
 
-The image is addressed by `(range, azimuth)` only. `phi` is never used to place a
-return, which is the elevation ambiguity.
+## Animated Mac preview and Unreal source
 
-**Beam integration.** Each azimuth bin is swept by `num_elevation_subrays`
-sub-rays spanning `-beta/2 .. +beta/2`, weighted by the array factor
+An additional [3-D observatory preview](python/observatory_3d.py) uses the same C++
+model in a native animated interface. On this Mac, run `./launch_observatory.command`.
+The [Unreal project](unreal/AbyssSonar/README.md) is source-only until Unreal Engine
+and full Xcode are installed and its engine build is verified. See the
+[validation and progress report](docs/mac3d_progress.md) for exact results and limits.
 
-```
-B(phi) = [ sin(N_e * pi * d * sin(phi) / lambda)
-           / (N_e * sin(pi * d * sin(phi) / lambda)) ]^2
-```
+## Install, build and launch
 
-with `lambda = speed_of_sound_mps / frequency_hz`, `N_e = array_element_count`,
-`d = array_element_spacing_m` (defaulting to `lambda/2`).
+C++17 compiler, CMake 3.20+, and Python 3.9+ are required. From the project root:
 
-**Intensity.** At each sub-ray's first hit:
-
-```
-I = R * cos(incidence_angle) / r^4 * 10^(-TL/10)
-TL = 2 * alpha * (r / 1000)
-```
-
-**Absorption**, Thorp's formula, `f` in kHz, result in dB/km:
-
-```
-alpha = 0.11 f^2/(1 + f^2) + 44 f^2/(4100 + f^2) + 2.75e-4 f^2 + 0.003
-```
-
-**Shadowing** is not implemented as a step. A sub-ray stops at its first surface
-and contributes to no bin beyond it, so occlusion is what remains.
-
-**Speckle**, optional: `I_observed = I_true * (-ln U)`, `U ~ Uniform(0,1]`. Single-look
-intensity is exponential about its mean, so this is the exact distribution.
-
-**Sea-surface multipath**, optional. The bounced leg has the same length and
-launch direction as the straight line to the sonar mirrored through the surface,
-so one reflection gives both extra components:
-
-```
-object   out direct, back direct    r_d
-ghost    one leg each way           (r_d + r_m) / 2
-mirror   both legs bounced          r_m
-```
-
-A rough surface scatters part of the field out of the specular direction, so the
-coherent reflection falls with the Rayleigh parameter
-
-```
-R_a = 2 k sigma_h sin(grazing),   coherent amplitude  exp(-R_a^2 / 2)
-```
-
-The ghost bounces once and the mirror twice, so the mirror dies as the square.
-
-**Textured backscatter**, optional. Real seabed is mottled: the local backscatter
-strength varies patch to patch by several dB. Each surface carries a band-limited
-noise field, three octaves of trilinear value noise hashed from the lattice, that
-multiplies its reflectivity:
-
-```
-R(P) = R_0 * (1 + amplitude * 2 * (fBm(P / scale) - 0.5))
-```
-
-It is a function of the world point, so it is identical from every viewpoint.
-That is the whole difference from speckle, which is redrawn per realisation, and
-it is what any registration or patch-motion estimate has to lean on.
-
-**Optical camera.** A pinhole camera sharing the sonar's frame convention, for
-the elevation the sonar cannot measure. Underwater the direct term is attenuated
-over both legs and spreads as `1/r^2` while the water scatters a veiling glow
-back that grows with range:
-
-```
-L = J * R * cos(incidence) * exp(-2 c r) / r^2  +  B_inf * (1 - exp(-c r))
-```
-
-with `c` the beam attenuation coefficient and `J` the vehicle light. Raise `c`
-and the second term buries the first.
-
-**Platform motion during a sweep.** Bearing bin `a` is formed at
-`t_a = T (a + 1/2) / N_theta` and rendered from the pose at that instant, so an
-image taken while the vehicle surges or yaws is a set of measurements from
-`N_theta` slightly different places pasted into one grid. Setting
-`sweep_duration_s = 0` freezes the platform and reproduces the static sensor
-exactly.
-
-**Pulse compression**, in a separate layer. `core/waveform.{h,cpp}` simulates the
-raw time-domain acoustics rather than forming an image. A linear FM chirp
-
-```
-s(t) = cos(2 pi (f0 t + (B / 2T) t^2)),   t in [0, T]
-```
-
-sweeps `B` hertz over `T` seconds. Each reflector contributes that waveform
-delayed by `tau = 2 r / c` and scaled by the pressure amplitude of the same
-intensity model the imaging pipeline uses, `sqrt(R cos(theta) / r^4)` with Thorp
-absorption, so both layers agree on how loud a return at range `r` should be.
-Gaussian noise is added, and the record is correlated against the transmitted
-copy. That compresses each echo to a pulse of width about `1/B`, giving
-
-```
-delta_r = c / (2 B)
-```
-
-independent of `T`, against `c T / 2` for a plain pulse of the same length. The
-improvement is the time-bandwidth product `B T`. This is standard pulse
-compression: Urick, *Principles of Underwater Sound*, 3rd ed., ch. 2 and 9.
-
-At f0 = 300 kHz, B = 60 kHz, T = 2 ms the chirp resolves 12.5 mm where the plain
-pulse resolves 1.5 m, a factor of 120. Measured on one noise-free target, the
-compressed half-power width is 11.06 mm against the `0.886 c / (2 B)` = 11.08 mm
-a sinc envelope predicts, 0.2% low. Two targets 50 mm apart come back at
--0.62 mm and +0.63 mm, inside one sample.
-
-The layer is deliberately independent: nothing in it writes into a beam-bin
-image, and nothing in the render path calls it. The only shared code is
-`physics.h`.
-
-**Monte Carlo evaluation.** Anything that depends on a noise draw is reported
-over many independently seeded runs, not from one realisation. Speckle has
-contrast 1, so a single run can land anywhere. `python/montecarlo.py` computes
-means, standard deviations and percentile bootstrap intervals; the bootstrap is
-used rather than a t interval because these errors come from a centroid on a
-thresholded blob, which is a nonlinear function of the noise and not obviously
-Gaussian. `N` and the confidence level are set by `SONAR_MC_TRIALS` and
-`SONAR_MC_CONFIDENCE`, defaulting to 200 and 0.95. The repeated trials call the
-same `recovery.py` functions the single run does.
-
-## Performance
-
-The core threads over bearing and is bit-for-bit identical to the serial result,
-which `tests/test_units.py` checks in both the independent-bearing case and the
-multipath case where a bearing deposits into a neighbour's column. Measured on
-this machine, one 193x700 frame with a seabed and a sphere:
-
-| sub-rays | multipath | before | after | speedup |
-|---|---|---|---|---|
-| 512 | off | 6.46 ms | 0.52 ms | 12.4x |
-| 512 | on | 10.28 ms | 1.48 ms | 6.9x |
-| 3072 | off | 34.59 ms | 2.38 ms | 14.5x |
-| 3072 | on | 61.43 ms | 5.98 ms | 10.3x |
-
-About 1.8x of that is scalar: the elevation sub-ray table, `cos`, `sin` and
-`B(phi)`, is built once per frame instead of once per bearing, and
-`10^(-TL/10) / r^4` became one `exp` and three multiplies instead of two `pow`
-calls. The rest is the threads. The two renders agree to 2.2e-16 relative, one
-unit in the last place, which is the `exp` against the `pow`.
-
-The interactive app went from 62 ms to 44 ms a frame while gaining a camera panel
-and three more sliders, by making the artists once and blitting them over a
-cached background instead of clearing and rebuilding the axes every frame. Held
-sliders render a draft frame at 224 sub-rays and the release renders at 1536.
-
-## Build
-
-```
-python3 -m venv .venv && .venv/bin/pip install numpy matplotlib cython setuptools
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python setup.py build_ext --inplace
+.venv/bin/python python/research_console.py
 ```
 
-`cmake -S . -B build && cmake --build build` builds the core as a static library
-on its own, which is useful for checking the C++ compiles without Python.
+On the existing workstation `.venv` is a pre-existing symlink to another project;
+it is preserved. The clean baseline was independently rebuilt in
+`/Users/gregsobe/sonar_sim_integration_20260908/.venv`. To avoid reusing a linked
+environment in a new installation, create a differently named venv and pass its
+interpreter as `SONAR_PYTHON` when reproducing.
 
-## Layout
+CMake builds the C++ library separately. It does **not** refresh the Python extension:
 
-```
-core/       C++: geometry.{h,cpp} intersections and surface texture,
-            physics.{h,cpp} beam pattern and absorption, simulator.{h,cpp} the
-            threaded sub-ray imaging loop, camera.{h,cpp} the pinhole camera,
-            waveform.{h,cpp} the chirp, echo record and matched filter
-bindings/   sonar.pyx, the SonarSimulator and OpticalCamera classes, test hooks
-python/     scene.py and acoustics.py helpers, and the twelve demos
-tests/      test_units.py, analytic checks
-output/     everything the demos write
+```bash
+cmake -S . -B build_cmake
+cmake --build build_cmake
+.venv/bin/python -c 'import sonar; print(sonar.__file__)'
 ```
 
-## Running everything at once
+Run all validation, demonstrations and notebook cells into a fresh directory:
 
-```
-./run_all.sh          # or: make reproduce
-```
-
-Builds the extension, runs the test suite, then runs every demo in order, writing
-into a fresh `results/<timestamp>/` directory so runs accumulate rather than
-overwriting each other. Demos take their destination from `SONAR_OUTPUT_DIR` via
-`python/outputs.py`, defaulting to `output/` when run individually.
-
-`notebooks/sonar_story.ipynb` is the same story as a narrative notebook, with the
-figures inline and the WAV files as playable audio widgets. It runs top to bottom
-and reads its figures from the newest `results/` directory, falling back to
-`output/`. It needs `nbclient`, `ipykernel` and `nbformat` on top of the runtime
-dependencies, or just Jupyter.
-
-## Running individual pieces
-
-```
-.venv/bin/python python/simulator_app.py       # interactive, sliders and toggles
-.venv/bin/python tests/test_units.py           # 43 analytic checks
-.venv/bin/python python/demo1_ambiguity.py     # output/demo1_ambiguity.png
-.venv/bin/python python/demo2_shadow.py        # output/demo2_shadow.png
-.venv/bin/python python/demo3_validation.py    # output/demo3_validation.png
-.venv/bin/python python/demo4_speckle.py       # output/demo4_speckle.png
-.venv/bin/python python/demo5_motion.py        # output/demo5_motion.png and .txt
-.venv/bin/python python/demo6_multipath.py     # output/demo6_multipath.png
-.venv/bin/python python/demo7_animation.py     # output/demo7_roll_sweep.gif
-.venv/bin/python python/demo8_optiacoustic.py  # output/demo8_optiacoustic.png
-.venv/bin/python python/demo9_target.py        # output/demo9_target.png
-.venv/bin/python python/demo10_motion.py       # output/demo10_motion.png
-.venv/bin/python python/demo11_texture.py      # output/demo11_texture.png
-.venv/bin/python python/demo12_chirp.py        # output/demo12_chirp.png and 3 WAV files
-.venv/bin/python python/demo13_montecarlo.py   # output/demo13_montecarlo.png
+```bash
+make reproduce
+# or
+./run_all.sh
+# With another environment:
+SONAR_PYTHON=/absolute/path/to/venv/bin/python ./run_all.sh
 ```
 
-`simulator_app.py` is the console: a bearing-power trace over a compass and
-relative bearing scale, the beam-bin image with detections marked, an A-scan and
-an optical trace, and two time records, bearing-time and range-time, that fill as
-the platform runs. Sliders for tilt, roll, beamwidth, frequency, target range,
-heading, sea-surface roughness, turbidity, seabed texture, surge and yaw rate,
-with multipath, speckle, cylinder-target and run toggles. Every frame is rendered
-by the C++ core, so it is the simulator itself rather than a separate model
-behind a nicer front end. It needs an interactive matplotlib backend; the demos
-above are all headless.
+Each run gets `results/YYYY-MM-DD_HHMMSS_microseconds/`, a manifest, complete
+source snapshot, per-stage logs, forced Cython rebuild, fresh CMake build, tests,
+all 17 demos, executed notebook and two console screenshots. Failure leaves a
+FAIL manifest and logs. It never overwrites a previous run. Jupyter needs local
+kernel sockets, so restrictive execution sandboxes may require permission.
 
-On frame budget: the core takes 5 to 10 ms a frame and matplotlib's image
-compositing takes the rest, about 58 ms in total on this machine. Measured by
-hiding artists, the three waterfall panels account for 20 ms, 7 ms and 7 ms of
-that, and the remaining 27 ms is lines, text and the blit. Holding a slider
-renders a draft frame at 192 sub-rays and releasing renders at 1280.
+## Architecture
 
-| demo | what it shows |
+```mermaid
+flowchart LR
+    A[OBJ and analytic targets] --> B[C++17 intersections]
+    B --> C[First-hit elevation average]
+    C --> D[Raw range-bearing intensity]
+    D --> E[Python experiments and Pygame]
+    D --> F[Highlight / feasible-shadow masks]
+    F --> G[C++ voxel consistency]
+    H[C++ chirp and matched filter] --> I[Waveform validation and WAV]
+    B --> J[Separate optical camera]
+```
+
+Cython exposes `SonarSimulator`, `OpticalCamera`, `ChirpSonar`, OBJ geometry,
+projection and carving. Python handles experiments, masks, correlation, plots,
+confidence intervals and presentation. No external asset service is required.
+Procedural meshes have provenance, units and topology checks in
+[assets/manifest.json](assets/manifest.json).
+
+## Console controls
+
+The four parameter pages are POSE, TARGET, SONAR and MEDIUM. Drag a slider; click
+a toggle. TAB cycles pages. A paused ping is cached. Physical platform motion
+uses elapsed seconds, not frames. Scene orbit changes presentation only.
+
+| Key | Action |
 |---|---|
-| 1 | A target at `+phi` and at `-phi` render identically to 1.1e-15 of peak. Asserts and prints pass/fail. |
-| 2 | A sphere on the seabed casting a shadow, with 5.0% of the energy beyond it removed. |
-| 3 | A plane swept 1 to 10 m against the analytic intensity equation. Relative error 0. |
-| 4 | Speckle off and on, with the measured distribution against `exp(-x)`. |
-| 5 | Four poses along two survey lines, showing cross-range motion cannot separate `+/-phi` and vertical motion can. |
-| 6 | Sea-surface multipath. The ghost rides on every view; the mirror only appears once roll moves it into the beam. |
-| 7 | An animated roll sweep written to a GIF, every frame from the C++ core. |
-| 8 | Opti-acoustic fusion. One sonar bin leaves 98 cm of arc open; crossing it with the camera's detection pins the target to 2.4 cm, and the turbidity sweep shows where the camera quits and the sonar does not. |
-| 9 | A cylinder's highlight-and-shadow signature against a rock, and the height recovered from the shadow length to 0.8 to 3.1 cm over 0.12 to 0.46 m. |
-| 10 | Surge and yaw inside one sweep, with every displacement predicted from geometry first and then measured off the image; they agree to 0.07 deg and 10 mm. |
-| 11 | Texture survives a 5 cm move at r = 0.996 and speckle does not at r = 0.006, with a multilook curve for how many looks registration needs. |
-| 12 | Pulse compression. Compressed width 11.06 mm against 11.08 mm theory; two targets 50 mm apart recovered to 0.6 mm by the chirp and merged into one by a plain pulse of the same duration. Writes playable WAV files. |
-| 13 | Monte Carlo. Every noisy result as a distribution over 200 independently seeded trials, with bootstrap confidence intervals, plus the camera-baseline sweep with a confidence band. |
+| Space | Run/pause platform and new pings |
+| F | Fullscreen/windowed |
+| R | Reset parameters and history |
+| M | Sphere, box, coral-like rock, pipe, concave table |
+| B | Uniform array, top-hat, Hann |
+| K | Acquire a synthetic known-pose orbit and carve a feasible volume |
+| P | Save screenshot under `results/console_*/` |
+| V | Start/stop a bounded GIF recording |
+| Q / Escape | Quit |
 
-## Engineering choices worth knowing
+Pose controls move/rotate the sonar; target controls move/scale/rotate the object;
+frequency, beamwidth, FOV and sub-rays change image formation. Gain and dynamic
+range change display only. Surface height, RMS roughness and multipath amplitude
+control the approximate reflection model. Correlation controls speckle cell size;
+turbidity affects only the camera. Voxel size, pose count and threshold affect
+carving. Bandwidth reports c/(2B) waveform theory; it does not sharpen image bins.
 
-**`B(phi)` in elevation.** The array-factor formula is conventionally the pattern
-along the *beamformed* axis, which for a forward-scan sonar is azimuth, not
-elevation: an FSS does not beamform vertically, which is why elevation is
-ambiguous at all. Applied across elevation it acts as a vertical aperture taper.
-It is even in `phi` either way, so the ambiguity is untouched by the choice.
+The original Pygame console (`python/console.py`), matplotlib front end
+(`python/simulator_app.py`) and original demo names remain available. The
+research console is the recommended primary application. Historical behavior
+and measurements are retained in [baseline_readme.md](docs/baseline_readme.md)
+and the clean integration clone, not silently presented as current results.
 
-**Sub-ray count.** The default is 48. That is ample for a compact target and badly
-short for a seabed at grazing incidence, where one beam spreads over hundreds of
-range bins. Measured fraction of seabed bins receiving any energy: 14.7% at 48,
-59.9% at 192, 99.9% from 768 up, with bin-to-bin scatter settling only near 3000.
-The seabed demos use 3072, which costs 0.04 s a frame.
+## The model, with symbols
 
-**Odd azimuth bin count in demo 3.** With an even count the bin centres straddle
-boresight and the nearest beam sits at 0.23 degrees, so the ray strikes at
-`r/cos(theta)` with `cos(incidence) = cos(theta)`. That alone puts the validation
-4e-5 off. An odd count places one beam exactly on axis and the agreement becomes
-exact.
+Range **r** is distance, bearing **θ** is left-right angle, and elevation **φ** is
+up-down angle. **P** is the point [X, Y, Z], with X right, Y forward, Z up:
 
-**Demo 1 asserts a tolerance, not bitwise equality.** For the `+phi` target the
-sub-ray that strikes it is `s`; for `-phi` it is `n-1-s`. The contributions
-accumulate in reverse order and floating-point addition is not associative, so
-the images agree to 1.1e-15 rather than bit for bit.
+\[
+P=r[\cos\phi\sin\theta,\cos\phi\cos\theta,\sin\phi].
+\]
 
-**Mirror gating.** An early version dropped the ghost whenever the mirror fell
-outside the vertical beam, because both were behind one test. The ghost has two
-reciprocal paths and the one that leaves direct and returns bounced still arrives
-on the object's bearing, so it survives when the mirror does not. Fixing that is
-what reproduces the observation that almost every view carries a ghost while only
-some carry a mirror.
+Only r and θ select a pixel. Elevation is integrated over multiple first-hit
+rays. Symmetric +φ and −φ targets can therefore give the same image.
 
-**Mirror azimuth.** The mirrored arrival is deposited at its own azimuth bin, not
-the cast ray's. Without that, roll cannot move the mirror in bearing, which is the
-whole mechanism by which a rolled sonar sees a mirror an unrolled one cannot.
+**R** is reflectivity, **n** the surface normal, **u** the outgoing ray, and **TL**
+the two-way absorption loss in decibels:
 
-**Opti-acoustic geometry.** A co-located camera would resolve elevation on its
-own, since it measures the angle directly. The camera here is mounted 30 cm above
-the sonar, which is the realistic case and makes the arc project to a curve
-rather than a point. The residual 2.4 cm is dominated by the sonar measuring the
-target's near surface while the camera centroids its whole disc, one radius
-apart; demo 8 prints the number both with and without that correction.
+\[
+I=R\max(0,n\cdot(-u))r^{-4}10^{-TL/10}.
+\]
 
-**Motion is a warp, not a blur.** Each bearing here is a single instant, so a
-compact target stays sharp and simply lands in the wrong place. Real blur needs
-finite dwell inside one bin. The visible smear comes from extended targets, where
-neighbouring bearings are displaced by different amounts and a straight edge is
-sheared. This also assumes a mechanically scanned head; a multibeam fan forms
-every bearing from one ping and is frozen within it, so the same distortion shows
-up between pings when images are mosaicked instead.
+The r⁻⁴ factor is a point-scatterer spreading approximation. **α** is absorption
+in dB/km, **f** is frequency in kHz, and **r_km** is range in kilometres:
 
-**Fan magnification under yaw.** Sweeping at `FOV/T` while the head turns at
-`omega` scales the fan by `FOV / (FOV -+ omega T)`, 1.545 at 30 deg/s over 0.4 s.
-The measured 1.520 sits 1.7% off because the yaw is about world `Z` and the head
-is tilted, so it is not a pure bearing rotation in the sonar's own frame.
+\[
+\alpha=\frac{0.11f^2}{1+f^2}+\frac{44f^2}{4100+f^2}+2.75\times10^{-4}f^2+0.003,
+\qquad TL=2\alpha r_{km}.
+\]
 
-**Audio.** The demo writes the transmitted chirp, the received record and the
-matched-filter output as WAV files, resampled onto a time base 600 times longer.
-That divides every frequency by 600 and leaves the waveform's shape untouched, so
-the 300 kHz carrier lands at 500 Hz and the files play directly.
+**λ** is wavelength c/f, **N** is element count, and **d** is spacing:
 
-## Not modelled
+\[
+B(\phi)=\left[\frac{\sin(N\pi d\sin\phi/\lambda)}{N\sin(\pi d\sin\phi/\lambda)}\right]^2,
+\qquad B(0)=1.
+\]
 
-Volume reverberation, a transmit pulse of finite length (the range point spread is
-a delta), refraction, incoherent scatter from the rough surface (energy lost from
-the coherent reflection simply disappears rather than becoming diffuse
-reverberation), and any frequency dependence of reflectivity. The texture field
-is band-limited noise rather than a K or lognormal draw with a measured seabed
-spectrum, and the camera has no lens blur, no vignetting and no sensor noise.
+The default normalized midpoint average avoids increasing raw intensity merely
+by increasing sample count. `legacy_elevation_sum=True` reproduces the original
+unnormalized endpoint sampling. Neither is calibrated received watts.
 
-## References
+Direct distance is **r_d**, reflected-leg distance **r_m**, and the mixed-path
+ghost range **r_g=(r_d+r_m)/2**. The mirror is deposited at its own bearing.
+For roughness **σ_h**, grazing angle **g**, and wavenumber **k=2π/λ**, coherent
+amplitude is **γ=exp[−(2kσ_h sin g)²/2]**. This is a simplified attenuation,
+not complete rough-surface scattering or ghost removal.
 
-The forward-scan geometry, the beam-bin image formation and the sea-surface
-ghost and mirror model follow:
+Speckle multiplies intensity by **−ln(U)** for uniform random U. A single-look
+exponential intensity has standard deviation approximately equal to its mean.
+The correlated mode filters complex Gaussian amplitude before squaring.
 
-- Y. Liu and S. Negahdaripour, "Ghost Removal from Forward-Scan Sonar Views near
-  the Sea Surface for Image Enhancement and 3-D Object Modeling," *Remote
-  Sensing* **16**(20), 3814, 2024. https://doi.org/10.3390/rs16203814
+The waveform uses **r=ct/2**, and bandwidth **B** gives approximate resolution
+**c/(2B)**. A 60 kHz chirp at c=1500 m/s gives 12.5 mm. The image renderer has
+independent range-bin spacing and no finite-pulse convolution. WAV exports are
+slowed educational playback, not directly audible MHz sound.
 
-The sonar equation, Thorp's absorption coefficient and pulse compression follow:
+## Validation and experiments
 
-- R. J. Urick, *Principles of Underwater Sound*, 3rd ed., McGraw-Hill, 1983,
-  ch. 2 and 9.
+[Scientific status](docs/scientific_status.md) and the
+[integration audit](docs/integration_audit.md) describe validation and known limits.
+Baseline checks agreed with plane-intensity theory to
+2.28×10⁻¹⁶ relative error, speckle contrast was 0.9999, and the compressed
+half-power width was 11.06 mm versus 11.08 mm predicted. These are synthetic or
+analytic checks, not evidence of real-ocean accuracy.
 
-Related work by the same group on diffuse image formation and on space carving
-from forward-scan views:
+| Demonstration | Command |
+|---|---|
+| Elevation ambiguity / two physical scenes | `.venv/bin/python python/demo1_ambiguity.py` |
+| Sphere on seabed / full shadow range | `.venv/bin/python python/demo2_shadow.py` |
+| Intensity versus range | `.venv/bin/python python/demo3_validation.py` |
+| Speckle distribution | `.venv/bin/python python/demo4_speckle.py` |
+| Target motion | `.venv/bin/python python/demo5_motion.py` |
+| Multipath versus roll | `.venv/bin/python python/demo6_multipath.py` |
+| Animated sweep | `.venv/bin/python python/demo7_animation.py` |
+| Optical-sonar fusion | `.venv/bin/python python/demo8_optiacoustic.py` |
+| Signature and shadow height | `.venv/bin/python python/demo9_target.py` |
+| Motion validation | `.venv/bin/python python/demo10_motion.py` |
+| Texture and speckle | `.venv/bin/python python/demo11_texture.py` |
+| Chirp, matched filter and audio | `.venv/bin/python python/demo12_chirp.py` |
+| Original fusion Monte Carlo | `.venv/bin/python python/demo13_montecarlo.py` |
+| Four renderers, meshes, beams, convergence | `.venv/bin/python python/demo14_renderers.py` |
+| Carving and five degradation sweeps | `.venv/bin/python python/demo15_carving.py` |
+| Known-point recovery and conditioning | `.venv/bin/python python/demo16_point_recovery.py` |
+| Separate multipath components / roughness | `.venv/bin/python python/demo17_multipath_components.py` |
 
-- M. D. Aykin and S. Negahdaripour, IEEE *Journal of Oceanic Engineering*
-  **41**(3), 569-582, 2016.
-- M. D. Aykin and S. Negahdaripour, IEEE *Journal of Oceanic Engineering*
-  **42**(3), 574-589, 2017.
+Every demo runs from the root, saves output, and shares the C++ core. Set
+`SONAR_OUTPUT_DIR` for a chosen destination; otherwise standalone demos use
+`output/`. The reproduction command always creates a fresh directory.
 
-## License
+## Implemented, approximated and missing
 
-MIT. See [LICENSE](LICENSE).
+| Area | Status |
+|---|---|
+| Analytic geometry, OBJ triangles, projection | Implemented, tested |
+| Elevation response, diffuse brightness, shadows | Implemented approximations, analytically checked |
+| Multipath / roughness | Approximate forward components; no reflected-leg visibility or ghost removal |
+| Correlated speckle and voxel hull | Implemented synthetic experiments; segmentation dependent |
+| Point recovery | Known-correspondence least squares and sensitivity experiments |
+| Equation (6), ICP/IRLS patch motions | Unimplemented; no proxy is labeled as equation (6) |
+| Real DIDSON and ocean calibration | Unimplemented |
+
+Read the complete [scientific status](docs/scientific_status.md) and
+[paper mapping](docs/paper_mapping.md). Key limitations include ideal array
+response, diffuse material coefficients, point-scatterer spreading, incomplete
+sonar equation, planar/coherent surface multipath, no full concavity
+reverberation, independent speckle unless correlation is selected, known poses,
+segmentation-dependent carving and non-unique feasible hulls. Synthetic truth
+is not a substitute for real-data validation.
+
+## Research preparation
+
+Start with the [elementary study guide](docs/study_guide.md), then run
+[the narrative notebook](notebooks/sonar_story.ipynb) after reproduction.
+Show **elevation ambiguity first**, then **multi-view carving**. Use the shadow
+and multipath figures to explain the limitations rather than promising exact
+3-D geometry.
+
+Verified references: Aykin & Negahdaripour's diffuse image model (JOE, July
+2016, DOI 10.1109/JOE.2015.2503818), their space-carving paper (JOE, July 2017,
+DOI 10.1109/JOE.2016.2591738), and Liu & Negahdaripour's ghost-removal framework
+(Remote Sensing, 14 October 2024, DOI 10.3390/rs16203814). Links and the
+implemented/omitted distinction appear in the paper mapping. The requested IEEE
+document 8516375 remains identity-unverified due to publisher access restrictions.
+
+MIT license, Copyright (c) 2026 Gregory German. See [LICENSE](LICENSE).

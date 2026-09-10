@@ -82,8 +82,11 @@ def camera_detection(frame):
 
     rows, columns = np.nonzero(mask)
     weights = frame[rows, columns] - background
-    u = float((columns + 0.5) @ weights / weights.sum())
-    v = float((rows + 0.5) @ weights / weights.sum())
+    total = weights.sum()
+    if total == 0:
+        return (float("nan"), float("nan")), contrast, mask
+    u = float(((columns + 0.5) * weights).sum() / total)
+    v = float(((rows + 0.5) * weights).sum() / total)
     return (u, v), contrast, mask
 
 

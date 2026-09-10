@@ -14,6 +14,7 @@ process is free to do something else while a frame is forming.
 import numpy as np
 
 from libcpp.vector cimport vector
+from libcpp.string cimport string
 
 
 cdef extern from "geometry.h":
@@ -53,8 +54,12 @@ cdef extern from "geometry.h":
         double half_length
         double reflectivity
         Texture texture
+    cdef cppclass TriangleMesh:
+        TriangleMesh()
+        vector[Vec3] vertices
     cdef cppclass Scene:
         Scene()
+        vector[TriangleMesh] meshes
         vector[Plane] planes
         vector[Sphere] spheres
         vector[Cylinder] cylinders
@@ -65,6 +70,7 @@ cdef extern from "geometry.h":
 
 
 cdef extern from "physics.h":
+    double shaded_beam_pattern(double, int, double, double, int)
     double beam_pattern(double, int, double, double)
     double thorp_absorption_db_per_km(double)
     double transmission_loss_db(double, double)
@@ -92,6 +98,11 @@ cdef extern from "simulator.h":
         double sweep_duration_s
         int motion_samples_per_bin
         int num_threads
+        int beam_mode
+        bint legacy_elevation_sum
+        bint direct_enabled
+        bint ghost_enabled
+        bint mirror_enabled
     cdef cppclass Pose:
         Pose()
         Vec3 position
@@ -158,6 +169,7 @@ cdef Scene _build_scene(objects) except *:
     cdef Plane plane
     cdef Sphere sphere
     cdef Cylinder cylinder
+    cdef TriangleMesh mesh
 
     for item in objects:
         kind = item["kind"]
@@ -181,6 +193,12 @@ cdef Scene _build_scene(objects) except *:
             cylinder.reflectivity = item["reflectivity"]
             cylinder.texture = _texture(item)
             scene.cylinders.push_back(cylinder)
+        elif kind == "mesh":
+            mesh=load_obj(item["path"].encode(), item["scale"], _vec(item["translation"]), item["reflectivity"])
+            if item.get("axes") is not None:
+                rotation=np.asarray(item["axes"])
+                transform_mesh(mesh,_vec(rotation[:,0]),_vec(rotation[:,1]),_vec(rotation[:,2]),_vec(item["translation"]))
+            scene.meshes.push_back(mesh)
         else:
             raise ValueError("unknown object kind: %r" % (kind,))
     return scene
@@ -281,7 +299,16 @@ cdef class SonarSimulator:
                  double surface_reflectivity=1.0, double surface_rms_height_m=0.0,
                  platform_velocity_mps=(0.0, 0.0, 0.0),
                  double platform_yaw_rate_dps=0.0, double sweep_duration_s=0.0,
-                 int motion_samples_per_bin=1, int num_threads=0):
+                 int motion_samples_per_bin=1, int num_threads=0, beam_mode="array",
+                 bint legacy_elevation_sum=False, bint direct_enabled=True,
+                 bint ghost_enabled=True, bint mirror_enabled=True):
+        if min(frequency_hz, num_azimuth_bins, num_range_bins, max_range_m, speed_of_sound_mps, num_elevation_subrays, array_element_count) <= 0:
+            raise ValueError("frequency, dimensions, range, sound speed, rays and elements must be positive")
+        self.cfg.beam_mode = {"array": 0, "top_hat": 1, "hann": 2}[beam_mode]
+        self.cfg.legacy_elevation_sum = legacy_elevation_sum
+        self.cfg.direct_enabled = direct_enabled
+        self.cfg.ghost_enabled = ghost_enabled
+        self.cfg.mirror_enabled = mirror_enabled
         self.cfg.frequency_hz = frequency_hz
         self.cfg.num_azimuth_bins = num_azimuth_bins
         self.cfg.num_range_bins = num_range_bins
@@ -580,3 +607,72 @@ cdef class ChirpSonar:
             matched_filter(&record_view[0], record_count, &copy_view[0], copy_count,
                            &out_view[0], workers)
         return out
+
+
+def beam_response(double phi_rad, int elements=64, double spacing=0.5,
+                  double wavelength=1.0, mode="array"):
+    return shaded_beam_pattern(phi_rad, elements, spacing, wavelength,
+                               {"array":0, "top_hat":1, "hann":2}[mode])
+
+
+cdef extern from "mesh.h":
+    void transform_mesh(TriangleMesh&, const Vec3&, const Vec3&, const Vec3&, const Vec3&)
+    TriangleMesh load_obj(const string&, double, const Vec3&, double) except +
+    Hit intersect_triangle(const Vec3&,const Vec3&,const Vec3&,double,const Vec3&,const Vec3&)
+
+def make_mesh(path, double scale=1.0, translation=(0,0,0), double reflectivity=0.8, axes=None):
+    return {"kind":"mesh", "path":str(path), "scale":scale,
+            "translation":tuple(translation), "reflectivity":reflectivity, "axes":axes}
+
+def ray_triangle(a,b,c,origin,direction, double reflectivity=0.8):
+    cdef Hit h=intersect_triangle(_vec(a),_vec(b),_vec(c),reflectivity,_vec(origin),_vec(direction))
+    return h.t if h.valid else None
+
+cdef extern from "reconstruction.h":
+    cdef cppclass ProjectedBin:
+        bint observed
+        int bearing
+        int range
+        double elevation
+    cdef cppclass SonarPose:
+        SonarPose()
+        Pose pose
+        SonarConfig config
+        int bearing_tolerance_bins
+        int range_tolerance_bins
+    ProjectedBin project_vertex_to_bin(const Vec3&,const Pose&,const SonarConfig&)
+    void carve_voxels(const vector[Vec3]&,const SonarPose&,const vector[unsigned char]&,const vector[unsigned char]&,unsigned char*) nogil
+
+def project_bins(points, SonarSimulator sim, position=(0,0,0), axes=None):
+    cdef Pose pose
+    pose.position=_vec(position)
+    _apply_axes(&pose,axes)
+    cdef ProjectedBin p
+    result=[]
+    for point in points:
+        p=project_vertex_to_bin(_vec(point),pose,sim.cfg)
+        result.append((bool(p.observed),p.bearing,p.range,p.elevation))
+    return result
+
+def carve(points, SonarSimulator sim, highlight, shadow, position=(0,0,0), axes=None,
+          kept=None, int bearing_tolerance_bins=1, int range_tolerance_bins=1):
+    cdef SonarPose pose
+    pose.config=sim.cfg
+    pose.pose.position=_vec(position)
+    pose.bearing_tolerance_bins=bearing_tolerance_bins
+    pose.range_tolerance_bins=range_tolerance_bins
+    _apply_axes(&pose.pose,axes)
+    cdef vector[Vec3] vertices
+    cdef vector[unsigned char] h,s
+    if np.shape(highlight)!=sim.shape or np.shape(shadow)!=sim.shape:
+        raise ValueError("mask shape must equal simulator shape")
+    for point in points: vertices.push_back(_vec(point))
+    for value in np.asarray(highlight,dtype=np.uint8).ravel(): h.push_back(value)
+    for value in np.asarray(shadow,dtype=np.uint8).ravel(): s.push_back(value)
+    out=np.ones(len(points),dtype=np.uint8) if kept is None else np.array(kept,dtype=np.uint8,copy=True)
+    if out.shape!=(len(points),): raise ValueError("kept shape must match points")
+    if len(points)==0: return out.astype(bool)
+    cdef unsigned char[::1] view=out
+    with nogil:
+        carve_voxels(vertices,pose,h,s,&view[0])
+    return out.astype(bool)

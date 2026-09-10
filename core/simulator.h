@@ -54,6 +54,11 @@ struct SonarConfig {
 
     // Threads over bearing. Zero asks the hardware how many it has.
     int num_threads = 0;
+    int beam_mode = 0; // 0 uniform array, 1 top-hat, 2 Hann-shaded array
+    bool legacy_elevation_sum = false;
+    bool direct_enabled = true;
+    bool ghost_enabled = true;
+    bool mirror_enabled = true;
 };
 
 // Columns of the sonar rotation, following the forward-scan convention: Y_s runs

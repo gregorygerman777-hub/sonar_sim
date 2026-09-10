@@ -54,7 +54,7 @@ peak = both.max()
 for ax, image, title in [(axs[0], only_far, "seabed alone"),
                          (axs[1], both, "sphere on the seabed, with its shadow")]:
     sc.show_image(ax, image, sim, reference=peak, floor_db=-50)
-    ax.set(xlabel="range (m)", ylabel="azimuth (deg)", title=title, xlim=(2.5, 9.5))
+    ax.set(xlabel="range (m)", ylabel="azimuth (deg)", title=title, xlim=(2.5, 10.0))
 
 profile_alone = only_far.sum(axis=0)
 profile_both = both.sum(axis=0)
@@ -62,12 +62,12 @@ axs[2].semilogy(ranges, np.maximum(profile_alone, 1e-30), label="seabed alone",
                 color="#12707f", linewidth=1.4)
 axs[2].semilogy(ranges, np.maximum(profile_both, 1e-30), label="with occluder",
                 color="#b23a2b", linewidth=1.4)
-axs[2].set(xlim=(2.5, 9.5), ylim=(peak * 1e-5, peak * 30), xlabel="range (m)",
+axs[2].set(xlim=(2.5, 10.0), ylim=(peak * 1e-5, peak * 30), xlabel="range (m)",
            ylabel="energy summed over azimuth", title="the far return is cut down")
 axs[2].legend(fontsize=9)
 axs[2].grid(alpha=0.3)
 
-fig.suptitle("Occlusion is not implemented: it is what a sub-ray stopping at its first hit leaves behind",
+fig.suptitle("First-hit visibility produces the canonical sphere-on-seabed shadow",
              y=1.0)
 fig.tight_layout()
 figure_path = outputs.output_path("demo2_shadow.png")

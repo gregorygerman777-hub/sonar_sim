@@ -1,0 +1,7 @@
+{
+  "FileVersion": 3,
+  "Category": "Simulation",
+  "Description": "Forward-looking underwater sonar prototype with Higgsfield art direction",
+  "Modules": [{"Name": "AbyssSonar", "Type": "Runtime", "LoadingPhase": "Default"}],
+  "Plugins": [{"Name": "PythonScriptPlugin", "Enabled": true}, {"Name": "EditorScriptingUtilities", "Enabled": true}, {"Name": "ProceduralMeshComponent", "Enabled": true}]
+}

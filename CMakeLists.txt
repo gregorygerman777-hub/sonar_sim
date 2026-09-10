@@ -4,7 +4,7 @@ project(sonar_sim CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(sonar_core core/geometry.cpp core/physics.cpp core/simulator.cpp core/camera.cpp core/waveform.cpp)
+add_library(sonar_core core/geometry.cpp core/physics.cpp core/mesh.cpp core/reconstruction.cpp core/simulator.cpp core/camera.cpp core/waveform.cpp)
 target_include_directories(sonar_core PUBLIC core)
 
 find_package(Threads REQUIRED)
