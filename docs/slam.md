@@ -31,6 +31,12 @@ Run the repeatable figure and the animated console from the repository root:
 ./launch_slam.command
 ```
 
+The yellow vehicle uses the estimated pose displayed on the map, and its cyan
+sector is the horizontal forward-scan field of view. The surrounding cyan
+ellipse shows the axis-aligned two-standard-deviation marginal position scale.
+Only diagonal covariance is exposed, so the display does not show X/Y
+correlation or rotate the ellipse.
+
 The fixed 37-ping experiment reports truth only after estimation. The current
 seeded result reduces position RMSE from 0.987 m to 0.149 m and endpoint closure
 error from 1.154 m to 0.0015 m. Those numbers establish internal consistency on

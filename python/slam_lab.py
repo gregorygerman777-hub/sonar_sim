@@ -23,6 +23,7 @@ CYAN = (34, 211, 238)
 ORANGE = (249, 115, 22)
 RED = (244, 63, 94)
 WHITE = (226, 232, 240)
+GOLD = (250, 204, 21)
 
 
 def sonar_surface(image, size):
@@ -47,6 +48,43 @@ def line_path(surface, points, rectangle, colour, width=2):
     screen = world_to_screen(points, rectangle)
     if len(screen) > 1:
         pygame.draw.lines(surface, colour, False, screen.tolist(), width)
+
+
+def draw_vehicle(surface, pose, uncertainty, rectangle, fov_deg=110.0):
+    yaw = float(pose[2])
+    right = np.array([np.cos(yaw), np.sin(yaw)])
+    forward = np.array([-np.sin(yaw), np.cos(yaw)])
+
+    fan_angles = np.radians(np.linspace(-0.5 * fov_deg, 0.5 * fov_deg, 25))
+    fan_world = [pose[:2]]
+    for angle in fan_angles:
+        direction = right * np.sin(angle) + forward * np.cos(angle)
+        fan_world.append(pose[:2] + 3.2 * direction)
+    fan_screen = world_to_screen(fan_world, rectangle)
+    overlay = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+    pygame.draw.polygon(overlay, (*CYAN, 18), fan_screen.tolist())
+    pygame.draw.lines(overlay, (*CYAN, 90), False,
+                      [fan_screen[1], fan_screen[0], fan_screen[-1]], 1)
+    surface.blit(overlay, (0, 0))
+
+    sigma_x, sigma_y = np.maximum(np.asarray(uncertainty[:2]), 0.008)
+    ellipse_size = np.array([4.0 * sigma_x * rectangle.width / 13.4,
+                             4.0 * sigma_y * rectangle.height / 13.4])
+    centre = world_to_screen([pose[:2]], rectangle)[0]
+    ellipse = pygame.Rect(0, 0, max(4, int(ellipse_size[0])), max(4, int(ellipse_size[1])))
+    ellipse.center = centre
+    pygame.draw.ellipse(surface, CYAN, ellipse, 1)
+
+    local_hull = np.array([[0.0, 0.42], [0.22, 0.12], [0.18, -0.34],
+                           [0.0, -0.25], [-0.18, -0.34], [-0.22, 0.12]])
+    hull_world = pose[:2] + local_hull[:, :1] * right + local_hull[:, 1:] * forward
+    hull_screen = world_to_screen(hull_world, rectangle)
+    pygame.draw.polygon(surface, GOLD, hull_screen.tolist())
+    pygame.draw.polygon(surface, (73, 48, 7), hull_screen.tolist(), 2)
+    cabin = pose[:2] + 0.03 * forward
+    pygame.draw.circle(surface, NAVY, world_to_screen([cabin], rectangle)[0], 3)
+    heading = world_to_screen([pose[:2], pose[:2] + 0.72 * forward], rectangle)
+    pygame.draw.line(surface, GOLD, heading[0], heading[1], 3)
 
 
 def label(surface, font, text, position, colour=TEXT):
@@ -84,7 +122,8 @@ def draw_map(surface, result, ping, rectangle, show_correction):
                                     result["before"][second, :2]], rectangle)
             pygame.draw.line(surface, RED, ends[0], ends[1], 3)
     current = world_to_screen([poses[ping, :2]], rectangle)[0]
-    pygame.draw.circle(surface, CYAN if show_correction else ORANGE, current, 7)
+    pygame.draw.circle(surface, CYAN if show_correction else ORANGE, current, 5)
+    draw_vehicle(surface, poses[ping], result["uncertainty"][ping], rectangle)
 
 
 def main():
@@ -138,8 +177,12 @@ def main():
         image_rect = sonar_rect.inflate(-28, -72)
         image_rect.top += 20
         screen.blit(sonar_surface(result["images"][ping], image_rect.size), image_rect)
+        for fraction, range_m in zip((0.0, 0.5, 1.0), (0.0, 4.5, 9.0)):
+            x = int(image_rect.left + fraction * image_rect.width)
+            pygame.draw.line(screen, GRID, (x, image_rect.bottom), (x, image_rect.bottom + 5))
+            label(screen, small, f"{range_m:.1f} m", (x - 14, image_rect.bottom + 7), MUTED)
         label(screen, body, f"PING {ping:02d}  •  RANGE–BEARING RETURN", (sonar_rect.x + 14, sonar_rect.y + 12))
-        label(screen, small, f"{len(result['features'][ping])} image maxima become local planar landmarks", (sonar_rect.x + 16, sonar_rect.bottom - 32), MUTED)
+        label(screen, small, f"{len(result['features'][ping])} image maxima become local planar landmarks", (sonar_rect.x + 16, sonar_rect.bottom - 18), MUTED)
 
         draw_map(screen, result, ping, map_rect, show_correction)
         label(screen, body, "TRAJECTORY AND ACCUMULATED FEATURE MAP", (map_rect.x + 14, map_rect.y + 12))
@@ -147,13 +190,14 @@ def main():
         label(screen, small, "IMU drift", (map_rect.x + 80, map_rect.bottom - 35), ORANGE)
         label(screen, small, "optimized", (map_rect.x + 165, map_rect.bottom - 35), CYAN)
         label(screen, small, "pre-opt loop residual", (map_rect.x + 252, map_rect.bottom - 35), RED)
+        label(screen, small, "vehicle + sonar fan", (map_rect.x + 412, map_rect.bottom - 35), GOLD)
 
         card_y = 770
         cards = [
             ("POSITION RMSE", f"{metrics['graph_before_rmse_m']:.3f} → {metrics['optimized_rmse_m']:.3f} m"),
             ("LOOP CLOSURE", f"{metrics['closure_before_m']:.3f} → {metrics['closure_after_m']:.4f} m"),
             ("CONSTRAINTS", f"{metrics['scan_constraint_count']} scan  +  {metrics['loop_closure_count']} loop"),
-            ("ESTIMATOR", "planar SE(2), robust Gauss–Newton"),
+            ("LIVE ESTIMATE", f"x {result['optimized'][ping, 0]:+.2f}  y {result['optimized'][ping, 1]:+.2f}  yaw {math.degrees(result['optimized'][ping, 2]):+.1f}°"),
         ]
         for index, (heading, value) in enumerate(cards):
             rect = pygame.Rect(36 + index * 342, card_y, 320, 82)
