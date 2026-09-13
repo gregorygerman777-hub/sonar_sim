@@ -51,6 +51,7 @@ CMake builds the C++ library separately. It does **not** refresh the Python exte
 ```bash
 cmake -S . -B build_cmake
 cmake --build build_cmake
+ctest --test-dir build_cmake --output-on-failure
 .venv/bin/python -c 'import sonar; print(sonar.__file__)'
 ```
 
@@ -66,7 +67,7 @@ SONAR_PYTHON=/absolute/path/to/venv/bin/python ./run_all.sh
 
 Each run gets `results/YYYY-MM-DD_HHMMSS_microseconds/`, a manifest, complete
 source snapshot, per-stage logs, forced Cython rebuild, fresh CMake build, tests,
-all 17 demos, executed notebook and two console screenshots. Failure leaves a
+all 18 demos, executed notebook and two console screenshots. Failure leaves a
 FAIL manifest and logs. It never overwrites a previous run. Jupyter needs local
 kernel sockets, so restrictive execution sandboxes may require permission.
 
@@ -299,5 +300,12 @@ reference to build toward. This simulator still stops well short of them: a
 flat-boundary image method, not a sound-speed-profile ray trace or normal-mode
 solve. See [docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md)
 for exactly what was and was not implemented.
+
+For scale, NSWC PCD's [MASTODON](https://github.com/Sonar-Sim/MASTODON) is a
+general acoustic simulation toolset whose public setup explicitly requires a
+real BELLHOP executable. This project does not invoke BELLHOP or KRAKEN; its
+new paths are a real-time, flat-boundary approximation suitable for controlled
+forward-scan image experiments. The exact distinction is recorded in
+[the paper mapping](docs/paper_mapping.md#mastodon-comparison).
 
 MIT license, Copyright (c) 2026 Gregory German. See [LICENSE](LICENSE).

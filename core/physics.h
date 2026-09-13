@@ -45,12 +45,11 @@ double roughness_coherence_factor(double wavenumber, double rms_height_m, double
 //
 // When the sediment is faster than water (the ordinary case for sand or
 // rock), there is a critical grazing angle theta_c = acos(c1 / c2) below
-// which theta2 has no real solution: the interface then reflects totally,
-// |R| = 1, the same critical-angle cutoff BELLHOP's ray trace shows for
-// shallow rays over a fast bottom. The sign of R below the critical angle
-// carries a phase flip that a coherent field would need; this simulator sums
-// multipath as incoherent intensity, so callers should use R^2 (or fabs(R))
-// and not the sign.
+// which theta2 has no real solution: the coefficient is complex and has unit
+// magnitude. This real-valued API returns that magnitude (1) below critical
+// and the signed real coefficient above critical. A coherent field model
+// would also need the omitted phase; this simulator sums incoherent intensity,
+// so its renderer uses |R|^2.
 double bottom_reflection_coefficient(double grazing_rad, double water_speed_mps,
                                      double bottom_speed_mps, double water_density_kgm3,
                                      double bottom_density_kgm3);

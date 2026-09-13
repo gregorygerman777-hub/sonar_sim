@@ -37,7 +37,9 @@ fig,ax=plt.subplots(figsize=(7,4),constrained_layout=True);ax.plot(roughness,cur
 ax.set(xlabel='RMS surface height (mm)',ylabel='coherent ghost energy / calm energy',title='1.8 MHz: measured rendered-patch roughness sweep');ax.grid(alpha=.2)
 fig.savefig(outputs.output_path('demo17_roughness.png'),dpi=140)
 report=dict(config=config,roll=records,roughness_mm=roughness.tolist(),relative_ghost_energy=curve.tolist(),
-            approximation='Direct-visible patches seed all components; reflected-leg occlusion is not evaluated; no ghost removal.')
+            approximation=('Direct-visible patches seed all components; both real-space legs of each '
+                           'single-bounce reflected path are occlusion-tested; no refraction, coherent '
+                           'phase, higher-order bounce sequence, or ghost removal.'))
 with open(outputs.output_path('demo17_metrics.json'),'w') as f:json.dump(report,f,indent=2)
 print(json.dumps(dict(roll=records,ghost_at_half_mm=float(curve[-1])),indent=2))
 assert records[0]['energy'][1]>0 and records[0]['energy'][2]==0, 'ghost should survive when mirror leaves vertical FOV'

@@ -44,6 +44,20 @@ formula itself is standard underwater acoustics (see e.g. Jensen, Kuperman,
 Porter & Schmidt, *Computational Ocean Acoustics*, whose co-author wrote
 BELLHOP/KRAKEN), not something original to this project.
 
+### MASTODON comparison
+
+[MASTODON](https://github.com/Sonar-Sim/MASTODON) is the Naval Surface Warfare
+Center Panama City Division's Modular Acoustic Simulation Toolset. Its public
+README identifies it as a general acoustic simulator and requires a real
+BELLHOP executable from the Acoustics Toolbox, supplied either in its `bin/`
+directory or through `BELLHOP_PATH`. That is a materially different integration
+level from this repository. Here, “eigenray” means explicit straight image-method
+paths between a target, one flat boundary and the receiver; this code neither
+invokes BELLHOP nor consumes arrival files. Matching MASTODON's propagation
+scope would require a sound-speed-profile/environment format, solver execution,
+arrival parsing, coherent complex amplitudes and validation against reference
+cases. Those remain future work rather than implied capabilities.
+
 ## Sonar-aided underwater SLAM (context, not implemented)
 
 Jiang et al., *RUSSO: Robust Underwater SLAM With Sonar Optimization Against

@@ -9,3 +9,8 @@ target_include_directories(sonar_core PUBLIC core)
 
 find_package(Threads REQUIRED)
 target_link_libraries(sonar_core PUBLIC Threads::Threads)
+
+enable_testing()
+add_executable(sonar_core_checks tests/test_core.cpp)
+target_link_libraries(sonar_core_checks PRIVATE sonar_core)
+add_test(NAME sonar_core_checks COMMAND sonar_core_checks)

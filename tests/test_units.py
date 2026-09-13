@@ -136,8 +136,12 @@ check("matches an independent re-derivation at 35 deg grazing",
 critical_deg = math.degrees(math.acos(C1 / C2))
 check("below the critical grazing angle: total reflection",
       sonar.bottom_reflection(math.radians(critical_deg - 5.0), C1, C2, RHO1, RHO2), 1.0, 1e-12)
-check("just above the critical grazing angle: still close to 1 (continuity)",
-      sonar.bottom_reflection(math.radians(critical_deg + 0.5), C1, C2, RHO1, RHO2), 1.0, 0.05)
+check("0.5 deg above critical matches the independent formula",
+      sonar.bottom_reflection(math.radians(critical_deg + 0.5), C1, C2, RHO1, RHO2),
+      rayleigh_r(math.radians(critical_deg + 0.5), C1, C2, RHO1, RHO2), 1e-12)
+check("one-sided limit immediately above critical tends to unit magnitude",
+      sonar.bottom_reflection(math.radians(critical_deg + 1e-6), C1, C2, RHO1, RHO2),
+      1.0, 5e-4)
 check("well above critical: partial reflection, |R| < 1",
       1.0 if abs(sonar.bottom_reflection(math.radians(80.0), C1, C2, RHO1, RHO2)) < 1.0 else 0.0,
       1.0, 0.0)
@@ -205,16 +209,21 @@ for multipath in (False, True):
 
 # Same check with the bottom boundary in play too: it deposits into neighbour
 # columns exactly like the surface path, so it needs the same private-
-# accumulator treatment, and this is what would catch it if it didn't.
-for bottom in (False, True):
+# accumulator treatment. Include bottom-only operation: enabling the surface
+# as well would hide a mistaken `multipath_enabled`-only accumulator guard.
+for surface, bottom in ((False, True), (True, True)):
+    roll = math.radians(60.0)
+    axes = ((math.cos(roll), 0.0, -math.sin(roll)),
+            (0.0, 1.0, 0.0),
+            (math.sin(roll), 0.0, math.cos(roll)))
     frames = [sonar.SonarSimulator(num_azimuth_bins=97, num_range_bins=300, max_range_m=8.0,
-                                   num_elevation_subrays=257, multipath_enabled=True,
+                                   num_elevation_subrays=257, multipath_enabled=surface,
                                    bottom_enabled=bottom, surface_z=0.0, bottom_z=-3.0,
                                    num_threads=threads)
-              .render(scene_objects, position=(0, 0, -0.5))
+              .render(scene_objects, position=(0, 0, -0.5), axes=axes)
               for threads in (1, 8)]
     difference = float(abs(frames[0] - frames[1]).max())
-    check(f"1 thread == 8 threads, bottom multipath {bottom}", difference, 0.0, 0.0)
+    check(f"1 thread == 8 threads, surface {surface}, bottom {bottom}", difference, 0.0, 0.0)
 
 print("\nbottom multipath: enabled adds energy, and occlusion removes it")
 sphere_objects = [sonar.make_sphere((0, 4.0, -1.0), 0.3, 0.85)]
@@ -236,6 +245,25 @@ floor_objects = sphere_objects + [sonar.make_plane((0, 0, -2.0), (0, 0, 1), 0.05
 blocked = sonar.SonarSimulator(**base, bottom_enabled=True).render(floor_objects, position)
 check("a floor between the target and the bottom boundary blocks the reflection",
       float(blocked.sum()), 0.0, 0.0)
+
+# The original sea-surface path gets the same render-level check. A single
+# boresight ray sees the sphere directly; a horizontal ceiling above that ray
+# intersects the folded surface path, so only the reflection disappears.
+surface_base = dict(num_azimuth_bins=1, num_range_bins=500, max_range_m=8.0,
+                    num_elevation_subrays=1, horizontal_fov_deg=2.0,
+                    vertical_beamwidth_deg=2.0, direct_enabled=False,
+                    multipath_enabled=True, ghost_enabled=True,
+                    mirror_enabled=False, surface_z=0.0, num_threads=1)
+surface_position = (0.0, 0.0, -1.2)
+surface_target = [sonar.make_sphere((0.0, 4.0, -1.2), 0.3, 0.85)]
+surface_open = sonar.SonarSimulator(**surface_base).render(surface_target, surface_position)
+surface_ceiling = surface_target + [sonar.make_plane((0.0, 0.0, -0.4),
+                                                      (0.0, 0.0, -1.0), 0.05)]
+surface_blocked = sonar.SonarSimulator(**surface_base).render(surface_ceiling, surface_position)
+check("surface reflection exists with an open folded path",
+      1.0 if surface_open.sum() > 0.0 else 0.0, 1.0, 0.0)
+check("ceiling between target and surface blocks that reflection",
+      float(surface_blocked.sum()), 0.0, 0.0)
 
 print("\nchirp generation")
 import numpy as np

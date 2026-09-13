@@ -246,10 +246,11 @@ def roughness_factor(double wavenumber, double rms_height_m, double sin_grazing)
 
 def bottom_reflection(double grazing_rad, double water_speed_mps, double bottom_speed_mps,
                       double water_density_kgm3, double bottom_density_kgm3):
-    """Signed Rayleigh two-fluid pressure reflection coefficient (see physics.h).
+    """Rayleigh two-fluid pressure coefficient for an intensity-only model.
 
-    Use the square (or fabs) for intensity; the sign carries a phase this
-    simulator does not otherwise track.
+    Above critical this returns the signed real coefficient. Below critical
+    the physical coefficient is complex; this returns its unit magnitude
+    because the simulator does not carry coherent phase.
     """
     return bottom_reflection_coefficient(grazing_rad, water_speed_mps, bottom_speed_mps,
                                          water_density_kgm3, bottom_density_kgm3)

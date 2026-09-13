@@ -281,10 +281,10 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
         return;
     }
 
-    // Without multipath a bearing writes only into its own column, so the
-    // threads can share one buffer. With multipath a bearing can deposit a
-    // mirror into a neighbour, so each thread accumulates privately and the
-    // results are summed once at the end.
+    // Without either multipath boundary a bearing writes only into its own
+    // column, so the threads can share one buffer. A surface or bottom path can
+    // deposit into a neighbour, so each thread then accumulates privately and
+    // the results are summed once at the end.
     //
     // That private accumulator is nine megabytes at a typical size, and
     // allocating it per call meant faulting in nine megabytes of fresh pages on
@@ -294,7 +294,10 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
     // it is uncontended.
     static std::mutex scratch_mutex;
     static std::vector<double> scratch;
-    const bool shared = !config.multipath_enabled;
+    // Either boundary can deposit a reflected arrival into a neighbouring
+    // bearing. Bottom-only multipath therefore needs the same private
+    // accumulators as surface multipath; sharing in that case is a data race.
+    const bool shared = !config.multipath_enabled && !config.bottom_enabled;
     std::unique_lock<std::mutex> scratch_lock(scratch_mutex, std::defer_lock);
     if (!shared) {
         scratch_lock.lock();

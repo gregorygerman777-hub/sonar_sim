@@ -59,9 +59,10 @@ and an honest account of how far this falls short of them.
   (`max_range_m` of order 10 m, absorption already significant), higher-order
   paths are expected to fall well below the noise floor represented by
   anything already modelled; that expectation is not itself validated.
-- No coherent phase. `bottom_reflection_coefficient` returns a signed
-  amplitude, but only `fabs`/its square is ever used; the phase flip a real
-  reflection carries is discarded, consistent with how this simulator has
-  always summed multipath as incoherent intensity rather than a complex field.
+- No coherent phase. Above the critical angle,
+  `bottom_reflection_coefficient` returns the signed real pressure coefficient.
+  Below it, the physical coefficient is complex with unit magnitude, and this
+  real-valued API returns only that magnitude. The renderer uses `fabs` and
+  intensity powers, discarding phase consistently with its incoherent sum.
 - The default bottom parameters (1650 m/s, 1900 kg/m^3) are a generic
   "sandy sediment" stand-in, not measured values for any real site or dataset.
