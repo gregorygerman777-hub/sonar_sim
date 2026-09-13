@@ -180,3 +180,48 @@ def solve(environment, directory):
         "ray_log": ray_log, "arrival_log": arrival_log,
         "executable": str(executable_path()),
     }
+
+
+def two_way_paths(arrivals, reference_speed_mps=1500.0):
+    """Pair reciprocal one-way eigenrays into monostatic intensity paths."""
+    direct = [item for item in arrivals
+              if item["top_bounces"] == 0 and item["bottom_bounces"] == 0]
+    if not direct:
+        return []
+    reference = max(direct, key=lambda item: item["amplitude"])
+    reference_power = reference["amplitude"] ** 4
+    paths = []
+    for outbound in arrivals:
+        for returning in arrivals:
+            amplitude_product = outbound["amplitude"] * returning["amplitude"]
+            paths.append({
+                "apparent_range_m": 0.5 * reference_speed_mps *
+                                    (outbound["delay_s"] + returning["delay_s"]),
+                "relative_intensity": amplitude_product ** 2 / reference_power,
+                "top_bounces": outbound["top_bounces"] + returning["top_bounces"],
+                "bottom_bounces": outbound["bottom_bounces"] + returning["bottom_bounces"],
+                "mixed": ((outbound["top_bounces"] + outbound["bottom_bounces"] == 0) !=
+                          (returning["top_bounces"] + returning["bottom_bounces"] == 0)),
+            })
+    return paths
+
+
+def apply_two_way_multipath(image, range_axis_m, arrival_result,
+                            source_depth_m, target_depth_m,
+                            reference_speed_mps=1500.0):
+    """Remap direct FSS intensity through reciprocal BELLHOP eigenray pairs."""
+    image = np.asarray(image, dtype=float)
+    ranges = np.asarray(range_axis_m, dtype=float)
+    receiver_ranges = arrival_result["receiver_ranges_m"]
+    output = np.zeros_like(image)
+    depth_offset = target_depth_m - source_depth_m
+    for source_bin, slant_range in enumerate(ranges):
+        if not np.any(image[:, source_bin]) or slant_range <= abs(depth_offset):
+            continue
+        horizontal_range = np.sqrt(slant_range ** 2 - depth_offset ** 2)
+        receiver_index = int(np.argmin(np.abs(receiver_ranges - horizontal_range)))
+        record = arrival_result["records"][receiver_index]
+        for path in two_way_paths(record["arrivals"], reference_speed_mps):
+            destination = int(np.argmin(np.abs(ranges - path["apparent_range_m"])))
+            output[:, destination] += image[:, source_bin] * path["relative_intensity"]
+    return output

@@ -53,10 +53,11 @@ BELLHOP executable from the Acoustics Toolbox, supplied either in its `bin/`
 directory or through `BELLHOP_PATH`. The propagation laboratory now reaches
 part of that integration level: it writes a range-depth sound-speed environment,
 invokes a separately installed Fortran BELLHOP executable, and parses ASCII ray
-and complex-amplitude arrival files. The FSS image renderer itself still uses
-explicit straight image-method paths between a target, one flat boundary and
-the receiver. It does not yet use BELLHOP arrivals for two-way target scattering.
-Matching MASTODON's broader scope would still require range-dependent 3-D
+and complex-amplitude arrival files. The BELLHOP coupling demo now pairs those
+arrivals for reciprocal outgoing and return legs and deposits their incoherent
+intensities into a geometric FSS image. The live C++ renderer still uses its
+faster straight image-method paths. Matching MASTODON's broader scope would
+still require range-dependent 3-D
 environments, coherent waveform synthesis, reverberation, sensor motion and
 systematic reference-case coverage.
 

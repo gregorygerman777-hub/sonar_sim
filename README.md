@@ -67,7 +67,7 @@ SONAR_PYTHON=/absolute/path/to/venv/bin/python ./run_all.sh
 
 Each run gets `results/YYYY-MM-DD_HHMMSS_microseconds/`, a manifest, complete
 source snapshot, per-stage logs, forced Cython rebuild, fresh CMake build, tests,
-all 20 demos, executed notebook and simulator screenshots. Failure leaves a
+all 21 demos, executed notebook and simulator screenshots. Failure leaves a
 FAIL manifest and logs. It never overwrites a previous run. Jupyter needs local
 kernel sockets, so restrictive execution sandboxes may require permission.
 
@@ -88,7 +88,8 @@ flowchart LR
     K --> M
     M --> N[Trajectory, map and covariance]
     O[External GPL BELLHOP] --> P[Ray and arrival parser]
-    P --> Q[Propagation laboratory]
+    P --> Q[Reciprocal two-way path pairs]
+    Q --> R[BELLHOP-coupled FSS image]
 ```
 
 Cython exposes `SonarSimulator`, `OpticalCamera`, `ChirpSonar`, OBJ geometry,
@@ -130,7 +131,8 @@ below and in
 Run `./launch_bellhop.command` for an interactive range-depth propagation view
 driven by the **actual compiled Fortran BELLHOP solver**. Releasing a slider
 writes a new `.env` file, executes BELLHOP twice, parses its ASCII `.ray` and
-`.arr` products, and redraws the ray fan and complex-amplitude eigenray arrivals.
+`.arr` products, and redraws the ray fan and monostatic two-way returns. Press
+`T` to switch between two-way object/ghost/mirror ranges and one-way arrivals.
 The controls expose frequency, water depth, source and receiver depth, range,
 linear sound-speed profile, sediment sound speed/density, launch aperture and
 ray count. Direct, surface, bottom and combined-bounce paths are separated by
@@ -149,9 +151,11 @@ The adapter checks `BELLHOP_EXECUTABLE`, then the default installation under
 `~/.local/opt/acoustics-toolbox-2020/`. The checked installation generated 241
 rays and ten far-range arrivals in the default environment. With a constant
 1500 m/s profile, its 120 m direct arrival was 0.0799999982 s versus the
-analytic 0.08 s, a relative difference of 2.25×10⁻⁸. This propagation tool does
-not yet replace the forward-image renderer's image-method multipath with a
-BELLHOP-derived two-way target scattering calculation. See
+analytic 0.08 s, a relative difference of 2.25×10⁻⁸. Demo 21 couples the
+geometric FSS image to reciprocal BELLHOP paths. At an 80 m target its first
+object, mixed-path ghost and reflected-path mirror returns were 80.20 m,
+80.99 m and 81.78 m. The coupling uses a configured target depth and incoherent
+intensity addition; it is not a broadband coherent pressure simulation. See
 [the propagation workflow and boundary](docs/bellhop_lab.md).
 
 ## Planar sonar–inertial SLAM
@@ -308,6 +312,7 @@ analytic checks, not evidence of real-ocean accuracy.
 | Seabed critical-angle multipath sweep | `.venv/bin/python python/demo18_bottom_multipath.py` |
 | Planar sonar–IMU SLAM and loop closure | `.venv/bin/python python/demo19_slam.py` |
 | External BELLHOP rays and arrival-time validation | `.venv/bin/python python/demo20_bellhop.py` |
+| BELLHOP-coupled two-way FSS object/ghost/mirror | `.venv/bin/python python/demo21_bellhop_fss.py` |
 
 Every demo runs from the root, saves output, and shares the C++ core. Set
 `SONAR_OUTPUT_DIR` for a chosen destination; otherwise standalone demos use
@@ -319,7 +324,7 @@ Every demo runs from the root, saves output, and shares the C++ core. Set
 |---|---|
 | Analytic geometry, OBJ triangles, projection | Implemented, tested |
 | Elevation response, diffuse brightness, shadows | Implemented approximations, analytically checked |
-| Multipath / roughness | FSS renderer: flat image-method surface/seabed paths with leg occlusion and Rayleigh seabed reflection. Propagation lab: external BELLHOP rays and arrivals |
+| Multipath / roughness | FSS renderer: flat image-method surface/seabed paths with leg occlusion and Rayleigh seabed reflection. Propagation lab: external BELLHOP rays/arrivals and fixed-target-depth incoherent two-way image coupling |
 | Correlated speckle and voxel hull | Implemented synthetic experiments; segmentation dependent |
 | Point recovery | Known-correspondence least squares and sensitivity experiments |
 | Sonar–inertial SLAM | Planar IMU, image features, descriptor proposals, ICP verification, robust SE(2) pose graph, map and marginal covariance; synthetic closed-loop validation |
@@ -329,8 +334,9 @@ Every demo runs from the root, saves output, and shares the C++ core. Set
 Read the complete [scientific status](docs/scientific_status.md) and
 [paper mapping](docs/paper_mapping.md). Key limitations include ideal array
 response, diffuse material coefficients, point-scatterer spreading, incomplete
-sonar equation, flat single-bounce-per-boundary multipath with no sound-speed
-refraction, phase, or surface-plus-bottom combination paths, no full concavity
+sonar equation, flat single-bounce-per-boundary live multipath; the separate
+BELLHOP coupling has sound-speed refraction but no coherent phase or per-patch
+target depth; no full concavity
 reverberation, independent speckle unless correlation is selected, known poses
 for carving, planar-only synthetic SLAM,
 segmentation-dependent carving and non-unique feasible hulls. Synthetic truth
@@ -356,16 +362,17 @@ KRAKEN, SCOOTER, RAM) and Attia et al.'s *Towards Realistic 3D Sonar
 Simulation* (arXiv:2606.06130), which argues that GPU-rate sonar simulators
 need exactly this kind of physically grounded propagation -- refraction,
 scattering, and multipath -- and names those classical solvers as the
-reference to build toward. This simulator still stops well short of them: a
-flat-boundary image method, not a sound-speed-profile ray trace or normal-mode
-solve. See [docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md)
+reference to build toward. The external BELLHOP laboratory now performs a
+sound-speed-profile ray trace and limited two-way FSS coupling; KRAKEN normal
+modes and coherent broadband target scattering remain absent. See
+[docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md)
 for exactly what was and was not implemented.
 
 For scale, NSWC PCD's [MASTODON](https://github.com/Sonar-Sim/MASTODON) is a
 general acoustic simulation toolset whose public setup explicitly requires a
-real BELLHOP executable. This project does not invoke BELLHOP or KRAKEN; its
-new paths are a real-time, flat-boundary approximation suitable for controlled
-forward-scan image experiments. The exact distinction is recorded in
+real BELLHOP executable. This project now invokes BELLHOP as an external process
+for its propagation lab and coupled demo; its real-time renderer still uses a
+flat-boundary approximation. The exact distinction is recorded in
 [the paper mapping](docs/paper_mapping.md#mastodon-comparison).
 
 MIT license, Copyright (c) 2026 Gregory German. See [LICENSE](LICENSE).

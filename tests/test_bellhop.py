@@ -2,12 +2,58 @@ import tempfile
 import sys
 import unittest
 
+import numpy as np
+
 sys.path[:0] = [".", "python"]
 
 import bellhop
 
 
 class BellhopAdapterChecks(unittest.TestCase):
+    def test_two_way_path_pairing_has_object_ghost_and_mirror_ranges(self):
+        arrivals = [
+            {"amplitude": 1.0, "delay_s": 0.08,
+             "top_bounces": 0, "bottom_bounces": 0},
+            {"amplitude": 0.5, "delay_s": 0.10,
+             "top_bounces": 1, "bottom_bounces": 0},
+        ]
+        paths = bellhop.two_way_paths(arrivals)
+        self.assertEqual(len(paths), 4)
+        by_range = {}
+        for path in paths:
+            key = round(path["apparent_range_m"], 6)
+            by_range.setdefault(key, []).append(path)
+
+        self.assertEqual(sorted(by_range), [120.0, 135.0, 150.0])
+        self.assertAlmostEqual(by_range[120.0][0]["relative_intensity"], 1.0)
+        self.assertEqual(len(by_range[135.0]), 2)
+        self.assertTrue(all(path["mixed"] for path in by_range[135.0]))
+        self.assertTrue(all(abs(path["relative_intensity"] - 0.25) < 1e-12
+                            for path in by_range[135.0]))
+        self.assertAlmostEqual(by_range[150.0][0]["relative_intensity"], 0.0625)
+
+    def test_two_way_image_coupling_deposits_at_eigenray_ranges(self):
+        arrivals = [
+            {"amplitude": 1.0, "delay_s": 0.08,
+             "top_bounces": 0, "bottom_bounces": 0},
+            {"amplitude": 0.5, "delay_s": 0.10,
+             "top_bounces": 1, "bottom_bounces": 0},
+        ]
+        ranges = np.arange(0.5, 160.0, 1.0)
+        image = np.zeros((2, len(ranges)))
+        source = int(np.argmin(np.abs(ranges - 120.0)))
+        image[0, source] = 2.0
+        result = {"receiver_ranges_m": np.array([120.0]),
+                  "records": [{"arrivals": arrivals}]}
+
+        coupled = bellhop.apply_two_way_multipath(
+            image, ranges, result, source_depth_m=5.0, target_depth_m=5.0)
+        at = lambda value: coupled[0, int(np.argmin(np.abs(ranges - value)))]
+        self.assertAlmostEqual(at(120.0), 2.0)
+        self.assertAlmostEqual(at(135.0), 1.0)
+        self.assertAlmostEqual(at(150.0), 0.125)
+        self.assertEqual(float(coupled[1].sum()), 0.0)
+
     def test_external_solver_produces_rays_and_physical_direct_delay(self):
         try:
             bellhop.executable_path()

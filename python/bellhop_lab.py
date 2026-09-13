@@ -119,27 +119,42 @@ def draw_rays(surface, result, environment, rectangle):
     return counts
 
 
-def draw_arrivals(surface, arrival_result, environment, rectangle, font):
+def draw_arrivals(surface, arrival_result, environment, rectangle, font, two_way):
     pygame.draw.rect(surface, PANEL, rectangle, border_radius=8)
     arrivals = arrival_result["records"][-1]["arrivals"]
     if not arrivals:
         return 0
-    delays = np.array([item["delay_s"] for item in arrivals]) * 1000.0
-    levels = 20.0 * np.log10(np.maximum([item["amplitude"] for item in arrivals], 1e-15))
-    left, right = delays.min() - 0.5, delays.max() + 0.5
+    if two_way:
+        plotted = bellhop.two_way_paths(arrivals)
+        horizontal = np.array([item["apparent_range_m"] for item in plotted])
+        levels = 10.0 * np.log10(np.maximum(
+            [item["relative_intensity"] for item in plotted], 1e-15))
+        padding = max(0.5, 0.04 * np.ptp(horizontal))
+        suffix = "m"
+    else:
+        plotted = arrivals
+        horizontal = np.array([item["delay_s"] for item in plotted]) * 1000.0
+        levels = 20.0 * np.log10(np.maximum(
+            [item["amplitude"] for item in plotted], 1e-15))
+        padding = 0.5
+        suffix = "ms"
+    left, right = horizontal.min() - padding, horizontal.max() + padding
     floor = min(-80.0, float(levels.min()) - 4.0)
     for level in np.linspace(floor, 0.0, 5):
         y = rectangle.bottom - (level - floor) / -floor * rectangle.height
         pygame.draw.line(surface, GRID, (rectangle.left, y), (rectangle.right, y))
-    for item, delay, level in zip(arrivals, delays, levels):
-        _, colour = ray_kind(item)
-        x = rectangle.left + (delay - left) / (right - left) * rectangle.width
+    for item, coordinate, level in zip(plotted, horizontal, levels):
+        if two_way and item["mixed"]:
+            colour = PINK
+        else:
+            _, colour = ray_kind(item)
+        x = rectangle.left + (coordinate - left) / (right - left) * rectangle.width
         y = rectangle.bottom - (level - floor) / -floor * rectangle.height
         pygame.draw.line(surface, colour, (x, rectangle.bottom), (x, y), 2)
         pygame.draw.circle(surface, colour, (int(x), int(y)), 4)
-    label(surface, font, f"{left:.1f} ms", (rectangle.left, rectangle.bottom + 5), MUTED)
-    label(surface, font, f"{right:.1f} ms", (rectangle.right - 55, rectangle.bottom + 5), MUTED)
-    return len(arrivals)
+    label(surface, font, f"{left:.1f} {suffix}", (rectangle.left, rectangle.bottom + 5), MUTED)
+    label(surface, font, f"{right:.1f} {suffix}", (rectangle.right - 55, rectangle.bottom + 5), MUTED)
+    return len(plotted)
 
 
 def environment_from(sliders):
@@ -198,6 +213,7 @@ def main():
     environment = environment_from(sliders)
     ray_result, arrival_result, metadata, runtime_ms = solve(environment, workspace)
     dirty = False
+    two_way = True
     running = True
     frame = 0
     while running:
@@ -210,6 +226,8 @@ def main():
                     running = False
                 elif event.key == pygame.K_r:
                     released = True
+                elif event.key == pygame.K_t:
+                    two_way = not two_way
             for slider in sliders:
                 if slider.handle(event):
                     dirty = True
@@ -237,8 +255,11 @@ def main():
         label(screen, small_font, "0 m", (ray_rect.x, ray_rect.bottom + 5), MUTED)
         label(screen, small_font, f"{environment.max_range_m:.0f} m", (ray_rect.right - 45, ray_rect.bottom + 5), MUTED)
 
-        arrival_count = draw_arrivals(screen, arrival_result, environment, arrival_rect, small_font)
-        label(screen, body_font, f"EIGENRAY ARRIVALS AT {environment.max_range_m:.0f} m", (arrival_rect.x + 14, arrival_rect.y + 10))
+        arrival_count = draw_arrivals(screen, arrival_result, environment, arrival_rect,
+                                      small_font, two_way)
+        heading = ("MONOSTATIC TWO-WAY OBJECT / GHOST / MIRROR RETURNS" if two_way else
+                   f"ONE-WAY EIGENRAY ARRIVALS AT {environment.max_range_m:.0f} m")
+        label(screen, body_font, heading, (arrival_rect.x + 14, arrival_rect.y + 10))
 
         pygame.draw.rect(screen, PANEL, pygame.Rect(974, 112, 430, 708), border_radius=8)
         label(screen, body_font, "ENVIRONMENT AND SOLVER INPUTS", (996, 130))
@@ -248,10 +269,11 @@ def main():
         c0 = environment.sound_speed_surface_mps
         c1 = environment.sound_speed_bottom_mps
         label(screen, small_font, f"SSP: {c0:.0f} → {c1:.0f} m/s, piecewise linear", (1000, profile_y), MUTED)
-        label(screen, small_font, f"solver {runtime_ms:.1f} ms  •  {arrival_count} far-range arrivals", (1000, profile_y + 25), TEXT)
+        result_name = "two-way paths" if two_way else "far-range arrivals"
+        label(screen, small_font, f"solver {runtime_ms:.1f} ms  •  {arrival_count} {result_name}", (1000, profile_y + 25), TEXT)
         label(screen, small_font, f"rays: direct {counts['direct']}  surface {counts['surface']}  bottom {counts['bottom']}  both {counts['combined']}", (1000, profile_y + 48), TEXT)
-        label(screen, small_font, "CYAN direct   PINK surface   GOLD bottom   WHITE combined", (36, 855), MUTED)
-        label(screen, small_font, "Drag a control and release to rerun BELLHOP   •   R rerun   •   Q quit", (735, 855), MUTED)
+        label(screen, small_font, "CYAN object/direct   PINK ghost/mixed   GOLD bottom   WHITE combined", (36, 855), MUTED)
+        label(screen, small_font, "Drag and release to solve   •   T one-way/two-way   •   R rerun   •   Q quit", (735, 855), MUTED)
         pygame.display.flip()
 
         frame += 1
