@@ -42,6 +42,7 @@ try:
     run('assets',[sys.executable,'python/mesh_assets.py'])
     run('unit_tests',[sys.executable,'tests/test_units.py'])
     run('research_tests',[sys.executable,'tests/test_research.py'])
+    run('slam_tests',[sys.executable,'tests/test_slam.py'])
     for demo in sorted((root/'python').glob('demo[0-9]*.py'),key=lambda p:int(re.search(r'demo(\d+)',p.name)[1])):
         run(demo.stem,[sys.executable,str(demo.relative_to(root))])
     run('benchmark',[sys.executable,'python/benchmark.py'])
@@ -50,6 +51,7 @@ try:
     for size in ('1280x800','1920x1200'):
         run('pygame_'+size,[sys.executable,'python/research_console.py','--frames','3','--reconstruct','--size',size,'--screenshot',str(output/('console_'+size+'.png'))],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
     run('pygame_animation',[sys.executable,'python/research_console.py','--frames','120','--animate','--size','1280x800','--screenshot',str(output/'console_animation.png')],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
+    run('pygame_slam',[sys.executable,'python/slam_lab.py','--frames','255','--screenshot',str(output/'slam_lab.png')],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
     manifest['status']='PASS'
 except Exception as error:
     manifest['status']='FAIL';manifest['error']=repr(error);raise

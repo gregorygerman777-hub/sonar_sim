@@ -67,7 +67,7 @@ SONAR_PYTHON=/absolute/path/to/venv/bin/python ./run_all.sh
 
 Each run gets `results/YYYY-MM-DD_HHMMSS_microseconds/`, a manifest, complete
 source snapshot, per-stage logs, forced Cython rebuild, fresh CMake build, tests,
-all 18 demos, executed notebook and two console screenshots. Failure leaves a
+all 19 demos, executed notebook and two console screenshots. Failure leaves a
 FAIL manifest and logs. It never overwrites a previous run. Jupyter needs local
 kernel sockets, so restrictive execution sandboxes may require permission.
 
@@ -83,6 +83,10 @@ flowchart LR
     F --> G[C++ voxel consistency]
     H[C++ chirp and matched filter] --> I[Waveform validation and WAV]
     B --> J[Separate optical camera]
+    D --> K[Sonar features and descriptors]
+    L[C++ planar IMU] --> M[C++ robust SE(2) pose graph]
+    K --> M
+    M --> N[Trajectory, map and covariance]
 ```
 
 Cython exposes `SonarSimulator`, `OpticalCamera`, `ChirpSonar`, OBJ geometry,
@@ -118,6 +122,27 @@ combinations and coherent phase summation remain future work, tracked in
 [the implemented/approximated/missing table](#implemented-approximated-and-missing)
 below and in
 [docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md).
+
+## Planar sonar–inertial SLAM
+
+Run `./launch_slam.command` to open the animated SLAM Laboratory. A synthetic
+vehicle completes a 37-ping closed survey while the C++ planar IMU accumulates
+bias and noise. Local maxima extracted from the actual rendered beam-bin images
+form scan features; coarse scan descriptors propose old frames, mutual-nearest
+ICP verifies their relative transform, and a Huber-robust C++ Gauss–Newton pose
+graph combines IMU, consecutive scan and loop-closure constraints. The final map
+is made by transforming those sonar features with the optimized poses, and the
+display includes marginal position uncertainty from the inverse information
+matrix. On the fixed seeded experiment, loop closure reduces trajectory RMSE
+from 0.987 m to 0.149 m and endpoint closure error from 1.154 m to 0.0015 m.
+
+This is an honest SE(2) research-learning system. It anchors the first pose to
+define the coordinate frame and uses ground truth only for the reported error.
+It does not estimate depth, roll, pitch, IMU biases or clock offsets, and it has
+not been calibrated on real navigation data. It therefore demonstrates the
+sonar-aiding structure motivated by RUSSO rather than reproducing RUSSO's stereo
+camera, IMU and sonar 6-DoF estimator.
+See [the model, equations, research questions and limitations](docs/slam.md).
 
 ## Console controls
 
@@ -250,6 +275,7 @@ analytic checks, not evidence of real-ocean accuracy.
 | Known-point recovery and conditioning | `.venv/bin/python python/demo16_point_recovery.py` |
 | Separate multipath components / roughness | `.venv/bin/python python/demo17_multipath_components.py` |
 | Seabed critical-angle multipath sweep | `.venv/bin/python python/demo18_bottom_multipath.py` |
+| Planar sonar–IMU SLAM and loop closure | `.venv/bin/python python/demo19_slam.py` |
 
 Every demo runs from the root, saves output, and shares the C++ core. Set
 `SONAR_OUTPUT_DIR` for a chosen destination; otherwise standalone demos use
@@ -264,6 +290,7 @@ Every demo runs from the root, saves output, and shares the C++ core. Set
 | Multipath / roughness | Surface and seabed eigenray paths (image method), both leg-occlusion-checked; seabed uses a real Rayleigh reflection coefficient with a critical grazing angle |
 | Correlated speckle and voxel hull | Implemented synthetic experiments; segmentation dependent |
 | Point recovery | Known-correspondence least squares and sensitivity experiments |
+| Sonar–inertial SLAM | Planar IMU, image features, descriptor proposals, ICP verification, robust SE(2) pose graph, map and marginal covariance; synthetic closed-loop validation |
 | Equation (6), ICP/IRLS patch motions | Unimplemented; no proxy is labeled as equation (6) |
 | Real DIDSON and ocean calibration | Unimplemented |
 
@@ -272,7 +299,8 @@ Read the complete [scientific status](docs/scientific_status.md) and
 response, diffuse material coefficients, point-scatterer spreading, incomplete
 sonar equation, flat single-bounce-per-boundary multipath with no sound-speed
 refraction, phase, or surface-plus-bottom combination paths, no full concavity
-reverberation, independent speckle unless correlation is selected, known poses,
+reverberation, independent speckle unless correlation is selected, known poses
+for carving, planar-only synthetic SLAM,
 segmentation-dependent carving and non-unique feasible hulls. Synthetic truth
 is not a substitute for real-data validation.
 

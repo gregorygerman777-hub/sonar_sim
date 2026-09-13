@@ -161,10 +161,45 @@ cdef extern from "camera.h":
     void render_camera(const Camera&, const Scene&, double*) nogil
 
 
+cdef extern from "slam.h":
+    cdef cppclass Pose2D:
+        Pose2D()
+        double x
+        double y
+        double yaw
+    cdef cppclass PoseUncertainty2D:
+        double sigma_x
+        double sigma_y
+        double sigma_yaw
+    cdef cppclass PoseGraphSLAM:
+        PoseGraphSLAM(const Pose2D&) except +
+        int add_odometry(const Pose2D&, double, double)
+        void add_loop_closure(int, int, const Pose2D&, double, double) except +
+        double optimize(int, double) except +
+        const vector[Pose2D]& poses()
+        vector[PoseUncertainty2D] uncertainties() except +
+    cdef cppclass ImuState2D:
+        Pose2D pose
+        double velocity_x
+        double velocity_y
+    cdef cppclass PlanarImuIntegrator:
+        PlanarImuIntegrator(const Pose2D&, double, double) except +
+        ImuState2D step(double, double, double, double)
+        const ImuState2D& state()
+    Pose2D compose_pose(const Pose2D&, const Pose2D&)
+    Pose2D relative_pose(const Pose2D&, const Pose2D&)
+
+
 cdef Vec3 _vec(values):
     cdef Vec3 v
     v.x = values[0]; v.y = values[1]; v.z = values[2]
     return v
+
+
+cdef Pose2D _pose2(values):
+    cdef Pose2D pose
+    pose.x = values[0]; pose.y = values[1]; pose.yaw = values[2]
+    return pose
 
 
 cdef Texture _texture(item):
@@ -719,6 +754,86 @@ def beam_response(double phi_rad, int elements=64, double spacing=0.5,
                   double wavelength=1.0, mode="array"):
     return shaded_beam_pattern(phi_rad, elements, spacing, wavelength,
                                {"array":0, "top_hat":1, "hann":2}[mode])
+
+
+cdef class PlanarSlam:
+    """SE(2) pose graph with odometry and verified loop-closure constraints."""
+
+    cdef PoseGraphSLAM* graph
+
+    def __cinit__(self, initial=(0.0, 0.0, 0.0)):
+        self.graph = new PoseGraphSLAM(_pose2(initial))
+
+    def __dealloc__(self):
+        del self.graph
+
+    def add_odometry(self, measurement, double sigma_translation=0.05,
+                     double sigma_yaw=np.radians(1.0)):
+        """Append one pose using a relative body-frame motion measurement."""
+        return self.graph.add_odometry(_pose2(measurement), sigma_translation, sigma_yaw)
+
+    def add_loop_closure(self, int from_index, int to_index, measurement,
+                         double sigma_translation=0.03,
+                         double sigma_yaw=np.radians(0.5)):
+        """Constrain two existing poses with an independently verified match."""
+        self.graph.add_loop_closure(from_index, to_index, _pose2(measurement),
+                                    sigma_translation, sigma_yaw)
+
+    def optimize(self, int iterations=20, double huber_delta=3.0):
+        return self.graph.optimize(iterations, huber_delta)
+
+    def poses(self):
+        cdef const vector[Pose2D]* values = &self.graph.poses()
+        out = np.empty((values[0].size(), 3), dtype=np.float64)
+        cdef Py_ssize_t i
+        for i in range(values[0].size()):
+            out[i, 0] = values[0][i].x
+            out[i, 1] = values[0][i].y
+            out[i, 2] = values[0][i].yaw
+        return out
+
+    def uncertainties(self):
+        cdef vector[PoseUncertainty2D] values = self.graph.uncertainties()
+        out = np.empty((values.size(), 3), dtype=np.float64)
+        cdef Py_ssize_t i
+        for i in range(values.size()):
+            out[i, 0] = values[i].sigma_x
+            out[i, 1] = values[i].sigma_y
+            out[i, 2] = values[i].sigma_yaw
+        return out
+
+
+cdef class PlanarImu:
+    """Planar strapdown accelerometer and yaw-rate integration."""
+
+    cdef PlanarImuIntegrator* integrator
+
+    def __cinit__(self, initial=(0.0, 0.0, 0.0), velocity=(0.0, 0.0)):
+        self.integrator = new PlanarImuIntegrator(_pose2(initial), velocity[0], velocity[1])
+
+    def __dealloc__(self):
+        del self.integrator
+
+    def step(self, acceleration_body, double yaw_rate, double dt):
+        cdef ImuState2D value = self.integrator.step(acceleration_body[0], acceleration_body[1],
+                                                     yaw_rate, dt)
+        return ((value.pose.x, value.pose.y, value.pose.yaw),
+                (value.velocity_x, value.velocity_y))
+
+    def state(self):
+        cdef ImuState2D value = self.integrator.state()
+        return ((value.pose.x, value.pose.y, value.pose.yaw),
+                (value.velocity_x, value.velocity_y))
+
+
+def compose_pose_2d(base, local_motion):
+    cdef Pose2D value = compose_pose(_pose2(base), _pose2(local_motion))
+    return value.x, value.y, value.yaw
+
+
+def relative_pose_2d(origin, target):
+    cdef Pose2D value = relative_pose(_pose2(origin), _pose2(target))
+    return value.x, value.y, value.yaw
 
 
 cdef extern from "mesh.h":

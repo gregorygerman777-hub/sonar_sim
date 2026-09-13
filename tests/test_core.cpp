@@ -1,5 +1,6 @@
 #include "geometry.h"
 #include "physics.h"
+#include "slam.h"
 
 #include <cmath>
 #include <iostream>
@@ -49,6 +50,25 @@ int main() {
                segment_occluded(wall_scene, {0.0, 1.0, 0.0}, {0.0, 5.0, 0.0}));
     check_true("short segment before wall remains clear",
                !segment_occluded(wall_scene, {0.0, 1.0, 0.0}, {0.0, 2.0, 0.0}));
+
+    const Pose2D base{1.0, 2.0, M_PI / 2.0};
+    const Pose2D moved = compose_pose(base, {1.0, 0.0, 0.1});
+    check_close("SE(2) body motion world x", moved.x, 1.0, 1e-12);
+    check_close("SE(2) body motion world y", moved.y, 3.0, 1e-12);
+    const Pose2D recovered = relative_pose(base, moved);
+    check_close("SE(2) relative translation", recovered.x, 1.0, 1e-12);
+    check_close("SE(2) relative yaw", recovered.yaw, 0.1, 1e-12);
+
+    PoseGraphSLAM graph({0.0, 0.0, 0.0});
+    for (int edge = 0; edge < 4; ++edge)
+        graph.add_odometry({1.02, 0.0, M_PI / 2.0 + 0.01}, 0.08, 0.03);
+    const Pose2D before = graph.poses().back();
+    const double closure_before = std::hypot(before.x, before.y);
+    graph.add_loop_closure(0, 4, {0.0, 0.0, 0.0}, 0.01, 0.005);
+    graph.optimize(20, 3.0);
+    const Pose2D after = graph.poses().back();
+    check_true("pose-graph loop closure reduces drift",
+               std::hypot(after.x, after.y) < closure_before / 100.0);
 
     if (failures != 0) {
         std::cerr << failures << " core check(s) failed\n";

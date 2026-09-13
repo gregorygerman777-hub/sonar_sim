@@ -58,22 +58,23 @@ scope would require a sound-speed-profile/environment format, solver execution,
 arrival parsing, coherent complex amplitudes and validation against reference
 cases. Those remain future work rather than implied capabilities.
 
-## Sonar-aided underwater SLAM (context, not implemented)
+## Sonar-aided underwater SLAM
 
 Jiang et al., *RUSSO: Robust Underwater SLAM With Sonar Optimization Against
 Visual Degradation*, IEEE RA-L, 2025, DOI via
 [IEEE Xplore](https://ieeexplore.ieee.org/document/10960758) (preprint:
 [arXiv:2503.01434](https://arxiv.org/abs/2503.01434)). RUSSO fuses stereo
 camera, IMU and imaging sonar for 6-DoF underwater localization, falling back
-to a sonar-inertial 3-DoF estimate when visual features degrade, and uses the
-sonar specifically to solve SLAM initialization when the camera alone has too
-few features -- validated across "simulator, pool, and sea" trials. It is cited
-here as motivation, not implemented: this project's `OpticalCamera` and
-optical/acoustic fusion demo (`demo8_optiacoustic.py`) already pair a pinhole
-camera with the same C++ sonar core RUSSO's sonar-aiding role would need, so
-this simulator is a plausible testbed for that kind of fusion work, but no
-SLAM front end, pose-graph optimization, or IMU model exists here. Anyone
-pursuing that would still need to add all three.
+to a sonar-inertial 3-DoF estimate when visual features degrade, and uses sonar
+to solve initialization when the camera alone has too few features. The planar
+SLAM laboratory here implements a smaller related chain: simulated planar IMU,
+features from rendered FSS images, scan descriptors, ICP verification, robust
+SE(2) pose-graph optimization, loop closure, a feature map and marginal
+covariance. It is not a reproduction of RUSSO. There is no stereo visual
+odometry, 6-DoF state, depth/roll/pitch, IMU bias state, sensor synchronization,
+initialization observability logic, pressure sensor, real-data front end, or
+pool/sea validation. Ground truth is withheld from estimation and used only to
+report error in the seeded synthetic experiment.
 
 Separately verified: Shahriar Negahdaripour, *Application of Forward-Scan Sonar
 Stereo for 3-D Scene Reconstruction*, IEEE JOE 45(2), 547–562, April 2020,
