@@ -52,7 +52,7 @@ volume or remove true voxels. No calibrated shape accuracy or unique solution is
 claimed. Multipath is not removed before carving.
 
 Sphere scattering is analytic; its visual triangle tessellation approximates that
-sphere. Cylinder, pipe, wreck and rocks share the same triangle geometry in both
+sphere. Cylinder, pipe and wreck targets share the same triangle geometry in both
 views. A flat acoustic seabed corresponds to the displayed grid at Z=-3 m.
 The grid is 1 m; its visible extent is finite, while the acoustic plane is infinite.
 The translucent fan uses the true spherical range and angular support in the
