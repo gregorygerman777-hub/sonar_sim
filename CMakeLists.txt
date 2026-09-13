@@ -4,8 +4,13 @@ project(sonar_sim CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(sonar_core core/geometry.cpp core/physics.cpp core/mesh.cpp core/reconstruction.cpp core/simulator.cpp core/camera.cpp core/waveform.cpp)
+add_library(sonar_core core/geometry.cpp core/physics.cpp core/mesh.cpp core/reconstruction.cpp core/simulator.cpp core/camera.cpp core/waveform.cpp core/slam.cpp)
 target_include_directories(sonar_core PUBLIC core)
 
 find_package(Threads REQUIRED)
 target_link_libraries(sonar_core PUBLIC Threads::Threads)
+
+enable_testing()
+add_executable(sonar_core_checks tests/test_core.cpp)
+target_link_libraries(sonar_core_checks PRIVATE sonar_core)
+add_test(NAME sonar_core_checks COMMAND sonar_core_checks)

@@ -50,6 +50,125 @@ struct Beam {
     double alpha;
 };
 
+enum class BoundaryKind { Surface, Bottom };
+
+// Reflection amplitude at one boundary for a given sine of grazing angle.
+// Surface: the existing pressure-release-with-roughness model, amplitude 1 at
+// zero roughness. Bottom: the real fluid-fluid (Rayleigh) coefficient, which
+// is why it alone carries a critical-angle cutoff; both then get the same
+// roughness reduction applied about their own RMS height.
+double boundary_reflection_amplitude(BoundaryKind kind, const SonarConfig& config,
+                                     double wavenumber, double sin_grazing) {
+    if (kind == BoundaryKind::Surface) {
+        return config.surface_reflectivity *
+               roughness_coherence_factor(wavenumber, config.surface_rms_height_m, sin_grazing);
+    }
+    const double grazing_rad = std::asin(std::min(1.0, std::max(-1.0, sin_grazing)));
+    const double magnitude = std::fabs(bottom_reflection_coefficient(
+        grazing_rad, config.speed_of_sound_mps, config.bottom_speed_mps,
+        config.water_density_kgm3, config.bottom_density_kgm3));
+    return magnitude * roughness_coherence_factor(wavenumber, config.bottom_rms_height_m, sin_grazing);
+}
+
+// One boundary's ghost and mirror contribution from a single sub-ray's first
+// hit, generalizing what used to be surface-only code so the seabed can use
+// the identical image-method construction with its own z and reflectivity.
+//
+// image and scene are per-thread and read-only respectively, both already
+// established by the caller; a, theta and sample_weight place this among the
+// other sub-rays and bearings the way the direct path already is.
+void deposit_boundary(const SonarConfig& config, const Scene& scene, const Pose& pose,
+                      const Beam& beam_data, BoundaryKind kind, double boundary_z,
+                      bool ghost_enabled, bool mirror_enabled, const Hit& hit,
+                      const Vec3& point, double cos_incidence, double r2, int a,
+                      double combined_weight, int n_az, int n_r, double* image) {
+    const Vec3 mirrored_sonar{pose.position.x, pose.position.y, 2.0 * boundary_z - pose.position.z};
+    const Vec3 to_mirror = mirrored_sonar - point;
+    const double bounced = norm(to_mirror);
+    if (bounced <= 0.0) return;
+    const double cos_bounced = dot(hit.normal, normalize(to_mirror));
+    if (cos_bounced <= 0.0) return;
+
+    // Where the folded path actually crosses the boundary: the real bounce
+    // point, needed to test each real-space leg separately. Nothing physically
+    // exists on the far side of a mirror image, so the occlusion test cannot
+    // just walk the fictitious straight line through it.
+    const double dz = mirrored_sonar.z - point.z;
+    if (std::fabs(dz) < 1e-12) return;
+    const double u = (boundary_z - point.z) / dz;
+    if (u <= 0.0 || u >= 1.0) return;  // the boundary must lie between them
+    const Vec3 bounce_point = point + to_mirror * u;
+
+    if (segment_occluded(scene, point, bounce_point) ||
+        segment_occluded(scene, bounce_point, pose.position))
+        return;
+
+    // Grazing angle at the boundary: the bounce point lies on the straight
+    // line to the mirrored sonar, so its sine is the vertical separation over
+    // the bounced range. Constant along the whole folded path, since both
+    // real segments make the same angle with a horizontal boundary.
+    const double rise = std::fabs(2.0 * boundary_z - point.z - pose.position.z);
+    const double sin_grazing = rise / bounced;
+    const double gamma = boundary_reflection_amplitude(kind, config, 2.0 * M_PI / beam_data.wavelength,
+                                                        sin_grazing);
+
+    // The bounced path arrives from the direction of the mirrored point, so
+    // that is the elevation the beam pattern must be evaluated at.
+    const Vec3 mirrored_point{point.x, point.y, 2.0 * boundary_z - point.z};
+    const Vec3 offset = mirrored_point - pose.position;
+    const Vec3 local_offset{dot(offset, pose.x_axis), dot(offset, pose.y_axis),
+                            dot(offset, pose.z_axis)};
+    const double mirror_elevation = std::asin(local_offset.z / norm(local_offset));
+
+    // The bounced arrival may fall outside the vertical beam while the direct
+    // one does not. That is not a reason to drop the ghost: the ghost has two
+    // reciprocal paths, and the one that goes out direct and returns bounced
+    // still arrives from the direct bearing. Gating both on the mirror's
+    // elevation is why almost every view carries a ghost while only some
+    // carry a mirror.
+    // Under roll the mirrored arrival is displaced in bearing as well as
+    // elevation, so it must be deposited at its own azimuth bin rather than
+    // the cast ray's. This is what lets a rolled sonar see a mirror that an
+    // unrolled one cannot.
+    const double mirror_azimuth = std::atan2(local_offset.x, local_offset.y);
+    const int mirror_az_bin =
+        static_cast<int>(std::floor((mirror_azimuth + 0.5 * beam_data.fov) / beam_data.d_theta));
+    const bool mirror_in_beam = std::fabs(mirror_elevation) <= 0.5 * beam_data.beam &&
+                                mirror_az_bin >= 0 && mirror_az_bin < n_az;
+    const double mirror_weight =
+        mirror_in_beam ? shaded_beam_pattern(mirror_elevation, config.array_element_count,
+                                      beam_data.spacing, beam_data.wavelength, config.beam_mode)
+                       : 0.0;
+
+    // Lambert is a backscatter law, so the bistatic term is taken as the
+    // geometric mean of the two monostatic cosines: a simplification.
+    const double bistatic = std::sqrt(cos_incidence * cos_bounced);
+    const double ghost_range = 0.5 * (hit.t + bounced);
+    const double g2 = gamma * gamma;
+
+    // gamma is an amplitude coefficient (1 for a lossless boundary), so one
+    // reflection scales intensity by gamma^2 and two by gamma^4 -- the same
+    // convention the surface path always used.
+    const double ghost = hit.reflectivity * bistatic * g2 /
+                         (r2 * bounced * bounced) *
+                         std::exp(-beam_data.absorption_per_m * ghost_range);
+    // Two reciprocal paths of equal length: one arrives along the direct
+    // bearing, the other along the mirrored one, each carrying half.
+    const int ghost_bin = static_cast<int>(ghost_range * beam_data.inv_d_range);
+    if (ghost_enabled && ghost_bin >= 0 && ghost_bin < n_r) {
+        image[a * n_r + ghost_bin] += 0.5 * combined_weight * ghost;
+        if (mirror_in_beam)
+            image[mirror_az_bin * n_r + ghost_bin] += 0.5 * combined_weight * mirror_weight * ghost;
+    }
+
+    const double b2 = bounced * bounced;
+    const double mirror = hit.reflectivity * cos_bounced * g2 * g2 / (b2 * b2) *
+                          std::exp(-beam_data.absorption_per_m * bounced);
+    const int mirror_bin = static_cast<int>(bounced * beam_data.inv_d_range);
+    if (mirror_enabled && mirror_in_beam && mirror_bin >= 0 && mirror_bin < n_r)
+        image[mirror_az_bin * n_r + mirror_bin] += combined_weight * mirror_weight * mirror;
+}
+
 void deposit_bearing(const SonarConfig& config, const Scene& scene, const Pose& pose,
                      const Beam& beam_data, const std::vector<SubRay>& subrays, int a,
                      double theta, double sample_weight, double* image) {
@@ -77,76 +196,20 @@ void deposit_bearing(const SonarConfig& config, const Scene& scene, const Pose& 
         if (config.direct_enabled && bin >= 0 && bin < n_r)
             image[a * n_r + bin] += sample_weight * ray.weight * intensity;
 
-        if (!config.multipath_enabled) continue;
+        if (!config.multipath_enabled && !config.bottom_enabled) continue;
 
         const Vec3 point = pose.position + direction * hit.t;
-        const Vec3 mirrored_sonar{pose.position.x, pose.position.y,
-                                  2.0 * config.surface_z - pose.position.z};
-        const Vec3 to_mirror = mirrored_sonar - point;
-        const double bounced = norm(to_mirror);
-        const double cos_bounced = dot(hit.normal, normalize(to_mirror));
-        if (cos_bounced <= 0.0 || bounced <= 0.0) continue;
+        const double combined_weight = sample_weight * ray.weight;
 
-        // Grazing angle at the surface: the bounce point lies on the straight
-        // line to the mirrored sonar, so its sine is the vertical separation
-        // over the bounced range.
-        const double rise = std::fabs(2.0 * config.surface_z - point.z - pose.position.z);
-        const double rayleigh = 2.0 * (2.0 * M_PI / beam_data.wavelength) *
-                                config.surface_rms_height_m * (rise / bounced);
-        const double gamma = config.surface_reflectivity * std::exp(-0.5 * rayleigh * rayleigh);
+        if (config.multipath_enabled)
+            deposit_boundary(config, scene, pose, beam_data, BoundaryKind::Surface, config.surface_z,
+                             config.ghost_enabled, config.mirror_enabled, hit, point, cos_incidence,
+                             r2, a, combined_weight, n_az, n_r, image);
 
-        // The bounced path arrives from the direction of the mirrored point, so
-        // that is the elevation the beam pattern must be evaluated at.
-        const Vec3 mirrored_point{point.x, point.y, 2.0 * config.surface_z - point.z};
-        const Vec3 offset = mirrored_point - pose.position;
-        const Vec3 local_offset{dot(offset, pose.x_axis), dot(offset, pose.y_axis),
-                                dot(offset, pose.z_axis)};
-        const double mirror_elevation = std::asin(local_offset.z / norm(local_offset));
-
-        // The bounced arrival may fall outside the vertical beam while the direct
-        // one does not. That is not a reason to drop the ghost: the ghost has two
-        // reciprocal paths, and the one that goes out direct and returns bounced
-        // still arrives from the direct bearing. Gating both on the mirror's
-        // elevation is why almost every view carries a ghost while only some
-        // carry a mirror.
-        // Under roll the mirrored arrival is displaced in bearing as well as
-        // elevation, so it must be deposited at its own azimuth bin rather than
-        // the cast ray's. This is what lets a rolled sonar see a mirror that an
-        // unrolled one cannot.
-        const double mirror_azimuth = std::atan2(local_offset.x, local_offset.y);
-        const int mirror_az_bin =
-            static_cast<int>(std::floor((mirror_azimuth + 0.5 * beam_data.fov) / beam_data.d_theta));
-        const bool mirror_in_beam = std::fabs(mirror_elevation) <= 0.5 * beam_data.beam &&
-                                    mirror_az_bin >= 0 && mirror_az_bin < n_az;
-        const double mirror_weight =
-            mirror_in_beam ? shaded_beam_pattern(mirror_elevation, config.array_element_count,
-                                          beam_data.spacing, beam_data.wavelength, config.beam_mode)
-                           : 0.0;
-
-        // Lambert is a backscatter law, so the bistatic term is taken as the
-        // geometric mean of the two monostatic cosines: a simplification.
-        const double bistatic = std::sqrt(cos_incidence * cos_bounced);
-        const double ghost_range = 0.5 * (hit.t + bounced);
-
-        const double ghost = hit.reflectivity * bistatic * gamma * gamma /
-                             (r2 * bounced * bounced) *
-                             std::exp(-beam_data.absorption_per_m * ghost_range);
-        // Two reciprocal paths of equal length: one arrives along the direct
-        // bearing, the other along the mirrored one, each carrying half.
-        const int ghost_bin = static_cast<int>(ghost_range * beam_data.inv_d_range);
-        if (config.ghost_enabled && ghost_bin >= 0 && ghost_bin < n_r) {
-            image[a * n_r + ghost_bin] += 0.5 * sample_weight * ray.weight * ghost;
-            if (mirror_in_beam)
-                image[mirror_az_bin * n_r + ghost_bin] +=
-                    0.5 * sample_weight * mirror_weight * ghost;
-        }
-
-        const double b2 = bounced * bounced, g2 = gamma * gamma;
-        const double mirror = hit.reflectivity * cos_bounced * g2 * g2 / (b2 * b2) *
-                              std::exp(-beam_data.absorption_per_m * bounced);
-        const int mirror_bin = static_cast<int>(bounced * beam_data.inv_d_range);
-        if (config.mirror_enabled && mirror_in_beam && mirror_bin >= 0 && mirror_bin < n_r)
-            image[mirror_az_bin * n_r + mirror_bin] += sample_weight * mirror_weight * mirror;
+        if (config.bottom_enabled)
+            deposit_boundary(config, scene, pose, beam_data, BoundaryKind::Bottom, config.bottom_z,
+                             config.bottom_ghost_enabled, config.bottom_mirror_enabled, hit, point,
+                             cos_incidence, r2, a, combined_weight, n_az, n_r, image);
     }
 }
 
@@ -218,10 +281,10 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
         return;
     }
 
-    // Without multipath a bearing writes only into its own column, so the
-    // threads can share one buffer. With multipath a bearing can deposit a
-    // mirror into a neighbour, so each thread accumulates privately and the
-    // results are summed once at the end.
+    // Without either multipath boundary a bearing writes only into its own
+    // column, so the threads can share one buffer. A surface or bottom path can
+    // deposit into a neighbour, so each thread then accumulates privately and
+    // the results are summed once at the end.
     //
     // That private accumulator is nine megabytes at a typical size, and
     // allocating it per call meant faulting in nine megabytes of fresh pages on
@@ -231,7 +294,10 @@ void render(const SonarConfig& config, const Scene& scene, const Pose& pose, dou
     // it is uncontended.
     static std::mutex scratch_mutex;
     static std::vector<double> scratch;
-    const bool shared = !config.multipath_enabled;
+    // Either boundary can deposit a reflected arrival into a neighbouring
+    // bearing. Bottom-only multipath therefore needs the same private
+    // accumulators as surface multipath; sharing in that case is a data race.
+    const bool shared = !config.multipath_enabled && !config.bottom_enabled;
     std::unique_lock<std::mutex> scratch_lock(scratch_mutex, std::defer_lock);
     if (!shared) {
         scratch_lock.lock();

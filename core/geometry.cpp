@@ -197,3 +197,14 @@ Hit intersect_scene(const Scene& scene, const Vec3& origin, const Vec3& directio
     }
     return nearest;
 }
+
+bool segment_occluded(const Scene& scene, const Vec3& origin, const Vec3& target,
+                      double epsilon_m) {
+    const Vec3 offset = target - origin;
+    const double length = norm(offset);
+    if (length <= epsilon_m) return false;
+
+    const Vec3 direction = offset * (1.0 / length);
+    const Hit hit = intersect_scene(scene, origin, direction);
+    return hit.valid && hit.t > epsilon_m && hit.t < length - epsilon_m;
+}

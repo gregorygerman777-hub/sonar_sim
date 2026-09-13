@@ -26,6 +26,32 @@ double transmission_loss_db(double alpha_db_per_km, double range_m) {
 }
 
 
+double roughness_coherence_factor(double wavenumber, double rms_height_m, double sin_grazing) {
+    const double rayleigh = 2.0 * wavenumber * rms_height_m * sin_grazing;
+    return std::exp(-0.5 * rayleigh * rayleigh);
+}
+
+double bottom_reflection_coefficient(double grazing_rad, double water_speed_mps,
+                                     double bottom_speed_mps, double water_density_kgm3,
+                                     double bottom_density_kgm3) {
+    const double sin_t1 = std::sin(grazing_rad);
+    const double cos_t1 = std::cos(grazing_rad);
+    const double speed_ratio = bottom_speed_mps / water_speed_mps;  // c2 / c1
+    const double cos_t2 = speed_ratio * cos_t1;                     // Snell: cos t1/c1 = cos t2/c2
+
+    if (cos_t2 >= 1.0) {
+        // No real theta2: below the critical grazing angle, total reflection.
+        return 1.0;
+    }
+
+    const double sin_t2 = std::sqrt(1.0 - cos_t2 * cos_t2);
+    const double z1 = water_density_kgm3 * water_speed_mps;
+    const double z2 = bottom_density_kgm3 * bottom_speed_mps;
+    const double numerator = z2 * sin_t1 - z1 * sin_t2;
+    const double denominator = z2 * sin_t1 + z1 * sin_t2;
+    return std::fabs(denominator) < 1e-12 ? 0.0 : numerator / denominator;
+}
+
 double shaded_beam_pattern(double phi, int elements, double spacing, double wavelength, int mode) {
     if (mode == 1) return 1.0;
     if (mode == 0 || elements < 3) return beam_pattern(phi, elements, spacing, wavelength);

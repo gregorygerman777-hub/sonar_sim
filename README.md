@@ -51,6 +51,7 @@ CMake builds the C++ library separately. It does **not** refresh the Python exte
 ```bash
 cmake -S . -B build_cmake
 cmake --build build_cmake
+ctest --test-dir build_cmake --output-on-failure
 .venv/bin/python -c 'import sonar; print(sonar.__file__)'
 ```
 
@@ -66,7 +67,7 @@ SONAR_PYTHON=/absolute/path/to/venv/bin/python ./run_all.sh
 
 Each run gets `results/YYYY-MM-DD_HHMMSS_microseconds/`, a manifest, complete
 source snapshot, per-stage logs, forced Cython rebuild, fresh CMake build, tests,
-all 17 demos, executed notebook and two console screenshots. Failure leaves a
+all 19 demos, executed notebook and two console screenshots. Failure leaves a
 FAIL manifest and logs. It never overwrites a previous run. Jupyter needs local
 kernel sockets, so restrictive execution sandboxes may require permission.
 
@@ -82,6 +83,10 @@ flowchart LR
     F --> G[C++ voxel consistency]
     H[C++ chirp and matched filter] --> I[Waveform validation and WAV]
     B --> J[Separate optical camera]
+    D --> K[Sonar features and descriptors]
+    L[C++ planar IMU] --> M[C++ robust SE(2) pose graph]
+    K --> M
+    M --> N[Trajectory, map and covariance]
 ```
 
 Cython exposes `SonarSimulator`, `OpticalCamera`, `ChirpSonar`, OBJ geometry,
@@ -89,6 +94,55 @@ projection and carving. Python handles experiments, masks, correlation, plots,
 confidence intervals and presentation. No external asset service is required.
 Procedural meshes have provenance, units and topology checks in
 [assets/manifest.json](assets/manifest.json).
+
+## Eigenray multipath: surface and seabed boundaries
+
+Multipath is built by the image method: reflecting the sonar through a flat
+boundary turns one bounce into a straight line, the same equivalence
+[BELLHOP](https://oalib-acoustics.org/) and the rest of the Acoustics Toolbox
+use for a range-independent duct. Two boundaries are modelled this way, each
+producing its own ghost (one leg direct, one bounced) and mirror (both legs
+bounced) component, gated on the two real-space legs actually being clear of
+the scene rather than assumed visible:
+
+| Boundary | Reflection model | Config |
+|---|---|---|
+| Sea surface | Pressure-release amplitude (`surface_reflectivity`, 1 for calm), reduced by Ogilvy roughness scattering | `multipath_enabled`, `surface_z`, `surface_rms_height_m` |
+| Seabed | Rayleigh two-fluid coefficient from a real density/sound-speed contrast, with a critical grazing angle below which it reflects totally | `bottom_enabled`, `bottom_z`, `bottom_speed_mps`, `bottom_density_kgm3`, `bottom_rms_height_m` |
+
+The critical grazing angle, `acos(speed_of_sound_mps / bottom_speed_mps)`, is
+the same cutoff BELLHOP's ray trace shows over a fast bottom: shallower rays
+reflect totally, steeper ones start losing energy into the sediment. See
+[core/physics.h](core/physics.h) for the closed form and
+[demo18](python/demo18_bottom_multipath.py) for a fixed-geometry sweep across
+it, checked against the closed form directly rather than just plotted next to
+it. This is still a flat-boundary, single-bounce-per-boundary model, not a
+sound-speed-profile ray trace: refraction, higher-order surface/bottom
+combinations and coherent phase summation remain future work, tracked in
+[the implemented/approximated/missing table](#implemented-approximated-and-missing)
+below and in
+[docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md).
+
+## Planar sonar–inertial SLAM
+
+Run `./launch_slam.command` to open the animated SLAM Laboratory. A synthetic
+vehicle completes a 37-ping closed survey while the C++ planar IMU accumulates
+bias and noise. Local maxima extracted from the actual rendered beam-bin images
+form scan features; coarse scan descriptors propose old frames, mutual-nearest
+ICP verifies their relative transform, and a Huber-robust C++ Gauss–Newton pose
+graph combines IMU, consecutive scan and loop-closure constraints. The final map
+is made by transforming those sonar features with the optimized poses, and the
+display includes marginal position uncertainty from the inverse information
+matrix. On the fixed seeded experiment, loop closure reduces trajectory RMSE
+from 0.987 m to 0.149 m and endpoint closure error from 1.154 m to 0.0015 m.
+
+This is an honest SE(2) research-learning system. It anchors the first pose to
+define the coordinate frame and uses ground truth only for the reported error.
+It does not estimate depth, roll, pitch, IMU biases or clock offsets, and it has
+not been calibrated on real navigation data. It therefore demonstrates the
+sonar-aiding structure motivated by RUSSO rather than reproducing RUSSO's stereo
+camera, IMU and sonar 6-DoF estimator.
+See [the model, equations, research questions and limitations](docs/slam.md).
 
 ## Console controls
 
@@ -165,6 +219,24 @@ For roughness **σ_h**, grazing angle **g**, and wavenumber **k=2π/λ**, cohere
 amplitude is **γ=exp[−(2kσ_h sin g)²/2]**. This is a simplified attenuation,
 not complete rough-surface scattering or ghost removal.
 
+The seabed boundary uses the same **r_d**, **r_m**, **r_g** construction with
+its own z, but a real reflection coefficient in place of the surface's assumed
+-1. With **c₁,ρ₁** the water and **c₂,ρ₂** the sediment, impedance
+**Z=ρc**, and Snell's law in grazing form **cos(g)/c₁=cos(g₂)/c₂**:
+
+\[
+R(g)=\frac{Z_2\sin g-Z_1\sin g_2}{Z_2\sin g+Z_1\sin g_2},\qquad
+\sin g_2=\sqrt{1-\left(\frac{c_2}{c_1}\cos g\right)^2}.
+\]
+
+Below the critical grazing angle **g_c=\arccos(c_1/c_2)** (only possible when
+the sediment is faster), sin g₂ has no real solution and the boundary reflects
+totally, \|R\|=1. **R** is squared once per leg like the surface's γ, so the
+ghost carries R² and the mirror R⁴; its sign (a phase this simulator does not
+track, since multipath is summed as incoherent intensity) is discarded.
+Both boundaries' reflected legs are now occlusion-checked against the scene
+before either bounce is deposited, not just assumed clear.
+
 Speckle multiplies intensity by **−ln(U)** for uniform random U. A single-look
 exponential intensity has standard deviation approximately equal to its mean.
 The correlated mode filters complex Gaussian amplitude before squaring.
@@ -202,6 +274,8 @@ analytic checks, not evidence of real-ocean accuracy.
 | Carving and five degradation sweeps | `.venv/bin/python python/demo15_carving.py` |
 | Known-point recovery and conditioning | `.venv/bin/python python/demo16_point_recovery.py` |
 | Separate multipath components / roughness | `.venv/bin/python python/demo17_multipath_components.py` |
+| Seabed critical-angle multipath sweep | `.venv/bin/python python/demo18_bottom_multipath.py` |
+| Planar sonar–IMU SLAM and loop closure | `.venv/bin/python python/demo19_slam.py` |
 
 Every demo runs from the root, saves output, and shares the C++ core. Set
 `SONAR_OUTPUT_DIR` for a chosen destination; otherwise standalone demos use
@@ -213,17 +287,20 @@ Every demo runs from the root, saves output, and shares the C++ core. Set
 |---|---|
 | Analytic geometry, OBJ triangles, projection | Implemented, tested |
 | Elevation response, diffuse brightness, shadows | Implemented approximations, analytically checked |
-| Multipath / roughness | Approximate forward components; no reflected-leg visibility or ghost removal |
+| Multipath / roughness | Surface and seabed eigenray paths (image method), both leg-occlusion-checked; seabed uses a real Rayleigh reflection coefficient with a critical grazing angle |
 | Correlated speckle and voxel hull | Implemented synthetic experiments; segmentation dependent |
 | Point recovery | Known-correspondence least squares and sensitivity experiments |
+| Sonar–inertial SLAM | Planar IMU, image features, descriptor proposals, ICP verification, robust SE(2) pose graph, map and marginal covariance; synthetic closed-loop validation |
 | Equation (6), ICP/IRLS patch motions | Unimplemented; no proxy is labeled as equation (6) |
 | Real DIDSON and ocean calibration | Unimplemented |
 
 Read the complete [scientific status](docs/scientific_status.md) and
 [paper mapping](docs/paper_mapping.md). Key limitations include ideal array
 response, diffuse material coefficients, point-scatterer spreading, incomplete
-sonar equation, planar/coherent surface multipath, no full concavity
-reverberation, independent speckle unless correlation is selected, known poses,
+sonar equation, flat single-bounce-per-boundary multipath with no sound-speed
+refraction, phase, or surface-plus-bottom combination paths, no full concavity
+reverberation, independent speckle unless correlation is selected, known poses
+for carving, planar-only synthetic SLAM,
 segmentation-dependent carving and non-unique feasible hulls. Synthetic truth
 is not a substitute for real-data validation.
 
@@ -241,5 +318,22 @@ DOI 10.1109/JOE.2016.2591738), and Liu & Negahdaripour's ghost-removal framework
 (Remote Sensing, 14 October 2024, DOI 10.3390/rs16203814). Links and the
 implemented/omitted distinction appear in the paper mapping. The requested IEEE
 document 8516375 remains identity-unverified due to publisher access restrictions.
+
+The eigenray multipath above follows the Acoustics Toolbox family (BELLHOP,
+KRAKEN, SCOOTER, RAM) and Attia et al.'s *Towards Realistic 3D Sonar
+Simulation* (arXiv:2606.06130), which argues that GPU-rate sonar simulators
+need exactly this kind of physically grounded propagation -- refraction,
+scattering, and multipath -- and names those classical solvers as the
+reference to build toward. This simulator still stops well short of them: a
+flat-boundary image method, not a sound-speed-profile ray trace or normal-mode
+solve. See [docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md)
+for exactly what was and was not implemented.
+
+For scale, NSWC PCD's [MASTODON](https://github.com/Sonar-Sim/MASTODON) is a
+general acoustic simulation toolset whose public setup explicitly requires a
+real BELLHOP executable. This project does not invoke BELLHOP or KRAKEN; its
+new paths are a real-time, flat-boundary approximation suitable for controlled
+forward-scan image experiments. The exact distinction is recorded in
+[the paper mapping](docs/paper_mapping.md#mastodon-comparison).
 
 MIT license, Copyright (c) 2026 Gregory German. See [LICENSE](LICENSE).

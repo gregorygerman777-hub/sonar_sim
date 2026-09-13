@@ -67,6 +67,7 @@ cdef extern from "geometry.h":
     Hit intersect_sphere(const Sphere&, const Vec3&, const Vec3&)
     Hit intersect_cylinder(const Cylinder&, const Vec3&, const Vec3&)
     double texture_factor(const Vec3&, const Texture&)
+    bint segment_occluded(const Scene&, const Vec3&, const Vec3&, double)
 
 
 cdef extern from "physics.h":
@@ -74,6 +75,8 @@ cdef extern from "physics.h":
     double beam_pattern(double, int, double, double)
     double thorp_absorption_db_per_km(double)
     double transmission_loss_db(double, double)
+    double roughness_coherence_factor(double, double, double)
+    double bottom_reflection_coefficient(double, double, double, double, double)
 
 
 cdef extern from "simulator.h":
@@ -93,6 +96,14 @@ cdef extern from "simulator.h":
         double surface_z
         double surface_reflectivity
         double surface_rms_height_m
+        bint bottom_enabled
+        double bottom_z
+        double bottom_speed_mps
+        double bottom_density_kgm3
+        double water_density_kgm3
+        double bottom_rms_height_m
+        bint bottom_ghost_enabled
+        bint bottom_mirror_enabled
         Vec3 platform_velocity_mps
         double platform_yaw_rate_dps
         double sweep_duration_s
@@ -150,10 +161,45 @@ cdef extern from "camera.h":
     void render_camera(const Camera&, const Scene&, double*) nogil
 
 
+cdef extern from "slam.h":
+    cdef cppclass Pose2D:
+        Pose2D()
+        double x
+        double y
+        double yaw
+    cdef cppclass PoseUncertainty2D:
+        double sigma_x
+        double sigma_y
+        double sigma_yaw
+    cdef cppclass PoseGraphSLAM:
+        PoseGraphSLAM(const Pose2D&) except +
+        int add_odometry(const Pose2D&, double, double)
+        void add_loop_closure(int, int, const Pose2D&, double, double) except +
+        double optimize(int, double) except +
+        const vector[Pose2D]& poses()
+        vector[PoseUncertainty2D] uncertainties() except +
+    cdef cppclass ImuState2D:
+        Pose2D pose
+        double velocity_x
+        double velocity_y
+    cdef cppclass PlanarImuIntegrator:
+        PlanarImuIntegrator(const Pose2D&, double, double) except +
+        ImuState2D step(double, double, double, double)
+        const ImuState2D& state()
+    Pose2D compose_pose(const Pose2D&, const Pose2D&)
+    Pose2D relative_pose(const Pose2D&, const Pose2D&)
+
+
 cdef Vec3 _vec(values):
     cdef Vec3 v
     v.x = values[0]; v.y = values[1]; v.z = values[2]
     return v
+
+
+cdef Pose2D _pose2(values):
+    cdef Pose2D pose
+    pose.x = values[0]; pose.y = values[1]; pose.yaw = values[2]
+    return pose
 
 
 cdef Texture _texture(item):
@@ -228,6 +274,23 @@ def two_way_loss_db(double alpha_db_per_km, double range_m):
     return transmission_loss_db(alpha_db_per_km, range_m)
 
 
+def roughness_factor(double wavenumber, double rms_height_m, double sin_grazing):
+    """Ogilvy coherent-reflection reduction exp(-Ra^2/2), Ra = 2 k sigma sin(grazing)."""
+    return roughness_coherence_factor(wavenumber, rms_height_m, sin_grazing)
+
+
+def bottom_reflection(double grazing_rad, double water_speed_mps, double bottom_speed_mps,
+                      double water_density_kgm3, double bottom_density_kgm3):
+    """Rayleigh two-fluid pressure coefficient for an intensity-only model.
+
+    Above critical this returns the signed real coefficient. Below critical
+    the physical coefficient is complex; this returns its unit magnitude
+    because the simulator does not carry coherent phase.
+    """
+    return bottom_reflection_coefficient(grazing_rad, water_speed_mps, bottom_speed_mps,
+                                         water_density_kgm3, bottom_density_kgm3)
+
+
 def surface_texture(point, double amplitude, double scale_m=0.25, unsigned int seed=1):
     """Backscatter multiplier at a world point. Mean 1, deterministic in the point."""
     cdef Texture t
@@ -257,6 +320,16 @@ def ray_cylinder(centre, axis, double radius, double half_length, reflectivity,
     c.radius = radius; c.half_length = half_length; c.reflectivity = reflectivity
     cdef Hit h = intersect_cylinder(c, _vec(origin), _vec(direction))
     return h.t if h.valid else None
+
+
+def segment_blocked(objects, origin, target, double epsilon_m=1e-6):
+    """True if scene geometry strictly between origin and target blocks the segment.
+
+    Exposed directly (like ray_plane/ray_sphere/ray_cylinder) so the reflected-
+    leg occlusion the multipath boundaries rely on can be checked in isolation.
+    """
+    cdef Scene scene = _build_scene(objects)
+    return bool(segment_occluded(scene, _vec(origin), _vec(target), epsilon_m))
 
 
 def make_plane(point, normal, reflectivity=0.05, texture_amplitude=0.0,
@@ -297,6 +370,10 @@ cdef class SonarSimulator:
                  int array_element_count=64, double array_element_spacing_m=0.0,
                  bint multipath_enabled=False, double surface_z=0.0,
                  double surface_reflectivity=1.0, double surface_rms_height_m=0.0,
+                 bint bottom_enabled=False, double bottom_z=-10.0,
+                 double bottom_speed_mps=1650.0, double bottom_density_kgm3=1900.0,
+                 double water_density_kgm3=1000.0, double bottom_rms_height_m=0.0,
+                 bint bottom_ghost_enabled=True, bint bottom_mirror_enabled=True,
                  platform_velocity_mps=(0.0, 0.0, 0.0),
                  double platform_yaw_rate_dps=0.0, double sweep_duration_s=0.0,
                  int motion_samples_per_bin=1, int num_threads=0, beam_mode="array",
@@ -323,6 +400,14 @@ cdef class SonarSimulator:
         self.cfg.surface_z = surface_z
         self.cfg.surface_reflectivity = surface_reflectivity
         self.cfg.surface_rms_height_m = surface_rms_height_m
+        self.cfg.bottom_enabled = bottom_enabled
+        self.cfg.bottom_z = bottom_z
+        self.cfg.bottom_speed_mps = bottom_speed_mps
+        self.cfg.bottom_density_kgm3 = bottom_density_kgm3
+        self.cfg.water_density_kgm3 = water_density_kgm3
+        self.cfg.bottom_rms_height_m = bottom_rms_height_m
+        self.cfg.bottom_ghost_enabled = bottom_ghost_enabled
+        self.cfg.bottom_mirror_enabled = bottom_mirror_enabled
         self.cfg.platform_velocity_mps = _vec(platform_velocity_mps)
         self.cfg.platform_yaw_rate_dps = platform_yaw_rate_dps
         self.cfg.sweep_duration_s = sweep_duration_s
@@ -352,6 +437,62 @@ cdef class SonarSimulator:
     @surface_rms_height_m.setter
     def surface_rms_height_m(self, double value):
         self.cfg.surface_rms_height_m = value
+
+    @property
+    def bottom_multipath(self):
+        return bool(self.cfg.bottom_enabled)
+
+    @bottom_multipath.setter
+    def bottom_multipath(self, bint value):
+        self.cfg.bottom_enabled = value
+
+    @property
+    def bottom_z(self):
+        return self.cfg.bottom_z
+
+    @bottom_z.setter
+    def bottom_z(self, double value):
+        self.cfg.bottom_z = value
+
+    @property
+    def bottom_speed_mps(self):
+        return self.cfg.bottom_speed_mps
+
+    @bottom_speed_mps.setter
+    def bottom_speed_mps(self, double value):
+        self.cfg.bottom_speed_mps = value
+
+    @property
+    def bottom_density_kgm3(self):
+        return self.cfg.bottom_density_kgm3
+
+    @bottom_density_kgm3.setter
+    def bottom_density_kgm3(self, double value):
+        self.cfg.bottom_density_kgm3 = value
+
+    @property
+    def water_density_kgm3(self):
+        return self.cfg.water_density_kgm3
+
+    @water_density_kgm3.setter
+    def water_density_kgm3(self, double value):
+        self.cfg.water_density_kgm3 = value
+
+    @property
+    def bottom_rms_height_m(self):
+        return self.cfg.bottom_rms_height_m
+
+    @bottom_rms_height_m.setter
+    def bottom_rms_height_m(self, double value):
+        self.cfg.bottom_rms_height_m = value
+
+    @property
+    def bottom_critical_grazing_deg(self):
+        """acos(c_water / c_bottom): below this grazing angle the bottom totally reflects."""
+        ratio = self.cfg.speed_of_sound_mps / self.cfg.bottom_speed_mps
+        if ratio >= 1.0:
+            return 0.0  # bottom is slower than water: no critical angle
+        return np.degrees(np.arccos(ratio))
 
     @property
     def num_elevation_subrays(self):
@@ -613,6 +754,86 @@ def beam_response(double phi_rad, int elements=64, double spacing=0.5,
                   double wavelength=1.0, mode="array"):
     return shaded_beam_pattern(phi_rad, elements, spacing, wavelength,
                                {"array":0, "top_hat":1, "hann":2}[mode])
+
+
+cdef class PlanarSlam:
+    """SE(2) pose graph with odometry and verified loop-closure constraints."""
+
+    cdef PoseGraphSLAM* graph
+
+    def __cinit__(self, initial=(0.0, 0.0, 0.0)):
+        self.graph = new PoseGraphSLAM(_pose2(initial))
+
+    def __dealloc__(self):
+        del self.graph
+
+    def add_odometry(self, measurement, double sigma_translation=0.05,
+                     double sigma_yaw=np.radians(1.0)):
+        """Append one pose using a relative body-frame motion measurement."""
+        return self.graph.add_odometry(_pose2(measurement), sigma_translation, sigma_yaw)
+
+    def add_loop_closure(self, int from_index, int to_index, measurement,
+                         double sigma_translation=0.03,
+                         double sigma_yaw=np.radians(0.5)):
+        """Constrain two existing poses with an independently verified match."""
+        self.graph.add_loop_closure(from_index, to_index, _pose2(measurement),
+                                    sigma_translation, sigma_yaw)
+
+    def optimize(self, int iterations=20, double huber_delta=3.0):
+        return self.graph.optimize(iterations, huber_delta)
+
+    def poses(self):
+        cdef const vector[Pose2D]* values = &self.graph.poses()
+        out = np.empty((values[0].size(), 3), dtype=np.float64)
+        cdef Py_ssize_t i
+        for i in range(values[0].size()):
+            out[i, 0] = values[0][i].x
+            out[i, 1] = values[0][i].y
+            out[i, 2] = values[0][i].yaw
+        return out
+
+    def uncertainties(self):
+        cdef vector[PoseUncertainty2D] values = self.graph.uncertainties()
+        out = np.empty((values.size(), 3), dtype=np.float64)
+        cdef Py_ssize_t i
+        for i in range(values.size()):
+            out[i, 0] = values[i].sigma_x
+            out[i, 1] = values[i].sigma_y
+            out[i, 2] = values[i].sigma_yaw
+        return out
+
+
+cdef class PlanarImu:
+    """Planar strapdown accelerometer and yaw-rate integration."""
+
+    cdef PlanarImuIntegrator* integrator
+
+    def __cinit__(self, initial=(0.0, 0.0, 0.0), velocity=(0.0, 0.0)):
+        self.integrator = new PlanarImuIntegrator(_pose2(initial), velocity[0], velocity[1])
+
+    def __dealloc__(self):
+        del self.integrator
+
+    def step(self, acceleration_body, double yaw_rate, double dt):
+        cdef ImuState2D value = self.integrator.step(acceleration_body[0], acceleration_body[1],
+                                                     yaw_rate, dt)
+        return ((value.pose.x, value.pose.y, value.pose.yaw),
+                (value.velocity_x, value.velocity_y))
+
+    def state(self):
+        cdef ImuState2D value = self.integrator.state()
+        return ((value.pose.x, value.pose.y, value.pose.yaw),
+                (value.velocity_x, value.velocity_y))
+
+
+def compose_pose_2d(base, local_motion):
+    cdef Pose2D value = compose_pose(_pose2(base), _pose2(local_motion))
+    return value.x, value.y, value.yaw
+
+
+def relative_pose_2d(origin, target):
+    cdef Pose2D value = relative_pose(_pose2(origin), _pose2(target))
+    return value.x, value.y, value.yaw
 
 
 cdef extern from "mesh.h":

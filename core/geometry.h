@@ -89,3 +89,16 @@ Hit intersect_cylinder(const Cylinder& cylinder, const Vec3& origin, const Vec3&
 // Nearest hit over the whole scene, which is what makes a sub-ray stop at the
 // first surface and contribute nothing beyond it.
 Hit intersect_scene(const Scene& scene, const Vec3& origin, const Vec3& direction);
+
+// True if scene geometry strictly between origin and target blocks the
+// straight segment joining them. Hits within epsilon_m of either endpoint are
+// not counted as blocking: without that, a leg starting exactly on a scene
+// surface (the multipath first-hit point itself) would register a spurious
+// hit against its own surface at t near zero from floating-point roundoff,
+// and every reflected leg would occlude itself.
+// This is what a folded multipath leg needs and the first-hit ray does not:
+// the direct ray only ever needs its own nearest hit, but a reflected leg has
+// to be checked against everything that could sit between its two known
+// endpoints, in either direction along the fold.
+bool segment_occluded(const Scene& scene, const Vec3& origin, const Vec3& target,
+                      double epsilon_m = 1e-6);

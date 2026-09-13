@@ -103,15 +103,6 @@ class Survey:
         self.objects = [sonar.make_plane((0, 0, -3), (0, 0, 1), .045), obj]
         self.target_geometry = (v+self.centre, f)
         self.draw_meshes = [(v+self.centre, f, TRUTH)]
-        # These rocks use identical mesh triangles in the visual and acoustic scenes.
-        rv, rf = meshes.radial_target(True, rings=7, segments=12)
-        for i, (p, scale) in enumerate([((-2.2, 5.5, -2.7), (.9, 1.2, .6)),
-                                       ((1.9, 7.2, -2.65), (1.2, .9, .7)),
-                                       ((-2.8, 8.3, -2.8), (.7, .9, .4))]):
-            world = rv*np.array(scale)+p
-            path = self.asset_dir/f'rock_{i}.obj'; write_obj(path, world, rf)
-            self.objects.append(sonar.make_mesh(str(path), reflectivity=.12))
-            self.draw_meshes.append((world, rf, (113, 132, 137)))
 
     def clear_volume(self):
         # Fixed operator ROI, independent of selected target mesh or occupancy.
