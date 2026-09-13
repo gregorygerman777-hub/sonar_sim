@@ -31,6 +31,26 @@ struct SonarConfig {
     double surface_reflectivity = 1.0;   // amplitude; a pressure-release surface is 1
     double surface_rms_height_m = 0.0;   // zero is a flat mirror
 
+    // Seabed multipath, built the same way as the surface path above (an
+    // image of the sonar reflected through a flat boundary), but with a real
+    // fluid-fluid reflection coefficient instead of an assumed pressure-release
+    // -1: rho2 and c2 set a bottom impedance and sound speed, so shallow-grazing
+    // rays over a fast bottom (c2 > c1) reflect totally below the critical
+    // grazing angle, acos(speed_of_sound_mps / bottom_speed_mps), the same
+    // cutoff BELLHOP's ray trace shows there. Independent of surface multipath:
+    // either boundary, both, or neither may be enabled. Both this path and the
+    // surface path above now test each real-space leg of the fold for
+    // occlusion, so a hull between a target and the boundary correctly drops
+    // that reflection instead of assuming it always reaches the sonar.
+    bool bottom_enabled = false;
+    double bottom_z = -10.0;
+    double bottom_speed_mps = 1650.0;      // typical sand compressional speed
+    double bottom_density_kgm3 = 1900.0;   // typical sand
+    double water_density_kgm3 = 1000.0;
+    double bottom_rms_height_m = 0.0;
+    bool bottom_ghost_enabled = true;
+    bool bottom_mirror_enabled = true;
+
     // Platform motion during one image. Bearing bin a is formed at
     // t = sweep_duration_s * (a + 1/2) / num_azimuth_bins, and the pose used for
     // that bin is the pose at that instant. Setting sweep_duration_s to zero

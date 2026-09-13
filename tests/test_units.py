@@ -109,6 +109,66 @@ check("mean is 1 over many points", sum(samples) / len(samples), 1.0, 0.02)
 check("stays inside 1 +- amplitude",
       1.0 if all(0.4 - 1e-12 <= v <= 1.6 + 1e-12 for v in samples) else 0.0, 1.0, 0.0)
 
+print("\nbottom reflection coefficient (Rayleigh two-fluid)")
+
+
+def rayleigh_r(grazing_rad, c1, c2, rho1, rho2):
+    """Independent re-derivation of physics.h's formula, worked by hand from
+    Snell's law in grazing form (cos t1 / c1 = cos t2 / c2) and impedance
+    Z_i = rho_i c_i."""
+    cos_t2 = (c2 / c1) * math.cos(grazing_rad)
+    if cos_t2 >= 1.0:
+        return 1.0
+    sin_t2 = math.sqrt(1.0 - cos_t2 ** 2)
+    z1, z2 = rho1 * c1, rho2 * c2
+    return (z2 * math.sin(grazing_rad) - z1 * sin_t2) / (z2 * math.sin(grazing_rad) + z1 * sin_t2)
+
+
+C1, RHO1 = 1500.0, 1000.0
+C2, RHO2 = 1650.0, 1900.0  # sand: faster and denser than water
+check("normal incidence (grazing 90 deg) matches (Z2-Z1)/(Z2+Z1)",
+      sonar.bottom_reflection(math.pi / 2, C1, C2, RHO1, RHO2),
+      (RHO2 * C2 - RHO1 * C1) / (RHO2 * C2 + RHO1 * C1), 1e-12)
+check("matches an independent re-derivation at 35 deg grazing",
+      sonar.bottom_reflection(math.radians(35), C1, C2, RHO1, RHO2),
+      rayleigh_r(math.radians(35), C1, C2, RHO1, RHO2), 1e-12)
+
+critical_deg = math.degrees(math.acos(C1 / C2))
+check("below the critical grazing angle: total reflection",
+      sonar.bottom_reflection(math.radians(critical_deg - 5.0), C1, C2, RHO1, RHO2), 1.0, 1e-12)
+check("just above the critical grazing angle: still close to 1 (continuity)",
+      sonar.bottom_reflection(math.radians(critical_deg + 0.5), C1, C2, RHO1, RHO2), 1.0, 0.05)
+check("well above critical: partial reflection, |R| < 1",
+      1.0 if abs(sonar.bottom_reflection(math.radians(80.0), C1, C2, RHO1, RHO2)) < 1.0 else 0.0,
+      1.0, 0.0)
+
+# A bottom slower than water (soft mud) has no critical angle: Snell's law
+# always has a real solution, so the coefficient should never saturate at 1.
+check("slower bottom (no critical angle) stays a genuine partial reflection",
+      1.0 if abs(sonar.bottom_reflection(math.radians(5.0), C1, 1400.0, RHO1, 1400.0)) < 1.0 else 0.0,
+      1.0, 0.0)
+
+print("\nroughness coherence factor")
+K = 2 * math.pi / 0.05  # wavenumber at 3 cm wavelength
+check("flat interface (sigma=0) leaves it at 1", sonar.roughness_factor(K, 0.0, 0.7), 1.0, 1e-15)
+sigma, sin_g = 0.002, 0.8
+expected_gamma = math.exp(-0.5 * (2 * K * sigma * sin_g) ** 2)
+check("matches exp(-Ra^2/2) worked by hand", sonar.roughness_factor(K, sigma, sin_g),
+      expected_gamma, 1e-12)
+
+print("\nreflected-leg occlusion")
+# A target sits above a wall; the straight line up to the mirrored sonar (i.e.
+# the folded path back down through the wall) has to cross the wall, so the
+# segment from the target to a point above the wall must register as blocked,
+# while a segment that stays on the near side must not.
+wall = [sonar.make_plane((0, 3, 0.0), (0, -1, 0), 0.05)]  # a wall facing -y at y=3
+check("segment straight through the wall is blocked",
+      1.0 if sonar.segment_blocked(wall, (0, 1, 0), (0, 5, 0)) else 0.0, 1.0, 0.0)
+check("segment that never reaches the wall is not blocked",
+      1.0 if sonar.segment_blocked(wall, (0, 1, 0), (0, 2, 0)) else 0.0, 0.0, 0.0)
+check("segment starting exactly on the wall does not occlude itself",
+      1.0 if sonar.segment_blocked(wall, (0, 3, 0), (0, 5, 0)) else 0.0, 0.0, 0.0)
+
 print("\npinhole camera")
 camera = sonar.OpticalCamera(width=320, height=240, focal_px=200.0, position=(0, 0, 0))
 check("a point on the optical axis lands at the centre",
@@ -142,6 +202,40 @@ for multipath in (False, True):
               for threads in (1, 8)]
     difference = float(abs(frames[0] - frames[1]).max())
     check(f"1 thread == 8 threads, multipath {multipath}", difference, 0.0, 0.0)
+
+# Same check with the bottom boundary in play too: it deposits into neighbour
+# columns exactly like the surface path, so it needs the same private-
+# accumulator treatment, and this is what would catch it if it didn't.
+for bottom in (False, True):
+    frames = [sonar.SonarSimulator(num_azimuth_bins=97, num_range_bins=300, max_range_m=8.0,
+                                   num_elevation_subrays=257, multipath_enabled=True,
+                                   bottom_enabled=bottom, surface_z=0.0, bottom_z=-3.0,
+                                   num_threads=threads)
+              .render(scene_objects, position=(0, 0, -0.5))
+              for threads in (1, 8)]
+    difference = float(abs(frames[0] - frames[1]).max())
+    check(f"1 thread == 8 threads, bottom multipath {bottom}", difference, 0.0, 0.0)
+
+print("\nbottom multipath: enabled adds energy, and occlusion removes it")
+sphere_objects = [sonar.make_sphere((0, 4.0, -1.0), 0.3, 0.85)]
+base = dict(num_azimuth_bins=61, num_range_bins=400, max_range_m=8.0,
+           num_elevation_subrays=193, horizontal_fov_deg=30.0, vertical_beamwidth_deg=20.0,
+           direct_enabled=False, num_threads=1, bottom_z=-3.0, bottom_rms_height_m=0.0)
+position = (0, 0, -1.2)
+
+off = sonar.SonarSimulator(**base, bottom_enabled=False).render(sphere_objects, position)
+on = sonar.SonarSimulator(**base, bottom_enabled=True).render(sphere_objects, position)
+check("bottom multipath off carries no energy with direct_enabled=False",
+      float(off.sum()), 0.0, 0.0)
+check("bottom multipath on carries some energy", 1.0 if on.sum() > 0.0 else 0.0, 1.0, 0.0)
+
+# A wide floor plane between the sphere and the bottom boundary blocks the
+# reflected leg for every sub-ray: the same scene, same boundary, but now the
+# path down to z = -3 has to pass through solid ground at z = -2 first.
+floor_objects = sphere_objects + [sonar.make_plane((0, 0, -2.0), (0, 0, 1), 0.05)]
+blocked = sonar.SonarSimulator(**base, bottom_enabled=True).render(floor_objects, position)
+check("a floor between the target and the bottom boundary blocks the reflection",
+      float(blocked.sum()), 0.0, 0.0)
 
 print("\nchirp generation")
 import numpy as np

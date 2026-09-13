@@ -24,6 +24,26 @@ JavaScript robot-verification page. Its document-number identity and equations
 could not be verified. It remains **unresolved**, rather than being assigned a
 title by inference.
 
+## Eigenray multipath (13 September 2026)
+
+Attia, Costa, Wanderlingh, Campagnaro & Simetti, *Towards Realistic 3D Sonar
+Simulation*, arXiv:2606.06130. Proposes a modular architecture combining
+GPU-accelerated graphics with physically grounded acoustic propagation for
+real-time 3-D sonar, and names BELLHOP, KRAKEN and TRACEO3D -- the classical
+underwater acoustic propagation solvers, distributed together as the
+Acoustics Toolbox -- as the reference standard those GPU-rate simulators are
+still working to approximate, citing sound-speed-profile refraction (Snell's
+law), incidence/beam/material-dependent scattering, and multipath/reverberation
+as the specific gaps. This simulator's new seabed and surface eigenray paths
+(image method, both legs occlusion-tested, a real Rayleigh two-fluid
+coefficient at the seabed) are a step in that direction, not an
+implementation of BELLHOP's own range-dependent ray trace through a sound-speed
+profile: there is still one flat boundary per path, no refraction and no
+combined surface-plus-bottom bounce order. The Rayleigh two-fluid reflection
+formula itself is standard underwater acoustics (see e.g. Jensen, Kuperman,
+Porter & Schmidt, *Computational Ocean Acoustics*, whose co-author wrote
+BELLHOP/KRAKEN), not something original to this project.
+
 Separately verified: Shahriar Negahdaripour, *Application of Forward-Scan Sonar
 Stereo for 3-D Scene Reconstruction*, IEEE JOE 45(2), 547–562, April 2020,
 DOI 10.1109/JOE.2018.2875574, [institutional record](https://scholarship.miami.edu/esploro/outputs/journalArticle/Application-of-Forward-Scan-Sonar-Stereo-for/991031578702602976).

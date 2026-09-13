@@ -67,6 +67,7 @@ cdef extern from "geometry.h":
     Hit intersect_sphere(const Sphere&, const Vec3&, const Vec3&)
     Hit intersect_cylinder(const Cylinder&, const Vec3&, const Vec3&)
     double texture_factor(const Vec3&, const Texture&)
+    bint segment_occluded(const Scene&, const Vec3&, const Vec3&, double)
 
 
 cdef extern from "physics.h":
@@ -74,6 +75,8 @@ cdef extern from "physics.h":
     double beam_pattern(double, int, double, double)
     double thorp_absorption_db_per_km(double)
     double transmission_loss_db(double, double)
+    double roughness_coherence_factor(double, double, double)
+    double bottom_reflection_coefficient(double, double, double, double, double)
 
 
 cdef extern from "simulator.h":
@@ -93,6 +96,14 @@ cdef extern from "simulator.h":
         double surface_z
         double surface_reflectivity
         double surface_rms_height_m
+        bint bottom_enabled
+        double bottom_z
+        double bottom_speed_mps
+        double bottom_density_kgm3
+        double water_density_kgm3
+        double bottom_rms_height_m
+        bint bottom_ghost_enabled
+        bint bottom_mirror_enabled
         Vec3 platform_velocity_mps
         double platform_yaw_rate_dps
         double sweep_duration_s
@@ -228,6 +239,22 @@ def two_way_loss_db(double alpha_db_per_km, double range_m):
     return transmission_loss_db(alpha_db_per_km, range_m)
 
 
+def roughness_factor(double wavenumber, double rms_height_m, double sin_grazing):
+    """Ogilvy coherent-reflection reduction exp(-Ra^2/2), Ra = 2 k sigma sin(grazing)."""
+    return roughness_coherence_factor(wavenumber, rms_height_m, sin_grazing)
+
+
+def bottom_reflection(double grazing_rad, double water_speed_mps, double bottom_speed_mps,
+                      double water_density_kgm3, double bottom_density_kgm3):
+    """Signed Rayleigh two-fluid pressure reflection coefficient (see physics.h).
+
+    Use the square (or fabs) for intensity; the sign carries a phase this
+    simulator does not otherwise track.
+    """
+    return bottom_reflection_coefficient(grazing_rad, water_speed_mps, bottom_speed_mps,
+                                         water_density_kgm3, bottom_density_kgm3)
+
+
 def surface_texture(point, double amplitude, double scale_m=0.25, unsigned int seed=1):
     """Backscatter multiplier at a world point. Mean 1, deterministic in the point."""
     cdef Texture t
@@ -257,6 +284,16 @@ def ray_cylinder(centre, axis, double radius, double half_length, reflectivity,
     c.radius = radius; c.half_length = half_length; c.reflectivity = reflectivity
     cdef Hit h = intersect_cylinder(c, _vec(origin), _vec(direction))
     return h.t if h.valid else None
+
+
+def segment_blocked(objects, origin, target, double epsilon_m=1e-6):
+    """True if scene geometry strictly between origin and target blocks the segment.
+
+    Exposed directly (like ray_plane/ray_sphere/ray_cylinder) so the reflected-
+    leg occlusion the multipath boundaries rely on can be checked in isolation.
+    """
+    cdef Scene scene = _build_scene(objects)
+    return bool(segment_occluded(scene, _vec(origin), _vec(target), epsilon_m))
 
 
 def make_plane(point, normal, reflectivity=0.05, texture_amplitude=0.0,
@@ -297,6 +334,10 @@ cdef class SonarSimulator:
                  int array_element_count=64, double array_element_spacing_m=0.0,
                  bint multipath_enabled=False, double surface_z=0.0,
                  double surface_reflectivity=1.0, double surface_rms_height_m=0.0,
+                 bint bottom_enabled=False, double bottom_z=-10.0,
+                 double bottom_speed_mps=1650.0, double bottom_density_kgm3=1900.0,
+                 double water_density_kgm3=1000.0, double bottom_rms_height_m=0.0,
+                 bint bottom_ghost_enabled=True, bint bottom_mirror_enabled=True,
                  platform_velocity_mps=(0.0, 0.0, 0.0),
                  double platform_yaw_rate_dps=0.0, double sweep_duration_s=0.0,
                  int motion_samples_per_bin=1, int num_threads=0, beam_mode="array",
@@ -323,6 +364,14 @@ cdef class SonarSimulator:
         self.cfg.surface_z = surface_z
         self.cfg.surface_reflectivity = surface_reflectivity
         self.cfg.surface_rms_height_m = surface_rms_height_m
+        self.cfg.bottom_enabled = bottom_enabled
+        self.cfg.bottom_z = bottom_z
+        self.cfg.bottom_speed_mps = bottom_speed_mps
+        self.cfg.bottom_density_kgm3 = bottom_density_kgm3
+        self.cfg.water_density_kgm3 = water_density_kgm3
+        self.cfg.bottom_rms_height_m = bottom_rms_height_m
+        self.cfg.bottom_ghost_enabled = bottom_ghost_enabled
+        self.cfg.bottom_mirror_enabled = bottom_mirror_enabled
         self.cfg.platform_velocity_mps = _vec(platform_velocity_mps)
         self.cfg.platform_yaw_rate_dps = platform_yaw_rate_dps
         self.cfg.sweep_duration_s = sweep_duration_s
@@ -352,6 +401,62 @@ cdef class SonarSimulator:
     @surface_rms_height_m.setter
     def surface_rms_height_m(self, double value):
         self.cfg.surface_rms_height_m = value
+
+    @property
+    def bottom_multipath(self):
+        return bool(self.cfg.bottom_enabled)
+
+    @bottom_multipath.setter
+    def bottom_multipath(self, bint value):
+        self.cfg.bottom_enabled = value
+
+    @property
+    def bottom_z(self):
+        return self.cfg.bottom_z
+
+    @bottom_z.setter
+    def bottom_z(self, double value):
+        self.cfg.bottom_z = value
+
+    @property
+    def bottom_speed_mps(self):
+        return self.cfg.bottom_speed_mps
+
+    @bottom_speed_mps.setter
+    def bottom_speed_mps(self, double value):
+        self.cfg.bottom_speed_mps = value
+
+    @property
+    def bottom_density_kgm3(self):
+        return self.cfg.bottom_density_kgm3
+
+    @bottom_density_kgm3.setter
+    def bottom_density_kgm3(self, double value):
+        self.cfg.bottom_density_kgm3 = value
+
+    @property
+    def water_density_kgm3(self):
+        return self.cfg.water_density_kgm3
+
+    @water_density_kgm3.setter
+    def water_density_kgm3(self, double value):
+        self.cfg.water_density_kgm3 = value
+
+    @property
+    def bottom_rms_height_m(self):
+        return self.cfg.bottom_rms_height_m
+
+    @bottom_rms_height_m.setter
+    def bottom_rms_height_m(self, double value):
+        self.cfg.bottom_rms_height_m = value
+
+    @property
+    def bottom_critical_grazing_deg(self):
+        """acos(c_water / c_bottom): below this grazing angle the bottom totally reflects."""
+        ratio = self.cfg.speed_of_sound_mps / self.cfg.bottom_speed_mps
+        if ratio >= 1.0:
+            return 0.0  # bottom is slower than water: no critical angle
+        return np.degrees(np.arccos(ratio))
 
     @property
     def num_elevation_subrays(self):
