@@ -50,13 +50,15 @@ BELLHOP/KRAKEN), not something original to this project.
 Center Panama City Division's Modular Acoustic Simulation Toolset. Its public
 README identifies it as a general acoustic simulator and requires a real
 BELLHOP executable from the Acoustics Toolbox, supplied either in its `bin/`
-directory or through `BELLHOP_PATH`. That is a materially different integration
-level from this repository. Here, “eigenray” means explicit straight image-method
-paths between a target, one flat boundary and the receiver; this code neither
-invokes BELLHOP nor consumes arrival files. Matching MASTODON's propagation
-scope would require a sound-speed-profile/environment format, solver execution,
-arrival parsing, coherent complex amplitudes and validation against reference
-cases. Those remain future work rather than implied capabilities.
+directory or through `BELLHOP_PATH`. The propagation laboratory now reaches
+part of that integration level: it writes a range-depth sound-speed environment,
+invokes a separately installed Fortran BELLHOP executable, and parses ASCII ray
+and complex-amplitude arrival files. The FSS image renderer itself still uses
+explicit straight image-method paths between a target, one flat boundary and
+the receiver. It does not yet use BELLHOP arrivals for two-way target scattering.
+Matching MASTODON's broader scope would still require range-dependent 3-D
+environments, coherent waveform synthesis, reverberation, sensor motion and
+systematic reference-case coverage.
 
 ## Sonar-aided underwater SLAM
 

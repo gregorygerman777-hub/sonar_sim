@@ -13,7 +13,7 @@ manifest=dict(start=datetime.now().isoformat(),python=sys.version,executable=sys
     parameters={'SONAR_MC_TRIALS':env.get('SONAR_MC_TRIALS','200'),'SONAR_MC_CONFIDENCE':env.get('SONAR_MC_CONFIDENCE','0.95')},
     seed_policy='Demo seeds are fixed in source; source hashes and full snapshot retained below; experiment JSON contains parameters.',stages=[],source_sha256={})
 source_dir=output/'source';source_dir.mkdir()
-for pattern in ('core/*','bindings/*.pyx','python/*.py','tests/*.py','notebooks/*.ipynb','assets/*','docs/*.md','setup.py','CMakeLists.txt','Makefile','run_all.sh','requirements.txt','README.md','LICENSE'):
+for pattern in ('core/*','bindings/*.pyx','python/*.py','tests/*.py','notebooks/*.ipynb','assets/*','docs/*.md','scripts/*.sh','setup.py','CMakeLists.txt','Makefile','run_all.sh','requirements.txt','README.md','LICENSE'):
     for p in root.glob(pattern):
         if p.is_file():
             relative=p.relative_to(root);manifest['source_sha256'][str(relative)]=hashlib.sha256(p.read_bytes()).hexdigest()
@@ -43,6 +43,7 @@ try:
     run('unit_tests',[sys.executable,'tests/test_units.py'])
     run('research_tests',[sys.executable,'tests/test_research.py'])
     run('slam_tests',[sys.executable,'tests/test_slam.py'])
+    run('bellhop_tests',[sys.executable,'tests/test_bellhop.py'])
     for demo in sorted((root/'python').glob('demo[0-9]*.py'),key=lambda p:int(re.search(r'demo(\d+)',p.name)[1])):
         run(demo.stem,[sys.executable,str(demo.relative_to(root))])
     run('benchmark',[sys.executable,'python/benchmark.py'])
@@ -52,6 +53,7 @@ try:
         run('pygame_'+size,[sys.executable,'python/research_console.py','--frames','3','--reconstruct','--size',size,'--screenshot',str(output/('console_'+size+'.png'))],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
     run('pygame_animation',[sys.executable,'python/research_console.py','--frames','120','--animate','--size','1280x800','--screenshot',str(output/'console_animation.png')],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
     run('pygame_slam',[sys.executable,'python/slam_lab.py','--frames','255','--screenshot',str(output/'slam_lab.png')],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
+    run('pygame_bellhop',[sys.executable,'python/bellhop_lab.py','--frames','3','--screenshot',str(output/'bellhop_lab.png')],dict(SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
     manifest['status']='PASS'
 except Exception as error:
     manifest['status']='FAIL';manifest['error']=repr(error);raise

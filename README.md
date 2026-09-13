@@ -67,7 +67,7 @@ SONAR_PYTHON=/absolute/path/to/venv/bin/python ./run_all.sh
 
 Each run gets `results/YYYY-MM-DD_HHMMSS_microseconds/`, a manifest, complete
 source snapshot, per-stage logs, forced Cython rebuild, fresh CMake build, tests,
-all 19 demos, executed notebook and two console screenshots. Failure leaves a
+all 20 demos, executed notebook and simulator screenshots. Failure leaves a
 FAIL manifest and logs. It never overwrites a previous run. Jupyter needs local
 kernel sockets, so restrictive execution sandboxes may require permission.
 
@@ -87,6 +87,8 @@ flowchart LR
     L[C++ planar IMU] --> M[C++ robust SE(2) pose graph]
     K --> M
     M --> N[Trajectory, map and covariance]
+    O[External GPL BELLHOP] --> P[Ray and arrival parser]
+    P --> Q[Propagation laboratory]
 ```
 
 Cython exposes `SonarSimulator`, `OpticalCamera`, `ChirpSonar`, OBJ geometry,
@@ -122,6 +124,35 @@ combinations and coherent phase summation remain future work, tracked in
 [the implemented/approximated/missing table](#implemented-approximated-and-missing)
 below and in
 [docs/eigenray_multipath_20260913.md](docs/eigenray_multipath_20260913.md).
+
+## Acoustics Toolbox propagation laboratory
+
+Run `./launch_bellhop.command` for an interactive range-depth propagation view
+driven by the **actual compiled Fortran BELLHOP solver**. Releasing a slider
+writes a new `.env` file, executes BELLHOP twice, parses its ASCII `.ray` and
+`.arr` products, and redraws the ray fan and complex-amplitude eigenray arrivals.
+The controls expose frequency, water depth, source and receiver depth, range,
+linear sound-speed profile, sediment sound speed/density, launch aperture and
+ray count. Direct, surface, bottom and combined-bounce paths are separated by
+colour.
+
+The supplied Acoustics Toolbox and PYAT archives are GPL-3.0. Their source is
+not copied into this MIT repository: BELLHOP remains an external process, and
+the environment writer and parsers here are an independent adapter. On macOS,
+build the external solver from the user-supplied archive with:
+
+```bash
+./scripts/install_bellhop_macos.sh /path/to/atWin10_2020_11_4.zip
+```
+
+The adapter checks `BELLHOP_EXECUTABLE`, then the default installation under
+`~/.local/opt/acoustics-toolbox-2020/`. The checked installation generated 241
+rays and ten far-range arrivals in the default environment. With a constant
+1500 m/s profile, its 120 m direct arrival was 0.0799999982 s versus the
+analytic 0.08 s, a relative difference of 2.25×10⁻⁸. This propagation tool does
+not yet replace the forward-image renderer's image-method multipath with a
+BELLHOP-derived two-way target scattering calculation. See
+[the propagation workflow and boundary](docs/bellhop_lab.md).
 
 ## Planar sonar–inertial SLAM
 
@@ -276,6 +307,7 @@ analytic checks, not evidence of real-ocean accuracy.
 | Separate multipath components / roughness | `.venv/bin/python python/demo17_multipath_components.py` |
 | Seabed critical-angle multipath sweep | `.venv/bin/python python/demo18_bottom_multipath.py` |
 | Planar sonar–IMU SLAM and loop closure | `.venv/bin/python python/demo19_slam.py` |
+| External BELLHOP rays and arrival-time validation | `.venv/bin/python python/demo20_bellhop.py` |
 
 Every demo runs from the root, saves output, and shares the C++ core. Set
 `SONAR_OUTPUT_DIR` for a chosen destination; otherwise standalone demos use
@@ -287,7 +319,7 @@ Every demo runs from the root, saves output, and shares the C++ core. Set
 |---|---|
 | Analytic geometry, OBJ triangles, projection | Implemented, tested |
 | Elevation response, diffuse brightness, shadows | Implemented approximations, analytically checked |
-| Multipath / roughness | Surface and seabed eigenray paths (image method), both leg-occlusion-checked; seabed uses a real Rayleigh reflection coefficient with a critical grazing angle |
+| Multipath / roughness | FSS renderer: flat image-method surface/seabed paths with leg occlusion and Rayleigh seabed reflection. Propagation lab: external BELLHOP rays and arrivals |
 | Correlated speckle and voxel hull | Implemented synthetic experiments; segmentation dependent |
 | Point recovery | Known-correspondence least squares and sensitivity experiments |
 | Sonar–inertial SLAM | Planar IMU, image features, descriptor proposals, ICP verification, robust SE(2) pose graph, map and marginal covariance; synthetic closed-loop validation |
