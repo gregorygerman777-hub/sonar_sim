@@ -1,0 +1,9 @@
+{
+  "SLAM/geometry_validation_20260915/run.py": "e6a45ebc70c9aa13faa40c49a1e429cf672e2d614f545c9d624bbea09e9c0a81",
+  "SLAM/geometry_validation_20260915/test_admission.py": "5d243a209c5d23da943adab17ccf774881686b7191aee125d753df1a79e3b195",
+  "SLAM/geometry_validation_20260915/admission.py": "cd69adf70cdda6bba01cf1486ec5b6cde236ccf25ad25146f258a6d3f5180c29",
+  "SLAM/geometry_validation_20260915/PROTOCOL.md": "bdf1eec49f7ed49776ffad6bc246420da9c9f75769295aff6f82fe3d253dba1f",
+  "python/slam.py": "a07f28d22d1c6511a5f3e54174c0a769b38e5642baceee3358f7c00bde987219",
+  "SLAM/research/evaluate.py": "fce32cd3551497bb8629d2f7fccfa8ad3e3ec65ec1c6184eb0b04cfa349966cc",
+  "sonar.cpython-313-darwin.so": "23bb9decaa93dd812c4016fbef73595eb6f5fa34b2cb1677eec16c95b0cc4887"
+}

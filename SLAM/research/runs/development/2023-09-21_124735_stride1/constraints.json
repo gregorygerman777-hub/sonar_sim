@@ -1,0 +1,3059 @@
+{
+  "edges": [
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.04669564283098982
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.04853278339493184
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.04931140921785189
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05444955530059624
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05283104034131361
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.04400002221182946
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.06327012783734205
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.053030812100641145
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.061754327683605906
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05553363751871787
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.049132822944851225
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.04792719135760548
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.052229757038481886
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.07113934499740887
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.052664822407938856
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.06309886706545581
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.055059498291942635
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05018668891957462
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06753432123357567
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.07904899805322439
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.05540193513180517
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06127310091683704
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.04783722107072367
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.07884518931928287
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.049691080386238116
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05486403912935482
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05995443308606815
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.0522213875751817
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.04971279307963894
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.06018677627243541
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05102479162906903
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.054633369391618024
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.06794776017690972
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.058127455278126725
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05555975589749397
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06344527353971216
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05219531533678223
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05068707515337072
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.050169268926226425
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.06657158915285369
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.07230923749760149
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05110291191833129
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.05267558143761785
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05613634477617602
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05347941640986241
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.052557496738752166
+    },
+    {
+      "accepted": true,
+      "inliers": 38,
+      "residual": 0.05846609314421959
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.06271125204200087
+    },
+    {
+      "accepted": true,
+      "inliers": 41,
+      "residual": 0.060394913510982313
+    },
+    {
+      "accepted": true,
+      "inliers": 38,
+      "residual": 0.0623844719407219
+    },
+    {
+      "accepted": true,
+      "inliers": 39,
+      "residual": 0.06689532222453387
+    },
+    {
+      "accepted": true,
+      "inliers": 38,
+      "residual": 0.06470819278726553
+    },
+    {
+      "accepted": true,
+      "inliers": 29,
+      "residual": 0.06159366904962613
+    },
+    {
+      "accepted": true,
+      "inliers": 35,
+      "residual": 0.07339447592301131
+    },
+    {
+      "accepted": true,
+      "inliers": 23,
+      "residual": 0.11807718044085672
+    },
+    {
+      "accepted": true,
+      "inliers": 40,
+      "residual": 0.06400195530564354
+    },
+    {
+      "accepted": true,
+      "inliers": 38,
+      "residual": 0.0731100648639217
+    },
+    {
+      "accepted": true,
+      "inliers": 30,
+      "residual": 0.07612505693848584
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.0603185164809834
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05657687555155647
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.055476414268997944
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.07125919837507566
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.04604189852878019
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.06657200338653263
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05534196694009697
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.053603769027076295
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.05482972286314037
+    },
+    {
+      "accepted": true,
+      "inliers": 68,
+      "residual": 0.05231108463876462
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.04772410232812807
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05355666993058059
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.07167575928696852
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.0671694546561583
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.0597508595865947
+    },
+    {
+      "accepted": true,
+      "inliers": 39,
+      "residual": 0.06326471274405278
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.059397192015245126
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05406039207129306
+    },
+    {
+      "accepted": true,
+      "inliers": 39,
+      "residual": 0.053787892478615325
+    },
+    {
+      "accepted": true,
+      "inliers": 33,
+      "residual": 0.08055604127433888
+    },
+    {
+      "accepted": true,
+      "inliers": 34,
+      "residual": 0.06490973388068394
+    },
+    {
+      "accepted": true,
+      "inliers": 35,
+      "residual": 0.07608611521683069
+    },
+    {
+      "accepted": true,
+      "inliers": 29,
+      "residual": 0.08906193775554905
+    },
+    {
+      "accepted": true,
+      "inliers": 27,
+      "residual": 0.11621502985752911
+    },
+    {
+      "accepted": true,
+      "inliers": 28,
+      "residual": 0.06888983778220638
+    },
+    {
+      "accepted": true,
+      "inliers": 39,
+      "residual": 0.06322125479763764
+    },
+    {
+      "accepted": true,
+      "inliers": 40,
+      "residual": 0.06766658027129124
+    },
+    {
+      "accepted": true,
+      "inliers": 25,
+      "residual": 0.11710121263314871
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.052107667214739785
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05703747926449019
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06590555986345543
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.09685265829049458
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.07061535785727348
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.06040092883767005
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.061669462595447824
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.07075319246626514
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05001886850016919
+    },
+    {
+      "accepted": true,
+      "inliers": 36,
+      "residual": 0.08088036064987099
+    },
+    {
+      "accepted": true,
+      "inliers": 38,
+      "residual": 0.056260394605861734
+    },
+    {
+      "accepted": true,
+      "inliers": 35,
+      "residual": 0.07217150722612589
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.052879563982588196
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.052627971366260684
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.042389880373017795
+    },
+    {
+      "accepted": true,
+      "inliers": 75,
+      "residual": 0.053340902394543845
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.05887135358019971
+    },
+    {
+      "accepted": true,
+      "inliers": 74,
+      "residual": 0.04455322636660641
+    },
+    {
+      "accepted": true,
+      "inliers": 71,
+      "residual": 0.06283583249249396
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.05270607845024362
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.06560856036958877
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.09844184509240889
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.050724038673963696
+    },
+    {
+      "accepted": true,
+      "inliers": 41,
+      "residual": 0.12401697771776564
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05285958616751416
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06108620240995103
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.06306456894460713
+    },
+    {
+      "accepted": true,
+      "inliers": 67,
+      "residual": 0.06065991603198082
+    },
+    {
+      "accepted": true,
+      "inliers": 69,
+      "residual": 0.03670848984606886
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.047095608976275086
+    },
+    {
+      "accepted": true,
+      "inliers": 62,
+      "residual": 0.05530045858748185
+    },
+    {
+      "accepted": true,
+      "inliers": 69,
+      "residual": 0.038850258261807526
+    },
+    {
+      "accepted": true,
+      "inliers": 68,
+      "residual": 0.05793697632818792
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.0455742769250864
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.050214605366166745
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.06073306448394126
+    },
+    {
+      "accepted": true,
+      "inliers": 67,
+      "residual": 0.053042770661606085
+    },
+    {
+      "accepted": true,
+      "inliers": 72,
+      "residual": 0.05927854859655935
+    },
+    {
+      "accepted": true,
+      "inliers": 36,
+      "residual": 0.08581366929208037
+    },
+    {
+      "accepted": true,
+      "inliers": 41,
+      "residual": 0.05043228221182923
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.062281907034148785
+    },
+    {
+      "accepted": true,
+      "inliers": 33,
+      "residual": 0.06728962103924974
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.1120463049738814
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.046357849651668635
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.04150210182412287
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06067351798063814
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.034460424530267306
+    },
+    {
+      "accepted": true,
+      "inliers": 36,
+      "residual": 0.11499345390903744
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.04834395559098507
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.046846871442652566
+    },
+    {
+      "accepted": true,
+      "inliers": 37,
+      "residual": 0.0668231174947524
+    },
+    {
+      "accepted": true,
+      "inliers": 62,
+      "residual": 0.059770818607597566
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.08472897591946098
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.04583264514117159
+    },
+    {
+      "accepted": true,
+      "inliers": 72,
+      "residual": 0.05036938526983851
+    },
+    {
+      "accepted": true,
+      "inliers": 74,
+      "residual": 0.05008933783784848
+    },
+    {
+      "accepted": true,
+      "inliers": 79,
+      "residual": 0.028163345570954422
+    },
+    {
+      "accepted": true,
+      "inliers": 82,
+      "residual": 0.052106547637909895
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.06089903580708609
+    },
+    {
+      "accepted": true,
+      "inliers": 72,
+      "residual": 0.04963742321530354
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.04585501780385873
+    },
+    {
+      "accepted": true,
+      "inliers": 13,
+      "residual": 0.10658343184751867
+    },
+    {
+      "accepted": true,
+      "inliers": 15,
+      "residual": 0.08127909810825201
+    },
+    {
+      "accepted": true,
+      "inliers": 18,
+      "residual": 0.09756592531554
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.04725646356927787
+    },
+    {
+      "accepted": true,
+      "inliers": 41,
+      "residual": 0.07346962217294026
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.050970625869957084
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.049795236873807935
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06604411617747566
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.04612002443226375
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.09988778190433019
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.055409031097265825
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.08278511555502388
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.05596824714400352
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.060900299946205605
+    },
+    {
+      "accepted": true,
+      "inliers": 37,
+      "residual": 0.051783157502914526
+    },
+    {
+      "accepted": true,
+      "inliers": 41,
+      "residual": 0.06496682280037276
+    },
+    {
+      "accepted": true,
+      "inliers": 26,
+      "residual": 0.07512669035605923
+    },
+    {
+      "accepted": true,
+      "inliers": 28,
+      "residual": 0.06589084508483257
+    },
+    {
+      "accepted": true,
+      "inliers": 30,
+      "residual": 0.08435895757047568
+    },
+    {
+      "accepted": true,
+      "inliers": 22,
+      "residual": 0.10750198416754903
+    },
+    {
+      "accepted": true,
+      "inliers": 14,
+      "residual": 0.09096549474811452
+    },
+    {
+      "accepted": true,
+      "inliers": 16,
+      "residual": 0.07763062605585884
+    },
+    {
+      "accepted": true,
+      "inliers": 13,
+      "residual": 0.14313198893802176
+    },
+    {
+      "accepted": true,
+      "inliers": 14,
+      "residual": 0.10539809080604365
+    },
+    {
+      "accepted": true,
+      "inliers": 24,
+      "residual": 0.08516588259691596
+    },
+    {
+      "accepted": true,
+      "inliers": 22,
+      "residual": 0.06928838439494515
+    },
+    {
+      "accepted": true,
+      "inliers": 19,
+      "residual": 0.11532183341817147
+    },
+    {
+      "accepted": true,
+      "inliers": 31,
+      "residual": 0.07459160340654863
+    },
+    {
+      "accepted": true,
+      "inliers": 27,
+      "residual": 0.09087674278238309
+    },
+    {
+      "accepted": true,
+      "inliers": 25,
+      "residual": 0.08658931110677054
+    },
+    {
+      "accepted": true,
+      "inliers": 29,
+      "residual": 0.07821979853964366
+    },
+    {
+      "accepted": true,
+      "inliers": 33,
+      "residual": 0.06478282930487853
+    },
+    {
+      "accepted": true,
+      "inliers": 37,
+      "residual": 0.07205423237128812
+    },
+    {
+      "accepted": true,
+      "inliers": 39,
+      "residual": 0.07287599276981914
+    },
+    {
+      "accepted": true,
+      "inliers": 36,
+      "residual": 0.0649353579872109
+    },
+    {
+      "accepted": true,
+      "inliers": 37,
+      "residual": 0.07483257363430046
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.04946797493045522
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.062037386267919124
+    },
+    {
+      "accepted": true,
+      "inliers": 64,
+      "residual": 0.03920785654625328
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.05412743155999839
+    },
+    {
+      "accepted": true,
+      "inliers": 62,
+      "residual": 0.04465799283247236
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05990238956416723
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.04748152817381569
+    },
+    {
+      "accepted": true,
+      "inliers": 64,
+      "residual": 0.06258765864545913
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.0479736158438777
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05344755632806178
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.04593143494160925
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.0684440132427409
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05421067429687453
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05195339669167746
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.055965881619873994
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.051382897988512644
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.05118471334465809
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.050289621136907305
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.06182553619933783
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.055668478199584634
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.06227481609998417
+    },
+    {
+      "accepted": true,
+      "inliers": 64,
+      "residual": 0.04835059534013241
+    },
+    {
+      "accepted": true,
+      "inliers": 64,
+      "residual": 0.054049888381265995
+    },
+    {
+      "accepted": true,
+      "inliers": 65,
+      "residual": 0.05497107912641369
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.05815399984852576
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.04868133648992068
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05934770221066534
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05469056833474184
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05389613998495133
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.058088057580382664
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05001248377756482
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.056125708109832216
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.052891432765164996
+    },
+    {
+      "accepted": true,
+      "inliers": 59,
+      "residual": 0.05577447596492709
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.0577883939630924
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05420672179528014
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.051585193231232895
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.04634977290255422
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.053403610286160245
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.056299224909643515
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.056899860217707654
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.05117299283420925
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.056229224511601686
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.055846201722937146
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05230519655247151
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.05493285127358604
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.059375854489914934
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.055958719716357984
+    },
+    {
+      "accepted": true,
+      "inliers": 63,
+      "residual": 0.051046322832485884
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05504565991718789
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06059023974413104
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05888844498726385
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.055732086722131854
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.060115663475683194
+    },
+    {
+      "accepted": true,
+      "inliers": 40,
+      "residual": 0.061359016637089765
+    },
+    {
+      "accepted": true,
+      "inliers": 41,
+      "residual": 0.05432733992164841
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.04631190383669419
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.061585362461367664
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05258721065948181
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05229308859991094
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.06332192692950588
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.07129083699733976
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05640698649639505
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.05460622476389314
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.06325324200722957
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.051501855957414175
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06477114247580319
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.0555628567014669
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06048716642601143
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.05868523817126708
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05872368889653614
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.050473901336830766
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05416717942721559
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.054318179193616
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.0635970986035644
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.0602623712594053
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.06415662367574378
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.05390903602765051
+    },
+    {
+      "accepted": true,
+      "inliers": 39,
+      "residual": 0.07609437588608332
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.0553516023345278
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.04905695778038957
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.059535407752054674
+    },
+    {
+      "accepted": true,
+      "inliers": 59,
+      "residual": 0.0481038867781157
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05705317148097395
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05203014668897507
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05664718708086443
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.04979062339624706
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.051552601700436324
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.047618427503725504
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.0503598478972168
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.05044773040309118
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.061001665640614905
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.061897108955639144
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.04992354208827532
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.06631888465999868
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05241932649910444
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06769855867459053
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.07279904486864125
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.05385381435201733
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06142700010727306
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06018634911963065
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05349317796718704
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06123753462460266
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05079357083291527
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.0556882171509542
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05819889368766573
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05813375767181942
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06024567286208007
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.051887070518432214
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05671520327048798
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.06194121594227241
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.06379335376273511
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05261779248493022
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.054531824947139304
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05923987177313068
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.06791550550032051
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05899492224209799
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.06929806704249061
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06384399018041295
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.053041445481570686
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.054516247279275586
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05190633668571275
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05214034720138657
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05786985714462987
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.06916466032816879
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.053479829558530624
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05991008154531463
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.04834611992674382
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05581888276441738
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05484136206414443
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.049362537920819606
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06510503023454378
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05622749772072819
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.058385491979002814
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05589143484553533
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05448891771435103
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05346745675589918
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06469284544927482
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.07574979306216802
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.06277724966943389
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05206859468726316
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05289531439727574
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.05628683601993263
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.056779753246580154
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06768411753698218
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05552080790125709
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05909822547900538
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05570499219548985
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.047754462563486935
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06598506893914124
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.059776440515085794
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05270011213540814
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.06006806028287215
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.060423284732798656
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.06330350065632724
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05624349220656839
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.055663678488153456
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.0622213452949531
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05861105507494113
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.06276780286398176
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05270868974122203
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05857341158192683
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.056540822317050286
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.058603069707198786
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05203803137211526
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05237897710766143
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05543188604134769
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.04860210924279459
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05555047606013381
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.063009853804464
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.05489086013179045
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05249874349399737
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05304098159742171
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05687607307458836
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.061957570760742695
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06281848498093377
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.053724975274417656
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05731552771131276
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05588901798288898
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.04907848854261745
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.0598175241606026
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.04690182748835221
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.053736048563243856
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.054939213066915106
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05345204919347337
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.04793478601638947
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06202029889182459
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05479522198138181
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.04920349909590358
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06530937577765153
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.051928436482739364
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.052816434693199014
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.0624059011576053
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.04554177180142347
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.0765555054687034
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05186545498345965
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.057085705609170964
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05800616349438139
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05463861100615796
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.04908864860331192
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.0841995582654088
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.061394878254805114
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05809312697202672
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.04566264377713796
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05138535146524272
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.049084073365972786
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.06653684932260388
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.0570117600861932
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05545709931573875
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.053184256740528735
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.04852323005482704
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05564917106414736
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06330195404906304
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05396350854503491
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.07417609976069127
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.06019524944341222
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05170255583997732
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.055526697357434186
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.04984286266818285
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05593810369420596
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.04988654213456942
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.05139703626982256
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05331928958541503
+    },
+    {
+      "accepted": true,
+      "inliers": 59,
+      "residual": 0.05019222260549434
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.07113706115240605
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05629853013105789
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.056114899438351004
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.0633348863983316
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.054239702270070925
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.056932032112261374
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05568165395384155
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.04848066992077959
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.055864403003284394
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.063952911586952
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05247784084785253
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05607013033587569
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.053710845253746996
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05713809003217429
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.04960861630728163
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05081187000557225
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06649344635050436
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05672211446078999
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.052218955344145834
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05139008819567487
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05863522973237502
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.06047964264941695
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05847285464824069
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05605196906516627
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05851585595117352
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05688267709175895
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.06272322365373977
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.049525312347134705
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.04843486799800579
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.055691232205139954
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.04898989328529132
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.060192295777042694
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.0507734658026918
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.06333243673807064
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05666232665312166
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05620662622753101
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05872000586056368
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.048244902675726425
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05598805180149414
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05103419529412531
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.04428863400687566
+    },
+    {
+      "accepted": true,
+      "inliers": 59,
+      "residual": 0.05494202255016752
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.04888853894337451
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.06019911869370883
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.0583077640526488
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.05240080284346635
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05679977679723846
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.059374176708357665
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05843907070944662
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.06864378323169464
+    },
+    {
+      "accepted": true,
+      "inliers": 44,
+      "residual": 0.05810061755968692
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.06379632091205205
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.058743441328890936
+    },
+    {
+      "accepted": true,
+      "inliers": 61,
+      "residual": 0.04628242694546566
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.06078828786115496
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.063517144535627
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.07015860846900043
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.04913592946579476
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05929205364580606
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06890506626695263
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05504318533111051
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.07385134494484938
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.0581143956190093
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.058039275727346976
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.0556985572748157
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05298360812683874
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05818697331470974
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05478298010087753
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06922262763812126
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.059148152233241505
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05864387699405987
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05400839501873996
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05205524296648309
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06194417770149113
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.0523538016383811
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05022495210534395
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05331456524960863
+    },
+    {
+      "accepted": true,
+      "inliers": 42,
+      "residual": 0.06618523657320095
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.049533493962929394
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.060626611204035286
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05639107414242106
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.04925300471268416
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05672579032607516
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05810362665801642
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05786487968669796
+    },
+    {
+      "accepted": true,
+      "inliers": 43,
+      "residual": 0.05940687018807972
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05353990972513651
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05554620889626163
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05768563606302185
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.05400505264798766
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.07239811554217486
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05270745937320248
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.0629395643000634
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.054997401088928984
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05001420491679522
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.06393797215005032
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05504667802534033
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.06310643453345043
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.06360602949833667
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06443588651666453
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06529168017356222
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.060412237801717304
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.0533046975171003
+    },
+    {
+      "accepted": true,
+      "inliers": 56,
+      "residual": 0.05824269168903813
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.053346483692416985
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.048657504486830816
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.061387364500558685
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05797736365201472
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05211589504323816
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05267693621938128
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05212119572723319
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06060149611614218
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.055923089804010985
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05819217050789811
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.056079188009122025
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.052256298065950495
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06612261913408586
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.06733748058462416
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.052200675972466574
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.0545640206381714
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.05883987071240324
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.04855113566659194
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05413640640265654
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.057706954635174966
+    },
+    {
+      "accepted": true,
+      "inliers": 58,
+      "residual": 0.054642024343741456
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.055823419552141054
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.051524021613099276
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06222700656708311
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05945949392909378
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05484835716281304
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05844057637480916
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05564411255880312
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.06277945538849156
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05986531285977376
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.059694486806851854
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.055903787595260615
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05696475792403495
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05289177763256728
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.050764095170285746
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05763834716446836
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.0558047795746673
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05378117810945597
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.052159959356380535
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05279344797349453
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.056056350409134606
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.059448625741425995
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.05660250820869279
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05253961474698207
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05628848212216095
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05338864580080955
+    },
+    {
+      "accepted": true,
+      "inliers": 45,
+      "residual": 0.062381270355184516
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05899838450693228
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05247627916295542
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.05552754852485958
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.05858636730705666
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.06571538916782031
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05749853003591842
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05400679504550561
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.06436058771785272
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05140299837701496
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.05410247575818383
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.08333599473595528
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05273262602843191
+    },
+    {
+      "accepted": true,
+      "inliers": 57,
+      "residual": 0.05330126958957364
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05823311949323087
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.058944253155460855
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.048967663368475155
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.058999449437879756
+    },
+    {
+      "accepted": true,
+      "inliers": 49,
+      "residual": 0.059952415216513705
+    },
+    {
+      "accepted": true,
+      "inliers": 47,
+      "residual": 0.04791138466191607
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.049775426196586973
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.056332183294006175
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05298340202075248
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.052125548322785306
+    },
+    {
+      "accepted": true,
+      "inliers": 48,
+      "residual": 0.054446693411304425
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.05300574594225312
+    },
+    {
+      "accepted": true,
+      "inliers": 53,
+      "residual": 0.0513279368165297
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.05755728679602578
+    },
+    {
+      "accepted": true,
+      "inliers": 52,
+      "residual": 0.04952919748826744
+    },
+    {
+      "accepted": true,
+      "inliers": 50,
+      "residual": 0.05464688632893752
+    },
+    {
+      "accepted": true,
+      "inliers": 46,
+      "residual": 0.06022973927876039
+    },
+    {
+      "accepted": true,
+      "inliers": 54,
+      "residual": 0.05800361238447297
+    },
+    {
+      "accepted": true,
+      "inliers": 51,
+      "residual": 0.07022754208646965
+    },
+    {
+      "accepted": true,
+      "inliers": 55,
+      "residual": 0.055623009903374945
+    }
+  ],
+  "loops": [
+    {
+      "first": 39,
+      "second": 55,
+      "measurement": [
+        -0.2973180554355499,
+        -0.25253044926811863,
+        -0.3021196552777184
+      ],
+      "residual": 0.13363889230778914,
+      "inliers": 31,
+      "similarity": 0.9998262206813082,
+      "reference_translation_error_m": 0.7169793057794218,
+      "reference_yaw_error_deg": 17.310181155360592
+    },
+    {
+      "first": 39,
+      "second": 57,
+      "measurement": [
+        -0.5313501670944063,
+        -0.27150754129194676,
+        -0.5009116043714772
+      ],
+      "residual": 0.17141861771243894,
+      "inliers": 28,
+      "similarity": 0.9998420753610555,
+      "reference_translation_error_m": 0.8959368329974983,
+      "reference_yaw_error_deg": 28.70012083961248
+    },
+    {
+      "first": 48,
+      "second": 61,
+      "measurement": [
+        0.7178435326158978,
+        -0.04321005670236411,
+        0.7080277633905275
+      ],
+      "residual": 0.16754047051345256,
+      "inliers": 26,
+      "similarity": 0.9998527105422677,
+      "reference_translation_error_m": 0.8059440953693885,
+      "reference_yaw_error_deg": 40.567002620364484
+    },
+    {
+      "first": 48,
+      "second": 64,
+      "measurement": [
+        -0.3015114325108651,
+        -0.08593569623963693,
+        -0.39658030604412314
+      ],
+      "residual": 0.11419663382955877,
+      "inliers": 35,
+      "similarity": 0.9998530819862992,
+      "reference_translation_error_m": 0.568593287439064,
+      "reference_yaw_error_deg": 22.722377774334788
+    },
+    {
+      "first": 51,
+      "second": 65,
+      "measurement": [
+        -1.0657188657921932,
+        0.40090100698111597,
+        -1.06425908995985
+      ],
+      "residual": 0.17597341147494347,
+      "inliers": 26,
+      "similarity": 0.9998516580022876,
+      "reference_translation_error_m": 1.067106087937152,
+      "reference_yaw_error_deg": 60.97755416313321
+    },
+    {
+      "first": 48,
+      "second": 66,
+      "measurement": [
+        -1.0905922528321446,
+        0.571813546117005,
+        -1.075535599928872
+      ],
+      "residual": 0.12124417128230842,
+      "inliers": 35,
+      "similarity": 0.9998510831480234,
+      "reference_translation_error_m": 1.0977858526256354,
+      "reference_yaw_error_deg": 61.62365059199537
+    },
+    {
+      "first": 48,
+      "second": 68,
+      "measurement": [
+        -0.17408763354090323,
+        0.42994902648599265,
+        -0.09833936008948117
+      ],
+      "residual": 0.1758486117215937,
+      "inliers": 33,
+      "similarity": 0.999857169415256,
+      "reference_translation_error_m": 0.18521057082262557,
+      "reference_yaw_error_deg": 5.634430293144521
+    }
+  ]
+}

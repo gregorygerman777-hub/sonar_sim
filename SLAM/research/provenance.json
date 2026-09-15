@@ -1,0 +1,19 @@
+{
+  "git_head": "eab4026e9a34e109a35b5ae7273b0a369e8d8732",
+  "source_sha256": {
+    "python/slam.py": "a07f28d22d1c6511a5f3e54174c0a769b38e5642baceee3358f7c00bde987219",
+    "python/benchmark_public_uxo.py": "268752290c6366abd3225f814da216c2c1f47f8a87484fb83c3340dc4738952a",
+    "core/slam.cpp": "eeb65c30c661871055c7ad9cfe1d163386c97d40b4fd8d69fdbdcbbafb7648cf",
+    "core/slam.h": "7a624131f65b20207011dfcf182c914fed9f3418f62f34ef8bfe4344c87777ed",
+    "requirements-public-benchmark.txt": "81e3dc00ec9499d017658d90d559856825688e8489d983e86b343842aa0c25f7",
+    "SLAM/research/PROTOCOL.md": "469ae888e1393d026c49b3f8a0d3af406d7d20278bcaef3c636388b284c78c80",
+    "sonar.cpython-313-darwin.so": "23bb9decaa93dd812c4016fbef73595eb6f5fa34b2cb1677eec16c95b0cc4887"
+  },
+  "publisher_commit": "323ac6cf45bb6129806c8e3ed8ec31e22e1a392d",
+  "test_count": 12,
+  "raw_frames": 5233,
+  "configuration_count": 24,
+  "split": "5 previously examined development sequences; 3 prospectively selected same-object sequences",
+  "source": "https://zenodo.org/records/13778485",
+  "scope": "Sonar-only SLAM evaluation, not simulator physics or inertial validation"
+}

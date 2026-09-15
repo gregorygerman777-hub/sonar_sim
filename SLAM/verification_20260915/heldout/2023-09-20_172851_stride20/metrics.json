@@ -1,0 +1,35 @@
+{
+  "sequence": "2023-09-20_172851",
+  "split": "heldout",
+  "stride": 20,
+  "raw_frames": 709,
+  "processed_frames": 37,
+  "evaluation_keyframes": 37,
+  "odometry_ate_m": 0.37988568203902234,
+  "loop_ate_m": 0.36986448952660345,
+  "stationary_ate_m": 0.7464559974713744,
+  "loop_change_m": -0.010021192512418897,
+  "initial_alignment_ate_m": 2.0932844577541454,
+  "rpe_1s_translation_m": null,
+  "rpe_1s_yaw_deg": null,
+  "rpe_pairs": 0,
+  "rpe_actual_lag_minmax_s": null,
+  "estimated_length_m": 2.5764126424568783,
+  "reference_length_m": 2.6662541187106807,
+  "rejected_pairs": 0,
+  "loop_constraints": 16,
+  "median_loop_translation_error_m": 1.5299055459033453,
+  "median_loop_yaw_error_deg": 59.58691414916936,
+  "duration_s": 49.53385090827942,
+  "dt_quantiles_s": [
+    0.5341079235076904,
+    1.3405300378799438,
+    1.6729888916015625
+  ],
+  "tilt_minmax_deg": [
+    -22.0,
+    -22.0
+  ],
+  "vertical_span_m": 0.0,
+  "estimate_seconds": 0.18596604198683053
+}

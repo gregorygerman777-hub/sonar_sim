@@ -1,0 +1,127 @@
+setup:
+  - frame_id: "setup/ar3"
+    parent_frame_id: "setup/portal_crane"
+    translation:
+      x: 0.0
+      y: 0.174
+      z: -0.338
+    rotation:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+      w: 0.0
+  - frame_id: "setup/aris"
+    parent_frame_id: "setup/ar3"
+    translation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  - frame_id: "setup/sonar"
+    parent_frame_id: "setup/aris"
+    translation:
+      x: -0.108725
+      y: 0.0
+      z: 0.0
+    rotation:
+      x: 0.5
+      y: 0.5
+      z: 0.5
+      w: 0.5
+  - frame_id: "setup/gopro_mounting_hole"
+    parent_frame_id: "setup/ar3"
+    translation:
+      x: 0.1265
+      y: 0.023
+      z: -0.1055
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0 #0.08715574
+      w: 1.0 #0.9961947
+  - frame_id: "setup/gopro_mounting_axis"
+    parent_frame_id: "setup/gopro_mounting_hole"
+    translation:
+      x: 0.02125
+      y: 0.0
+      z: -0.0075
+    rotation:
+      # x: 0.0
+      # y: -0.0348995
+      # z: 0.0
+      # w: 0.99939083
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  - frame_id: "setup/camera"
+    parent_frame_id: "setup/gopro_mounting_axis"
+    translation:
+      x: 0.01925
+      y: -0.0195
+      z: -0.0415
+    rotation:
+      x: 0.5
+      y: 0.5
+      z: 0.5
+      w: 0.5
+targets:
+  - frame_id: "target/100lbs"
+    parent_frame_id: "world"
+    translation:
+      x: 1.251079
+      y: 1.592704
+      z: -1.489828
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  - frame_id: "target/mortar_shell"
+    parent_frame_id: "world"
+    translation:
+      x: 1.263516
+      y: 1.4371
+      z: -1.51891
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  - frame_id: "target/incendiary"
+    parent_frame_id: "world"
+    translation:
+      x: 1.2351
+      y: 1.409233
+      z: -1.530784
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  - frame_id: "target/cylinder"
+    parent_frame_id: "world"
+    translation:
+      x: 1.277832
+      y: 1.399541
+      z: -1.461439
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  - frame_id: "target/100lbs_floor"
+    parent_frame_id: "world"
+    translation:
+      x: 1.174003
+      y: 1.227536
+      z: -2.2411
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0

@@ -1,0 +1,98 @@
+[
+  {
+    "sequence": "2023-09-20_171105",
+    "frames": 715,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.04638409614562988,
+      0.06701600551605225,
+      0.13448715209960938
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2794189453125,
+      1491.281494140625
+    ],
+    "range_window_minmax_m": [
+      0.6949362092285156,
+      3.021336307128906
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.9271838545667874,
+      0.9271838545667874
+    ],
+    "reference_sha256": {
+      "gantry.csv": "241f83b66f7a42131093896a5882b06f4ba4a3c5f31a20b406448f743dea4dc7",
+      "aris_frame_meta.csv": "6002945ea1921ff0e476ea453f9b1dc5f519f01fe5236f62166f1fc8c71af82a"
+    }
+  },
+  {
+    "sequence": "2023-09-20_172513",
+    "frames": 741,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.04875493049621582,
+      0.06680500507354736,
+      0.14855098724365234
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2796630859375,
+      1491.2821044921875
+    ],
+    "range_window_minmax_m": [
+      0.6949363229980469,
+      3.0213375437011716
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.9271838545667874,
+      0.9271838545667874
+    ],
+    "reference_sha256": {
+      "gantry.csv": "89f8366ae1e604f1e6f1cb59e6f81295ddaf39ce0debf5e5c9348edf700eabef",
+      "aris_frame_meta.csv": "afe67357e5b26aa5c991e0d2ac04bac0d1057b58cd35d8ef44cb4094f5eedf3d"
+    }
+  },
+  {
+    "sequence": "2023-09-20_172851",
+    "frames": 709,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.03835701942443848,
+      0.06686043739318848,
+      0.15810680389404297
+    ],
+    "sound_speed_minmax_m_s": [
+      1490.9293212890625,
+      1491.285400390625
+    ],
+    "range_window_minmax_m": [
+      0.6947730637207031,
+      3.021344221191406
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.9271838545667874,
+      0.9271838545667874
+    ],
+    "reference_sha256": {
+      "gantry.csv": "565f7068f901bd188c5be46a6a5875a36ce909db00f3c6adc8c7c60fa857ad84",
+      "aris_frame_meta.csv": "ee1a1833b1cc535eb0c6fa885ca0b148e4e6cde9c11464a5875a26eb0458b08a"
+    }
+  }
+]

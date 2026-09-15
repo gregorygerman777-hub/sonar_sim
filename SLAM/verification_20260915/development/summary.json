@@ -1,0 +1,557 @@
+[
+  {
+    "sequence": "2023-09-20_180722",
+    "split": "development",
+    "stride": 1,
+    "raw_frames": 751,
+    "processed_frames": 751,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 2.88750086452539,
+    "loop_ate_m": 2.8875008645253892,
+    "stationary_ate_m": 0.7619452803472377,
+    "loop_change_m": -8.881784197001252e-16,
+    "initial_alignment_ate_m": 3.5408252676132106,
+    "rpe_1s_translation_m": 1.7706433367646863,
+    "rpe_1s_yaw_deg": 66.18640209587892,
+    "rpe_pairs": 735,
+    "rpe_actual_lag_minmax_s": [
+      0.9398980140686035,
+      1.0600919723510742
+    ],
+    "estimated_length_m": 133.4964539996685,
+    "reference_length_m": 2.8482417204080552,
+    "rejected_pairs": 5,
+    "loop_constraints": 0,
+    "median_loop_translation_error_m": null,
+    "median_loop_yaw_error_deg": null,
+    "duration_s": 53.45565891265869,
+    "dt_quantiles_s": [
+      0.03652215003967285,
+      0.06739556789398193,
+      0.19659686088562012
+    ],
+    "tilt_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 2.972647499991581
+  },
+  {
+    "sequence": "2023-09-20_180722",
+    "split": "development",
+    "stride": 5,
+    "raw_frames": 751,
+    "processed_frames": 151,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 1.1929828437355183,
+    "loop_ate_m": 1.106414677929108,
+    "stationary_ate_m": 0.7616623886224505,
+    "loop_change_m": -0.08656816580641036,
+    "initial_alignment_ate_m": 2.003812916072368,
+    "rpe_1s_translation_m": 0.8989080222624863,
+    "rpe_1s_yaw_deg": 36.41795643409575,
+    "rpe_pairs": 138,
+    "rpe_actual_lag_minmax_s": [
+      0.8558211326599121,
+      1.1438548564910889
+    ],
+    "estimated_length_m": 31.020781317954366,
+    "reference_length_m": 2.8481155981097572,
+    "rejected_pairs": 1,
+    "loop_constraints": 21,
+    "median_loop_translation_error_m": 0.7959756368444939,
+    "median_loop_yaw_error_deg": 36.15681913602171,
+    "duration_s": 53.45565891265869,
+    "dt_quantiles_s": [
+      0.3144378662109375,
+      0.3334745168685913,
+      0.5331039428710938
+    ],
+    "tilt_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.6824224579904694
+  },
+  {
+    "sequence": "2023-09-20_180722",
+    "split": "development",
+    "stride": 20,
+    "raw_frames": 751,
+    "processed_frames": 39,
+    "evaluation_keyframes": 39,
+    "odometry_ate_m": 0.6741231964906346,
+    "loop_ate_m": 0.5834810671863481,
+    "stationary_ate_m": 0.7758835161239929,
+    "loop_change_m": -0.0906421293042865,
+    "initial_alignment_ate_m": 1.6742917213548194,
+    "rpe_1s_translation_m": null,
+    "rpe_1s_yaw_deg": null,
+    "rpe_pairs": 0,
+    "rpe_actual_lag_minmax_s": null,
+    "estimated_length_m": 6.101148919199853,
+    "reference_length_m": 2.847332674483406,
+    "rejected_pairs": 0,
+    "loop_constraints": 3,
+    "median_loop_translation_error_m": 0.20700270834208662,
+    "median_loop_yaw_error_deg": 31.31567283803528,
+    "duration_s": 53.45565891265869,
+    "dt_quantiles_s": [
+      0.666917085647583,
+      1.3938055038452148,
+      1.6768410205841064
+    ],
+    "tilt_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.1998858750157524
+  },
+  {
+    "sequence": "2023-09-21_100927",
+    "split": "development",
+    "stride": 1,
+    "raw_frames": 725,
+    "processed_frames": 725,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 1.277449919113696,
+    "loop_ate_m": 1.3453895266355356,
+    "stationary_ate_m": 0.7351357015272306,
+    "loop_change_m": 0.06793960752183947,
+    "initial_alignment_ate_m": 2.0006291114971986,
+    "rpe_1s_translation_m": 0.9127716749214987,
+    "rpe_1s_yaw_deg": 43.64752931171972,
+    "rpe_pairs": 709,
+    "rpe_actual_lag_minmax_s": [
+      0.933211088180542,
+      1.0667331218719482
+    ],
+    "estimated_length_m": 65.36286475313622,
+    "reference_length_m": 2.7061784206503052,
+    "rejected_pairs": 0,
+    "loop_constraints": 6,
+    "median_loop_translation_error_m": 1.7758235084367788,
+    "median_loop_yaw_error_deg": 84.36136135561628,
+    "duration_s": 49.4994261264801,
+    "dt_quantiles_s": [
+      0.05204010009765625,
+      0.0667414665222168,
+      0.16672301292419434
+    ],
+    "tilt_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "vertical_span_m": 2.220446049250313e-16,
+    "estimate_seconds": 2.5337735420034733
+  },
+  {
+    "sequence": "2023-09-21_100927",
+    "split": "development",
+    "stride": 5,
+    "raw_frames": 725,
+    "processed_frames": 146,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 0.7478122848711359,
+    "loop_ate_m": 0.8346203214266144,
+    "stationary_ate_m": 0.7357875493264809,
+    "loop_change_m": 0.08680803655547842,
+    "initial_alignment_ate_m": 2.1030705341145577,
+    "rpe_1s_translation_m": 0.3335310146044184,
+    "rpe_1s_yaw_deg": 15.304322894890785,
+    "rpe_pairs": 139,
+    "rpe_actual_lag_minmax_s": [
+      0.8670048713684082,
+      1.1340041160583496
+    ],
+    "estimated_length_m": 14.213655440897996,
+    "reference_length_m": 2.7060969770178542,
+    "rejected_pairs": 0,
+    "loop_constraints": 33,
+    "median_loop_translation_error_m": 0.9495559243615894,
+    "median_loop_yaw_error_deg": 47.242737310884024,
+    "duration_s": 49.4994261264801,
+    "dt_quantiles_s": [
+      0.26662206649780273,
+      0.3333549499511719,
+      0.5336339473724365
+    ],
+    "tilt_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "vertical_span_m": 2.220446049250313e-16,
+    "estimate_seconds": 0.6494787920091767
+  },
+  {
+    "sequence": "2023-09-21_100927",
+    "split": "development",
+    "stride": 20,
+    "raw_frames": 725,
+    "processed_frames": 38,
+    "evaluation_keyframes": 38,
+    "odometry_ate_m": 0.8223849061276061,
+    "loop_ate_m": 0.7774144305435916,
+    "stationary_ate_m": 0.7547948173229075,
+    "loop_change_m": -0.04497047558401446,
+    "initial_alignment_ate_m": 1.224331731813962,
+    "rpe_1s_translation_m": null,
+    "rpe_1s_yaw_deg": null,
+    "rpe_pairs": 0,
+    "rpe_actual_lag_minmax_s": null,
+    "estimated_length_m": 7.952441172338071,
+    "reference_length_m": 2.7054340845516505,
+    "rejected_pairs": 0,
+    "loop_constraints": 9,
+    "median_loop_translation_error_m": 0.49034446786763247,
+    "median_loop_yaw_error_deg": 7.467283919585692,
+    "duration_s": 49.4994261264801,
+    "dt_quantiles_s": [
+      0.26662206649780273,
+      1.333345890045166,
+      1.6002140045166016
+    ],
+    "tilt_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.17526529100723565
+  },
+  {
+    "sequence": "2023-09-21_105856",
+    "split": "development",
+    "stride": 1,
+    "raw_frames": 220,
+    "processed_frames": 220,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 0.10471693612494583,
+    "loop_ate_m": 0.14896484626892803,
+    "stationary_ate_m": 0.21316319878016382,
+    "loop_change_m": 0.0442479101439822,
+    "initial_alignment_ate_m": 0.3343607163958277,
+    "rpe_1s_translation_m": 0.03178469922493831,
+    "rpe_1s_yaw_deg": 0.8259993995441296,
+    "rpe_pairs": 204,
+    "rpe_actual_lag_minmax_s": [
+      0.9865870475769043,
+      1.013253927230835
+    ],
+    "estimated_length_m": 0.9484738687210539,
+    "reference_length_m": 0.7223951259329868,
+    "rejected_pairs": 0,
+    "loop_constraints": 69,
+    "median_loop_translation_error_m": 0.1110179104958704,
+    "median_loop_yaw_error_deg": 1.0115329818094083,
+    "duration_s": 14.599982023239136,
+    "dt_quantiles_s": [
+      0.05279111862182617,
+      0.06673192977905273,
+      0.08053398132324219
+    ],
+    "tilt_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.6780399169947486
+  },
+  {
+    "sequence": "2023-09-21_105856",
+    "split": "development",
+    "stride": 5,
+    "raw_frames": 220,
+    "processed_frames": 45,
+    "evaluation_keyframes": 45,
+    "odometry_ate_m": 0.10839886661019309,
+    "loop_ate_m": 0.16336375858344945,
+    "stationary_ate_m": 0.2159588592939125,
+    "loop_change_m": 0.054964891973256366,
+    "initial_alignment_ate_m": 0.34560099467468314,
+    "rpe_1s_translation_m": 0.034403940006470554,
+    "rpe_1s_yaw_deg": 0.8869333347056453,
+    "rpe_pairs": 41,
+    "rpe_actual_lag_minmax_s": [
+      0.9939680099487305,
+      1.006005048751831
+    ],
+    "estimated_length_m": 0.5377335512866288,
+    "reference_length_m": 0.7223951259170373,
+    "rejected_pairs": 0,
+    "loop_constraints": 33,
+    "median_loop_translation_error_m": 0.18559524227291407,
+    "median_loop_yaw_error_deg": 1.4707334286306715,
+    "duration_s": 14.599982023239136,
+    "dt_quantiles_s": [
+      0.26685404777526855,
+      0.3332115411758423,
+      0.3391408920288086
+    ],
+    "tilt_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.2705705419939477
+  },
+  {
+    "sequence": "2023-09-21_105856",
+    "split": "development",
+    "stride": 20,
+    "raw_frames": 220,
+    "processed_frames": 12,
+    "evaluation_keyframes": 12,
+    "odometry_ate_m": 0.18683490153281956,
+    "loop_ate_m": 0.18683490153281956,
+    "stationary_ate_m": 0.2285975532142049,
+    "loop_change_m": 0.0,
+    "initial_alignment_ate_m": 0.37807905542195863,
+    "rpe_1s_translation_m": null,
+    "rpe_1s_yaw_deg": null,
+    "rpe_pairs": 0,
+    "rpe_actual_lag_minmax_s": null,
+    "estimated_length_m": 0.18849448436630548,
+    "reference_length_m": 0.7223951259170373,
+    "rejected_pairs": 0,
+    "loop_constraints": 0,
+    "median_loop_translation_error_m": null,
+    "median_loop_yaw_error_deg": null,
+    "duration_s": 14.599982023239136,
+    "dt_quantiles_s": [
+      1.266819953918457,
+      1.3331050872802734,
+      1.339845895767212
+    ],
+    "tilt_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.02693537500454113
+  },
+  {
+    "sequence": "2023-09-21_123500",
+    "split": "development",
+    "stride": 1,
+    "raw_frames": 780,
+    "processed_frames": 780,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 1.3909750256706788,
+    "loop_ate_m": 1.368356800165596,
+    "stationary_ate_m": 0.7576974660001896,
+    "loop_change_m": -0.022618225505082856,
+    "initial_alignment_ate_m": 2.2392665063266715,
+    "rpe_1s_translation_m": 1.208461188279879,
+    "rpe_1s_yaw_deg": 59.57823517039381,
+    "rpe_pairs": 764,
+    "rpe_actual_lag_minmax_s": [
+      0.9241349697113037,
+      1.066483974456787
+    ],
+    "estimated_length_m": 93.95545841393131,
+    "reference_length_m": 2.8182087807843015,
+    "rejected_pairs": 0,
+    "loop_constraints": 7,
+    "median_loop_translation_error_m": 0.6651927778336948,
+    "median_loop_yaw_error_deg": 41.31568781856168,
+    "duration_s": 52.50917291641235,
+    "dt_quantiles_s": [
+      0.047781944274902344,
+      0.06673192977905273,
+      0.18071603775024414
+    ],
+    "tilt_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 2.706400416995166
+  },
+  {
+    "sequence": "2023-09-21_123500",
+    "split": "development",
+    "stride": 5,
+    "raw_frames": 780,
+    "processed_frames": 157,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 1.037337012614426,
+    "loop_ate_m": 0.8361338117231887,
+    "stationary_ate_m": 0.7578815133158281,
+    "loop_change_m": -0.20120320089123722,
+    "initial_alignment_ate_m": 1.9417874429211128,
+    "rpe_1s_translation_m": 0.3278602192140957,
+    "rpe_1s_yaw_deg": 14.013017785601432,
+    "rpe_pairs": 153,
+    "rpe_actual_lag_minmax_s": [
+      0.9897141456604004,
+      1.134871006011963
+    ],
+    "estimated_length_m": 14.782122236878024,
+    "reference_length_m": 2.8181136293401416,
+    "rejected_pairs": 0,
+    "loop_constraints": 33,
+    "median_loop_translation_error_m": 0.7181278006436603,
+    "median_loop_yaw_error_deg": 33.57560047485076,
+    "duration_s": 52.50917291641235,
+    "dt_quantiles_s": [
+      0.2676279544830322,
+      0.33335351943969727,
+      0.4665350914001465
+    ],
+    "tilt_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.7155629159824457
+  },
+  {
+    "sequence": "2023-09-21_123500",
+    "split": "development",
+    "stride": 20,
+    "raw_frames": 780,
+    "processed_frames": 40,
+    "evaluation_keyframes": 40,
+    "odometry_ate_m": 0.830797883017459,
+    "loop_ate_m": 0.8159167233886215,
+    "stationary_ate_m": 0.7653337809391902,
+    "loop_change_m": -0.014881159628837515,
+    "initial_alignment_ate_m": 1.122172069160778,
+    "rpe_1s_translation_m": null,
+    "rpe_1s_yaw_deg": null,
+    "rpe_pairs": 0,
+    "rpe_actual_lag_minmax_s": null,
+    "estimated_length_m": 3.6660180972370875,
+    "reference_length_m": 2.8174238330468593,
+    "rejected_pairs": 0,
+    "loop_constraints": 28,
+    "median_loop_translation_error_m": 1.269885535987243,
+    "median_loop_yaw_error_deg": 58.83425062942637,
+    "duration_s": 52.50917291641235,
+    "dt_quantiles_s": [
+      1.2670538425445557,
+      1.3336749076843262,
+      1.4670000076293945
+    ],
+    "tilt_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.23364262501127087
+  },
+  {
+    "sequence": "2023-09-21_124735",
+    "split": "development",
+    "stride": 1,
+    "raw_frames": 592,
+    "processed_frames": 592,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 1.6865471121640778,
+    "loop_ate_m": 1.6888372030427046,
+    "stationary_ate_m": 0.5806504455359587,
+    "loop_change_m": 0.0022900908786267493,
+    "initial_alignment_ate_m": 2.010189806650192,
+    "rpe_1s_translation_m": 1.307434348270482,
+    "rpe_1s_yaw_deg": 65.82636620955866,
+    "rpe_pairs": 576,
+    "rpe_actual_lag_minmax_s": [
+      0.9329619407653809,
+      1.066187858581543
+    ],
+    "estimated_length_m": 74.19989487750709,
+    "reference_length_m": 1.9803171566970799,
+    "rejected_pairs": 0,
+    "loop_constraints": 7,
+    "median_loop_translation_error_m": 0.8059440953693885,
+    "median_loop_yaw_error_deg": 28.70012083961248,
+    "duration_s": 39.76692199707031,
+    "dt_quantiles_s": [
+      0.05433487892150879,
+      0.06662893295288086,
+      0.17707300186157227
+    ],
+    "tilt_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 1.915070957998978
+  },
+  {
+    "sequence": "2023-09-21_124735",
+    "split": "development",
+    "stride": 5,
+    "raw_frames": 592,
+    "processed_frames": 120,
+    "evaluation_keyframes": 81,
+    "odometry_ate_m": 0.8317483188455204,
+    "loop_ate_m": 0.8022398273946206,
+    "stationary_ate_m": 0.5853999195233736,
+    "loop_change_m": -0.029508491450899732,
+    "initial_alignment_ate_m": 0.9562160723821034,
+    "rpe_1s_translation_m": 0.30870153567528097,
+    "rpe_1s_yaw_deg": 12.969698666655937,
+    "rpe_pairs": 116,
+    "rpe_actual_lag_minmax_s": [
+      0.9929029941558838,
+      1.1005480289459229
+    ],
+    "estimated_length_m": 11.125661508185607,
+    "reference_length_m": 1.9803171566609552,
+    "rejected_pairs": 0,
+    "loop_constraints": 12,
+    "median_loop_translation_error_m": 0.46378761319398987,
+    "median_loop_yaw_error_deg": 13.945987010325547,
+    "duration_s": 39.76692199707031,
+    "dt_quantiles_s": [
+      0.06692790985107422,
+      0.33328914642333984,
+      0.4324150085449219
+    ],
+    "tilt_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.4677231250097975
+  },
+  {
+    "sequence": "2023-09-21_124735",
+    "split": "development",
+    "stride": 20,
+    "raw_frames": 592,
+    "processed_frames": 31,
+    "evaluation_keyframes": 31,
+    "odometry_ate_m": 0.6068901674435424,
+    "loop_ate_m": 0.6108542381306971,
+    "stationary_ate_m": 0.5994552076886202,
+    "loop_change_m": 0.003964070687154653,
+    "initial_alignment_ate_m": 1.051700718778033,
+    "rpe_1s_translation_m": null,
+    "rpe_1s_yaw_deg": null,
+    "rpe_pairs": 0,
+    "rpe_actual_lag_minmax_s": null,
+    "estimated_length_m": 2.1514447795035667,
+    "reference_length_m": 1.9803171566579083,
+    "rejected_pairs": 0,
+    "loop_constraints": 19,
+    "median_loop_translation_error_m": 1.1167450707417141,
+    "median_loop_yaw_error_deg": 15.312791591169562,
+    "duration_s": 39.76692199707031,
+    "dt_quantiles_s": [
+      0.7322149276733398,
+      1.333247423171997,
+      1.4345099925994873
+    ],
+    "tilt_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "vertical_span_m": 0.0,
+    "estimate_seconds": 0.14321179201942869
+  }
+]

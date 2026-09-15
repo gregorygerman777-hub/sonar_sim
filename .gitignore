@@ -22,3 +22,7 @@ results/
 !docs/hero_survey.gif
 
 .DS_Store
+
+# Downloaded public benchmark data and optional isolated runtime
+data_external/
+.venv-public/

@@ -1,0 +1,60 @@
+{
+  "edges": [
+    {
+      "accepted": true,
+      "inliers": 62,
+      "residual": 0.029698361228672584
+    },
+    {
+      "accepted": true,
+      "inliers": 60,
+      "residual": 0.02280900870858807
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.021276927827880765
+    },
+    {
+      "accepted": true,
+      "inliers": 65,
+      "residual": 0.016056369474487853
+    },
+    {
+      "accepted": true,
+      "inliers": 64,
+      "residual": 0.014282808864147001
+    },
+    {
+      "accepted": true,
+      "inliers": 66,
+      "residual": 0.030999411214337313
+    },
+    {
+      "accepted": true,
+      "inliers": 68,
+      "residual": 0.030379302419035793
+    },
+    {
+      "accepted": true,
+      "inliers": 72,
+      "residual": 0.018055069025291044
+    },
+    {
+      "accepted": true,
+      "inliers": 68,
+      "residual": 0.01754854298737618
+    },
+    {
+      "accepted": true,
+      "inliers": 68,
+      "residual": 0.02280591538866405
+    },
+    {
+      "accepted": true,
+      "inliers": 67,
+      "residual": 0.014048346265671313
+    }
+  ],
+  "loops": []
+}

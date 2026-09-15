@@ -1,0 +1,75 @@
+{
+  "protocol_sha256": "bdf1eec49f7ed49776ffad6bc246420da9c9f75769295aff6f82fe3d253dba1f",
+  "calibration": {
+    "scope": "simulator_only",
+    "positive_bearing_axis": "sonar X-right",
+    "passed": true,
+    "observations": [
+      {
+        "x_right_m": -1.0,
+        "world_yaw_rad": 0.0,
+        "expected_deg": -14.036243467926479,
+        "observed_deg": -13.97790055248619,
+        "error_deg": 0.05834291544028858
+      },
+      {
+        "x_right_m": 1.0,
+        "world_yaw_rad": 0.0,
+        "expected_deg": 14.036243467926479,
+        "observed_deg": 13.97790055248619,
+        "error_deg": 0.05834291544028858
+      },
+      {
+        "x_right_m": -1.0,
+        "world_yaw_rad": 0.7,
+        "expected_deg": -14.036243467926479,
+        "observed_deg": -13.97790055248619,
+        "error_deg": 0.05834291544028858
+      },
+      {
+        "x_right_m": 1.0,
+        "world_yaw_rad": 0.7,
+        "expected_deg": 14.036243467926479,
+        "observed_deg": 13.97790055248619,
+        "error_deg": 0.05834291544028858
+      }
+    ]
+  },
+  "sequences": [
+    {
+      "seed": 91501,
+      "frames": 81,
+      "odometry_ate_m": 0.25769132573237985,
+      "loop_ate_m": 0.2576913257323801,
+      "stationary_ate_m": 4.597224554512669,
+      "rejected_pairs": 0,
+      "loops": 0
+    },
+    {
+      "seed": 91502,
+      "frames": 81,
+      "odometry_ate_m": 0.7139976227936621,
+      "loop_ate_m": 0.7139976227936623,
+      "stationary_ate_m": 4.597224554512669,
+      "rejected_pairs": 9,
+      "loops": 0
+    },
+    {
+      "seed": 91503,
+      "frames": 81,
+      "odometry_ate_m": 0.8575498589187528,
+      "loop_ate_m": 0.857549858918753,
+      "stationary_ate_m": 4.597224554512669,
+      "rejected_pairs": 8,
+      "loops": 0
+    }
+  ],
+  "physical_admission": {
+    "mount_error": "Mount rotation is not orthonormal; obtain verified calibration",
+    "source": "data_external/bluerov_uuv/TransMatrix.yaml:T_BS",
+    "orthogonality_error": 1.7320508075688772,
+    "determinant": 1.0,
+    "admitted": false,
+    "reason": "Mount rotation is not orthonormal; no independently surveyed physical bearing target available"
+  }
+}

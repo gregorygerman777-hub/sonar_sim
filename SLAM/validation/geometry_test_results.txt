@@ -1,0 +1,10 @@
+test_elevation_ambiguity_is_preserved (__main__.GeometryChecks.test_elevation_ambiguity_is_preserved) ... ok
+test_off_axis_sign_and_inconclusive_cases (__main__.GeometryChecks.test_off_axis_sign_and_inconclusive_cases) ... ok
+test_pose_recovery_surveyed_targets (__main__.GeometryChecks.test_pose_recovery_surveyed_targets) ... ok
+test_reference_orientation_is_forbidden (__main__.GeometryChecks.test_reference_orientation_is_forbidden) ... ok
+test_tilted_full_3d_forward_prediction (__main__.GeometryChecks.test_tilted_full_3d_forward_prediction) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.020s
+
+OK

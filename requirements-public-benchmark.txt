@@ -1,0 +1,7 @@
+# Extra packages for python/benchmark_public_uxo.py after building sonar.
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.5
+Pillow==12.3.0
+matplotlib==3.11.2
+py7zr==1.1.3
