@@ -70,6 +70,14 @@ The first assumption likely to break on real data is reliable scan association.
 Speckle, viewpoint-dependent highlight and shadow, multipath and moving clutter
 can change the FSS image enough to remove true matches or create a false loop.
 
+## KITTI-style synthetic benchmark
+
+Ten simulated sequences with exact ground truth, four estimators, KITTI pose
+files and metrics: [SLAM/kitti_benchmark_20260916](../SLAM/kitti_benchmark_20260916/REPORT.md).
+It shows that the feature front end needs range-compensated imagery, as real
+sonars provide, and that the sonar-inertial fusion above weights the biased
+IMU too heavily at low speed.
+
 ## External real-sonar research evaluation
 
 The dense public-data evaluation is in [SLAM/research](../SLAM/research/README.md).

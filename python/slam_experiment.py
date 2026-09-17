@@ -47,12 +47,16 @@ def build_simulator():
     )
 
 
-def render_survey(simulator, objects, poses, positions):
+def render_survey(simulator, objects, poses, positions, gain=None):
+    """Render each ping and extract features; `gain` is an optional per-range-bin
+    multiplier such as time-varying gain, applied before extraction."""
     images = []
     features = []
     descriptors = []
     for pose, position in zip(poses, positions):
         image = simulator.render(objects, position=position, axes=slam.pose_axes(pose))
+        if gain is not None:
+            image = image * np.asarray(gain, dtype=float)[None, :]
         points, strengths = slam.extract_features(image, simulator,
                                                   relative_threshold=0.025,
                                                   max_features=100,
@@ -97,7 +101,14 @@ def run_experiment(count=37):
     objects = landmark_scene()
     truth, positions = survey_poses(count=count)
     images, features, descriptors = render_survey(simulator, objects, truth, positions)
-    imu_poses = integrate_imu(truth)
+    return fuse_sonar_imu(simulator, objects, truth, positions, images, features, descriptors)
+
+
+def fuse_sonar_imu(simulator, objects, truth, positions, images, features, descriptors,
+                   imu_seed=20260913):
+    """Sonar-inertial SLAM on already rendered pings; truth seeds only the IMU and the gauge."""
+    count = len(truth)
+    imu_poses = integrate_imu(truth, seed=imu_seed)
 
     graph = sonar.PlanarSlam(initial=truth[0])
     scan_edges = []

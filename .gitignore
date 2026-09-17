@@ -15,8 +15,8 @@ __pycache__/
 # Run outputs. output/ is the default destination for a single demo and
 # results/ is where run_all.sh puts a timestamped run; both are reproducible
 # from the code, so neither belongs in the history.
-output/
-results/
+/output/
+/results/
 
 # Kept: docs/hero_survey.gif is referenced by the README.
 !docs/hero_survey.gif
