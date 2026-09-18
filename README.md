@@ -1,5 +1,20 @@
 # Forward-scan sonar laboratory
 
+## Benchmarks with ground truth
+
+- [Visual odometry on KITTI](SLAM/optical_benchmark_20260918/REPORT.md): a stereo
+  and monocular camera front end assessed on the eleven KITTI odometry sequences
+  with public ground truth, scored with the benchmark's own metric. Stereo VO
+  reaches 1.0 to 2.1 percent translation error on ten sequences (2.88 percent
+  pooled, 25 percent on the highway sequence 01). Pose files are in KITTI layout
+  and the run reproduces with one command.
+- [Sonar SLAM on simulated sequences](SLAM/kitti_benchmark_20260916/REPORT.md):
+  ten synthetic sequences with exact ground truth, four estimators, KITTI
+  metrics, and the finding that the feature front end needs range compensated
+  imagery.
+- [Index of all SLAM reports](SLAM/README.md), including the external DFKI ARIS
+  evaluation and the bearing and geometry validation.
+
 ## Boat-mounted survey laboratory
 
 Run `./launch_survey.command` for a boat-mounted 3-D scene, synchronized live

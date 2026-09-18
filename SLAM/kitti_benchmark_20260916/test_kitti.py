@@ -124,6 +124,24 @@ class MetricChecks(unittest.TestCase):
         _, scaled = kitti.aligned_ate(1.3 * moved, truth)
         self.assertGreater(scaled, 0.3)
 
+    def test_aligned_ate_se3_removes_only_rigid_motion(self):
+        rng = np.random.default_rng(4)
+        truth = np.tile(np.eye(4), (25, 1, 1))
+        truth[:, :3, 3] = rng.uniform(-5, 5, (25, 3))
+        axis = rng.normal(size=3)
+        axis /= np.linalg.norm(axis)
+        angle = 0.9
+        k = np.array([[0, -axis[2], axis[1]], [axis[2], 0, -axis[0]], [-axis[1], axis[0], 0]])
+        rotation = np.eye(3) + np.sin(angle) * k + (1 - np.cos(angle)) * k @ k
+        moved = truth.copy()
+        moved[:, :3, 3] = truth[:, :3, 3] @ rotation.T + [2.0, -1.0, 0.5]
+        _, ate = kitti.aligned_ate_se3(moved, truth)
+        self.assertLess(ate, 1e-10)
+        scaled = moved.copy()
+        scaled[:, :3, 3] *= 1.2
+        _, scaled_ate = kitti.aligned_ate_se3(scaled, truth)
+        self.assertGreater(scaled_ate, 0.3)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

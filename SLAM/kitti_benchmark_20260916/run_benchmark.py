@@ -251,7 +251,7 @@ def plot_trajectories(out, figures, condition):
         axis.set_ylabel("y (m)")
     handles, labels = axes[0, 0].get_legend_handles_labels()
     figure.legend(handles, labels, loc="lower center", ncol=5, fontsize=10, bbox_to_anchor=(0.5, -0.03))
-    figure.suptitle(f"Trajectories in the first-frame gauge, no alignment ({condition} imagery)", fontsize=13)
+    figure.suptitle(f"Trajectories in the first frame gauge, no alignment ({condition} imagery)", fontsize=13)
     figure.savefig(out / f"trajectories_{condition}.png", dpi=140, bbox_inches="tight")
     plt.close(figure)
 

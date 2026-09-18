@@ -1,0 +1,4 @@
+# Extra packages for SLAM/optical_benchmark_20260918 after building sonar.
+opencv-python-headless>=4.10
+numpy>=1.24
+matplotlib>=3.7

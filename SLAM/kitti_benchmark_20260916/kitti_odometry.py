@@ -175,3 +175,19 @@ def aligned_ate(estimate_xy, truth_xy):
     aligned = a @ rotation.T + truth_xy.mean(axis=0)
     residual = np.linalg.norm(aligned - truth_xy, axis=1)
     return aligned, float(np.sqrt(np.mean(residual ** 2)))
+
+
+def aligned_ate_se3(estimate_poses, truth_poses):
+    """Position RMSE after rigid SE(3) alignment of two 4x4 pose arrays: no scale, no reflection."""
+    estimate = np.asarray(estimate_poses, dtype=float)[:, :3, 3]
+    truth = np.asarray(truth_poses, dtype=float)[:, :3, 3]
+    a = estimate - estimate.mean(axis=0)
+    b = truth - truth.mean(axis=0)
+    u, _, vt = np.linalg.svd(a.T @ b)
+    rotation = vt.T @ u.T
+    if np.linalg.det(rotation) < 0:
+        vt[-1] *= -1
+        rotation = vt.T @ u.T
+    aligned = a @ rotation.T + truth.mean(axis=0)
+    residual = np.linalg.norm(aligned - truth, axis=1)
+    return aligned, float(np.sqrt(np.mean(residual ** 2)))

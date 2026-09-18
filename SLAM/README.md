@@ -1,8 +1,12 @@
 # Sonar SLAM testing
 
 ## Current conclusion
-Ten simulated sequences with exact ground truth are scored in KITTI odometry
-form. With range-compensated imagery, sonar-only odometry reaches 0.66 to
+The camera front end has been assessed on real optical data with ground truth:
+on KITTI odometry it reaches 1.0 to 2.1 percent translation error on ten of
+eleven sequences as frame to frame stereo visual odometry, and fails only on
+the highway sequence above 16 m/s. It is ready to run on an external optical
+dataset given calibration. On the sonar side, ten simulated sequences with
+exact ground truth are scored in KITTI odometry form. With range-compensated imagery, sonar-only odometry reaches 0.66 to
 1.02 % translation error on the five forward-looking survey sequences at 0.6
 to 0.9 m/s and fails at 1.26 m/s, where IMU-aided SLAM holds 4.1 %. Simulator
 bearing sign is verified with isolated off-axis targets. Real-sonar accuracy
@@ -11,6 +15,11 @@ issues are unresolved.
 
 ## Reports and results
 
+- [Visual odometry on the KITTI odometry benchmark](optical_benchmark_20260918/REPORT.md):
+  the camera front end (stereo and monocular) assessed on sequences 00 to 10
+  with the devkit metric, beside published ORB SLAM2 and Stereo LSD-SLAM
+  numbers. [Frozen protocol](optical_benchmark_20260918/PROTOCOL.md),
+  [scores](optical_benchmark_20260918/results/metrics.json).
 - [KITTI-style benchmark, ten sequences, four estimators](kitti_benchmark_20260916/REPORT.md):
   KITTI pose files and metrics, the range-compensation finding, and the fusion
   weighting diagnosis. [Frozen protocol](kitti_benchmark_20260916/PROTOCOL.md),
@@ -43,7 +52,13 @@ python SLAM/geometry_validation_20260915/run.py
 python SLAM/kitti_benchmark_20260916/test_kitti.py
 python SLAM/kitti_benchmark_20260916/test_benchmark.py
 python SLAM/kitti_benchmark_20260916/run_benchmark.py
+python SLAM/optical_benchmark_20260918/test_vo.py
+python SLAM/optical_benchmark_20260918/run_kitti.py --workers 8
 ```
+
+The optical run needs the KITTI odometry archives in `data_external/kitti_odometry`
+(download commands in [optical_benchmark_20260918/README.md](optical_benchmark_20260918/README.md))
+and `requirements-optical-benchmark.txt`.
 
 `geometry_validation_20260915/run.py` writes to `output/geometry_validation_20260915`,
 and a copy of its recorded results is committed beside that report under `results/`.

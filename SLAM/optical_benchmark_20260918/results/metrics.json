@@ -1,0 +1,2215 @@
+{
+  "environment": {
+    "python": "3.13.15",
+    "numpy": "2.5.2",
+    "opencv": "5.0.0",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "git_commit": "4d3c6238868007dd87007716aaeec2757ca17af6",
+    "git_dirty": true,
+    "protocol_sha256": "9d29a84a27d5754e9cad5f5c18694a626f991167a1312e4e1aad7b14b82f8a41",
+    "archive_md5": "7e765daeef0a542aeb1a38c2cb799558",
+    "settings": {
+      "features": 4000,
+      "grid": [
+        12,
+        4
+      ],
+      "per_cell": 60,
+      "ratio": 0.8,
+      "patch_half_px": 5,
+      "max_disparity_px": 128,
+      "min_disparity_px": 0.5,
+      "min_correlation": 0.6,
+      "left_right_tolerance_px": 1.0,
+      "max_depth_m": 80.0,
+      "ransac_reprojection_px": 1.0,
+      "ransac_iterations": 500,
+      "min_inliers": 12,
+      "essential_threshold_px": 1.0
+    },
+    "lengths_m": [
+      100.0,
+      200.0,
+      300.0,
+      400.0,
+      500.0,
+      600.0,
+      700.0,
+      800.0
+    ],
+    "step_frames": 10
+  },
+  "sequences": [
+    {
+      "sequence": "00",
+      "frames": 4541,
+      "path_length_m": 3724.186990597443,
+      "duration_s": 470.5816,
+      "seconds": 1428.9200121249887,
+      "seconds_per_frame": 0.31467078003192883,
+      "mean_features": 1430.2226872246697,
+      "mean_depth_points": 1156.8726872246696,
+      "mean_stereo_inliers": 260.17136563876653,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 23,
+      "methods": {
+        "stereo_vo": {
+          "segments": 3283,
+          "t_err_percent": 2.0637749693767415,
+          "r_err_deg_per_m": 0.008776550913884332,
+          "ate_m": 17.84316397169235,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 445,
+              "t_err_percent": 1.367874036087659,
+              "r_err_deg_per_m": 0.01304634950051373
+            },
+            {
+              "length": 200.0,
+              "segments": 431,
+              "t_err_percent": 1.623448144105471,
+              "r_err_deg_per_m": 0.009770509196064937
+            },
+            {
+              "length": 300.0,
+              "segments": 424,
+              "t_err_percent": 1.9432568919104505,
+              "r_err_deg_per_m": 0.008676634467330887
+            },
+            {
+              "length": 400.0,
+              "segments": 416,
+              "t_err_percent": 2.2189066259676835,
+              "r_err_deg_per_m": 0.008260818069785854
+            },
+            {
+              "length": 500.0,
+              "segments": 408,
+              "t_err_percent": 2.406411389753019,
+              "r_err_deg_per_m": 0.007891939942439585
+            },
+            {
+              "length": 600.0,
+              "segments": 399,
+              "t_err_percent": 2.424349522546869,
+              "r_err_deg_per_m": 0.00759327962656918
+            },
+            {
+              "length": 700.0,
+              "segments": 385,
+              "t_err_percent": 2.3501657293918146,
+              "r_err_deg_per_m": 0.007250822775637789
+            },
+            {
+              "length": 800.0,
+              "segments": 375,
+              "t_err_percent": 2.3093651663773547,
+              "r_err_deg_per_m": 0.0070402973112891985
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 4,
+              "t_err_percent": 1.6404106862860672,
+              "r_err_deg_per_m": 0.007150695546599218
+            },
+            {
+              "speed": 6.0,
+              "segments": 481,
+              "t_err_percent": 1.6491619893793341,
+              "r_err_deg_per_m": 0.00893599899018681
+            },
+            {
+              "speed": 8.0,
+              "segments": 2363,
+              "t_err_percent": 1.9136150968361805,
+              "r_err_deg_per_m": 0.008015975862310112
+            },
+            {
+              "speed": 10.0,
+              "segments": 341,
+              "t_err_percent": 3.472845024229726,
+              "r_err_deg_per_m": 0.012103442721193278
+            },
+            {
+              "speed": 12.0,
+              "segments": 94,
+              "t_err_percent": 2.8665110397979467,
+              "r_err_deg_per_m": 0.015080568332450065
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 3283,
+          "t_err_percent": 4.245497232786431,
+          "r_err_deg_per_m": 0.01991592570670011,
+          "ate_m": 39.46587239277141,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 445,
+              "t_err_percent": 2.40604721489581,
+              "r_err_deg_per_m": 0.03272911837344233
+            },
+            {
+              "length": 200.0,
+              "segments": 431,
+              "t_err_percent": 3.388106654085084,
+              "r_err_deg_per_m": 0.025249787816979515
+            },
+            {
+              "length": 300.0,
+              "segments": 424,
+              "t_err_percent": 4.412986251386568,
+              "r_err_deg_per_m": 0.02115040039539178
+            },
+            {
+              "length": 400.0,
+              "segments": 416,
+              "t_err_percent": 5.09887217656484,
+              "r_err_deg_per_m": 0.01856943112006553
+            },
+            {
+              "length": 500.0,
+              "segments": 408,
+              "t_err_percent": 5.28466945133354,
+              "r_err_deg_per_m": 0.016549936855318727
+            },
+            {
+              "length": 600.0,
+              "segments": 399,
+              "t_err_percent": 5.02627176459296,
+              "r_err_deg_per_m": 0.015315499096371511
+            },
+            {
+              "length": 700.0,
+              "segments": 385,
+              "t_err_percent": 4.42174377105908,
+              "r_err_deg_per_m": 0.01414340112109171
+            },
+            {
+              "length": 800.0,
+              "segments": 375,
+              "t_err_percent": 4.135377382893993,
+              "r_err_deg_per_m": 0.013161991861761299
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 4,
+              "t_err_percent": 5.021416228546451,
+              "r_err_deg_per_m": 0.04152185104347252
+            },
+            {
+              "speed": 6.0,
+              "segments": 481,
+              "t_err_percent": 3.8159765381663315,
+              "r_err_deg_per_m": 0.024696235298709204
+            },
+            {
+              "speed": 8.0,
+              "segments": 2363,
+              "t_err_percent": 4.242069536085613,
+              "r_err_deg_per_m": 0.019344239701264615
+            },
+            {
+              "speed": 10.0,
+              "segments": 341,
+              "t_err_percent": 5.623264988138265,
+              "r_err_deg_per_m": 0.018201360415008576
+            },
+            {
+              "speed": 12.0,
+              "segments": 94,
+              "t_err_percent": 1.4984400078745683,
+              "r_err_deg_per_m": 0.015126651028055632
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "01",
+      "frames": 1101,
+      "path_length_m": 2453.2030391857948,
+      "duration_s": 114.0288,
+      "seconds": 526.9884397499845,
+      "seconds_per_frame": 0.4786452677111576,
+      "mean_features": 1489.5154545454545,
+      "mean_depth_points": 808.0481818181818,
+      "mean_stereo_inliers": 67.17,
+      "stereo_fallbacks": 7,
+      "mono_fallbacks": 2,
+      "methods": {
+        "stereo_vo": {
+          "segments": 676,
+          "t_err_percent": 24.997646284404652,
+          "r_err_deg_per_m": 0.029550095645596363,
+          "ate_m": 239.9081648587762,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 104,
+              "t_err_percent": 21.19044692853702,
+              "r_err_deg_per_m": 0.03479105701587947
+            },
+            {
+              "length": 200.0,
+              "segments": 98,
+              "t_err_percent": 22.22241967915566,
+              "r_err_deg_per_m": 0.030535871066351652
+            },
+            {
+              "length": 300.0,
+              "segments": 91,
+              "t_err_percent": 23.59034356595885,
+              "r_err_deg_per_m": 0.029569831517538277
+            },
+            {
+              "length": 400.0,
+              "segments": 85,
+              "t_err_percent": 25.261553136036873,
+              "r_err_deg_per_m": 0.028996408652802307
+            },
+            {
+              "length": 500.0,
+              "segments": 81,
+              "t_err_percent": 26.412742175487114,
+              "r_err_deg_per_m": 0.027534999350376982
+            },
+            {
+              "length": 600.0,
+              "segments": 76,
+              "t_err_percent": 27.274561148825356,
+              "r_err_deg_per_m": 0.02740394595789616
+            },
+            {
+              "length": 700.0,
+              "segments": 72,
+              "t_err_percent": 28.073135812738194,
+              "r_err_deg_per_m": 0.027248424721865033
+            },
+            {
+              "length": 800.0,
+              "segments": 69,
+              "t_err_percent": 28.830252985865474,
+              "r_err_deg_per_m": 0.028037804906233484
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 14.0,
+              "segments": 21,
+              "t_err_percent": 3.1741322367658884,
+              "r_err_deg_per_m": 0.013779218499624747
+            },
+            {
+              "speed": 16.0,
+              "segments": 42,
+              "t_err_percent": 5.46118693488913,
+              "r_err_deg_per_m": 0.01866353278552283
+            },
+            {
+              "speed": 18.0,
+              "segments": 34,
+              "t_err_percent": 9.640794146183817,
+              "r_err_deg_per_m": 0.019816123128427426
+            },
+            {
+              "speed": 20.0,
+              "segments": 45,
+              "t_err_percent": 12.43410611492332,
+              "r_err_deg_per_m": 0.01985070366167769
+            },
+            {
+              "speed": 22.0,
+              "segments": 59,
+              "t_err_percent": 11.640166751122177,
+              "r_err_deg_per_m": 0.014124009597454043
+            },
+            {
+              "speed": 24.0,
+              "segments": 145,
+              "t_err_percent": 28.044807962935884,
+              "r_err_deg_per_m": 0.02673501369585649
+            },
+            {
+              "speed": 26.0,
+              "segments": 328,
+              "t_err_percent": 33.387876043727445,
+              "r_err_deg_per_m": 0.03836083819881968
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 676,
+          "t_err_percent": 8.210054603680227,
+          "r_err_deg_per_m": 0.008137795175027343,
+          "ate_m": 74.3166619070378,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 104,
+              "t_err_percent": 6.919316625433504,
+              "r_err_deg_per_m": 0.014118779977331242
+            },
+            {
+              "length": 200.0,
+              "segments": 98,
+              "t_err_percent": 7.200992057134135,
+              "r_err_deg_per_m": 0.009782097165289745
+            },
+            {
+              "length": 300.0,
+              "segments": 91,
+              "t_err_percent": 7.693100920815661,
+              "r_err_deg_per_m": 0.008208556237791634
+            },
+            {
+              "length": 400.0,
+              "segments": 85,
+              "t_err_percent": 8.153531273937139,
+              "r_err_deg_per_m": 0.007290556943896393
+            },
+            {
+              "length": 500.0,
+              "segments": 81,
+              "t_err_percent": 8.538213908171253,
+              "r_err_deg_per_m": 0.006566873717366425
+            },
+            {
+              "length": 600.0,
+              "segments": 76,
+              "t_err_percent": 9.046341154795122,
+              "r_err_deg_per_m": 0.006117085353229023
+            },
+            {
+              "length": 700.0,
+              "segments": 72,
+              "t_err_percent": 9.422489348047353,
+              "r_err_deg_per_m": 0.005374258202096907
+            },
+            {
+              "length": 800.0,
+              "segments": 69,
+              "t_err_percent": 9.768578724333505,
+              "r_err_deg_per_m": 0.004691494088468757
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 14.0,
+              "segments": 21,
+              "t_err_percent": 2.746414373938766,
+              "r_err_deg_per_m": 0.00976483347263612
+            },
+            {
+              "speed": 16.0,
+              "segments": 42,
+              "t_err_percent": 1.8367425339176506,
+              "r_err_deg_per_m": 0.007619257371496435
+            },
+            {
+              "speed": 18.0,
+              "segments": 34,
+              "t_err_percent": 3.3525323231693154,
+              "r_err_deg_per_m": 0.003955182018389087
+            },
+            {
+              "speed": 20.0,
+              "segments": 45,
+              "t_err_percent": 3.5318691117875876,
+              "r_err_deg_per_m": 0.0063208865503124115
+            },
+            {
+              "speed": 22.0,
+              "segments": 59,
+              "t_err_percent": 3.6150884329422053,
+              "r_err_deg_per_m": 0.008224132106601901
+            },
+            {
+              "speed": 24.0,
+              "segments": 145,
+              "t_err_percent": 10.719418533761086,
+              "r_err_deg_per_m": 0.010387324219520112
+            },
+            {
+              "speed": 26.0,
+              "segments": 328,
+              "t_err_percent": 10.27045016447518,
+              "r_err_deg_per_m": 0.007777954543776472
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "02",
+      "frames": 4661,
+      "path_length_m": 5067.232765432847,
+      "duration_s": 483.2759,
+      "seconds": 1489.937146665994,
+      "seconds_per_frame": 0.3196604047770852,
+      "mean_features": 1488.1690987124464,
+      "mean_depth_points": 1240.0536480686694,
+      "mean_stereo_inliers": 231.18154506437767,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 0,
+      "methods": {
+        "stereo_vo": {
+          "segments": 3453,
+          "t_err_percent": 1.907438307904061,
+          "r_err_deg_per_m": 0.006852712787720072,
+          "ate_m": 32.70203821354088,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 459,
+              "t_err_percent": 1.247254718306221,
+              "r_err_deg_per_m": 0.009587814879988563
+            },
+            {
+              "length": 200.0,
+              "segments": 451,
+              "t_err_percent": 1.3640055152794757,
+              "r_err_deg_per_m": 0.007951901922187086
+            },
+            {
+              "length": 300.0,
+              "segments": 444,
+              "t_err_percent": 1.5985684362887709,
+              "r_err_deg_per_m": 0.0070700383435502055
+            },
+            {
+              "length": 400.0,
+              "segments": 437,
+              "t_err_percent": 1.8379962615608272,
+              "r_err_deg_per_m": 0.006442675108695296
+            },
+            {
+              "length": 500.0,
+              "segments": 429,
+              "t_err_percent": 2.077473817025706,
+              "r_err_deg_per_m": 0.006173169769784944
+            },
+            {
+              "length": 600.0,
+              "segments": 422,
+              "t_err_percent": 2.3063319282252635,
+              "r_err_deg_per_m": 0.005892834941564852
+            },
+            {
+              "length": 700.0,
+              "segments": 411,
+              "t_err_percent": 2.460366739546447,
+              "r_err_deg_per_m": 0.005717662601310071
+            },
+            {
+              "length": 800.0,
+              "segments": 400,
+              "t_err_percent": 2.5251006272903767,
+              "r_err_deg_per_m": 0.0055893272660589985
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 9,
+              "t_err_percent": 1.4218635754543887,
+              "r_err_deg_per_m": 0.016648867588420078
+            },
+            {
+              "speed": 8.0,
+              "segments": 452,
+              "t_err_percent": 1.7571744772421356,
+              "r_err_deg_per_m": 0.009191967120077369
+            },
+            {
+              "speed": 10.0,
+              "segments": 1872,
+              "t_err_percent": 2.0032797256464048,
+              "r_err_deg_per_m": 0.0068737488207981055
+            },
+            {
+              "speed": 12.0,
+              "segments": 1059,
+              "t_err_percent": 1.8523033033016019,
+              "r_err_deg_per_m": 0.005812564785507582
+            },
+            {
+              "speed": 14.0,
+              "segments": 61,
+              "t_err_percent": 1.108458962192169,
+              "r_err_deg_per_m": 0.005485973918689779
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 3453,
+          "t_err_percent": 3.849500437736545,
+          "r_err_deg_per_m": 0.016282135820808497,
+          "ate_m": 49.640743644315954,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 459,
+              "t_err_percent": 1.5966968642285775,
+              "r_err_deg_per_m": 0.02484554105903427
+            },
+            {
+              "length": 200.0,
+              "segments": 451,
+              "t_err_percent": 2.4320195066123556,
+              "r_err_deg_per_m": 0.019024290404923292
+            },
+            {
+              "length": 300.0,
+              "segments": 444,
+              "t_err_percent": 3.1575029386693627,
+              "r_err_deg_per_m": 0.01687702717040241
+            },
+            {
+              "length": 400.0,
+              "segments": 437,
+              "t_err_percent": 3.7483633224064237,
+              "r_err_deg_per_m": 0.015511255241449659
+            },
+            {
+              "length": 500.0,
+              "segments": 429,
+              "t_err_percent": 4.385046243849257,
+              "r_err_deg_per_m": 0.014400703401995547
+            },
+            {
+              "length": 600.0,
+              "segments": 422,
+              "t_err_percent": 4.95172213535083,
+              "r_err_deg_per_m": 0.013391148806341591
+            },
+            {
+              "length": 700.0,
+              "segments": 411,
+              "t_err_percent": 5.3880290370105905,
+              "r_err_deg_per_m": 0.012729593517297674
+            },
+            {
+              "length": 800.0,
+              "segments": 400,
+              "t_err_percent": 5.593356906849147,
+              "r_err_deg_per_m": 0.012263771437552105
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 9,
+              "t_err_percent": 3.5801121253835917,
+              "r_err_deg_per_m": 0.05422063217688581
+            },
+            {
+              "speed": 8.0,
+              "segments": 452,
+              "t_err_percent": 5.126948528720467,
+              "r_err_deg_per_m": 0.027714624619651775
+            },
+            {
+              "speed": 10.0,
+              "segments": 1872,
+              "t_err_percent": 4.158023713987275,
+              "r_err_deg_per_m": 0.01564538071745266
+            },
+            {
+              "speed": 12.0,
+              "segments": 1059,
+              "t_err_percent": 2.9396562404031443,
+              "r_err_deg_per_m": 0.012687508109045148
+            },
+            {
+              "speed": 14.0,
+              "segments": 61,
+              "t_err_percent": 0.750933052837287,
+              "r_err_deg_per_m": 0.00791795378732759
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "03",
+      "frames": 801,
+      "path_length_m": 560.8884095001106,
+      "duration_s": 82.72618,
+      "seconds": 396.7323466250091,
+      "seconds_per_frame": 0.4952963128901487,
+      "mean_features": 1578.22625,
+      "mean_depth_points": 1228.88,
+      "mean_stereo_inliers": 324.50875,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 9,
+      "methods": {
+        "stereo_vo": {
+          "segments": 184,
+          "t_err_percent": 1.217490675978896,
+          "r_err_deg_per_m": 0.005856382012041267,
+          "ate_m": 1.1789090579203827,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 62,
+              "t_err_percent": 1.1385405918624407,
+              "r_err_deg_per_m": 0.007496234901886793
+            },
+            {
+              "length": 200.0,
+              "segments": 49,
+              "t_err_percent": 1.1480769894806069,
+              "r_err_deg_per_m": 0.005729745610573492
+            },
+            {
+              "length": 300.0,
+              "segments": 37,
+              "t_err_percent": 1.288311704495892,
+              "r_err_deg_per_m": 0.004701347907899316
+            },
+            {
+              "length": 400.0,
+              "segments": 25,
+              "t_err_percent": 1.3769425464976706,
+              "r_err_deg_per_m": 0.004413528317687045
+            },
+            {
+              "length": 500.0,
+              "segments": 11,
+              "t_err_percent": 1.3710816792096392,
+              "r_err_deg_per_m": 0.004342010076914548
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 33,
+              "t_err_percent": 0.8419699186913734,
+              "r_err_deg_per_m": 0.0055716736796379025
+            },
+            {
+              "speed": 8.0,
+              "segments": 151,
+              "t_err_percent": 1.2995581262470304,
+              "r_err_deg_per_m": 0.005918603038328095
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 184,
+          "t_err_percent": 2.6710806069690616,
+          "r_err_deg_per_m": 0.017055604016111326,
+          "ate_m": 3.1546084110066297,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 62,
+              "t_err_percent": 1.8942661730450654,
+              "r_err_deg_per_m": 0.02229118532707124
+            },
+            {
+              "length": 200.0,
+              "segments": 49,
+              "t_err_percent": 2.9643858609505336,
+              "r_err_deg_per_m": 0.016412884210581413
+            },
+            {
+              "length": 300.0,
+              "segments": 37,
+              "t_err_percent": 3.403961640221468,
+              "r_err_deg_per_m": 0.013836627602114362
+            },
+            {
+              "length": 400.0,
+              "segments": 25,
+              "t_err_percent": 3.1088910416623063,
+              "r_err_deg_per_m": 0.01261035953453025
+            },
+            {
+              "length": 500.0,
+              "segments": 11,
+              "t_err_percent": 2.282778639744104,
+              "r_err_deg_per_m": 0.011339282975099127
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 33,
+              "t_err_percent": 1.925435464041781,
+              "r_err_deg_per_m": 0.018474675593031727
+            },
+            {
+              "speed": 8.0,
+              "segments": 151,
+              "t_err_percent": 2.834036168006149,
+              "r_err_deg_per_m": 0.016745475790691636
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "04",
+      "frames": 271,
+      "path_length_m": 393.64513439546175,
+      "duration_s": 28.10894,
+      "seconds": 120.26138866701513,
+      "seconds_per_frame": 0.44376896187090453,
+      "mean_features": 1327.262962962963,
+      "mean_depth_points": 1083.4814814814815,
+      "mean_stereo_inliers": 171.9185185185185,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 0,
+      "methods": {
+        "stereo_vo": {
+          "segments": 43,
+          "t_err_percent": 1.0145821862863436,
+          "r_err_deg_per_m": 0.010219087344797055,
+          "ate_m": 0.9109578034606147,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 21,
+              "t_err_percent": 0.7730297233866639,
+              "r_err_deg_per_m": 0.010633527550156287
+            },
+            {
+              "length": 200.0,
+              "segments": 15,
+              "t_err_percent": 1.0747924851939543,
+              "r_err_deg_per_m": 0.01011083426524411
+            },
+            {
+              "length": 300.0,
+              "segments": 7,
+              "t_err_percent": 1.6102175058976445,
+              "r_err_deg_per_m": 0.009207737613475672
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 12.0,
+              "segments": 4,
+              "t_err_percent": 0.5059449649892525,
+              "r_err_deg_per_m": 0.011930173532511752
+            },
+            {
+              "speed": 14.0,
+              "segments": 35,
+              "t_err_percent": 1.0550411775662032,
+              "r_err_deg_per_m": 0.01037793761869122
+            },
+            {
+              "speed": 16.0,
+              "segments": 4,
+              "t_err_percent": 1.1692032338846623,
+              "r_err_deg_per_m": 0.007118061260508389
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 43,
+          "t_err_percent": 1.2409643821765381,
+          "r_err_deg_per_m": 0.012537516916151898,
+          "ate_m": 0.3585339629338282,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 21,
+              "t_err_percent": 1.1541145988237391,
+              "r_err_deg_per_m": 0.01397288489167187
+            },
+            {
+              "length": 200.0,
+              "segments": 15,
+              "t_err_percent": 1.2754092702777486,
+              "r_err_deg_per_m": 0.011688243550186661
+            },
+            {
+              "length": 300.0,
+              "segments": 7,
+              "t_err_percent": 1.427703257732342,
+              "r_err_deg_per_m": 0.010051284488088919
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 12.0,
+              "segments": 4,
+              "t_err_percent": 1.0683953246985414,
+              "r_err_deg_per_m": 0.01959598617165106
+            },
+            {
+              "speed": 14.0,
+              "segments": 35,
+              "t_err_percent": 1.2681463486733906,
+              "r_err_deg_per_m": 0.01191803651614669
+            },
+            {
+              "speed": 16.0,
+              "segments": 4,
+              "t_err_percent": 1.1756912328070772,
+              "r_err_deg_per_m": 0.0108995011606983
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "05",
+      "frames": 2761,
+      "path_length_m": 2205.5757638579353,
+      "duration_s": 287.537,
+      "seconds": 1059.7167855419975,
+      "seconds_per_frame": 0.38381629320608385,
+      "mean_features": 1429.3188405797102,
+      "mean_depth_points": 1114.1789855072464,
+      "mean_stereo_inliers": 255.27101449275364,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 64,
+      "methods": {
+        "stereo_vo": {
+          "segments": 1806,
+          "t_err_percent": 1.9362904609297218,
+          "r_err_deg_per_m": 0.009477289895677839,
+          "ate_m": 11.26424607656823,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 267,
+              "t_err_percent": 1.2053291026523716,
+              "r_err_deg_per_m": 0.011854844436276752
+            },
+            {
+              "length": 200.0,
+              "segments": 258,
+              "t_err_percent": 1.607168879013701,
+              "r_err_deg_per_m": 0.010453273055841365
+            },
+            {
+              "length": 300.0,
+              "segments": 248,
+              "t_err_percent": 1.9835645929521064,
+              "r_err_deg_per_m": 0.009683853280360087
+            },
+            {
+              "length": 400.0,
+              "segments": 227,
+              "t_err_percent": 2.153139950203296,
+              "r_err_deg_per_m": 0.009083678317371776
+            },
+            {
+              "length": 500.0,
+              "segments": 218,
+              "t_err_percent": 2.2737122674227463,
+              "r_err_deg_per_m": 0.008751129319496839
+            },
+            {
+              "length": 600.0,
+              "segments": 205,
+              "t_err_percent": 2.23540564148016,
+              "r_err_deg_per_m": 0.00840931676334603
+            },
+            {
+              "length": 700.0,
+              "segments": 196,
+              "t_err_percent": 2.1681072339919774,
+              "r_err_deg_per_m": 0.008277972256072345
+            },
+            {
+              "length": 800.0,
+              "segments": 187,
+              "t_err_percent": 2.143876442957594,
+              "r_err_deg_per_m": 0.008214269287711726
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 12,
+              "t_err_percent": 1.0501980562770508,
+              "r_err_deg_per_m": 0.010683982746199916
+            },
+            {
+              "speed": 6.0,
+              "segments": 469,
+              "t_err_percent": 1.4228139676049518,
+              "r_err_deg_per_m": 0.009557617688419395
+            },
+            {
+              "speed": 8.0,
+              "segments": 1178,
+              "t_err_percent": 2.2073078718341086,
+              "r_err_deg_per_m": 0.009429880178173096
+            },
+            {
+              "speed": 10.0,
+              "segments": 145,
+              "t_err_percent": 1.471753012425534,
+              "r_err_deg_per_m": 0.009478509877151129
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 1806,
+          "t_err_percent": 2.5642615201763053,
+          "r_err_deg_per_m": 0.013723661545495919,
+          "ate_m": 16.80301850789175,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 267,
+              "t_err_percent": 1.5678487288481382,
+              "r_err_deg_per_m": 0.022168580675416508
+            },
+            {
+              "length": 200.0,
+              "segments": 258,
+              "t_err_percent": 2.202362172075742,
+              "r_err_deg_per_m": 0.016965731440924732
+            },
+            {
+              "length": 300.0,
+              "segments": 248,
+              "t_err_percent": 2.7140067467420326,
+              "r_err_deg_per_m": 0.0136836932374071
+            },
+            {
+              "length": 400.0,
+              "segments": 227,
+              "t_err_percent": 3.0666093809859127,
+              "r_err_deg_per_m": 0.012297032597057299
+            },
+            {
+              "length": 500.0,
+              "segments": 218,
+              "t_err_percent": 3.1506988636364426,
+              "r_err_deg_per_m": 0.011276008675255862
+            },
+            {
+              "length": 600.0,
+              "segments": 205,
+              "t_err_percent": 2.8859135074351543,
+              "r_err_deg_per_m": 0.01035803514342524
+            },
+            {
+              "length": 700.0,
+              "segments": 196,
+              "t_err_percent": 2.6568912687930797,
+              "r_err_deg_per_m": 0.009984770745872555
+            },
+            {
+              "length": 800.0,
+              "segments": 187,
+              "t_err_percent": 2.54450236248231,
+              "r_err_deg_per_m": 0.00943956425060375
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 12,
+              "t_err_percent": 1.8422888365652281,
+              "r_err_deg_per_m": 0.017711497673183783
+            },
+            {
+              "speed": 6.0,
+              "segments": 469,
+              "t_err_percent": 2.5457309739090728,
+              "r_err_deg_per_m": 0.015569732338939556
+            },
+            {
+              "speed": 8.0,
+              "segments": 1178,
+              "t_err_percent": 2.703534934026531,
+              "r_err_deg_per_m": 0.0122522022648847
+            },
+            {
+              "speed": 10.0,
+              "segments": 145,
+              "t_err_percent": 1.571673970232381,
+              "r_err_deg_per_m": 0.019002601580848873
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "06",
+      "frames": 1101,
+      "path_length_m": 1232.8764715409752,
+      "duration_s": 114.2943,
+      "seconds": 490.2231548750133,
+      "seconds_per_frame": 0.44525263839692397,
+      "mean_features": 1324.8127272727272,
+      "mean_depth_points": 989.6254545454545,
+      "mean_stereo_inliers": 165.63363636363636,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 0,
+      "methods": {
+        "stereo_vo": {
+          "segments": 570,
+          "t_err_percent": 1.3875489272023667,
+          "r_err_deg_per_m": 0.005967669724612524,
+          "ate_m": 2.698781124034554,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 100,
+              "t_err_percent": 1.1949251588701244,
+              "r_err_deg_per_m": 0.00924008334171371
+            },
+            {
+              "length": 200.0,
+              "segments": 92,
+              "t_err_percent": 1.3600660930700355,
+              "r_err_deg_per_m": 0.007342589687840101
+            },
+            {
+              "length": 300.0,
+              "segments": 84,
+              "t_err_percent": 1.5825891450663776,
+              "r_err_deg_per_m": 0.006321399269895761
+            },
+            {
+              "length": 400.0,
+              "segments": 77,
+              "t_err_percent": 1.7044893830249062,
+              "r_err_deg_per_m": 0.005334394209760604
+            },
+            {
+              "length": 500.0,
+              "segments": 66,
+              "t_err_percent": 1.5949330530874686,
+              "r_err_deg_per_m": 0.004228370741566048
+            },
+            {
+              "length": 600.0,
+              "segments": 58,
+              "t_err_percent": 1.4098488225550834,
+              "r_err_deg_per_m": 0.003772989275582622
+            },
+            {
+              "length": 700.0,
+              "segments": 51,
+              "t_err_percent": 1.1648202094581088,
+              "r_err_deg_per_m": 0.003827899551259697
+            },
+            {
+              "length": 800.0,
+              "segments": 42,
+              "t_err_percent": 0.8490113686444882,
+              "r_err_deg_per_m": 0.0039802509693397945
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 3,
+              "t_err_percent": 0.4729172922245747,
+              "r_err_deg_per_m": 0.0227576919107681
+            },
+            {
+              "speed": 8.0,
+              "segments": 28,
+              "t_err_percent": 1.3898207664904347,
+              "r_err_deg_per_m": 0.0137437165844445
+            },
+            {
+              "speed": 10.0,
+              "segments": 234,
+              "t_err_percent": 1.900637480813588,
+              "r_err_deg_per_m": 0.006014143533348758
+            },
+            {
+              "speed": 12.0,
+              "segments": 273,
+              "t_err_percent": 1.0033836724694623,
+              "r_err_deg_per_m": 0.004838024913165685
+            },
+            {
+              "speed": 14.0,
+              "segments": 32,
+              "t_err_percent": 0.996757564762512,
+              "r_err_deg_per_m": 0.006887006713579572
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 570,
+          "t_err_percent": 4.990926238409112,
+          "r_err_deg_per_m": 0.016506086778787,
+          "ate_m": 21.804076562454025,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 100,
+              "t_err_percent": 1.9610071113308056,
+              "r_err_deg_per_m": 0.02678137869847933
+            },
+            {
+              "length": 200.0,
+              "segments": 92,
+              "t_err_percent": 3.3646718568785747,
+              "r_err_deg_per_m": 0.021059220910402313
+            },
+            {
+              "length": 300.0,
+              "segments": 84,
+              "t_err_percent": 4.791406339478707,
+              "r_err_deg_per_m": 0.018405489115967455
+            },
+            {
+              "length": 400.0,
+              "segments": 77,
+              "t_err_percent": 5.838292841149191,
+              "r_err_deg_per_m": 0.015798903124469348
+            },
+            {
+              "length": 500.0,
+              "segments": 66,
+              "t_err_percent": 6.62840583298295,
+              "r_err_deg_per_m": 0.012665019194591499
+            },
+            {
+              "length": 600.0,
+              "segments": 58,
+              "t_err_percent": 6.9137892261242655,
+              "r_err_deg_per_m": 0.009998175805360174
+            },
+            {
+              "length": 700.0,
+              "segments": 51,
+              "t_err_percent": 7.067304853050456,
+              "r_err_deg_per_m": 0.007434214496199157
+            },
+            {
+              "length": 800.0,
+              "segments": 42,
+              "t_err_percent": 6.862943929641198,
+              "r_err_deg_per_m": 0.005604196217098861
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 3,
+              "t_err_percent": 1.5839550871067798,
+              "r_err_deg_per_m": 0.08540083756514286
+            },
+            {
+              "speed": 8.0,
+              "segments": 28,
+              "t_err_percent": 4.169104151091223,
+              "r_err_deg_per_m": 0.052821898405874
+            },
+            {
+              "speed": 10.0,
+              "segments": 234,
+              "t_err_percent": 7.1627960434474485,
+              "r_err_deg_per_m": 0.016052646545979554
+            },
+            {
+              "speed": 12.0,
+              "segments": 273,
+              "t_err_percent": 3.741439431394474,
+              "r_err_deg_per_m": 0.01320120567411472
+            },
+            {
+              "speed": 14.0,
+              "segments": 32,
+              "t_err_percent": 0.8073104832476455,
+              "r_err_deg_per_m": 0.009781417345504865
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "07",
+      "frames": 1101,
+      "path_length_m": 694.6967407086906,
+      "duration_s": 114.3296,
+      "seconds": 481.89871454198146,
+      "seconds_per_frame": 0.4376918388210549,
+      "mean_features": 1385.0354545454545,
+      "mean_depth_points": 1131.8254545454545,
+      "mean_stereo_inliers": 322.1727272727273,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 71,
+      "methods": {
+        "stereo_vo": {
+          "segments": 317,
+          "t_err_percent": 1.9667365193266988,
+          "r_err_deg_per_m": 0.011974445331085425,
+          "ate_m": 3.5755045782723562,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 89,
+              "t_err_percent": 1.319661282918961,
+              "r_err_deg_per_m": 0.01437121153087615
+            },
+            {
+              "length": 200.0,
+              "segments": 79,
+              "t_err_percent": 1.7310030944268817,
+              "r_err_deg_per_m": 0.012476726351043271
+            },
+            {
+              "length": 300.0,
+              "segments": 58,
+              "t_err_percent": 2.289827040020746,
+              "r_err_deg_per_m": 0.010955441985009827
+            },
+            {
+              "length": 400.0,
+              "segments": 44,
+              "t_err_percent": 2.7079885130859425,
+              "r_err_deg_per_m": 0.010173670967853482
+            },
+            {
+              "length": 500.0,
+              "segments": 30,
+              "t_err_percent": 2.6394524909342683,
+              "r_err_deg_per_m": 0.009699512609662644
+            },
+            {
+              "length": 600.0,
+              "segments": 17,
+              "t_err_percent": 2.2418435507082073,
+              "r_err_deg_per_m": 0.009244554468687102
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 13,
+              "t_err_percent": 1.496820271025785,
+              "r_err_deg_per_m": 0.01455892410062686
+            },
+            {
+              "speed": 6.0,
+              "segments": 228,
+              "t_err_percent": 2.0961374817181913,
+              "r_err_deg_per_m": 0.011738444273329348
+            },
+            {
+              "speed": 8.0,
+              "segments": 67,
+              "t_err_percent": 1.7740295352955884,
+              "r_err_deg_per_m": 0.01298919969705478
+            },
+            {
+              "speed": 10.0,
+              "segments": 9,
+              "t_err_percent": 0.8019431562973603,
+              "r_err_deg_per_m": 0.006665720291574184
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 317,
+          "t_err_percent": 3.8881933670245163,
+          "r_err_deg_per_m": 0.0325387444656167,
+          "ate_m": 5.192768639104521,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 89,
+              "t_err_percent": 4.900346281089287,
+              "r_err_deg_per_m": 0.05839502389094944
+            },
+            {
+              "length": 200.0,
+              "segments": 79,
+              "t_err_percent": 5.637470934482221,
+              "r_err_deg_per_m": 0.03768960327904752
+            },
+            {
+              "length": 300.0,
+              "segments": 58,
+              "t_err_percent": 3.173713673960611,
+              "r_err_deg_per_m": 0.017747592638273524
+            },
+            {
+              "length": 400.0,
+              "segments": 44,
+              "t_err_percent": 1.7832636214358846,
+              "r_err_deg_per_m": 0.012856698724561829
+            },
+            {
+              "length": 500.0,
+              "segments": 30,
+              "t_err_percent": 1.8347506559426883,
+              "r_err_deg_per_m": 0.010656673799682975
+            },
+            {
+              "length": 600.0,
+              "segments": 17,
+              "t_err_percent": 1.96969190556204,
+              "r_err_deg_per_m": 0.013258287021774518
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 13,
+              "t_err_percent": 4.4905816641199765,
+              "r_err_deg_per_m": 0.06266039162464004
+            },
+            {
+              "speed": 6.0,
+              "segments": 228,
+              "t_err_percent": 3.38088830915103,
+              "r_err_deg_per_m": 0.02458942761200437
+            },
+            {
+              "speed": 8.0,
+              "segments": 67,
+              "t_err_percent": 4.648214942549465,
+              "r_err_deg_per_m": 0.0451194234965949
+            },
+            {
+              "speed": 10.0,
+              "segments": 9,
+              "t_err_percent": 10.211866675106982,
+              "r_err_deg_per_m": 0.096756226074591
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "08",
+      "frames": 4071,
+      "path_length_m": 3222.795129352718,
+      "duration_s": 422.9405,
+      "seconds": 1300.2041260419937,
+      "seconds_per_frame": 0.3193820009928749,
+      "mean_features": 1504.3449631449632,
+      "mean_depth_points": 1189.736855036855,
+      "mean_stereo_inliers": 255.64914004914004,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 16,
+      "methods": {
+        "stereo_vo": {
+          "segments": 2813,
+          "t_err_percent": 1.6612265248691016,
+          "r_err_deg_per_m": 0.006527787345931121,
+          "ate_m": 9.83070541994722,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 390,
+              "t_err_percent": 1.620307578724475,
+              "r_err_deg_per_m": 0.01073914578877404
+            },
+            {
+              "length": 200.0,
+              "segments": 382,
+              "t_err_percent": 1.6707447594722302,
+              "r_err_deg_per_m": 0.008488481546274919
+            },
+            {
+              "length": 300.0,
+              "segments": 368,
+              "t_err_percent": 1.7070871440189854,
+              "r_err_deg_per_m": 0.007090637401359557
+            },
+            {
+              "length": 400.0,
+              "segments": 357,
+              "t_err_percent": 1.6900838795745978,
+              "r_err_deg_per_m": 0.006020862562539297
+            },
+            {
+              "length": 500.0,
+              "segments": 347,
+              "t_err_percent": 1.6508073388671725,
+              "r_err_deg_per_m": 0.005217564011168957
+            },
+            {
+              "length": 600.0,
+              "segments": 333,
+              "t_err_percent": 1.6347776274402739,
+              "r_err_deg_per_m": 0.004738364907723027
+            },
+            {
+              "length": 700.0,
+              "segments": 323,
+              "t_err_percent": 1.6447216314498154,
+              "r_err_deg_per_m": 0.004500290666364725
+            },
+            {
+              "length": 800.0,
+              "segments": 313,
+              "t_err_percent": 1.670484227303252,
+              "r_err_deg_per_m": 0.004252499635448237
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 15,
+              "t_err_percent": 1.7725192982705418,
+              "r_err_deg_per_m": 0.011113798270491465
+            },
+            {
+              "speed": 6.0,
+              "segments": 841,
+              "t_err_percent": 2.4236060261425076,
+              "r_err_deg_per_m": 0.007781939491354621
+            },
+            {
+              "speed": 8.0,
+              "segments": 1639,
+              "t_err_percent": 1.3465628027019605,
+              "r_err_deg_per_m": 0.005980122032050583
+            },
+            {
+              "speed": 10.0,
+              "segments": 276,
+              "t_err_percent": 1.2151571765679852,
+              "r_err_deg_per_m": 0.005654315924130882
+            },
+            {
+              "speed": 12.0,
+              "segments": 42,
+              "t_err_percent": 1.5664272056095159,
+              "r_err_deg_per_m": 0.00688896457682393
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 2813,
+          "t_err_percent": 3.390009911686806,
+          "r_err_deg_per_m": 0.01566279072726801,
+          "ate_m": 20.210851430707354,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 390,
+              "t_err_percent": 2.143780321063205,
+              "r_err_deg_per_m": 0.02470244294512105
+            },
+            {
+              "length": 200.0,
+              "segments": 382,
+              "t_err_percent": 2.8071502755061672,
+              "r_err_deg_per_m": 0.01973511674802454
+            },
+            {
+              "length": 300.0,
+              "segments": 368,
+              "t_err_percent": 3.349153625793451,
+              "r_err_deg_per_m": 0.017337543780240012
+            },
+            {
+              "length": 400.0,
+              "segments": 357,
+              "t_err_percent": 3.7000495893934247,
+              "r_err_deg_per_m": 0.01509040607083775
+            },
+            {
+              "length": 500.0,
+              "segments": 347,
+              "t_err_percent": 3.770466313460104,
+              "r_err_deg_per_m": 0.013120552999247396
+            },
+            {
+              "length": 600.0,
+              "segments": 333,
+              "t_err_percent": 3.8400441292310226,
+              "r_err_deg_per_m": 0.011590332006256922
+            },
+            {
+              "length": 700.0,
+              "segments": 323,
+              "t_err_percent": 3.9038067211223244,
+              "r_err_deg_per_m": 0.010770507065148155
+            },
+            {
+              "length": 800.0,
+              "segments": 313,
+              "t_err_percent": 3.917795005381592,
+              "r_err_deg_per_m": 0.010312733738593231
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 4.0,
+              "segments": 15,
+              "t_err_percent": 2.605500753068791,
+              "r_err_deg_per_m": 0.027465686582551916
+            },
+            {
+              "speed": 6.0,
+              "segments": 841,
+              "t_err_percent": 4.7512584416008306,
+              "r_err_deg_per_m": 0.021283439986340375
+            },
+            {
+              "speed": 8.0,
+              "segments": 1639,
+              "t_err_percent": 2.870673547625829,
+              "r_err_deg_per_m": 0.012595835980399626
+            },
+            {
+              "speed": 10.0,
+              "segments": 276,
+              "t_err_percent": 2.462116919511444,
+              "r_err_deg_per_m": 0.015422980893897008
+            },
+            {
+              "speed": 12.0,
+              "segments": 42,
+              "t_err_percent": 2.77687634639908,
+              "r_err_deg_per_m": 0.020160811665805283
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "09",
+      "frames": 1591,
+      "path_length_m": 1705.0514567133216,
+      "duration_s": 164.9944,
+      "seconds": 611.8114953750046,
+      "seconds_per_frame": 0.3845452516499086,
+      "mean_features": 1486.711320754717,
+      "mean_depth_points": 1185.4440251572328,
+      "mean_stereo_inliers": 213.07169811320756,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 0,
+      "methods": {
+        "stereo_vo": {
+          "segments": 958,
+          "t_err_percent": 1.255106659256941,
+          "r_err_deg_per_m": 0.005011306979986138,
+          "ate_m": 5.50532654694889,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 147,
+              "t_err_percent": 1.0921077329381306,
+              "r_err_deg_per_m": 0.007919364443809486
+            },
+            {
+              "length": 200.0,
+              "segments": 140,
+              "t_err_percent": 1.1223103136055743,
+              "r_err_deg_per_m": 0.0060582507097883395
+            },
+            {
+              "length": 300.0,
+              "segments": 134,
+              "t_err_percent": 1.2424076766136085,
+              "r_err_deg_per_m": 0.005299763154481677
+            },
+            {
+              "length": 400.0,
+              "segments": 127,
+              "t_err_percent": 1.309770661546387,
+              "r_err_deg_per_m": 0.004426895400637519
+            },
+            {
+              "length": 500.0,
+              "segments": 119,
+              "t_err_percent": 1.349067025167387,
+              "r_err_deg_per_m": 0.003920314223528452
+            },
+            {
+              "length": 600.0,
+              "segments": 108,
+              "t_err_percent": 1.3446324637908817,
+              "r_err_deg_per_m": 0.0036830110419677656
+            },
+            {
+              "length": 700.0,
+              "segments": 97,
+              "t_err_percent": 1.3183039870666484,
+              "r_err_deg_per_m": 0.003612561569950031
+            },
+            {
+              "length": 800.0,
+              "segments": 86,
+              "t_err_percent": 1.3752398535936068,
+              "r_err_deg_per_m": 0.003505178816480133
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 8.0,
+              "segments": 56,
+              "t_err_percent": 1.2385455248940802,
+              "r_err_deg_per_m": 0.007645679582756811
+            },
+            {
+              "speed": 10.0,
+              "segments": 680,
+              "t_err_percent": 1.1764195384062788,
+              "r_err_deg_per_m": 0.004722622693271503
+            },
+            {
+              "speed": 12.0,
+              "segments": 154,
+              "t_err_percent": 1.587634815595469,
+              "r_err_deg_per_m": 0.005574925579029741
+            },
+            {
+              "speed": 14.0,
+              "segments": 68,
+              "t_err_percent": 1.3025379772957253,
+              "r_err_deg_per_m": 0.00445223617054613
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 958,
+          "t_err_percent": 4.412937456982234,
+          "r_err_deg_per_m": 0.015892831713550805,
+          "ate_m": 24.486837442075412,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 147,
+              "t_err_percent": 1.566496384956059,
+              "r_err_deg_per_m": 0.025919538894830167
+            },
+            {
+              "length": 200.0,
+              "segments": 140,
+              "t_err_percent": 2.561541703761155,
+              "r_err_deg_per_m": 0.020055723564731124
+            },
+            {
+              "length": 300.0,
+              "segments": 134,
+              "t_err_percent": 3.7256098482211835,
+              "r_err_deg_per_m": 0.016901153518606264
+            },
+            {
+              "length": 400.0,
+              "segments": 127,
+              "t_err_percent": 4.701372894353891,
+              "r_err_deg_per_m": 0.014200031501112233
+            },
+            {
+              "length": 500.0,
+              "segments": 119,
+              "t_err_percent": 5.482733124658007,
+              "r_err_deg_per_m": 0.012575836879102164
+            },
+            {
+              "length": 600.0,
+              "segments": 108,
+              "t_err_percent": 6.256284832217653,
+              "r_err_deg_per_m": 0.011483129084572209
+            },
+            {
+              "length": 700.0,
+              "segments": 97,
+              "t_err_percent": 6.810961376518502,
+              "r_err_deg_per_m": 0.010227742884194547
+            },
+            {
+              "length": 800.0,
+              "segments": 86,
+              "t_err_percent": 6.437324909223162,
+              "r_err_deg_per_m": 0.00942333841082513
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 8.0,
+              "segments": 56,
+              "t_err_percent": 4.455371494782413,
+              "r_err_deg_per_m": 0.03738197797469129
+            },
+            {
+              "speed": 10.0,
+              "segments": 680,
+              "t_err_percent": 4.898820381545199,
+              "r_err_deg_per_m": 0.015021682248698048
+            },
+            {
+              "speed": 12.0,
+              "segments": 154,
+              "t_err_percent": 3.7520795585228695,
+              "r_err_deg_per_m": 0.015157509613324696
+            },
+            {
+              "speed": 14.0,
+              "segments": 68,
+              "t_err_percent": 1.0158113032045386,
+              "r_err_deg_per_m": 0.008572670668121871
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "10",
+      "frames": 1201,
+      "path_length_m": 919.5184515163597,
+      "duration_s": 124.4944,
+      "seconds": 463.31233562499983,
+      "seconds_per_frame": 0.38577213624063267,
+      "mean_features": 1514.1808333333333,
+      "mean_depth_points": 1207.7391666666667,
+      "mean_stereo_inliers": 265.63,
+      "stereo_fallbacks": 0,
+      "mono_fallbacks": 14,
+      "methods": {
+        "stereo_vo": {
+          "segments": 464,
+          "t_err_percent": 1.4225591560204647,
+          "r_err_deg_per_m": 0.008259918684236799,
+          "ate_m": 3.329941431434044,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 98,
+              "t_err_percent": 0.9006930568762881,
+              "r_err_deg_per_m": 0.011359044788785072
+            },
+            {
+              "length": 200.0,
+              "segments": 84,
+              "t_err_percent": 0.9712266418745299,
+              "r_err_deg_per_m": 0.00922260369269159
+            },
+            {
+              "length": 300.0,
+              "segments": 77,
+              "t_err_percent": 1.238381637143637,
+              "r_err_deg_per_m": 0.00784498225004147
+            },
+            {
+              "length": 400.0,
+              "segments": 68,
+              "t_err_percent": 1.570680034927795,
+              "r_err_deg_per_m": 0.006859787643500837
+            },
+            {
+              "length": 500.0,
+              "segments": 51,
+              "t_err_percent": 1.919094191518839,
+              "r_err_deg_per_m": 0.007104271938431698
+            },
+            {
+              "length": 600.0,
+              "segments": 41,
+              "t_err_percent": 2.149379539723904,
+              "r_err_deg_per_m": 0.006281552057949775
+            },
+            {
+              "length": 700.0,
+              "segments": 29,
+              "t_err_percent": 2.313605941531607,
+              "r_err_deg_per_m": 0.005785759291086443
+            },
+            {
+              "length": 800.0,
+              "segments": 16,
+              "t_err_percent": 2.185120329153214,
+              "r_err_deg_per_m": 0.005408715894383079
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 27,
+              "t_err_percent": 1.1337882951417528,
+              "r_err_deg_per_m": 0.012392923705841307
+            },
+            {
+              "speed": 8.0,
+              "segments": 391,
+              "t_err_percent": 1.5057865714029295,
+              "r_err_deg_per_m": 0.00814002310987181
+            },
+            {
+              "speed": 10.0,
+              "segments": 28,
+              "t_err_percent": 0.9812749776063707,
+              "r_err_deg_per_m": 0.006724100668524723
+            },
+            {
+              "speed": 12.0,
+              "segments": 11,
+              "t_err_percent": 0.7887567323085009,
+              "r_err_deg_per_m": 0.006592660197768666
+            },
+            {
+              "speed": 14.0,
+              "segments": 5,
+              "t_err_percent": 0.6681151603090691,
+              "r_err_deg_per_m": 0.007181659544390375
+            }
+          ]
+        },
+        "mono_vo_gt_scale": {
+          "segments": 464,
+          "t_err_percent": 1.776439002683184,
+          "r_err_deg_per_m": 0.01737205718514683,
+          "ate_m": 4.623136910405263,
+          "by_length": [
+            {
+              "length": 100.0,
+              "segments": 98,
+              "t_err_percent": 1.161362969093907,
+              "r_err_deg_per_m": 0.023687678274378024
+            },
+            {
+              "length": 200.0,
+              "segments": 84,
+              "t_err_percent": 1.130508096377957,
+              "r_err_deg_per_m": 0.0167931921191347
+            },
+            {
+              "length": 300.0,
+              "segments": 77,
+              "t_err_percent": 1.5435832068579105,
+              "r_err_deg_per_m": 0.016008442165185585
+            },
+            {
+              "length": 400.0,
+              "segments": 68,
+              "t_err_percent": 2.065732936553797,
+              "r_err_deg_per_m": 0.015484450335898297
+            },
+            {
+              "length": 500.0,
+              "segments": 51,
+              "t_err_percent": 2.549231988423525,
+              "r_err_deg_per_m": 0.015774075726087508
+            },
+            {
+              "length": 600.0,
+              "segments": 41,
+              "t_err_percent": 2.6722861715041994,
+              "r_err_deg_per_m": 0.014779453905528286
+            },
+            {
+              "length": 700.0,
+              "segments": 29,
+              "t_err_percent": 2.6828069442344322,
+              "r_err_deg_per_m": 0.013978512193537336
+            },
+            {
+              "length": 800.0,
+              "segments": 16,
+              "t_err_percent": 2.4243583587661535,
+              "r_err_deg_per_m": 0.014200558105105532
+            }
+          ],
+          "by_speed": [
+            {
+              "speed": 6.0,
+              "segments": 27,
+              "t_err_percent": 1.923054763669248,
+              "r_err_deg_per_m": 0.029716762942498393
+            },
+            {
+              "speed": 8.0,
+              "segments": 391,
+              "t_err_percent": 1.8619077762762382,
+              "r_err_deg_per_m": 0.016902126543358455
+            },
+            {
+              "speed": 10.0,
+              "segments": 28,
+              "t_err_percent": 0.8906370623343636,
+              "r_err_deg_per_m": 0.014173570102259744
+            },
+            {
+              "speed": 12.0,
+              "segments": 11,
+              "t_err_percent": 0.7714578723725979,
+              "r_err_deg_per_m": 0.008096506702440779
+            },
+            {
+              "speed": 14.0,
+              "segments": 5,
+              "t_err_percent": 0.5548505065670548,
+              "r_err_deg_per_m": 0.009075309552372545
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "overall": {
+    "stereo_vo": {
+      "segments": 14567,
+      "t_err_percent": 2.8814855967799793,
+      "r_err_deg_per_m": 0.008600140745090884,
+      "by_length": [
+        {
+          "length": 100.0,
+          "segments": 2182,
+          "t_err_percent": 2.2508324636614643,
+          "r_err_deg_per_m": 0.012074547467842867
+        },
+        {
+          "length": 200.0,
+          "segments": 2079,
+          "t_err_percent": 2.4620025500570226,
+          "r_err_deg_per_m": 0.00983449277800089
+        },
+        {
+          "length": 300.0,
+          "segments": 1972,
+          "t_err_percent": 2.7317866061238862,
+          "r_err_deg_per_m": 0.008741807296983947
+        },
+        {
+          "length": 400.0,
+          "segments": 1863,
+          "t_err_percent": 2.9648910950588694,
+          "r_err_deg_per_m": 0.008011538565865376
+        },
+        {
+          "length": 500.0,
+          "segments": 1760,
+          "t_err_percent": 3.1471178898228813,
+          "r_err_deg_per_m": 0.007536041135340209
+        },
+        {
+          "length": 600.0,
+          "segments": 1659,
+          "t_err_percent": 3.236480244874842,
+          "r_err_deg_per_m": 0.007192453219264145
+        },
+        {
+          "length": 700.0,
+          "segments": 1564,
+          "t_err_percent": 3.291470785703038,
+          "r_err_deg_per_m": 0.006964781006393965
+        },
+        {
+          "length": 800.0,
+          "segments": 1488,
+          "t_err_percent": 3.3454281804233426,
+          "r_err_deg_per_m": 0.006876819255795863
+        }
+      ],
+      "by_speed": [
+        {
+          "speed": 4.0,
+          "segments": 46,
+          "t_err_percent": 1.443706265088432,
+          "r_err_deg_per_m": 0.011550553855619561
+        },
+        {
+          "speed": 6.0,
+          "segments": 2091,
+          "t_err_percent": 1.936552604905397,
+          "r_err_deg_per_m": 0.008961406825543153
+        },
+        {
+          "speed": 8.0,
+          "segments": 6325,
+          "t_err_percent": 1.7605485818796656,
+          "r_err_deg_per_m": 0.007868151076170988
+        },
+        {
+          "speed": 10.0,
+          "segments": 3585,
+          "t_err_percent": 1.886352862374666,
+          "r_err_deg_per_m": 0.006916838551542283
+        },
+        {
+          "speed": 12.0,
+          "segments": 1641,
+          "t_err_percent": 1.7306194517993752,
+          "r_err_deg_per_m": 0.006232664216472406
+        },
+        {
+          "speed": 14.0,
+          "segments": 222,
+          "t_err_percent": 1.3288676360841358,
+          "r_err_deg_per_m": 0.006965226965495603
+        },
+        {
+          "speed": 16.0,
+          "segments": 46,
+          "t_err_percent": 5.087970960888741,
+          "r_err_deg_per_m": 0.017659578739869404
+        },
+        {
+          "speed": 18.0,
+          "segments": 34,
+          "t_err_percent": 9.640794146183817,
+          "r_err_deg_per_m": 0.019816123128427426
+        },
+        {
+          "speed": 20.0,
+          "segments": 45,
+          "t_err_percent": 12.43410611492332,
+          "r_err_deg_per_m": 0.01985070366167769
+        },
+        {
+          "speed": 22.0,
+          "segments": 59,
+          "t_err_percent": 11.640166751122177,
+          "r_err_deg_per_m": 0.014124009597454043
+        },
+        {
+          "speed": 24.0,
+          "segments": 145,
+          "t_err_percent": 28.044807962935884,
+          "r_err_deg_per_m": 0.02673501369585649
+        },
+        {
+          "speed": 26.0,
+          "segments": 328,
+          "t_err_percent": 33.387876043727445,
+          "r_err_deg_per_m": 0.03836083819881968
+        }
+      ],
+      "mean_ate_m": 29.886158098417788
+    },
+    "mono_vo_gt_scale": {
+      "segments": 14567,
+      "t_err_percent": 3.886972668376001,
+      "r_err_deg_per_m": 0.016656708644950585,
+      "by_length": [
+        {
+          "length": 100.0,
+          "segments": 2182,
+          "t_err_percent": 2.2437555981602215,
+          "r_err_deg_per_m": 0.026889194173432388
+        },
+        {
+          "length": 200.0,
+          "segments": 2079,
+          "t_err_percent": 3.018868404112969,
+          "r_err_deg_per_m": 0.020418539563676598
+        },
+        {
+          "length": 300.0,
+          "segments": 1972,
+          "t_err_percent": 3.660879068115256,
+          "r_err_deg_per_m": 0.01705733304899474
+        },
+        {
+          "length": 400.0,
+          "segments": 1863,
+          "t_err_percent": 4.1935224959454205,
+          "r_err_deg_per_m": 0.015166675517887007
+        },
+        {
+          "length": 500.0,
+          "segments": 1760,
+          "t_err_percent": 4.559212163236893,
+          "r_err_deg_per_m": 0.013667341246409474
+        },
+        {
+          "length": 600.0,
+          "segments": 1659,
+          "t_err_percent": 4.745452139502199,
+          "r_err_deg_per_m": 0.012574590604220033
+        },
+        {
+          "length": 700.0,
+          "segments": 1564,
+          "t_err_percent": 4.779953952138829,
+          "r_err_deg_per_m": 0.01168575489686708
+        },
+        {
+          "length": 800.0,
+          "segments": 1488,
+          "t_err_percent": 4.734459887601431,
+          "r_err_deg_per_m": 0.011042368994932165
+        }
+      ],
+      "by_speed": [
+        {
+          "speed": 4.0,
+          "segments": 46,
+          "t_err_percent": 3.212920763264843,
+          "r_err_deg_per_m": 0.03746626386448319
+        },
+        {
+          "speed": 6.0,
+          "segments": 2091,
+          "t_err_percent": 3.8012999276979027,
+          "r_err_deg_per_m": 0.021445749051169746
+        },
+        {
+          "speed": 8.0,
+          "segments": 6325,
+          "t_err_percent": 3.48850603455748,
+          "r_err_deg_per_m": 0.01724076234010224
+        },
+        {
+          "speed": 10.0,
+          "segments": 3585,
+          "t_err_percent": 4.3885432414077945,
+          "r_err_deg_per_m": 0.016107577623134292
+        },
+        {
+          "speed": 12.0,
+          "segments": 1641,
+          "t_err_percent": 3.041353047610542,
+          "r_err_deg_per_m": 0.013349596942576796
+        },
+        {
+          "speed": 14.0,
+          "segments": 222,
+          "t_err_percent": 1.1060815175406569,
+          "r_err_deg_per_m": 0.009218520136341354
+        },
+        {
+          "speed": 16.0,
+          "segments": 46,
+          "t_err_percent": 1.7792598120819485,
+          "r_err_deg_per_m": 0.007904495961861815
+        },
+        {
+          "speed": 18.0,
+          "segments": 34,
+          "t_err_percent": 3.3525323231693154,
+          "r_err_deg_per_m": 0.003955182018389087
+        },
+        {
+          "speed": 20.0,
+          "segments": 45,
+          "t_err_percent": 3.5318691117875876,
+          "r_err_deg_per_m": 0.0063208865503124115
+        },
+        {
+          "speed": 22.0,
+          "segments": 59,
+          "t_err_percent": 3.6150884329422053,
+          "r_err_deg_per_m": 0.008224132106601901
+        },
+        {
+          "speed": 24.0,
+          "segments": 145,
+          "t_err_percent": 10.719418533761086,
+          "r_err_deg_per_m": 0.010387324219520112
+        },
+        {
+          "speed": 26.0,
+          "segments": 328,
+          "t_err_percent": 10.27045016447518,
+          "r_err_deg_per_m": 0.007777954543776472
+        }
+      ],
+      "mean_ate_m": 23.64155543733672
+    }
+  }
+}
