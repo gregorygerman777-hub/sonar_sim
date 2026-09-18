@@ -20,6 +20,11 @@ issues are unresolved.
   with the devkit metric, beside published ORB SLAM2 and Stereo LSD-SLAM
   numbers. [Frozen protocol](optical_benchmark_20260918/PROTOCOL.md),
   [scores](optical_benchmark_20260918/results/metrics.json).
+- [Sonar odometry on the public DFKI ARIS recordings, KITTI form](dfki_sonar_kitti_form_20260918/REPORT.md):
+  the 2026-09-14 real-data trajectories rescored with the devkit metric at
+  0.25 to 2 m; not validated, mirrored heading on the 22 degree passes and a
+  planar model against 42 and 60 degree tilt. [Protocol](dfki_sonar_kitti_form_20260918/PROTOCOL.md),
+  [scores](dfki_sonar_kitti_form_20260918/results/metrics.json).
 - [KITTI-style benchmark, ten sequences, four estimators](kitti_benchmark_20260916/REPORT.md):
   KITTI pose files and metrics, the range-compensation finding, and the fusion
   weighting diagnosis. [Frozen protocol](kitti_benchmark_20260916/PROTOCOL.md),
@@ -54,6 +59,7 @@ python SLAM/kitti_benchmark_20260916/test_benchmark.py
 python SLAM/kitti_benchmark_20260916/run_benchmark.py
 python SLAM/optical_benchmark_20260918/test_vo.py
 python SLAM/optical_benchmark_20260918/run_kitti.py --workers 8
+python SLAM/dfki_sonar_kitti_form_20260918/score_dfki.py
 ```
 
 The optical run needs the KITTI odometry archives in `data_external/kitti_odometry`
