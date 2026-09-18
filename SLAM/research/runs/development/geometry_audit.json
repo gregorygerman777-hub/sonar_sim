@@ -1,0 +1,162 @@
+[
+  {
+    "sequence": "2023-09-20_180722",
+    "frames": 751,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.03652215003967285,
+      0.06739556789398193,
+      0.19659686088562012
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2774658203125,
+      1491.2774658203125
+    ],
+    "range_window_minmax_m": [
+      0.6949352990722656,
+      3.021328145751953
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.7431448254773942,
+      0.7431448254773942
+    ],
+    "reference_sha256": {
+      "gantry.csv": "e1ba506be2d683c6fb0fea4e8415836fbf832312ce6e38b3624b1bfe78e7761f",
+      "aris_frame_meta.csv": "9de010563e3136a65ab5ad18f4b3ed343aac3bffee9e2637436ad82dbb22546e"
+    }
+  },
+  {
+    "sequence": "2023-09-21_100927",
+    "frames": 725,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.05204010009765625,
+      0.0667414665222168,
+      0.16672301292419434
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2774658203125,
+      1491.6307373046875
+    ],
+    "range_window_minmax_m": [
+      0.6949352990722656,
+      2.0107182338867187
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -22.0,
+      -22.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.9271838545667874,
+      0.9271838545667874
+    ],
+    "reference_sha256": {
+      "gantry.csv": "e9cd091ae7a4a47ea8f223c1a249a4b526876224eb78a7b5763e2b5ffd29213a",
+      "aris_frame_meta.csv": "7071eff1856814ed89e0141ef37dc7f2d248f70c4a50de6fb8c2d57494822648"
+    }
+  },
+  {
+    "sequence": "2023-09-21_105856",
+    "frames": 220,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.05279111862182617,
+      0.06673192977905273,
+      0.08053398132324219
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2774658203125,
+      1491.2774658203125
+    ],
+    "range_window_minmax_m": [
+      0.6949352990722656,
+      2.010242023925781
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.5000000000000001,
+      0.5000000000000001
+    ],
+    "reference_sha256": {
+      "gantry.csv": "203f01aaa1ccc5a2f7ae6bb51251b31a9de94b9d92fa4408e54166967485348b",
+      "aris_frame_meta.csv": "f5bb2118b2d892dfca6321d21e1536acf3424d0fbf13f7129b65c0074a29ac68"
+    }
+  },
+  {
+    "sequence": "2023-09-21_123500",
+    "frames": 780,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.047781944274902344,
+      0.06673192977905273,
+      0.18071603775024414
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2774658203125,
+      1491.2774658203125
+    ],
+    "range_window_minmax_m": [
+      0.6949352990722656,
+      2.010242023925781
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -42.0,
+      -42.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.7431448254773942,
+      0.7431448254773942
+    ],
+    "reference_sha256": {
+      "gantry.csv": "b512a4d5870405e6dbc4aca77ac98b710f4f879284192063814024af1b99780e",
+      "aris_frame_meta.csv": "8a70cc5f4148d42a98b169c69c5372f56ae4e0bc49107ac7f4ad2d757844acfa"
+    }
+  },
+  {
+    "sequence": "2023-09-21_124735",
+    "frames": 592,
+    "timestamp_strictly_increasing": true,
+    "dt_min_median_max_s": [
+      0.05433487892150879,
+      0.06662893295288086,
+      0.17707300186157227
+    ],
+    "sound_speed_minmax_m_s": [
+      1491.2774658203125,
+      1491.2774658203125
+    ],
+    "range_window_minmax_m": [
+      0.6949352990722656,
+      2.010242023925781
+    ],
+    "homogeneous_position_disagreement_m": 0.0,
+    "homogeneous_yaw_disagreement_rad": 0.0,
+    "pitch_minmax_deg": [
+      -60.0,
+      -60.0
+    ],
+    "zero_elevation_forward_horizontal_scale_minmax": [
+      0.5000000000000001,
+      0.5000000000000001
+    ],
+    "reference_sha256": {
+      "gantry.csv": "07a24ea51116edbf622522b97047cc31182ce174c0992ec5c2cc194cacf9e4e7",
+      "aris_frame_meta.csv": "52c80ec83f08e2f20f46374e5b3c0fbe9553e8f1a81d0737229d1619113fc6e9"
+    }
+  }
+]

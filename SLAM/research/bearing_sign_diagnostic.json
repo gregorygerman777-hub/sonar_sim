@@ -1,0 +1,50 @@
+[
+  {
+    "sequence": "2023-09-20_180722_stride1",
+    "split": "development",
+    "original_ate_m": 2.88750086452539,
+    "prescribed_bearing_reversal_ate_m": 3.146293584299305
+  },
+  {
+    "sequence": "2023-09-21_100927_stride1",
+    "split": "development",
+    "original_ate_m": 1.3453895266355356,
+    "prescribed_bearing_reversal_ate_m": 1.2176239055478084
+  },
+  {
+    "sequence": "2023-09-21_105856_stride1",
+    "split": "development",
+    "original_ate_m": 0.14896484626892806,
+    "prescribed_bearing_reversal_ate_m": 0.14896484689993353
+  },
+  {
+    "sequence": "2023-09-21_123500_stride1",
+    "split": "development",
+    "original_ate_m": 1.368356800165596,
+    "prescribed_bearing_reversal_ate_m": 1.5313061615094619
+  },
+  {
+    "sequence": "2023-09-21_124735_stride1",
+    "split": "development",
+    "original_ate_m": 1.6888372030427048,
+    "prescribed_bearing_reversal_ate_m": 1.6888372030427048
+  },
+  {
+    "sequence": "2023-09-20_171105_stride1",
+    "split": "heldout",
+    "original_ate_m": 0.34464782064387595,
+    "prescribed_bearing_reversal_ate_m": 0.19101020594019616
+  },
+  {
+    "sequence": "2023-09-20_172513_stride1",
+    "split": "heldout",
+    "original_ate_m": 0.5908130683639607,
+    "prescribed_bearing_reversal_ate_m": 0.7605712070390862
+  },
+  {
+    "sequence": "2023-09-20_172851_stride1",
+    "split": "heldout",
+    "original_ate_m": 0.4160445184129098,
+    "prescribed_bearing_reversal_ate_m": 0.30843834789312274
+  }
+]

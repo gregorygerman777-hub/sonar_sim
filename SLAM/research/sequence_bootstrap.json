@@ -1,0 +1,42 @@
+[
+  {
+    "split": "development",
+    "contrast": "loop_minus_odometry",
+    "n_sequences": 5,
+    "mean_difference_m": 0.018371876607872935,
+    "descriptive_percentile95_m": [
+      -0.008589272026308149,
+      0.04533302524205403
+    ]
+  },
+  {
+    "split": "development",
+    "contrast": "odometry_minus_stationary",
+    "n_sequences": 5,
+    "mean_difference_m": 0.8597195530816016,
+    "descriptive_percentile95_m": [
+      0.2820100254897921,
+      1.528644374375087
+    ]
+  },
+  {
+    "split": "heldout",
+    "contrast": "loop_minus_odometry",
+    "n_sequences": 3,
+    "mean_difference_m": -0.024311847535214464,
+    "descriptive_percentile95_m": [
+      -0.07050028394052976,
+      0.008823957467611776
+    ]
+  },
+  {
+    "split": "heldout",
+    "contrast": "odometry_minus_stationary",
+    "n_sequences": 3,
+    "mean_difference_m": -0.26405520496014295,
+    "descriptive_percentile95_m": [
+      -0.3920603067199018,
+      -0.1577216284587376
+    ]
+  }
+]
