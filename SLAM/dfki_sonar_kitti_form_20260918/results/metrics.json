@@ -1,0 +1,1103 @@
+{
+  "source": "SLAM/research/runs (evaluate.py, 2026-09-14), stride 1",
+  "protocol_sha256": "a64e879970d576efabc7f9afc21ee3782f29bafe025cb5864256c9f3919b0239",
+  "lengths_m": [
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    1.75,
+    2.0
+  ],
+  "step_frames": 1,
+  "sequences": [
+    {
+      "sequence": "2023-09-20_180722",
+      "split": "development",
+      "frames": 751,
+      "path_length_m": 2.8482417204080552,
+      "duration_s": 53.45565891265869,
+      "tilt_deg": [
+        -42.0,
+        -42.0
+      ],
+      "loops": 0,
+      "rejected_pairs": 5,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 3632,
+          "t_err_percent": 587.0012639807265,
+          "r_err_deg_per_m": 139.92941828023228,
+          "ate_m": 2.88930227325718,
+          "stationary_ate_m": 0.7556871563490725,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 685,
+              "t_err_percent": 1062.854808545872,
+              "r_err_deg_per_m": 281.0834751528843
+            },
+            {
+              "length": 0.5,
+              "segments": 616,
+              "t_err_percent": 778.0762783293658,
+              "r_err_deg_per_m": 161.79024196011943
+            },
+            {
+              "length": 0.75,
+              "segments": 553,
+              "t_err_percent": 620.8401927564288,
+              "r_err_deg_per_m": 142.05802101744138
+            },
+            {
+              "length": 1.0,
+              "segments": 488,
+              "t_err_percent": 459.0129491573199,
+              "r_err_deg_per_m": 109.69930281814946
+            },
+            {
+              "length": 1.25,
+              "segments": 421,
+              "t_err_percent": 349.0099728928543,
+              "r_err_deg_per_m": 81.71451557406478
+            },
+            {
+              "length": 1.5,
+              "segments": 358,
+              "t_err_percent": 273.31365404289613,
+              "r_err_deg_per_m": 64.9405193601173
+            },
+            {
+              "length": 1.75,
+              "segments": 287,
+              "t_err_percent": 238.1365444285017,
+              "r_err_deg_per_m": 59.27754520810915
+            },
+            {
+              "length": 2.0,
+              "segments": 224,
+              "t_err_percent": 197.27874421375915,
+              "r_err_deg_per_m": 41.35785627862374
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 3632,
+          "t_err_percent": 587.0012639807265,
+          "r_err_deg_per_m": 139.9294182802323,
+          "ate_m": 2.889302273257179,
+          "stationary_ate_m": 0.7556871563490725,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 685,
+              "t_err_percent": 1062.8548085458715,
+              "r_err_deg_per_m": 281.0834751528843
+            },
+            {
+              "length": 0.5,
+              "segments": 616,
+              "t_err_percent": 778.0762783293658,
+              "r_err_deg_per_m": 161.79024196011943
+            },
+            {
+              "length": 0.75,
+              "segments": 553,
+              "t_err_percent": 620.8401927564287,
+              "r_err_deg_per_m": 142.05802101744135
+            },
+            {
+              "length": 1.0,
+              "segments": 488,
+              "t_err_percent": 459.01294915731984,
+              "r_err_deg_per_m": 109.69930281814946
+            },
+            {
+              "length": 1.25,
+              "segments": 421,
+              "t_err_percent": 349.00997289285425,
+              "r_err_deg_per_m": 81.71451557406478
+            },
+            {
+              "length": 1.5,
+              "segments": 358,
+              "t_err_percent": 273.31365404289613,
+              "r_err_deg_per_m": 64.9405193601173
+            },
+            {
+              "length": 1.75,
+              "segments": 287,
+              "t_err_percent": 238.1365444285017,
+              "r_err_deg_per_m": 59.27754520810915
+            },
+            {
+              "length": 2.0,
+              "segments": 224,
+              "t_err_percent": 197.27874421375913,
+              "r_err_deg_per_m": 41.35785627862375
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-21_100927",
+      "split": "development",
+      "frames": 725,
+      "path_length_m": 2.7061784206503052,
+      "duration_s": 49.4994261264801,
+      "tilt_deg": [
+        -22.0,
+        -22.0
+      ],
+      "loops": 6,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 3383,
+          "t_err_percent": 285.5296126282177,
+          "r_err_deg_per_m": 119.55092699139303,
+          "ate_m": 1.2785482067691214,
+          "stationary_ate_m": 0.7286176810674163,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 658,
+              "t_err_percent": 489.0895949748058,
+              "r_err_deg_per_m": 229.66532153579212
+            },
+            {
+              "length": 0.5,
+              "segments": 589,
+              "t_err_percent": 382.0645368829515,
+              "r_err_deg_per_m": 165.18019944145703
+            },
+            {
+              "length": 0.75,
+              "segments": 524,
+              "t_err_percent": 279.5921721853988,
+              "r_err_deg_per_m": 108.1797546379465
+            },
+            {
+              "length": 1.0,
+              "segments": 458,
+              "t_err_percent": 218.1440858629519,
+              "r_err_deg_per_m": 74.32229545798107
+            },
+            {
+              "length": 1.25,
+              "segments": 389,
+              "t_err_percent": 176.52573586660293,
+              "r_err_deg_per_m": 70.13284256164134
+            },
+            {
+              "length": 1.5,
+              "segments": 322,
+              "t_err_percent": 146.45194511509922,
+              "r_err_deg_per_m": 58.28925168292251
+            },
+            {
+              "length": 1.75,
+              "segments": 255,
+              "t_err_percent": 130.25820706012138,
+              "r_err_deg_per_m": 44.10583309136262
+            },
+            {
+              "length": 2.0,
+              "segments": 188,
+              "t_err_percent": 125.69970145690026,
+              "r_err_deg_per_m": 42.586499912749375
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 3383,
+          "t_err_percent": 296.86716443302805,
+          "r_err_deg_per_m": 123.45302742637139,
+          "ate_m": 1.3493930242299792,
+          "stationary_ate_m": 0.7286176810674163,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 658,
+              "t_err_percent": 505.2281963899383,
+              "r_err_deg_per_m": 232.25758086712537
+            },
+            {
+              "length": 0.5,
+              "segments": 589,
+              "t_err_percent": 398.3459727498174,
+              "r_err_deg_per_m": 170.9868046032509
+            },
+            {
+              "length": 0.75,
+              "segments": 524,
+              "t_err_percent": 299.55715802439045,
+              "r_err_deg_per_m": 120.22030541728331
+            },
+            {
+              "length": 1.0,
+              "segments": 458,
+              "t_err_percent": 234.46883382567964,
+              "r_err_deg_per_m": 80.70430943659332
+            },
+            {
+              "length": 1.25,
+              "segments": 389,
+              "t_err_percent": 181.73221589676058,
+              "r_err_deg_per_m": 68.88812617927425
+            },
+            {
+              "length": 1.5,
+              "segments": 322,
+              "t_err_percent": 143.9547137476587,
+              "r_err_deg_per_m": 58.037271016249136
+            },
+            {
+              "length": 1.75,
+              "segments": 255,
+              "t_err_percent": 127.20092215276067,
+              "r_err_deg_per_m": 41.994985121873896
+            },
+            {
+              "length": 2.0,
+              "segments": 188,
+              "t_err_percent": 124.45491726718025,
+              "r_err_deg_per_m": 42.30137416950636
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-21_105856",
+      "split": "development",
+      "frames": 220,
+      "path_length_m": 0.7223951259329868,
+      "duration_s": 14.599982023239136,
+      "tilt_deg": [
+        -60.0,
+        -60.0
+      ],
+      "loops": 69,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 213,
+          "t_err_percent": 53.46890027958001,
+          "r_err_deg_per_m": 4.726355757636577,
+          "ate_m": 0.1038872975405555,
+          "stationary_ate_m": 0.2114963754373173,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 144,
+              "t_err_percent": 54.20100543363384,
+              "r_err_deg_per_m": 5.747433889909812
+            },
+            {
+              "length": 0.5,
+              "segments": 69,
+              "t_err_percent": 51.94102865372853,
+              "r_err_deg_per_m": 2.5954100902837385
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 213,
+          "t_err_percent": 79.04032260869916,
+          "r_err_deg_per_m": 7.805127594979812,
+          "ate_m": 0.14754641421029352,
+          "stationary_ate_m": 0.2114963754373173,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 144,
+              "t_err_percent": 80.23592610797698,
+              "r_err_deg_per_m": 9.204260266514495
+            },
+            {
+              "length": 0.5,
+              "segments": 69,
+              "t_err_percent": 76.54515008846722,
+              "r_err_deg_per_m": 4.885198541342213
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-21_123500",
+      "split": "development",
+      "frames": 780,
+      "path_length_m": 2.8182087807843015,
+      "duration_s": 52.50917291641235,
+      "tilt_deg": [
+        -42.0,
+        -42.0
+      ],
+      "loops": 7,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 3760,
+          "t_err_percent": 307.13016041009325,
+          "r_err_deg_per_m": 148.73824270468782,
+          "ate_m": 1.3783838901694188,
+          "stationary_ate_m": 0.751349067852386,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 711,
+              "t_err_percent": 756.856983925704,
+              "r_err_deg_per_m": 361.2300522970349
+            },
+            {
+              "length": 0.5,
+              "segments": 642,
+              "t_err_percent": 359.4723224196637,
+              "r_err_deg_per_m": 183.58221275108693
+            },
+            {
+              "length": 0.75,
+              "segments": 573,
+              "t_err_percent": 227.9676436269002,
+              "r_err_deg_per_m": 111.3560049781146
+            },
+            {
+              "length": 1.0,
+              "segments": 504,
+              "t_err_percent": 180.3929930601534,
+              "r_err_deg_per_m": 74.2773104465156
+            },
+            {
+              "length": 1.25,
+              "segments": 436,
+              "t_err_percent": 156.26788039738548,
+              "r_err_deg_per_m": 69.19328134417175
+            },
+            {
+              "length": 1.5,
+              "segments": 368,
+              "t_err_percent": 126.2579760704579,
+              "r_err_deg_per_m": 74.95471492647206
+            },
+            {
+              "length": 1.75,
+              "segments": 298,
+              "t_err_percent": 108.94706993175625,
+              "r_err_deg_per_m": 49.8472303763943
+            },
+            {
+              "length": 2.0,
+              "segments": 228,
+              "t_err_percent": 75.86565960512263,
+              "r_err_deg_per_m": 46.9851275068729
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 3760,
+          "t_err_percent": 298.21031468756917,
+          "r_err_deg_per_m": 147.0828794285288,
+          "ate_m": 1.3532717978492632,
+          "stationary_ate_m": 0.751349067852386,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 711,
+              "t_err_percent": 740.3483815270198,
+              "r_err_deg_per_m": 358.2727107857418
+            },
+            {
+              "length": 0.5,
+              "segments": 642,
+              "t_err_percent": 355.9143668376367,
+              "r_err_deg_per_m": 186.33163859070766
+            },
+            {
+              "length": 0.75,
+              "segments": 573,
+              "t_err_percent": 217.26167951328654,
+              "r_err_deg_per_m": 106.85786565689098
+            },
+            {
+              "length": 1.0,
+              "segments": 504,
+              "t_err_percent": 169.7318945395849,
+              "r_err_deg_per_m": 69.83651473772291
+            },
+            {
+              "length": 1.25,
+              "segments": 436,
+              "t_err_percent": 145.04570860163827,
+              "r_err_deg_per_m": 67.91392926713985
+            },
+            {
+              "length": 1.5,
+              "segments": 368,
+              "t_err_percent": 123.96200308889551,
+              "r_err_deg_per_m": 76.30036787559817
+            },
+            {
+              "length": 1.75,
+              "segments": 298,
+              "t_err_percent": 104.62044278412104,
+              "r_err_deg_per_m": 47.90155837456748
+            },
+            {
+              "length": 2.0,
+              "segments": 228,
+              "t_err_percent": 71.55879475450043,
+              "r_err_deg_per_m": 45.10519264844944
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-21_124735",
+      "split": "development",
+      "frames": 592,
+      "path_length_m": 1.98031715669708,
+      "duration_s": 39.76692199707031,
+      "tilt_deg": [
+        -60.0,
+        -60.0
+      ],
+      "loops": 7,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 2049,
+          "t_err_percent": 425.19977633320786,
+          "r_err_deg_per_m": 182.8074797043574,
+          "ate_m": 1.667807055759557,
+          "stationary_ate_m": 0.5745373409391421,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 516,
+              "t_err_percent": 810.6863308593413,
+              "r_err_deg_per_m": 381.93846521541434
+            },
+            {
+              "length": 0.5,
+              "segments": 441,
+              "t_err_percent": 373.84008755980614,
+              "r_err_deg_per_m": 149.5965489323796
+            },
+            {
+              "length": 0.75,
+              "segments": 367,
+              "t_err_percent": 294.2846356959019,
+              "r_err_deg_per_m": 134.40424858281236
+            },
+            {
+              "length": 1.0,
+              "segments": 293,
+              "t_err_percent": 239.06688485433168,
+              "r_err_deg_per_m": 92.18181185609323
+            },
+            {
+              "length": 1.25,
+              "segments": 218,
+              "t_err_percent": 268.9437193335666,
+              "r_err_deg_per_m": 97.61879173569142
+            },
+            {
+              "length": 1.5,
+              "segments": 143,
+              "t_err_percent": 241.4510588234249,
+              "r_err_deg_per_m": 65.02512228806853
+            },
+            {
+              "length": 1.75,
+              "segments": 71,
+              "t_err_percent": 237.32993775022447,
+              "r_err_deg_per_m": 64.86029006469082
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 2049,
+          "t_err_percent": 425.6040534184011,
+          "r_err_deg_per_m": 183.66171193820193,
+          "ate_m": 1.6709185313809196,
+          "stationary_ate_m": 0.5745373409391421,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 516,
+              "t_err_percent": 808.5073689780236,
+              "r_err_deg_per_m": 380.65211200932725
+            },
+            {
+              "length": 0.5,
+              "segments": 441,
+              "t_err_percent": 375.1465356837352,
+              "r_err_deg_per_m": 153.1917448868743
+            },
+            {
+              "length": 0.75,
+              "segments": 367,
+              "t_err_percent": 294.1984267907351,
+              "r_err_deg_per_m": 137.07015121246525
+            },
+            {
+              "length": 1.0,
+              "segments": 293,
+              "t_err_percent": 243.10701418617668,
+              "r_err_deg_per_m": 93.50223817827681
+            },
+            {
+              "length": 1.25,
+              "segments": 218,
+              "t_err_percent": 271.45781760585504,
+              "r_err_deg_per_m": 95.576571230508
+            },
+            {
+              "length": 1.5,
+              "segments": 143,
+              "t_err_percent": 241.3479280140597,
+              "r_err_deg_per_m": 65.71343212397832
+            },
+            {
+              "length": 1.75,
+              "segments": 71,
+              "t_err_percent": 232.9795083419719,
+              "r_err_deg_per_m": 62.185688257208554
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-20_171105",
+      "split": "heldout",
+      "frames": 715,
+      "path_length_m": 2.6702677781002384,
+      "duration_s": 49.600385904312134,
+      "tilt_deg": [
+        -22.0,
+        -22.0
+      ],
+      "loops": 69,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 3332,
+          "t_err_percent": 168.75395267909764,
+          "r_err_deg_per_m": 72.16742307829405,
+          "ate_m": 0.3291618498816176,
+          "stationary_ate_m": 0.7216596753509565,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 648,
+              "t_err_percent": 177.9131056347203,
+              "r_err_deg_per_m": 73.41759287291046
+            },
+            {
+              "length": 0.5,
+              "segments": 581,
+              "t_err_percent": 175.65261442577759,
+              "r_err_deg_per_m": 72.80244978737949
+            },
+            {
+              "length": 0.75,
+              "segments": 517,
+              "t_err_percent": 173.5881458946919,
+              "r_err_deg_per_m": 71.52781052861556
+            },
+            {
+              "length": 1.0,
+              "segments": 449,
+              "t_err_percent": 170.3499199667927,
+              "r_err_deg_per_m": 71.27078008594948
+            },
+            {
+              "length": 1.25,
+              "segments": 386,
+              "t_err_percent": 166.22644548149162,
+              "r_err_deg_per_m": 71.98382993377052
+            },
+            {
+              "length": 1.5,
+              "segments": 319,
+              "t_err_percent": 159.35490710911566,
+              "r_err_deg_per_m": 71.82829678496316
+            },
+            {
+              "length": 1.75,
+              "segments": 252,
+              "t_err_percent": 151.40191032122752,
+              "r_err_deg_per_m": 71.39666034936853
+            },
+            {
+              "length": 2.0,
+              "segments": 180,
+              "t_err_percent": 142.01788153788436,
+              "r_err_deg_per_m": 71.76460249998438
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 3332,
+          "t_err_percent": 163.9520889747875,
+          "r_err_deg_per_m": 69.88024889097403,
+          "ate_m": 0.3385143411746815,
+          "stationary_ate_m": 0.7216596753509565,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 648,
+              "t_err_percent": 172.7837798997131,
+              "r_err_deg_per_m": 71.39517029139543
+            },
+            {
+              "length": 0.5,
+              "segments": 581,
+              "t_err_percent": 170.8034050318615,
+              "r_err_deg_per_m": 70.81064603412236
+            },
+            {
+              "length": 0.75,
+              "segments": 517,
+              "t_err_percent": 168.06221965455484,
+              "r_err_deg_per_m": 69.06112845437045
+            },
+            {
+              "length": 1.0,
+              "segments": 449,
+              "t_err_percent": 165.19859432888632,
+              "r_err_deg_per_m": 68.98384656681556
+            },
+            {
+              "length": 1.25,
+              "segments": 386,
+              "t_err_percent": 161.12784204189242,
+              "r_err_deg_per_m": 69.32688755404925
+            },
+            {
+              "length": 1.5,
+              "segments": 319,
+              "t_err_percent": 154.9904726571389,
+              "r_err_deg_per_m": 69.24038077517667
+            },
+            {
+              "length": 1.75,
+              "segments": 252,
+              "t_err_percent": 147.95630972254347,
+              "r_err_deg_per_m": 69.06178368465952
+            },
+            {
+              "length": 2.0,
+              "segments": 180,
+              "t_err_percent": 139.4614360806262,
+              "r_err_deg_per_m": 69.47863077215463
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-20_172513",
+      "split": "heldout",
+      "frames": 741,
+      "path_length_m": 2.8281590711686726,
+      "duration_s": 52.3331880569458,
+      "tilt_deg": [
+        -22.0,
+        -22.0
+      ],
+      "loops": 39,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 3594,
+          "t_err_percent": 203.67768667904386,
+          "r_err_deg_per_m": 76.12772963103977,
+          "ate_m": 0.6112309876894602,
+          "stationary_ate_m": 0.7533959489599107,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 678,
+              "t_err_percent": 252.18856148531685,
+              "r_err_deg_per_m": 78.50565888888991
+            },
+            {
+              "length": 0.5,
+              "segments": 611,
+              "t_err_percent": 217.00701858580123,
+              "r_err_deg_per_m": 73.02139058487234
+            },
+            {
+              "length": 0.75,
+              "segments": 547,
+              "t_err_percent": 194.35530984683822,
+              "r_err_deg_per_m": 72.79305642655922
+            },
+            {
+              "length": 1.0,
+              "segments": 482,
+              "t_err_percent": 183.26346450756571,
+              "r_err_deg_per_m": 74.85717819502135
+            },
+            {
+              "length": 1.25,
+              "segments": 416,
+              "t_err_percent": 187.99846756418066,
+              "r_err_deg_per_m": 80.04616889380254
+            },
+            {
+              "length": 1.5,
+              "segments": 351,
+              "t_err_percent": 186.34641673049268,
+              "r_err_deg_per_m": 81.61282704034578
+            },
+            {
+              "length": 1.75,
+              "segments": 288,
+              "t_err_percent": 180.1569984419658,
+              "r_err_deg_per_m": 75.78529353406218
+            },
+            {
+              "length": 2.0,
+              "segments": 221,
+              "t_err_percent": 173.28940349438392,
+              "r_err_deg_per_m": 72.80415871407826
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 3594,
+          "t_err_percent": 201.90107499392718,
+          "r_err_deg_per_m": 76.93727839171768,
+          "ate_m": 0.6003810257758091,
+          "stationary_ate_m": 0.7533959489599107,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 678,
+              "t_err_percent": 252.58004375906197,
+              "r_err_deg_per_m": 79.3599463519828
+            },
+            {
+              "length": 0.5,
+              "segments": 611,
+              "t_err_percent": 215.75476404308355,
+              "r_err_deg_per_m": 73.76999812863387
+            },
+            {
+              "length": 0.75,
+              "segments": 547,
+              "t_err_percent": 192.32392044409755,
+              "r_err_deg_per_m": 73.72796134990651
+            },
+            {
+              "length": 1.0,
+              "segments": 482,
+              "t_err_percent": 180.68259089867118,
+              "r_err_deg_per_m": 75.64707614993227
+            },
+            {
+              "length": 1.25,
+              "segments": 416,
+              "t_err_percent": 185.40426875657076,
+              "r_err_deg_per_m": 80.77392560695328
+            },
+            {
+              "length": 1.5,
+              "segments": 351,
+              "t_err_percent": 183.56372977130536,
+              "r_err_deg_per_m": 82.3186020350542
+            },
+            {
+              "length": 1.75,
+              "segments": 288,
+              "t_err_percent": 177.40265705662114,
+              "r_err_deg_per_m": 76.60050992066063
+            },
+            {
+              "length": 2.0,
+              "segments": 221,
+              "t_err_percent": 170.20737352197642,
+              "r_err_deg_per_m": 73.68891977366825
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sequence": "2023-09-20_172851",
+      "split": "heldout",
+      "frames": 709,
+      "path_length_m": 2.667016484979292,
+      "duration_s": 49.53385090827942,
+      "tilt_deg": [
+        -22.0,
+        -22.0
+      ],
+      "loops": 69,
+      "rejected_pairs": 0,
+      "methods": {
+        "sonar_odometry": {
+          "segments": 3313,
+          "t_err_percent": 138.76899352562245,
+          "r_err_deg_per_m": 61.86753612170172,
+          "ate_m": 0.4831253616676221,
+          "stationary_ate_m": 0.7226239450049592,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 641,
+              "t_err_percent": 151.18950456228833,
+              "r_err_deg_per_m": 66.52207390012514
+            },
+            {
+              "length": 0.5,
+              "segments": 579,
+              "t_err_percent": 146.692833437443,
+              "r_err_deg_per_m": 63.96750469849216
+            },
+            {
+              "length": 0.75,
+              "segments": 516,
+              "t_err_percent": 141.59198353948022,
+              "r_err_deg_per_m": 62.06354654344651
+            },
+            {
+              "length": 1.0,
+              "segments": 448,
+              "t_err_percent": 135.79183386666554,
+              "r_err_deg_per_m": 59.65823733520018
+            },
+            {
+              "length": 1.25,
+              "segments": 378,
+              "t_err_percent": 130.25790537594676,
+              "r_err_deg_per_m": 57.497112048122574
+            },
+            {
+              "length": 1.5,
+              "segments": 315,
+              "t_err_percent": 127.93589568374895,
+              "r_err_deg_per_m": 57.90893009817715
+            },
+            {
+              "length": 1.75,
+              "segments": 252,
+              "t_err_percent": 126.20206316400801,
+              "r_err_deg_per_m": 60.00922333914121
+            },
+            {
+              "length": 2.0,
+              "segments": 184,
+              "t_err_percent": 123.13930541969542,
+              "r_err_deg_per_m": 62.17438381316767
+            }
+          ]
+        },
+        "sonar_slam": {
+          "segments": 3313,
+          "t_err_percent": 151.53818318578664,
+          "r_err_deg_per_m": 69.71789730635459,
+          "ate_m": 0.41132605444778614,
+          "stationary_ate_m": 0.7226239450049592,
+          "by_length": [
+            {
+              "length": 0.25,
+              "segments": 641,
+              "t_err_percent": 165.2471887744164,
+              "r_err_deg_per_m": 74.07204102697017
+            },
+            {
+              "length": 0.5,
+              "segments": 579,
+              "t_err_percent": 158.84815781994237,
+              "r_err_deg_per_m": 70.39625541139421
+            },
+            {
+              "length": 0.75,
+              "segments": 516,
+              "t_err_percent": 154.67330118559715,
+              "r_err_deg_per_m": 69.0499648305053
+            },
+            {
+              "length": 1.0,
+              "segments": 448,
+              "t_err_percent": 150.79969896393547,
+              "r_err_deg_per_m": 68.39450296582054
+            },
+            {
+              "length": 1.25,
+              "segments": 378,
+              "t_err_percent": 145.56217034220643,
+              "r_err_deg_per_m": 67.13632450489253
+            },
+            {
+              "length": 1.5,
+              "segments": 315,
+              "t_err_percent": 140.3155937616875,
+              "r_err_deg_per_m": 67.2013093720636
+            },
+            {
+              "length": 1.75,
+              "segments": 252,
+              "t_err_percent": 134.61316467952088,
+              "r_err_deg_per_m": 68.26332887537163
+            },
+            {
+              "length": 2.0,
+              "segments": 184,
+              "t_err_percent": 128.45299478927996,
+              "r_err_deg_per_m": 69.11392620432724
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "overall": {
+    "sonar_odometry": {
+      "segments": 23276,
+      "t_err_percent": 295.9879422026606,
+      "r_err_deg_per_m": 110.26514549870889,
+      "by_length": [
+        {
+          "length": 0.25,
+          "segments": 4681,
+          "t_err_percent": 512.1352091406012,
+          "r_err_deg_per_m": 201.2062580737157
+        },
+        {
+          "length": 0.5,
+          "segments": 4128,
+          "t_err_percent": 344.75296709228064,
+          "r_err_deg_per_m": 122.3150064617999
+        },
+        {
+          "length": 0.75,
+          "segments": 3597,
+          "t_err_percent": 277.3360398493778,
+          "r_err_deg_per_m": 99.30500335288335
+        },
+        {
+          "length": 1.0,
+          "segments": 3122,
+          "t_err_percent": 227.58738687016117,
+          "r_err_deg_per_m": 79.06038978496244
+        },
+        {
+          "length": 1.25,
+          "segments": 2644,
+          "t_err_percent": 201.95631437316212,
+          "r_err_deg_per_m": 74.1117727103052
+        },
+        {
+          "length": 1.5,
+          "segments": 2176,
+          "t_err_percent": 175.797732472743,
+          "r_err_deg_per_m": 68.33658754570267
+        },
+        {
+          "length": 1.75,
+          "segments": 1703,
+          "t_err_percent": 160.14039949548194,
+          "r_err_deg_per_m": 60.28164732066806
+        },
+        {
+          "length": 2.0,
+          "segments": 1225,
+          "t_err_percent": 140.11196899106062,
+          "r_err_deg_per_m": 55.86160408898528
+        }
+      ]
+    },
+    "sonar_slam": {
+      "segments": 23276,
+      "t_err_percent": 297.3202487685524,
+      "r_err_deg_per_m": 111.58322594896478,
+      "by_length": [
+        {
+          "length": 0.25,
+          "segments": 4681,
+          "t_err_percent": 513.7286432694896,
+          "r_err_deg_per_m": 201.96363204612354
+        },
+        {
+          "length": 0.5,
+          "segments": 4128,
+          "t_err_percent": 347.91062234363085,
+          "r_err_deg_per_m": 124.72564273596524
+        },
+        {
+          "length": 0.75,
+          "segments": 3597,
+          "t_err_percent": 279.30361908492995,
+          "r_err_deg_per_m": 101.4043392548023
+        },
+        {
+          "length": 1.0,
+          "segments": 3122,
+          "t_err_percent": 229.65461815762544,
+          "r_err_deg_per_m": 80.45034204122976
+        },
+        {
+          "length": 1.25,
+          "segments": 2644,
+          "t_err_percent": 202.11451852510595,
+          "r_err_deg_per_m": 74.65397887305129
+        },
+        {
+          "length": 1.5,
+          "segments": 2176,
+          "t_err_percent": 175.73654355657814,
+          "r_err_deg_per_m": 69.65174016722825
+        },
+        {
+          "length": 1.75,
+          "segments": 1703,
+          "t_err_percent": 159.01311404786208,
+          "r_err_deg_per_m": 60.52736357308643
+        },
+        {
+          "length": 2.0,
+          "segments": 1225,
+          "t_err_percent": 138.98580199039597,
+          "r_err_deg_per_m": 56.33401575893072
+        }
+      ]
+    }
+  },
+  "by_split": {
+    "development": {
+      "sonar_odometry": {
+        "segments": 13037,
+        "t_err_percent": 393.90717886841327,
+        "r_err_deg_per_m": 141.71200931701446
+      },
+      "sonar_slam": {
+        "segments": 13037,
+        "t_err_percent": 394.7579416622037,
+        "r_err_deg_per_m": 142.4317101762363
+      }
+    },
+    "heldout": {
+      "sonar_odometry": {
+        "segments": 10239,
+        "t_err_percent": 171.31042599879126,
+        "r_err_deg_per_m": 70.22483261666477
+      },
+      "sonar_slam": {
+        "segments": 10239,
+        "t_err_percent": 173.25586726112678,
+        "r_err_deg_per_m": 72.3048111749694
+      }
+    }
+  }
+}

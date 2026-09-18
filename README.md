@@ -8,6 +8,10 @@
   reaches 1.0 to 2.1 percent translation error on ten sequences (2.88 percent
   pooled, 25 percent on the highway sequence 01). Pose files are in KITTI layout
   and the run reproduces with one command.
+- [Sonar odometry on the public DFKI ARIS recordings](SLAM/dfki_sonar_kitti_form_20260918/REPORT.md):
+  the sonar estimator scored in KITTI form on eight real tank recordings with
+  gantry ground truth. Not validated: the planar model does not fit the 22 to
+  60 degree tilted sonar, with the diagnosis and next step on record.
 - [Sonar SLAM on simulated sequences](SLAM/kitti_benchmark_20260916/REPORT.md):
   ten synthetic sequences with exact ground truth, four estimators, KITTI
   metrics, and the finding that the feature front end needs range compensated
