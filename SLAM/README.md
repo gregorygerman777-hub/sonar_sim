@@ -15,6 +15,14 @@ issues are unresolved.
 
 ## Reports and results
 
+- [Pairwise verification and multi-view consistency on real pool imagery](pool_consistency_20260919/README.md):
+  the camera front end assessed on Dr. Negahdaripour's own 117-frame sequence
+  (no ground truth available), using full pairwise geometric verification,
+  multi-view rotation averaging cross-validated by an independent spectral
+  estimator, and a translation-direction consistency check. Finds 34 of 117
+  frames stably determined, 46 with an unresolved orientation traced to a
+  single graph edge, and 37 failing pairwise verification outright.
+  [Report](pool_consistency_20260919/REPORT.pdf).
 - [Visual odometry on the KITTI odometry benchmark](optical_benchmark_20260918/REPORT.md):
   the camera front end (stereo and monocular) assessed on sequences 00 to 10
   with the devkit metric, beside published ORB SLAM2 and Stereo LSD-SLAM
