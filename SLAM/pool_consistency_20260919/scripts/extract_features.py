@@ -1,4 +1,4 @@
-"""Stage A: extract and cache ORB features for every frame once."""
+# Extract and cache ORB features for all 117 frames, once.
 import pickle
 import sys
 import time

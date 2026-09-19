@@ -1,22 +1,13 @@
-"""Stage F: three-view (triplet) cycle-consistency check, beyond pairwise.
-
-Pairwise essential-matrix verification (Stage B) and global rotation averaging
-(Stage D) both operate on the graph of 2-view measurements. This stage adds an
-explicit N>2 check: for every triangle of frames (i, j, k) that all three
-pairwise edges connect, the three independently measured relative rotations
-should compose to the identity around the loop:
-
-    R_ik  =~  R_jk @ R_ij      (equivalently  R_ij @ R_jk @ R_ki  =~  I)
-
-This is the classical loop-consistency / cycle-consistency test used to reject
-outlier pairwise measurements before rotation averaging (Zach, Klopschitz and
-Pollefeys, "Disambiguating visual relations using loop constraints," CVPR
-2010). It is independent of the global least-squares fit in Stage D: a
-measurement can be scored here using only its own triangle, without any
-global optimisation, and a pairwise edge that is wrong will show up in
-*every* triangle it participates in, while a genuinely correct edge should
-show up in consistent triangles with edges that are themselves correct.
-"""
+# Everything so far only checks pairs. This adds a real N>2 check: for every
+# triangle of frames (i, j, k) where all three pairwise edges exist, the
+# three measured rotations should compose back to identity around the loop:
+#
+#   R_ik ~= R_jk @ R_ij   (same as R_ij @ R_jk @ R_ki ~= I)
+#
+# Standard trick for rejecting bad edges before rotation averaging (Zach,
+# Klopschitz & Pollefeys, CVPR 2010). Doesn't need the global fit at all --
+# a wrong edge shows up in every triangle it's part of, a correct one only
+# shows up in triangles with other correct edges.
 import itertools
 import pickle
 from collections import defaultdict

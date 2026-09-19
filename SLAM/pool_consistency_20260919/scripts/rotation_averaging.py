@@ -1,14 +1,9 @@
-"""Stage D: robust multi-view rotation averaging over the verified pairwise graph.
-
-Sequential (frame i -> i+1 only) chaining uses one noisy measurement per step and
-has no way to detect or down-weight a bad one; once one step fails the whole downstream
-chain is corrupted. With the full pairwise graph, every frame's global orientation is
-over-determined by many independent pairwise measurements, so outliers can be
-outvoted. This is standard multi-view geometry practice (see Hartley, Trumpy, Chin
-and Kahl, "Rotation Averaging," IJCV 2013): build the graph of pairwise relative
-rotations, initialise by a spanning tree, then jointly refine all absolute rotations
-by nonlinear least squares with a robust loss.
-"""
+# Multi-view rotation averaging over the pairwise graph instead of just chaining
+# consecutive frames. Chaining i->i+1 only means one bad step corrupts everything
+# downstream and there's no way to catch it. With the full graph each frame's
+# orientation is pinned down by many edges, so a bad measurement gets outvoted.
+# Basically Hartley et al 2013 (IJCV, "Rotation Averaging"): spanning-tree init,
+# then nonlinear refine with a robust loss over every edge at once.
 import pickle
 from pathlib import Path
 
@@ -113,7 +108,7 @@ def main():
     R_final, result = refine(n, edges, keep, R_init)
     print(f"refinement cost: init -> final, nfev={result.nfev}, cost={result.cost:.4f}")
 
-    # per-edge residual after refinement, for outlier / consistency reporting
+    # residual per edge after the fit -- big ones are probably wrong measurements
     edge_report = []
     for i, j, R_meas, w, epi, r_h in edges:
         if i not in keep or j not in keep:
@@ -135,7 +130,7 @@ def main():
           f"mean {resid.mean():.2f} deg, 90th pct {np.percentile(resid, 90):.2f} deg, "
           f"fraction > 10 deg: {(resid > 10).mean():.3f}")
 
-    # sequential-chain vs rotation-averaged per-step angle, for frames present in `keep`
+    # compare against the naive sequential chain for frames that are in `keep`
     with open(OUT / "pairwise_scaled_consecutive.pkl", "rb") as fh:
         consec = pickle.load(fh)["results"]
     comparison = []

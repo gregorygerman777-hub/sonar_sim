@@ -1,6 +1,5 @@
-"""Figure 6: threshold sweep (self-consistency vs. graph coverage trade-off).
-Figure 7: naive sequential chain vs. multi-view-averaged global orientation.
-"""
+# Fig 6: threshold sweep (self-consistency vs graph coverage trade-off).
+# Fig 7: naive sequential chain vs multi-view-averaged global orientation.
 import json
 import pickle
 from pathlib import Path

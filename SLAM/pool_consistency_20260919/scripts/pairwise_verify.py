@@ -1,16 +1,10 @@
-"""Stage B: full pairwise geometric verification, every one of C(117,2)=6786 frame pairs.
-
-For each pair (i, j), i < j: ORB descriptor matching (ratio test), essential-matrix
-RANSAC, cheirality-checked pose recovery (cv2.recoverPose), PLUS a homography fit on
-the same correspondences and the ORB-SLAM-style planarity ratio R_H = S_H/(S_H+S_F)
-(Mur-Artal, Montiel & Tardos, "ORB-SLAM", IEEE T-RO 2015, Sec. IV; originally Torr &
-Zisserman's model-selection scoring for E/F vs H). This flags pairs where the scene
-subtended by the correspondences is (near-)planar, a well known degeneracy of the
-5-point/8-point essential-matrix solver: many equally-consistent essential matrices
-fit a planar point set, so recovered rotation/translation can be spurious even with
-a healthy inlier count. This is essential here because the dominant scene content is
-a flat tiled pool floor.
-"""
+# Full pairwise verification -- all C(117,2) = 6786 frame pairs, not just
+# consecutive ones. For each pair: ORB matching + ratio test, essential matrix
+# RANSAC with cheirality check, and also a homography fit on the same points
+# to get the ORB-SLAM planarity ratio R_H = S_H/(S_H+S_F) (Mur-Artal et al
+# 2015, sec IV). Worth doing because the scene is mostly a flat tiled floor,
+# and a near-planar point set is a classic way for the 5-point solver to give
+# a confident-looking but wrong answer.
 import argparse
 import itertools
 import pickle

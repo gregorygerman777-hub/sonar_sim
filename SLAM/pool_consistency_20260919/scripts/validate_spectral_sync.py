@@ -1,27 +1,16 @@
-"""Falsification test for spectral_synchronize(), required before trusting its
-output on real data.
-
-Claim under test: spectral_synchronize() correctly recovers absolute
-rotations from noiseless pairwise relative rotation measurements, on the
-EXACT edge topology of the real pruned graph (80 nodes, 155 edges), not a
-generic random graph.
-
-Refuting observation: on noiseless synthetic data with this topology, the
-recovered rotations do not match ground truth to numerical precision, and/or
-the spectral gap is not large. If that happens the method or its
-implementation is broken and the real-data result is uninterpretable.
-
-Two conditions are run:
-  A. Noiseless: measured R_ij = R_j_true R_i_true^T exactly. Expected:
-     near machine precision recovery, large spectral gap.
-  B. Outlier sweep: a controlled fraction of edges replaced by an
-     independent uniformly random rotation (matching the "wrong
-     correspondence" failure mode identified on the real data in
-     Sections 4.3/4.5 of the report), at a fixed base noise of 1 degree
-     (matching the wrote OSCalibration accuracy scale) on the
-     non-outlier edges. 10 seeds per fraction for a distribution, not a
-     point estimate.
-"""
+# Before trusting spectral_synchronize() on real data: does it actually
+# recover the right rotations on noiseless synthetic data, using the exact
+# same graph topology as the real pruned graph (80 nodes, 155 edges)? If it
+# can't even do that, the implementation is broken and nothing downstream
+# means anything.
+#
+# Two checks:
+#  A. Noiseless -- R_ij = R_j_true R_i_true^T exactly. Should recover to
+#     machine precision with a clean spectral gap.
+#  B. Outlier sweep -- swap a fraction of edges for random rotations (this
+#     is the "wrong correspondence" failure mode seen on the real data),
+#     plus 1 degree of base noise on the rest. 10 seeds per fraction so we
+#     get a distribution, not one lucky/unlucky number.
 import pickle
 import sys
 from pathlib import Path

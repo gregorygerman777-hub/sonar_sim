@@ -1,7 +1,6 @@
-"""Figure 8: graph structure showing the single bridge edge (60,82) that gates
-the entire unstable block from the rest of the trusted core.
-Figure 9: cross-block candidate rotation histogram (sub-threshold population).
-"""
+# Fig 8: graph structure, showing the single bridge edge (60,82) that gates
+# the whole unstable block off from the rest of the trusted core.
+# Fig 9: cross-block candidate rotation histogram (sub-threshold pairs).
 import json
 import pickle
 from pathlib import Path

@@ -1,6 +1,6 @@
-"""Characterize self-consistency (rotation-averaging residual) vs. the inlier
-threshold used to admit a pairwise edge into the graph. Run with a per-threshold
-subprocess timeout so one difficult case can't stall the whole sweep."""
+# How does rotation-averaging self-consistency change with the inlier
+# threshold used to admit an edge into the graph? Runs each threshold in its
+# own subprocess with a timeout so one bad case can't stall the whole sweep.
 import pickle
 import sys
 from pathlib import Path

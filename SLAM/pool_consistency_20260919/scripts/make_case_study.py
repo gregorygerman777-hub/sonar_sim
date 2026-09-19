@@ -1,9 +1,8 @@
-"""Case study figure: frame 19 disagrees with its own multi-view-averaged rotation
-on several separate pairwise edges (19-20, 19-21, 19-24, 19-42, 19-47). Draw the
-actual matched correspondences for one such pair to show why: the rock/pebble
-target and tile grid are locally self-similar, so descriptor matching can lock
-onto a plausible but wrong correspondence set that still passes RANSAC.
-"""
+# Frame 19 disagrees with the averaged rotation on several edges (19-20,
+# 19-21, 19-24, 19-42, 19-47). Draw the matched points for one of them to see
+# why: the rock/pebble target and tile grid look similar enough in patches
+# that descriptor matching can lock onto a plausible but wrong set of
+# correspondences and still sail through RANSAC.
 from pathlib import Path
 
 import pickle

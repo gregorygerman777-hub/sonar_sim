@@ -1,25 +1,16 @@
-"""Falsification test: is the NLS (Huber) rotation-averaging solution on the
-real pruned graph unique, or merely one local optimum among several with
-comparably low residual?
-
-Motivation: the spectral gap on this exact graph is 0.0031 in the noiseless
-case (matching the scalar normalized-Laplacian Fiedler value to 3 significant
-figures, an exact identity for consistent group synchronization data) and
-collapses to 0.000088 on the real measured rotations. A small spectral gap is
-the standard warning sign in synchronization theory that the semidefinite
-relaxation is not tight and the maximum-likelihood estimate is not certified
-unique (Bandeira, Boumal and Singer, Math. Programming 2017). NLS with a
-robust loss approximates the MLE via local optimization from one spanning
-tree initialization; a small gap means a DIFFERENT initialization could
-converge to a meaningfully different answer with similarly low residual.
-
-Test: refit from 6 different spanning-tree roots (which changes the initial
-guess, not the data or the objective) and measure the SPREAD of the
-resulting relative rotations across a fixed set of frame pairs, after gauge
-alignment. Large spread would refute "the 0.90 deg residual solution is the
-answer"; small spread would refute the practical relevance of the small gap
-for this particular objective and data.
-"""
+# Is the rotation-averaging fit actually the answer, or just one of several
+# equally-good local optima? The spectral gap on this graph is tiny (0.0031
+# noiseless, matching the scalar Fiedler value almost exactly, and it
+# collapses to 0.000088 on the real data) -- textbook warning sign that the
+# problem isn't uniquely determined (Bandeira, Boumal & Singer 2017), and
+# nonlinear least squares from one spanning-tree start has no way to notice
+# if that's true.
+#
+# So: refit from 6 different spanning-tree roots (same data, same loss, just
+# a different starting guess) and see how much the actual relative rotations
+# move. If they barely move, the gap doesn't matter in practice here. If they
+# move a lot, the "0.90 deg residual" fit isn't the answer, it's just an
+# answer.
 import pickle
 import sys
 from pathlib import Path

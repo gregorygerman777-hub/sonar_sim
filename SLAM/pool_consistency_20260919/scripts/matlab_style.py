@@ -1,6 +1,5 @@
-"""A matplotlib rcParams profile that mimics default MATLAB R2019b+ figure styling:
-boxed axes (all four spines), inward ticks on all sides, the MATLAB categorical
-color order, Helvetica-class sans-serif type, and light gridlines."""
+# matplotlib rcParams that mimic default MATLAB figure styling: boxed axes,
+# ticks pointing in on all sides, the MATLAB color order, sans-serif type.
 import matplotlib.pyplot as plt
 
 MATLAB_COLORS = [

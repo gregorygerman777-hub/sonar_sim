@@ -1,15 +1,11 @@
-"""Stage E: independent focal-length check from the pool's tiled floor (RANSAC VP).
-
-Attempt only -- reported honestly regardless of outcome. Two-stage:
-1. The dominant near-parallel line family (grid lines roughly fronto-parallel in
-   the image) is found by angle clustering.
-2. The orthogonal, receding family (foreshortened, so its lines do NOT share a
-   common in-image angle) is found by proper vanishing-point RANSAC: sample pairs
-   of remaining lines, form a candidate VP at their intersection, count inliers as
-   lines passing near-through that point, keep the best-supported VP.
-Given both vanishing points, f = sqrt(-(v1-pp).(v2-pp)) for zero-skew, known
-principal point (Caprile & Torre 1990). This is a plausibility cross-check only.
-"""
+# Try to get an independent focal length estimate from the tiled floor's
+# vanishing points, just as a sanity check on the supplied K. Two line
+# families: the near-parallel grid lines (angle clustering finds these fine),
+# and the orthogonal receding ones, which don't share an image-space angle so
+# need actual VP-RANSAC (sample line pairs, intersect, count how many other
+# lines pass near that point). Given both VPs, f = sqrt(-(v1-pp).(v2-pp))
+# for zero skew / known principal point (Caprile & Torre 1990). Reporting
+# whatever this gives, including if it doesn't work.
 import json
 from pathlib import Path
 

@@ -1,25 +1,13 @@
-"""Stage I: translation-direction consistency, addressing the limitation flagged
-in Section 6 of the report (rotation was checked for multi-view consistency;
-translation was not).
-
-Given absolute rotations R_i (from the rotation-averaging fit, block A, the
-34-frame stable subgraph only, since translation synchronization needs a
-rotation to express directions in a common frame and block A is the only part
-of the graph with a certified unique rotation), each pairwise measurement
-gives a unit translation direction t_ij observed in camera i's own frame.
-Two-view geometry gives, for camera centres c_i, c_j in a common world frame:
-
-    t_ij  parallel to  R_i (c_j - c_i)
-
-which is linear and homogeneous in the unknown centres once R_i is known, so
-homogeneous least squares (a single global SVD; e.g. Govindu, "Combining
-two-view constraints for motion estimation," CVPR 2001, and the closed-form
-linear step used by Jiang, Cui and Tan, "A global linear method for camera
-pose registration," ICCV 2013) recovers all centres up to one unknown global
-scale and rotation. Consistency is then checked exactly as for rotation: the
-angle between each edge's measured t_ij and the direction implied by the
-solved centres and known R_i.
-"""
+# Rotation was checked for multi-view consistency, translation wasn't -- this
+# closes that gap. Only uses block A (the 34 frames with a certified rotation)
+# since we need R_i to express directions in a common frame in the first
+# place. Given R_i and a measured unit direction t_ij (camera i's frame),
+# two-view geometry says t_ij is parallel to R_i (c_j - c_i) for camera
+# centres c_i, c_j. That's linear and homogeneous in the unknown centres once
+# R_i is known, so one global SVD (Govindu CVPR 2001; closed form in Jiang,
+# Cui & Tan ICCV 2013) recovers every centre up to a global scale. Then check
+# consistency the same way as rotation: angle between measured and predicted
+# direction.
 import pickle
 from pathlib import Path
 
@@ -44,19 +32,14 @@ def main():
     R_final = rot_result["R_nls"]  # 0-indexed keys, from the standard (not pruned) NLS fit
     R = {f: R_final[f - 1] for f in block_a}
 
-    # inliers>=20 (the threshold used everywhere else) gives only 49 edges among
-    # 34 nodes, a rank-19 deficient bearing-only system (verified on synthetic
-    # generic motion using this exact topology: the deficiency reproduces
-    # identically with fully generic, non-degenerate camera positions, so it is
-    # a too-few-edges problem, not a critical configuration). Direction-only
-    # (bearing) constraints are rank 2 per edge versus rank 3 for a full
-    # rotation measurement, so a bearing network needs substantially more edges
-    # for the same node count. Emprically sweeping the threshold on this exact
-    # graph (same synthetic check) shows the deficiency falls to exactly 1 (the
-    # unavoidable global scale gauge, present in any bearing-only reconstruction)
-    # at inliers>=12 and stays at exactly 1 down to inliers>=4, so 12 is used
-    # here: the loosest threshold that is already fully rank, not the tightest
-    # one that still works.
+    # the usual inliers>=20 threshold only gives 49 edges among 34 nodes here,
+    # which is rank-19 deficient -- checked this against generic synthetic
+    # motion on the same graph and got the same deficiency, so it's just too
+    # few edges, not a bad camera configuration. Makes sense: a bearing-only
+    # edge is rank 2, not rank 3 like a full rotation, so you need more of
+    # them. Swept the threshold on the synthetic case and it's fully rank
+    # (down to the one unavoidable scale gauge) from inliers>=12 down to >=4,
+    # so using 12, the loosest one that still works.
     TRANSLATION_THRESHOLD = 12
     edges = []
     for r in d["results"]:

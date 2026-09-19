@@ -1,10 +1,8 @@
-"""Stage C: graph-level analysis of the full pairwise verification.
-
-- Matchability decay vs frame separation (quantifies the wide-baseline hypothesis).
-- Loop-closure search: verified pairs at large frame separation.
-- Correlation of per-frame tracking quality with blur / high-frequency ("caustic") energy.
-- Calibration sensitivity: scaled vs raw K, consecutive pairs.
-"""
+# Graph-level analysis of the pairwise verification results:
+# - matchability vs frame separation (checks the wide-baseline hypothesis)
+# - loop-closure search among verified pairs at large separation
+# - does tracking quality correlate with blur / high-frequency energy
+# - calibration sensitivity, scaled vs raw K
 import pickle
 from pathlib import Path
 

@@ -1,5 +1,5 @@
-"""Figures that don't depend on the threshold sweep: matchability decay,
-failure correlation scatter, R_H planarity histogram, calibration sensitivity."""
+# Figures that don't need the threshold sweep: matchability decay, failure
+# correlation scatter, R_H planarity histogram, calibration sensitivity.
 import json
 import pickle
 from pathlib import Path

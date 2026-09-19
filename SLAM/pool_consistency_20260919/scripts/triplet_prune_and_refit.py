@@ -1,11 +1,7 @@
-"""Stage G: use triplet cycle-consistency to prune specific bad edges out of the
-threshold-20 trusted-core graph, then redo rotation averaging on the cleaned
-graph. This is the full N>2 loop: pairwise verification (Stage B) finds
-candidate measurements; rotation averaging (Stage D) fits a global rotation
-to all of them; triplet cycle-consistency (this stage) finds specific edges
-that fail EVERY three-view loop they participate in (an edge-local test that
-does not depend on the global fit at all) and removes them before refitting.
-"""
+# Use the triangle test to actually prune bad edges out of the threshold-20
+# graph, then rerun rotation averaging on what's left. Ties the pieces
+# together: pairwise verification finds candidates, this drops the ones that
+# fail every triangle they're in, then we refit.
 import itertools
 import pickle
 import sys

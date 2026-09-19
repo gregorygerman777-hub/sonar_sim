@@ -1,40 +1,20 @@
-"""Stage H: (a) iterate triplet-consistency pruning to a fixed point, then
-(b) cross-validate the nonlinear (Huber) rotation-averaging estimate against
-an entirely independent, closed-form estimator: spectral rotation
-synchronization.
-
-Rotation synchronization as an eigenvalue problem (Singer, "Angular
-synchronization by eigenvectors and semidefinite programming," Appl. Comput.
-Harmon. Anal. 2011; extended to SO(3) in Arie-Nachimson, Kovalsky,
-Kemelmacher-Shlizerman, Singer and Basri, "Global motion estimation from
-point matches," 3DIMPVT 2012):
-
-Stack the unknown absolute rotations as a 3n x 3 block vector
-X = [R_1; R_2; ...; R_n]. A noiseless pairwise measurement satisfies
-R_ij = R_j R_i^T, i.e. R_j = R_ij R_i. Writing this as a linear map gives a
-3n x 3n block matrix H with block (i,j) = w_ij R_ij (edge weight w_ij,
-i < j), block (j,i) = w_ij R_ij^T, and zero elsewhere, such that
-H X = D X exactly when every measurement is exact (D block-diagonal, block i
-equal to the weighted degree of node i times the identity). This is a
-generalized eigenvalue problem H v = lambda D v; the eigenspace of its three
-largest eigenvalues is, up to a single unknown global rotation, the best
-rank-3 (least-squares, not robust) estimate of the absolute rotations, and
-projecting each recovered 3x3 block onto the nearest rotation matrix (via its
-own SVD) gives an estimate with no iteration, no initial guess and no
-outlier-rejection step of any kind: a genuinely independent check on the
-Huber-loss nonlinear estimate in rotation_averaging.py.
-
-The size of the spectral gap between the 3rd and 4th eigenvalues is itself a
-well-posedness certificate for the synchronization problem: for a
-noise-free, fully consistent set of measurements the top 3 eigenvalues
-exactly equal the largest connected block's mean degree and are strictly
-separated from the rest of the spectrum; as measurement noise or outlier
-fraction grows, the gap closes. This is the same diagnostic that
-underpins the semidefinite-relaxation tightness results for this problem
-(Bandeira, Boumal and Singer, "Tightness of the maximum likelihood
-semidefinite relaxation for angular synchronization," Math. Programming
-2017).
-"""
+# Second, independent check on the rotation-averaging fit: spectral
+# synchronization instead of nonlinear least squares. First prunes edges that
+# fail their own triangle (3-view loop) checks down to a fixed point, then
+# solves rotations as an eigenvalue problem (Singer 2011, extended to SO(3)
+# by Arie-Nachimson et al 2012) instead of iterating from a spanning tree.
+#
+# Quick derivation: stack rotations as X = [R_1; ...; R_n] (3n x 3). A clean
+# measurement gives R_j = R_ij R_i. Writing that as a linear map gives a
+# 3n x 3n block matrix H (block (i,j) = w_ij R_ij, block (j,i) = w_ij R_ij^T)
+# with H X = D X exactly when every measurement is exact (D = block-diagonal
+# weighted degrees). So the true rotations sit in the top-3 eigenspace of
+# H v = lambda D v -- no iteration, no initial guess needed.
+#
+# The gap between the 3rd and 4th eigenvalue is a free well-posedness check:
+# for consistent data it's large, and it closes as measurements get noisier
+# or more of them are wrong (same idea as the SDP-tightness result in
+# Bandeira, Boumal & Singer 2017).
 import itertools
 import pickle
 import sys
@@ -119,26 +99,18 @@ def spectral_synchronize(edges_weighted, keep):
     gap = eigvals[-3] - eigvals[-4] if m * 3 >= 4 else float("nan")
     top3_vecs = eigvecs[:, -3:][:, ::-1]  # (3m, 3)
 
-    # Each 3x3 block of top3_vecs equals R_true_node @ Q for a SINGLE unknown
-    # 3x3 matrix Q shared across every node (the synchronization gauge), with
-    # Q proportional to an orthogonal matrix (Q^T Q = c^2 I; this follows
-    # because X_true^T D X_true = (sum of degrees) I exactly, since every
-    # true block is itself orthogonal, and the D-orthonormality eigh enforces
-    # on its eigenvectors forces the same scalar-orthogonal structure on Q).
-    # Each block therefore has THREE EXACTLY EQUAL singular values, so a
-    # per-block SVD followed by an independent "flip a column if det<0"
-    # correction is numerically unstable: with a fully degenerate singular
-    # spectrum, that correction depends on an arbitrary, LAPACK-internal
-    # choice of basis for the degenerate subspace, and that choice is not
-    # guaranteed to agree between two different blocks (verified: on a
-    # noiseless 3-node synthetic case this reproduced consistent rotations
-    # for two nodes and one at exactly 180 degrees off). The raw product
-    # U @ V^T from a single, un-corrected SVD is provably basis-independent
-    # (a polar decomposition's orthogonal factor is unique for an invertible
-    # matrix regardless of how a degenerate SVD splits it between U and V),
-    # so blocks are normalized that way, and any single overall improper
-    # (det<0) gauge is corrected ONCE, using one reference node, and applied
-    # identically to every node -- never per node.
+    # Each 3x3 block equals R_true @ Q for one shared unknown matrix Q (the
+    # gauge), and Q turns out to be proportional to an orthogonal matrix --
+    # which means every block has three EXACTLY equal singular values. Found
+    # out the hard way that doing a per-block SVD + "flip if det<0" breaks
+    # here: with fully degenerate singular values that flip depends on
+    # whatever basis LAPACK happens to pick, and it doesn't agree block to
+    # block (a 3-node test case came back with two nodes right and one
+    # exactly 180 degrees off). U @ V^T from a plain SVD doesn't have that
+    # problem -- it's the polar decomposition's orthogonal factor, which is
+    # unique regardless of how the SVD splits it -- so that's what's used,
+    # and if the overall result comes out improper it's fixed once, from one
+    # reference node, and applied the same way to everyone else.
     R_raw = {}
     for a, node in enumerate(order):
         block = top3_vecs[3*a:3*a+3, :]

@@ -23,7 +23,7 @@ FIG = PHD / "figures"
 OUT = PHD / "report" / ("pairwise_verification_report_public.pdf" if PUBLIC else
                         "pairwise_verification_report.pdf")
 
-# ---------------------------------------------------------------- styles ---
+# styles
 styles = getSampleStyleSheet()
 BODY_FONT = "Times-Roman"
 BOLD_FONT = "Times-Bold"
@@ -99,7 +99,7 @@ def footer(canvas, doc):
 
 story = []
 
-# ============================================================ TITLE PAGE ===
+# title page
 story.append(Paragraph(
     "Pairwise Geometric Verification and Multi-View Consistency of a "
     "Monocular Visual Odometry Front End on Real Pool Imagery", title_style))
