@@ -15,8 +15,8 @@ another.
 ## Headline result
 
 A naive frame-to-frame chain drifts to an unphysical 500+ degrees of net
-rotation. Multi-view rotation averaging over the full pairwise graph, cross
-validated against an independent spectral estimator and checked for
+rotation. Multi-view rotation averaging over the full pairwise (ORB) graph,
+cross validated against an independent spectral estimator and checked for
 non-uniqueness by refitting from six different starting points, finds:
 
 - **34 of 117 frames** are internally consistent and stably determined
@@ -33,6 +33,22 @@ non-uniqueness by refitting from six different starting points, finds:
   times the rotation residual, consistent with the well-known relative
   fragility of translation-direction estimates from two-view geometry
   compared to rotation.
+
+**The obvious next question is whether edge (60,82) is even right, and the
+report tests it rather than leaving it open.** Redoing the entire pairwise
+protocol on all 117 frames with an unrelated, stronger descriptor (SIFT
+instead of ORB) does not corroborate that edge (5 inliers vs ORB's 25), and
+supplies 154 candidate cross-block measurements where ORB found one. But the
+resulting reconstruction is not more determined: nonlinear least squares and
+spectral synchronization on the SIFT graph disagree by a median of 136
+degrees across all 117 frames, close to the ~126.5 degrees expected between
+two unrelated random rotations. A stronger descriptor finds more
+correspondences everywhere on this repetitive rock/pebble/tile scene,
+including within self-similar regions, which produces more confident wrong
+measurements rather than better ones. Neither feature type gives a
+trustworthy 117-frame reconstruction; what actually catches both failures is
+cross-checking a local fit against a second, structurally independent
+estimator, not the choice of descriptor.
 
 Scene-planarity degeneracy and calibration uncertainty were tested directly
 and ruled out as explanations for any of the above. Full derivations,
@@ -86,9 +102,14 @@ trusted), and all figures are in the [report](REPORT.pdf).
    34-frame block, with its own synthetic rank-deficiency validation.
 10. `vanishing_point_calib.py`: an attempted (inconclusive) independent
     focal-length check from the tiled floor's vanishing points.
-11. `make_figures_*.py`, `make_figure_10.py`, `make_case_study.py`,
-    `matlab_style.py`: figure generation.
-12. `build_pdf.py`: assembles `REPORT.pdf` (set `REPORT_PUBLIC=1` to build
+11. `sift_crossblock.py`, `sift_full_pairwise.py`, `sift_full_pipeline.py`:
+    redo the pairwise protocol and the full graph pipeline (steps 2-8) with
+    SIFT instead of ORB, on all 117 frames, to test whether edge (60,82) and
+    the 46-frame ambiguity are ORB artifacts. They are not resolved by a
+    stronger descriptor; see Section 5 of the report.
+12. `make_figures_*.py`, `make_figure_10.py`, `make_figures_sift.py`,
+    `make_case_study.py`, `matlab_style.py`: figure generation.
+13. `build_pdf.py`: assembles `REPORT.pdf` (set `REPORT_PUBLIC=1` to build
     the redacted copy used in this repository).
 
 ## Reproducing

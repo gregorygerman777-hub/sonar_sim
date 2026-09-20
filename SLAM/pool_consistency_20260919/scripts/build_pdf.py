@@ -23,34 +23,37 @@ FIG = PHD / "figures"
 OUT = PHD / "report" / ("pairwise_verification_report_public.pdf" if PUBLIC else
                         "pairwise_verification_report.pdf")
 
-# styles
+# styles -- uniform Times New Roman (Times-Roman metrics), 13pt, no bold
+# weight anywhere, per house style. Italic is kept where it was (abstract,
+# captions) since that's a different axis from bold, not a substitute for it.
 styles = getSampleStyleSheet()
+BASE_SIZE = 13
 BODY_FONT = "Times-Roman"
-BOLD_FONT = "Times-Bold"
+BOLD_FONT = "Times-Roman"    # aliased to plain: no bold letters anywhere
 ITALIC_FONT = "Times-Italic"
 
-title_style = ParagraphStyle("TitleX", parent=styles["Title"], fontName=BOLD_FONT,
-                              fontSize=17, leading=21, spaceAfter=4, alignment=TA_LEFT)
+title_style = ParagraphStyle("TitleX", parent=styles["Title"], fontName=BODY_FONT,
+                              fontSize=BASE_SIZE, leading=17, spaceAfter=4, alignment=TA_LEFT)
 byline_style = ParagraphStyle("Byline", parent=styles["Normal"], fontName=BODY_FONT,
-                               fontSize=10.5, leading=14, spaceAfter=2, textColor=colors.HexColor("#222222"))
-abstract_head = ParagraphStyle("AbstractHead", parent=styles["Normal"], fontName=BOLD_FONT,
-                                fontSize=10.5, spaceBefore=10, spaceAfter=4)
+                               fontSize=BASE_SIZE, leading=16, spaceAfter=2, textColor=colors.HexColor("#222222"))
+abstract_head = ParagraphStyle("AbstractHead", parent=styles["Normal"], fontName=BODY_FONT,
+                                fontSize=BASE_SIZE, spaceBefore=10, spaceAfter=4)
 abstract_body = ParagraphStyle("AbstractBody", parent=styles["Normal"], fontName=ITALIC_FONT,
-                                fontSize=10, leading=13.5, alignment=TA_JUSTIFY,
+                                fontSize=BASE_SIZE, leading=17, alignment=TA_JUSTIFY,
                                 leftIndent=14, rightIndent=14)
-h1 = ParagraphStyle("H1", parent=styles["Heading1"], fontName=BOLD_FONT, fontSize=13,
+h1 = ParagraphStyle("H1", parent=styles["Heading1"], fontName=BODY_FONT, fontSize=BASE_SIZE,
                      spaceBefore=16, spaceAfter=6, textColor=colors.black)
-h2 = ParagraphStyle("H2", parent=styles["Heading2"], fontName=BOLD_FONT, fontSize=11.2,
+h2 = ParagraphStyle("H2", parent=styles["Heading2"], fontName=BODY_FONT, fontSize=BASE_SIZE,
                      spaceBefore=11, spaceAfter=4, textColor=colors.black)
-body = ParagraphStyle("Body", parent=styles["Normal"], fontName=BODY_FONT, fontSize=10.3,
-                       leading=14.2, alignment=TA_JUSTIFY, spaceAfter=7)
-caption = ParagraphStyle("Caption", parent=styles["Normal"], fontName=ITALIC_FONT, fontSize=8.7,
-                          leading=11.5, alignment=TA_JUSTIFY, spaceBefore=3, spaceAfter=12,
+body = ParagraphStyle("Body", parent=styles["Normal"], fontName=BODY_FONT, fontSize=BASE_SIZE,
+                       leading=17, alignment=TA_JUSTIFY, spaceAfter=7)
+caption = ParagraphStyle("Caption", parent=styles["Normal"], fontName=ITALIC_FONT, fontSize=BASE_SIZE,
+                          leading=16, alignment=TA_JUSTIFY, spaceBefore=3, spaceAfter=12,
                           textColor=colors.HexColor("#333333"))
 bullet = ParagraphStyle("Bullet", parent=body, leftIndent=14, bulletIndent=4, spaceAfter=3)
-refstyle = ParagraphStyle("Ref", parent=body, fontSize=9.6, leading=12.8, spaceAfter=6,
+refstyle = ParagraphStyle("Ref", parent=body, fontSize=BASE_SIZE, leading=16, spaceAfter=6,
                            leftIndent=14, firstLineIndent=-14)
-small_note = ParagraphStyle("SmallNote", parent=body, fontSize=9, leading=12,
+small_note = ParagraphStyle("SmallNote", parent=body, fontSize=BASE_SIZE, leading=16,
                              textColor=colors.HexColor("#444444"), spaceAfter=8)
 
 CONTENT_WIDTH = LETTER[0] - 1.8 * inch
@@ -68,7 +71,7 @@ def fig(name, width_in=6.4, cap=None):
     return KeepTogether(flow)
 
 
-def table(data, col_widths=None, font_size=8.6, header=True):
+def table(data, col_widths=None, font_size=BASE_SIZE, header=True):
     t = Table(data, colWidths=col_widths, hAlign="CENTER")
     style = [
         ("FONTNAME", (0, 0), (-1, -1), BODY_FONT),
@@ -99,7 +102,7 @@ def footer(canvas, doc):
 
 story = []
 
-# title page
+# ============================================================ TITLE PAGE ===
 story.append(Paragraph(
     "Pairwise Geometric Verification and Multi-View Consistency of a "
     "Monocular Visual Odometry Front End on Real Pool Imagery", title_style))
@@ -149,7 +152,19 @@ story.append(Paragraph(
     "the graph's connectivity, which the same synthetic validation confirms is sufficient. Scene-planarity "
     "degeneracy and calibration uncertainty in the supplied camera matrix were tested directly and ruled "
     "out as explanations for either finding above, and are not the explanation for the translation result "
-    "either, since it appears within a rotation block already shown not to suffer from either problem.",
+    "either, since it appears within a rotation block already shown not to suffer from either problem. "
+    "The obvious next question, whether edge (60, 82) is even correct, was tested by redoing the full "
+    "pairwise protocol on all 117 frames with an unrelated, stronger descriptor (SIFT in place of ORB). "
+    "It does not corroborate that edge (5 inliers against ORB's 25), and it connects all 117 frames from "
+    "the start where ORB left 37 unreachable, but the resulting reconstruction is not more determined: "
+    "spectral synchronization and nonlinear least squares, both independently validated, disagree by a "
+    "median of 136 degrees across the whole graph, close to the 126.5 degrees expected between two "
+    "unrelated random rotations. A stronger descriptor increases raw connectivity on this repetitive scene "
+    "by finding more high-confidence correspondences everywhere, including within self-similar regions, "
+    "which produces more internally consistent but simply wrong measurements rather than better ones. "
+    "Neither feature type yields a trustworthy 117-frame reconstruction, and a single local fit's residual "
+    "is not sufficient evidence under either one; only cross-checking against a second, structurally "
+    "independent estimator caught either failure.",
     abstract_body))
 
 story.append(Paragraph("1. Purpose and scope", h1))
@@ -212,7 +227,7 @@ story.append(Paragraph(
     "measurements actually support, which motivates the multi-view analysis in Section 4.4 rather than a "
     "simple frame-to-frame chain.", body))
 story.append(fig("fig1_matchability_decay.png", cap=(
-    "<b>Figure 1.</b> Mean essential-matrix inlier count (left axis, solid) and the fraction of pairs "
+    "Figure 1. Mean essential-matrix inlier count (left axis, solid) and the fraction of pairs "
     "clearing a 20-inlier bar (right axis, dashed) against frame separation, over all 6,786 pairs. Genuine "
     "matchability is effectively confined to separations under about 10 frames.")))
 
@@ -230,7 +245,7 @@ story.append(Paragraph(
     "therefore not what is destabilizing this dataset; the essential-matrix model is consistently preferred "
     "over the homography, including for the anomalous pairs examined in Section 4.5.", body))
 story.append(fig("fig3_planarity_ratio.png", cap=(
-    "<b>Figure 3.</b> Homography-versus-essential model-selection ratio R<sub>H</sub> over all verified "
+    "Figure 3. Homography-versus-essential model-selection ratio R<sub>H</sub> over all verified "
     "pairs (n = 1,888). Almost none approach the 0.45 threshold at which Mur-Artal et al. (2015) flag a "
     "scene as planar or low-parallax, ruling out the most obvious structural explanation for the "
     "inconsistency found in Section 4.4.")))
@@ -251,7 +266,7 @@ story.append(Paragraph(
     "scene moving rigidly, it cannot be matched consistently frame to frame. This is a hypothesis consistent "
     "with the measured correlations, not an independently confirmed physical mechanism.", body))
 story.append(fig("fig2_failure_correlation.png", cap=(
-    "<b>Figure 2.</b> Essential-matrix inlier count for each consecutive step against the destination "
+    "Figure 2. Essential-matrix inlier count for each consecutive step against the destination "
     "frame's Laplacian variance (left) and the source frame's intensity standard deviation (right), with an "
     "ordinary least-squares trend line. Both correlations are negative and highly significant.")))
 
@@ -290,19 +305,19 @@ table1_block = [table(
      ["25", "130", "34 / 117", "0.9 deg", "7.8 deg", "16.0%"],
      ["30", "99", "34 / 117", "0.4 deg", "4.6 deg", "9.1%"],
      ["40", "71", "21 / 117", "0.6 deg", "2.3 deg", "2.6%"]],
-    col_widths=[0.95*inch, 0.62*inch, 0.85*inch, 0.95*inch, 0.9*inch, 0.8*inch]),
+    col_widths=[1.15*inch, 0.85*inch, 1.05*inch, 1.15*inch, 1.15*inch, 1.05*inch], font_size=10),
     Paragraph(
-    "<b>Table 1.</b> Rotation-averaging self-consistency as a function of the inlier threshold admitted "
+    "Table 1. Rotation-averaging self-consistency as a function of the inlier threshold admitted "
     "into the pairwise graph. \"Disagreement\" is the geodesic angle between a graph edge's directly "
     "measured relative rotation and the same relative rotation implied by the jointly averaged absolute "
     "rotations of its two endpoints. Threshold 20 is adopted for the remainder of this report.", caption)]
 story.append(KeepTogether(table1_block))
 story.append(fig("fig6_threshold_sweep.png", cap=(
-    "<b>Figure 6.</b> The same sweep plotted: median disagreement falls steeply and then flattens past a "
+    "Figure 6. The same sweep plotted: median disagreement falls steeply and then flattens past a "
     "threshold of about 20, while connected coverage falls steeply beyond it. The adopted threshold sits at "
     "this knee.")))
 story.append(fig("fig7_sequential_vs_averaged.png", cap=(
-    "<b>Figure 7.</b> Cumulative yaw-axis rotation from the naive 116-step sequential chain (dashed) "
+    "Figure 7. Cumulative yaw-axis rotation from the naive 116-step sequential chain (dashed) "
     "against the multi-view-averaged trajectory restricted to the trusted core (solid, shaded columns mark "
     "excluded frames). The sequential chain drifts to an unphysical net rotation exceeding 500 degrees; the "
     "averaged trajectory stays within a bounded, physically plausible range throughout.")))
@@ -375,7 +390,7 @@ story.append(Paragraph(
     "globally best answer (Bandeira, Boumal and Singer, Math. Program., 2017). Section 4.7 tests this "
     "warning directly rather than citing it and moving on.", body))
 story.append(fig("fig6_threshold_sweep.png", cap=(
-    "<b>Figure 6.</b> Inlier-threshold sensitivity of the nonlinear fit alone (Section 4.4); the spectral "
+    "Figure 6. Inlier-threshold sensitivity of the nonlinear fit alone (Section 4.4); the spectral "
     "diagnostics of this section are a separate, independent check at the single threshold of 20 that this "
     "curve motivates.")))
 
@@ -420,10 +435,10 @@ story.append(Paragraph(
     "this requires a new, independent measurement across the same cut, not more analysis of the measurements "
     "already in hand.", body))
 story.append(fig("fig8_bridge_graph.png", cap=(
-    "<b>Figure 8.</b> The trusted-core graph, colored by the stable/unstable partition found in Section 4.7. "
+    "Figure 8. The trusted-core graph, colored by the stable/unstable partition found in Section 4.7. "
     "A single edge (heavy line, circled endpoints) is the only connection between the two halves.")))
 story.append(fig("fig9_crossblock_histogram.png", cap=(
-    "<b>Figure 9.</b> Rotation estimates from every candidate cross-block pair with at least 12 inliers "
+    "Figure 9. Rotation estimates from every candidate cross-block pair with at least 12 inliers "
     "(n=82 of 1,564 possible pairs). The population is too scattered to independently confirm or refute the "
     "one measurement, edge (60,82), that clears this report's normal admission threshold.")))
 
@@ -448,13 +463,13 @@ story.append(Paragraph(
     "threshold or the epipolar-geometry model in general.", body))
 if PUBLIC:
     story.append(fig("fig5_redacted_placeholder.png", width_in=6.0, cap=(
-        "<b>Figure 5 (redacted in this copy).</b> Shows 30 of the 31 accepted RANSAC inliers between "
+        "Figure 5 (redacted in this copy). Shows 30 of the 31 accepted RANSAC inliers between "
         "frames 19 and 47, nearly all lying along the boundary line between the pool floor and the target "
         "mat, which is what let a spurious 174-degree rotation pass verification. Withheld here because "
         "it displays the source photographs directly; see the local copy of this report.")))
 else:
     story.append(fig("fig5_case_study_aliasing.png", cap=(
-        "<b>Figure 5.</b> Thirty of the 31 accepted RANSAC inliers between frames 19 and 47 (orange), nearly "
+        "Figure 5. Thirty of the 31 accepted RANSAC inliers between frames 19 and 47 (orange), nearly "
         "all lying along the boundary line between the pool floor and the target mat. This one-dimensional "
         "concentration of correspondences, not scene planarity, is what let a spurious 174-degree rotation pass "
         "verification.")))
@@ -472,7 +487,7 @@ story.append(Paragraph(
     "assumption made in Section 2 is therefore not load-bearing for the rotation-based conclusions in this "
     "report.", body))
 story.append(fig("fig4_calibration_sensitivity.png", cap=(
-    "<b>Figure 4.</b> Per-step recovered rotation magnitude under the primary (width-scaled) and raw "
+    "Figure 4. Per-step recovered rotation magnitude under the primary (width-scaled) and raw "
     "OSCalibration.mat camera matrices. The two are visually indistinguishable outside a single unstable "
     "step, showing the rotation results are not sensitive to the calibration-scaling assumption.")))
 
@@ -530,11 +545,99 @@ story.append(Paragraph(
     "comparatively fragile part of the decomposition, and nothing in this report's rotation results implies "
     "the translation side would inherit the same reliability.", body))
 story.append(fig("fig10_translation_residual.png", cap=(
-    "<b>Figure 10.</b> Translation-direction residual for all 100 block-A internal edges with at least 12 "
+    "Figure 10. Translation-direction residual for all 100 block-A internal edges with at least 12 "
     "inliers, after solving for the best-fitting camera centres given the certified rotations. Median 40.6 "
     "degrees, roughly 40 times the corresponding rotation residual.")))
 
-story.append(Paragraph("5. Discussion: what this establishes, and what it does not", h1))
+story.append(Paragraph("5. A second feature type, on all 117 frames: does it resolve the ambiguity?", h1))
+story.append(Paragraph(
+    "Section 4.8 traced the entire 46-frame ambiguity to one measurement, edge (60, 82), and named the "
+    "obvious next question: is that measurement even right? ORB is a fast, low-dimensional binary "
+    "descriptor, not a particularly discriminating one, and this scene (repetitive rock, pebble and tile "
+    "texture) is exactly the kind that punishes weak descriptors. The natural test is to redo the full "
+    "pairwise protocol of Section 3 with a stronger, unrelated descriptor and see whether it agrees. SIFT "
+    "(Lowe, IJCV 2004) was used: true scale-space extrema, 128-dimensional float descriptors, matched with "
+    "a ratio test and the same essential-matrix RANSAC, homography planarity check and Sampson residual as "
+    "the ORB pipeline, on all 117 frames and all 6,786 pairs, not a subset.", body))
+
+story.append(Paragraph("5.1 Connectivity improves dramatically", h2))
+story.append(Paragraph(
+    "At the same 20-inlier admission bar used throughout this report, SIFT finds 966 verified edges "
+    "against ORB's 169, and critically, all 117 frames are connected in a single component before any "
+    "pruning at all, where ORB left 37 frames unreachable from the start. Of the 1,564 possible pairs "
+    "connecting the old block A and block B (Section 4.8), 154 clear the bar under SIFT, against exactly "
+    "one under ORB. Planarity is not the explanation for any of this: the homography-versus-essential ratio "
+    "has a median of 0.277 across the SIFT graph, essentially unchanged from the ORB graph's 0.33, with "
+    "only 0.3% of pairs anywhere near the 0.45 planar threshold.", body))
+story.append(Paragraph(
+    "Edge (60, 82) itself was checked directly rather than assumed to be replaced by the new graph: under "
+    "SIFT it produces only 5 inliers from 34 candidate matches, against ORB's 25 inliers from 68 matches. "
+    "An independent descriptor applied to the identical pair of frames does not corroborate the single "
+    "measurement the whole 46-frame block's orientation rested on.", body))
+
+story.append(Paragraph("5.2 But the reconstruction is not more determined; if anything, it is less", h2))
+story.append(Paragraph(
+    "The same three-view cycle-consistency pruning used in Section 4.4 was run on the SIFT graph. It "
+    "converges in two rounds, removing 348 of 966 edges (36%), leaving 618 edges that still connect all "
+    "117 frames. Nonlinear least squares on this cleaned graph gives a median residual of 5.47 degrees, "
+    "worse than ORB's 0.90 degrees on its smaller, 80-frame graph, but that comparison is not yet the "
+    "interesting one: a single local fit's residual, exactly as Section 4.7 already showed for ORB, is not "
+    "evidence that the fit is the answer.", body))
+story.append(Paragraph(
+    "So the same cross-check was applied. Spectral synchronization was run on the identical cleaned SIFT "
+    "graph and compared directly to the nonlinear solution, frame by frame, after the same rotation-gauge "
+    "alignment used in Section 4.5. The two independent, separately-validated estimators disagree by a "
+    "median of 136 degrees across all 117 frames, with 99.1% of frames disagreeing by more than 10 degrees "
+    "(Fig. 11). A median disagreement of 136 degrees between two proper rotations is close to what two "
+    "independent uniformly random rotations would give (the expected geodesic distance between two random "
+    "elements of SO(3) is 126.5 degrees); this is not a graph with a diagnosable weak point the way the ORB "
+    "graph had one identifiable bridge; it is a graph that is not determined at all. The spectral gap "
+    "confirms this from a different angle: 0.0039 on the cleaned SIFT graph, in the same small-gap regime "
+    "as the ORB graph's 0.0031 noiseless floor and its 0.000088 real-data value, and the top three "
+    "eigenvalues are no longer even close to equal (0.980, 0.976, 0.973), itself a sign of substantial "
+    "inconsistency independent of the gap.", body))
+story.append(fig("fig11_sift_nls_spectral_disagreement.png", cap=(
+    "Figure 11. Disagreement between nonlinear least squares and spectral synchronization on the cleaned "
+    "SIFT graph, all 117 frames. A median of 136 degrees is close to the 126.5-degree expected distance "
+    "between two independently random rotations: this reconstruction is not weakly determined in one "
+    "place, it is undetermined almost everywhere.")))
+story.append(fig("fig12_orb_vs_sift_comparison.png", cap=(
+    "Figure 12. The comparison that matters. A single local fit's residual (centre panel) makes ORB look "
+    "better than SIFT; checking each graph against an independent second estimator (right panel) shows "
+    "both are dominated by frames with no certified answer, SIFT modestly worse despite far better raw "
+    "connectivity (left panel). ORB's right-panel figure is the diagnosed fraction of its own 80-frame "
+    "subgraph found unstable under six-way re-initialization (Section 4.7); SIFT's is the direct "
+    "NLS-versus-spectral disagreement over all 117 frames.")))
+
+story.append(Paragraph("5.3 Why a stronger descriptor makes this worse, not better", h2))
+story.append(Paragraph(
+    "The mechanism is the same one diagnosed on a single pair in Section 4.9, now operating at scale. That "
+    "section showed a 174-degree spurious rotation passing RANSAC with a healthy 31-inlier count because "
+    "the accepted correspondences concentrated on a single near-straight boundary line, a configuration "
+    "that does not fully constrain the essential matrix no matter how many points sit on it. Repetitive "
+    "rock, pebble and tile texture is the same problem in two dimensions rather than one: many patches of "
+    "the scene look like many other patches. A weak descriptor like ORB simply fails to find enough "
+    "matches on such patches to pass the 20-inlier bar at all, which is why it left 37 frames disconnected. "
+    "A stronger descriptor like SIFT finds more candidate correspondences everywhere, including within "
+    "these self-similar regions, and RANSAC can then assemble large, internally self-consistent, "
+    "high-inlier-count correspondence sets that are simply wrong (several SIFT cross-block pairs reached "
+    "100 to 156 inliers with rotation estimates that disagreed with each other by more than 90 degrees). "
+    "Descriptor strength increases the raw supply of correspondences; it does not distinguish a true match "
+    "from a confident false one on a scene this repetitive, and past a point, more candidates simply means "
+    "more high-confidence wrong answers competing with the true one.", body))
+story.append(Paragraph(
+    "The result is not that SIFT is the wrong choice or that ORB should be preferred. Both were tested to "
+    "the same standard and both fail it, for the same underlying reason, at different points in the "
+    "pipeline: ORB fails early, by not connecting enough of the graph to test; SIFT fails late, by "
+    "connecting all of it with measurements that do not agree with each other. The finding that survives "
+    "is about the diagnostic, not the descriptor: a single local fit's residual is not trustworthy on this "
+    "dataset under either feature type, and the only way either failure mode was caught here is by cross-"
+    "checking against a second, structurally independent estimator, exactly as Sections 4.5 through 4.8 "
+    "did for ORB. Whichever front end is used on Dr. Negahdaripour's own optical data, the same "
+    "cross-check, not a residual number from a single fit, should be the bar a reconstruction is held to "
+    "before it is trusted.", body))
+
+story.append(Paragraph("6. Discussion: what this establishes, and what it does not", h1))
 story.append(Paragraph(
     "This is not a scored visual odometry benchmark and is not presented as one: there is no ground-truth "
     "trajectory to score against, so none of the KITTI-style percentages in the earlier reports apply here. "
@@ -553,13 +656,22 @@ story.append(Paragraph(
     "choices explain either the 34/46 split or the internal-consistency failures, each having been tested "
     "directly rather than assumed; and (v) a naive frame-to-frame chain, the simplest thing to compute and "
     "the thing that would be reported without any of this analysis, is actively misleading on this data "
-    "(Fig. 7) regardless of the finer 34/46 distinction. The practical consequence is specific rather than a "
-    "general caution: one additional independent measurement between the two blocks, or a triangle-closing "
-    "measurement to any third frame that already has reliable connections to both, would let the "
-    "cycle-consistency and spectral-gap checks in Sections 4.6 through 4.8 be rerun and would most likely "
-    "settle the remaining 46 frames one way or the other.", body))
+    "(Fig. 7) regardless of the finer 34/46 distinction. Section 4.8 proposed that one additional "
+    "independent measurement between the two blocks would settle the remaining 46 frames; Section 5 tested "
+    "this directly rather than leaving it as a proposal, by redoing the entire pairwise protocol on all 117 "
+    "frames with an unrelated, stronger descriptor. It supplied 154 such candidate measurements where ORB "
+    "supplied one, and the result was not resolution: nonlinear least squares and spectral synchronization "
+    "on the resulting graph disagree by a median of 136 degrees across the whole sequence, close to the "
+    "126.5 degrees expected of two unrelated random rotations. The corrected statement is therefore "
+    "narrower again than the 34/46/37 split above: that split is what a careful analysis of the ORB graph "
+    "alone supports, but it should not be read as implying the 34-frame core would still look like 34 "
+    "frames, or the boundary would still fall at the same 37 frames, under a different or additional "
+    "descriptor; Section 5 shows a stronger descriptor changes which frames connect and how, not simply "
+    "how many. What is stable across both descriptors is the diagnostic itself: a single local fit's "
+    "residual is not trustworthy on this dataset, full stop, and only cross-checking two structurally "
+    "independent estimators against each other exposed either failure.", body))
 
-story.append(Paragraph("6. Limitations", h1))
+story.append(Paragraph("7. Limitations", h1))
 items = [
     "No ground truth exists for this sequence, so nothing here is an accuracy claim; it is a "
     "self-consistency and failure-mode analysis only.",
@@ -592,15 +704,18 @@ items = [
 for it in items:
     story.append(Paragraph("&bull;&nbsp; " + it, bullet))
 
-story.append(Paragraph("7. Recommended next steps", h1))
+story.append(Paragraph("8. Recommended next steps", h1))
 story.append(Paragraph(
-    "Before any trajectory from this sequence is sent onward: (1) restrict any reported trajectory to the "
-    "34-frame stable block identified in Section 4.7 (Fig. 8, block A), or obtain one further independent "
-    "measurement connecting a block-A frame to a block-B frame other than (60, 82), which the cycle-"
-    "consistency and spectral-gap machinery already built here could then use to test whether the remaining "
-    "46 frames settle to a single answer; (2) more generally, acquire denser frame sampling (video rather "
-    "than widely spaced stills) so that consecutive-frame matchability, not sparse wide-baseline luck, "
-    "carries the sequence and the measurement graph is not this close to a bare path in the first place; "
+    "Section 5 forecloses the most direct fix (add measurements from a stronger descriptor) and shows it "
+    "does not simply reduce to picking a better feature type. The more general recommendations are what "
+    "should carry forward: (1) acquire denser frame sampling (video rather than widely spaced stills) so "
+    "that consecutive-frame matchability, not sparse wide-baseline luck, carries the sequence and the "
+    "measurement graph is not this close to a bare path in the first place, since that is the structural "
+    "root cause both descriptors ran into; (2) if a reconstruction from this exact sequence is still needed, "
+    "treat neither the ORB 34-frame block nor any SIFT-based subset as pre-certified, and instead run the "
+    "full cross-check (three-view pruning, then an independent second estimator, then multi-initialization "
+    "or the direct NLS-versus-spectral test used in Section 5) on whatever graph the intended front end "
+    "produces, since Section 5 shows this must be redone per front end rather than assumed to transfer; "
     "(3) investigate the large translation-direction residual found in Section 4.12, most directly by "
     "refining each pairwise translation direction jointly with structure (triangulated 3D points), the "
     "usual remedy when the raw two-view direction estimate is the weak part of a reconstruction, rather than "
@@ -609,7 +724,8 @@ story.append(Paragraph(
     "available, though Section 4.10 shows this is unlikely to change the rotation conclusions; (5) if this "
     "sequence or a similar one is to be used for a scored assessment, obtain or construct a reference "
     "trajectory (a surveyed target, a second camera, or an independent pose source), since without one no "
-    "absolute accuracy number of the kind reported for KITTI and DFKI ARIS can be produced.", body))
+    "absolute accuracy number of the kind reported for KITTI and DFKI ARIS can be produced, and no amount "
+    "of internal cross-checking substitutes for one.", body))
 
 story.append(Paragraph("References", h1))
 refs = [
@@ -638,6 +754,8 @@ refs = [
     "V. M. Govindu. Combining two-view constraints for motion estimation. <i>Proc. CVPR</i>, 2001.",
     "N. Jiang, Z. Cui and P. Tan. A global linear method for camera pose registration. <i>Proc. ICCV</i>, "
     "2013.",
+    "D. G. Lowe. Distinctive image features from scale-invariant keypoints. <i>International Journal of "
+    "Computer Vision</i>, 60(2):91-110, 2004.",
 ]
 for r in refs:
     story.append(Paragraph(r, refstyle))
