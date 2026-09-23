@@ -61,7 +61,7 @@ def read_ply(path):
 def git_commit(root):
     try:
         commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
-        dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=root, text=True).strip())
+        dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root, text=True).strip())
         return commit, dirty
     except Exception:  # noqa: BLE001
         return None, None
