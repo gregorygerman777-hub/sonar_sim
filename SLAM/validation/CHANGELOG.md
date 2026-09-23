@@ -59,7 +59,8 @@ initialised size (median scene depth 1). The shape was still right, which is why
 * **Test:** end to end synthetic feature test. On that test fusion changes little (the synthetic descriptors are
   unique, so duplicates are rare there). The map sanity bound was loosened from 2 to 3 cm. True points are
   about 15 cm apart, so a wrong map still fails. One seed moved from 0.95 to 2.2 cm, with keyframes going from 7 to 6.
-* **fr1/xyz after:** see RESULTS below (filled in from `results/`).
+* **fr1/xyz after:** ATE RMSE 0.0381 m (0.48 %), unchanged in effect, with about 650 keyframes. **Fusion was
+  later turned off again; see entry 7.** With fusion off, the map sanity bound in the unit test is back at 2 cm.
 
 ## 4. A lost map was never replaced (robustness, added)
 
@@ -87,3 +88,42 @@ initialised size (median scene depth 1). The shape was still right, which is why
 * **All results in `results/` were produced after this entry, with one code version** (commit in each
   `run_meta.json`). The intermediate fr1/xyz runs for entries 1 to 3 are kept outside the repository and only
   their numbers are quoted here.
+
+## 6. fr1/xyz is several times worse than COLMAP (investigated, not resolved)
+
+With the final code, fr1/xyz scores ATE 3.81 cm with ORB and 2.06 cm with SIFT. The COLMAP baseline on the same
+undistorted images and intrinsics scores 0.91 cm, and published ORB-SLAM monocular results on this sequence are around
+1 cm. The plan says a result much worse than an established method is a bug until shown otherwise, so this was
+investigated with diagnostic runs (in `~/sonar_work/diag`, not in `results/`, because they change settings):
+
+| Hypothesis | Test | fr1/xyz ORB ATE |
+|---|---|---|
+| (final code) | | 3.81 cm |
+| Ambiguous initialisation: the homography chosen at frames 0 and 2 had a runner up with 72 % of its points, close to the 75 % cut | Require runner up under 50 % (initialises at frames 0 and 23 instead) | 3.31 cm |
+| Homography decomposition itself | Essential matrix only (`homography_ratio=1.1`) | 3.83 cm |
+| Jitter of non keyframe poses | ATE on keyframes only vs all frames (v2 run) | 3.70 vs 3.79 cm |
+
+So it isn't the initialisation, the model choice, or per frame jitter. The error is a smooth distortion present over
+the whole run (per 100 frame blocks: 4.6, 4.4, 3.8, 2.2, 3.4, 3.8, 3.6, 3.7 cm). SIFT roughly halves it, and COLMAP is
+flat around 0.5 to 1 cm. The most likely remaining causes are feature localisation on the motion blurred,
+rolling shutter Kinect images (ORB suffers more than SIFT) and the lack of a global optimisation that uses every frame's
+observations: only keyframe observations enter BA here, while COLMAP bundles all 798 images with long tracks and
+also matches frames far apart in time (its "quadratic overlap" option), which acts like loop closure. Nothing in these tests pointed
+to a code defect, and on the synthetic and AQUALOC sequences the same code is at the millimetre level. **This stays
+an open limitation, stated in the report.** No setting was changed because of it.
+
+## 7. Point fusion collapsed the monocular scale on fr3 (bug, fusion turned off)
+
+* **Symptom (no ground truth needed):** in the fr3/long_office_household ORB run, the logged median scene depth
+  (1 at initialisation) went 0.67 (frame 600) to 0.18 (800) to 0.07 (1000) to 0.0013 (1450). The map was
+  shrinking by orders of magnitude. The camera circles a desk at a roughly constant distance, so this isn't real.
+* **Diagnosis:** the same 900 frames rerun with only `fuse_neighbors` changed. Without fusion the depth is 0.36 at
+  frame 700 (a real close pass) and recovers to 0.59 at frame 800. With fusion it keeps falling. Fusion also made
+  a keyframe on almost every frame: fused observations raise the reference keyframe's point count, which the
+  keyframe test compares against. A likely mechanism is merges of points whose depths are only loosely
+  determined, which lets local BA pull structure and cameras together. It was not pinned down further.
+* **Fix:** fusion is off by default (`fuse_neighbors=0`). The code stays in for anyone who wants to fix it.
+  Every monoslam result in `results/` was re-run after this change. The COLMAP runs were unaffected.
+* **Test:** `tests/test_regressions.py::TestFusionScaleCollapse` (runs with `RUN_SLOW=1`, about 8 minutes)
+  requires the median depth at frame 900 of fr3 to stay within 0.2 to 5. With `MONOSLAM_OLD_BEHAVIOUR=1` it
+  switches fusion back on.

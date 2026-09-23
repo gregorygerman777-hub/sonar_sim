@@ -145,6 +145,11 @@ def evaluate_segments(run_dir, ref, max_diff):
                 est_a = copy.deepcopy(est_a)
                 _, _, s = est_a.align(ref_a, correct_scale=True)
                 e = np.linalg.norm(est_a.positions_xyz - ref_a.positions_xyz, axis=1)
+                if name != "primary":
+                    np.savetxt(path.parent / "aligned_estimate_tum.txt",
+                               np.column_stack((est_a.timestamps, est_a.positions_xyz,
+                                                est_a.orientations_quat_wxyz[:, [1, 2, 3, 0]])),
+                               fmt="%.9f", header="timestamp tx ty tz qx qy qz qw (this map, own Sim3 to ground truth)")
                 seg.update(associated_poses=int(len(e)), ate_rmse_m=float(np.sqrt(np.mean(e ** 2))),
                            gt_path_length_m=path_length(ref_a.positions_xyz), sim3_scale=float(s), _errors=e)
             except Exception as exc:  # noqa: BLE001  (e.g. a map too short to align)

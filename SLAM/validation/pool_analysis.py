@@ -4,10 +4,12 @@
 
 Without ground truth, the evidence is:
 1. Coverage: how many of the 117 frames each method could pose.
-2. Agreement: two independent pipelines (ours, COLMAP) are aligned by Sim(3) on their common frames and
+2. Agreement: two pipelines (ours, COLMAP) are aligned by Sim(3) on their common frames and
    the RMS position disagreement is reported as a percentage of the reference trajectory's extent. Rotation
    disagreement after alignment is reported in degrees. Agreement does not prove correctness, but large
-   disagreement shows at least one of them is wrong.
+   disagreement shows at least one of them is wrong. The rotation after a position-only alignment is poorly
+   determined when the common frames are few and nearly collinear, so an alignment free measure is also given:
+   the relative rotation between consecutive common frames, compared between the two methods.
 3. Reprojection error of each final map.
 4. Capture timing from the files' modification times (the only timing information delivered with the frames).
 Writes results/pool_analysis.json and figures/pool/{agreement.png, coverage.png}.
@@ -60,7 +62,15 @@ def agreement(a, b):
     for i, j in zip(ia, ib):
         dR = b["R"][j].T @ (R @ a["R"][i])
         rot.append(np.degrees(np.arccos(np.clip((np.trace(dR) - 1) / 2, -1, 1))))
-    return dict(common_frames=int(len(common)), rms_percent_of_extent=float(100 * np.sqrt(np.mean(err ** 2)) / extent),
+    # Alignment free check: relative rotation between consecutive common frames, compared across the two methods.
+    rel = []
+    for k in range(len(ia) - 1):
+        ra = a["R"][ia[k]].T @ a["R"][ia[k + 1]]
+        rb = b["R"][ib[k]].T @ b["R"][ib[k + 1]]
+        d = ra.T @ rb
+        rel.append(np.degrees(np.arccos(np.clip((np.trace(d) - 1) / 2, -1, 1))))
+    return dict(relative_rotation_median_deg=float(np.median(rel)), relative_rotation_max_deg=float(np.max(rel)),
+                common_frames=int(len(common)), rms_percent_of_extent=float(100 * np.sqrt(np.mean(err ** 2)) / extent),
                 max_percent_of_extent=float(100 * err.max() / extent), rotation_median_deg=float(np.median(rot)),
                 rotation_max_deg=float(np.max(rot)))
 
@@ -176,6 +186,28 @@ def main():
                      fontsize=10)
         fig.tight_layout()
         fig.savefig(FIG / "agreement.png", dpi=200)
+        plt.close(fig)
+    # Frame order along each COLMAP trajectory: which frames form which part of the path (two capture passes?).
+    for r in runs:
+        if not r["label"].startswith("COLMAP") or r["meta"]["dataset"] != "pool_width_scaled":
+            continue
+        c = r["t"] - r["t"].mean(0)
+        basis = np.linalg.svd(c, full_matrices=False)[2]
+        q = c @ basis.T
+        fig, ax = plt.subplots(figsize=(6.5, 5.5))
+        sc = ax.scatter(q[:, 0], q[:, 1], c=r["ts"], cmap="viridis", s=18, zorder=3)
+        ax.plot(q[:, 0], q[:, 1], color="#9ca3af", lw=0.6, zorder=2)
+        for k in range(len(r["ts"])):
+            if r["ts"][k] % 10 == 0 or r["ts"][k] in (1, 105, 106, 117):
+                ax.annotate(str(r["ts"][k]), q[k, :2], fontsize=7, xytext=(3, 3), textcoords="offset points")
+        plt.colorbar(sc, label="frame number")
+        ax.axis("equal")
+        ax.grid(alpha=0.3)
+        ax.set_xlabel("principal axis 1 [arbitrary units]")
+        ax.set_ylabel("principal axis 2 [arbitrary units]")
+        ax.set_title(f"Pool, {r['label']}: camera positions by frame number", fontsize=9)
+        fig.tight_layout()
+        fig.savefig(FIG / f"frame_order_{r['name'].split('colmap_')[1]}.png", dpi=200)
         plt.close(fig)
     print(json.dumps(out["agreement"], indent=1)[:3000])
     print(json.dumps(out["file_times"], indent=1))

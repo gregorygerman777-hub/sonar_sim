@@ -49,5 +49,22 @@ class TestScaleGauge(unittest.TestCase):
         self.assertTrue(0.2 < depth < 5.0, f"median scene depth {depth:.3g} (started at 1)")
 
 
+
+@unittest.skipUnless(have("tum_freiburg3_long_office_household") and os.environ.get("RUN_SLOW") == "1",
+                     "TUM fr3/long_office_household not downloaded, or RUN_SLOW != 1 (takes about 8 minutes)")
+class TestFusionScaleCollapse(unittest.TestCase):
+    """CHANGELOG 7: with duplicate point fusion on, the median scene depth on fr3/long_office_household fell from
+    1 to 0.136 by frame 900 and to 0.0013 by frame 1450 (scale collapse); without fusion it is 0.59 at frame 800."""
+
+    def test_scene_depth_stays_bounded(self):
+        seq = sequences.get("tum_freiburg3_long_office_household")
+        settings = Settings(fuse_neighbors=10) if OLD else Settings()
+        slam = MonoSLAM(seq.K, seq.size, settings, log=lambda *_: None)
+        for i in range(900):
+            gray, color = seq.load(i)
+            slam.process(i, float(seq.timestamps[i]), gray, color)
+        depth = slam.median_depth()
+        self.assertTrue(0.2 < depth < 5.0, f"median scene depth {depth:.3g} at frame 900 (started at 1)")
+
 if __name__ == "__main__":
     unittest.main()

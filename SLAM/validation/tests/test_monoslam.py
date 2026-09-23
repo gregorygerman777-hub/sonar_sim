@@ -217,7 +217,7 @@ class TestEndToEnd(unittest.TestCase):
         mapped = s * xyz @ R.T + t
         from scipy.spatial import cKDTree
         d, _ = cKDTree(world.X).query(mapped)
-        self.assertLess(np.median(d), 0.03)   # true points are ~15 cm apart; a wrong map is off by far more
+        self.assertLess(np.median(d), 0.02)
 
 
 if __name__ == "__main__":

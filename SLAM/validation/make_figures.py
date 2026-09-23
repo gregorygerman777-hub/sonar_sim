@@ -143,6 +143,10 @@ def main():
         stat = (f"ATE RMSE {m['ate_m']['rmse']:.3f} m ({m['ate_rmse_percent_of_path']:.2f} % of "
                 f"{m['gt_path_length_m']:.1f} m), posed {m['fraction_posed']:.0%}" +
                 ("  PARTIAL" if m["status"] == "PARTIAL" else ""))
+        if m.get("all_maps"):
+            am = m["all_maps"]
+            stat += (f"\nall {am['maps']} maps: {am['frames_posed']}/{m['frames_total']} frames posed, "
+                     f"ATE {am['ate_rmse_m_each_map_aligned_separately']:.3f} m (each map aligned separately)")
     else:
         stat = f"no ground truth; posed {run['meta']['frames_posed']}/{run['meta']['frames_total']} frames"
 
@@ -157,6 +161,13 @@ def main():
         if base is not None:
             pb = P(base["t"])
             ax.plot(pb[:, a], pb[:, b], ".", color=C_BASE, ms=2.5, label="COLMAP baseline")
+        others = sorted(run["dir"].glob("maps/map_*/aligned_estimate_tum.txt")) if has_gt else []
+        for k, other in enumerate(others):
+            q = np.loadtxt(other, comments="#", ndmin=2)
+            if len(q):
+                po = P(q[:, 1:4])
+                ax.plot(po[:, a], po[:, b], color="#93c5fd", lw=1.2,
+                        label="other maps (after tracking loss, each aligned separately)" if k == 0 else None)
         ax.plot(traj[:, a], traj[:, b], color=C_EST, lw=1.4, label="estimate (Sim(3) aligned)" if has_gt else "estimate")
         ax.plot(traj[0, a], traj[0, b], "o", color="#16a34a", ms=7, label="start")
         ax.plot(traj[-1, a], traj[-1, b], "s", color="#dc2626", ms=7, label="end")

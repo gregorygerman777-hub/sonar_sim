@@ -63,7 +63,7 @@ class Settings:
     covisible_local_map: bool = True    # False restores the pre CHANGELOG-2 local map (last N keyframes)
     kf_max_gap: int = 20
     triang_neighbors: int = 6
-    fuse_neighbors: int = 10            # 0 disables duplicate point fusion (pre CHANGELOG-3 behaviour)
+    fuse_neighbors: int = 0             # duplicate point fusion; off, it collapsed the scale on fr3 (CHANGELOG 7)
     fuse_max_rel_distance: float = 0.1  # merge only points closer than this fraction of their depth
     triang_min_parallax_deg: float = 1.0
     local_window: int = 10
