@@ -26,3 +26,4 @@ __pycache__/
 # Downloaded public benchmark data and optional isolated runtime
 data_external/
 .venv-public/
+/data_external

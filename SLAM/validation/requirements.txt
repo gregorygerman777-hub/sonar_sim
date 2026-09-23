@@ -1,0 +1,11 @@
+# SLAM/validation (ground truth validation of the monocular SLAM).
+# Pinned to the versions the committed results were produced with (Python 3.13.15, macOS arm64).
+numpy==2.5.3
+scipy==1.18.1
+opencv-contrib-python==5.0.0.93
+matplotlib==3.11.2
+evo==1.37.1
+pycolmap==4.2.0
+plotly==7.1.0
+reportlab==5.0.1
+PyYAML==6.0.3
