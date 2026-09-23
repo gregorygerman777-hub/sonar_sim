@@ -34,6 +34,8 @@ def main():
     parser.add_argument("--max-frames", type=int, default=None)
     parser.add_argument("--out", type=Path, default=HERE / "results")
     parser.add_argument("--tag", default="")
+    parser.add_argument("--set", nargs="*", default=[], metavar="NAME=VALUE",
+                        help="override a Settings field (diagnostic experiments only; recorded in run_meta.json)")
     args = parser.parse_args()
 
     seq = sequences.get(args.dataset).subsample(args.stride)
@@ -48,6 +50,10 @@ def main():
         log_file.flush()
 
     settings = Settings(frontend=args.frontend)
+    for item in args.set:
+        name, value = item.split("=", 1)
+        default = getattr(settings, name)
+        setattr(settings, name, type(default)(value) if not isinstance(default, bool) else value.lower() == "true")
     log(f"{seq.name}: {n} frames, {seq.size[0]}x{seq.size[1]}, front end {args.frontend}")
     started = time.perf_counter()
     # A map that stays lost for settings.new_map_after_lost frames is closed and a new map is started
