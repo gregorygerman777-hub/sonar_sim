@@ -1,0 +1,11 @@
+{
+  "run": "synthetic_pool_caustics_orb_stride4",
+  "dataset": "synthetic_pool_caustics",
+  "method": "monoslam",
+  "frontend": "orb",
+  "frames_total": 60,
+  "frames_posed": 0,
+  "fraction_posed": 0.0,
+  "status": "FAILED",
+  "reason": "fewer than 3 posed frames"
+}

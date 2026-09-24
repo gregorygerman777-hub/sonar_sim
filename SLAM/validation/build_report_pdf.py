@@ -26,6 +26,21 @@ def fmt(v, spec):
         return "n/a"
 
 
+def trimmed(path, pad=12):
+    """Copy of an image with its uniform white border cropped (3D matplotlib axes leave a wide margin)."""
+    import tempfile
+    from PIL import Image as PILImage, ImageChops
+    im = PILImage.open(path).convert("RGB")
+    diff = ImageChops.difference(im, PILImage.new("RGB", im.size, (255, 255, 255)))
+    box = diff.point(lambda v: 255 if v > 8 else 0).getbbox()
+    if box:
+        box = (max(box[0] - pad, 0), max(box[1] - pad, 0), min(box[2] + pad, im.width), min(box[3] + pad, im.height))
+        im = im.crop(box)
+    out = Path(tempfile.gettempdir()) / f"trim_{abs(hash(str(path)))}.png"
+    im.save(out)
+    return out
+
+
 def main():
     cfg = json.loads((HERE / "report_onepage.json").read_text())
     rows = list(csv.DictReader(open(HERE / "results" / "summary.csv")))
@@ -40,26 +55,33 @@ def main():
     header = ["Dataset", "Method", "Frames posed", "ATE RMSE", "ATE / path", "Map error (median)"]
     data = [header]
     for r in rows:
-        if r["dataset"] not in cfg["table_datasets"]:
+        if r["dataset"] not in cfg["table_datasets"] or r["run"] in cfg.get("table_exclude_runs", []):
             continue
         ate = f"{fmt(r['ate_rmse_m'], '.3f')} m" if r["ate_rmse_m"] else "no ground truth"
         pct = f"{fmt(r['ate_pct'], '.2f')} %" if r["ate_pct"] else ""
         mp = f"{fmt(r['map_surface_median_m'], '.3f')} m" if r["map_surface_median_m"] else ""
-        data.append([cfg["dataset_labels"].get(r["dataset"], r["dataset"]), r["method"],
+        method = (r["method"].replace("(sequential)", "(seq.)").replace("(exhaustive)", "(exh.)")
+                  .replace(", 1 frame in ", ", 1 in "))
+        data.append([cfg["dataset_labels"].get(r["dataset"], r["dataset"]), method,
                      f"{r['posed']}/{r['frames']}", ate, pct, mp])
-    table = Table(data, colWidths=[1.55 * inch, 1.05 * inch, 0.85 * inch, 1.05 * inch, 0.75 * inch, 1.1 * inch],
+    table = Table(data, colWidths=[1.5 * inch, 1.35 * inch, 0.8 * inch, 1.0 * inch, 0.7 * inch, 1.05 * inch],
                   repeatRows=1)
     table.setStyle(TableStyle([
-        ("FONT", (0, 0), (-1, 0), "Helvetica-Bold", 7.2), ("FONT", (0, 1), (-1, -1), "Helvetica", 7.2),
+        ("FONT", (0, 0), (-1, 0), "Helvetica-Bold", 6.8), ("FONT", (0, 1), (-1, -1), "Helvetica", 6.8),
         ("LINEBELOW", (0, 0), (-1, 0), 0.6, colors.black), ("LINEBELOW", (0, -1), (-1, -1), 0.4, colors.grey),
         ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f3f4f6")]),
-        ("TOPPADDING", (0, 0), (-1, -1), 1.2), ("BOTTOMPADDING", (0, 0), (-1, -1), 1.2)]))
+        ("TOPPADDING", (0, 0), (-1, -1), 0.6), ("BOTTOMPADDING", (0, 0), (-1, -1), 0.6)]))
     story += [Spacer(1, 3), table, Spacer(1, 5)]
 
     cells, caps = [], []
     for fig in cfg["figures"]:
         path = HERE / fig["path"]
-        img = Image(str(path), width=3.6 * inch, height=3.6 * inch * fig.get("aspect", 0.62))
+        w = cfg.get("figure_width_in", 3.6) * inch
+        path = trimmed(path)
+        from reportlab.lib.utils import ImageReader
+        iw, ih = ImageReader(str(path)).getSize()
+        h = min(w * ih / iw, cfg.get("figure_max_height_in", 2.9) * inch)
+        img = Image(str(path), width=h * iw / ih, height=h)
         cells.append(img)
         caps.append(Paragraph(fig["caption"], cap))
     grid = []

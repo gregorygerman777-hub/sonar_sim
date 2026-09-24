@@ -1,0 +1,11 @@
+{
+  "run": "synthetic_pool_caustics_colmap_exhaustive",
+  "dataset": "synthetic_pool_caustics",
+  "method": "colmap_exhaustive",
+  "frontend": "sift",
+  "frames_total": 60,
+  "frames_posed": 2,
+  "fraction_posed": 0.03333333333333333,
+  "status": "FAILED",
+  "reason": "fewer than 3 posed frames"
+}

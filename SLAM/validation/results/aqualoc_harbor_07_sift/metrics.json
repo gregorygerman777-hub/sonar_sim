@@ -1,0 +1,124 @@
+{
+  "run": "aqualoc_harbor_07_sift",
+  "dataset": "aqualoc_harbor_07",
+  "method": "monoslam",
+  "frontend": "sift",
+  "frames_total": 2261,
+  "frames_posed": 502,
+  "fraction_posed": 0.22202565236620964,
+  "status": "PARTIAL",
+  "associated_poses": 101,
+  "scorable_frames": 447,
+  "fraction_of_scorable_posed": 0.22595078299776286,
+  "association_max_diff": 0.02,
+  "sim3_scale": 0.9153349475532042,
+  "sim3_rotation": [
+    [
+      0.8817222730279811,
+      0.45921109806612537,
+      0.10812493079430571
+    ],
+    [
+      -0.46117163492769275,
+      0.8872783229040104,
+      -0.007609260329706163
+    ],
+    [
+      -0.09943116405075915,
+      -0.04315489679688338,
+      0.9941081925514754
+    ]
+  ],
+  "sim3_translation": [
+    -2.547147951996215,
+    3.0599144706768193,
+    0.3852296090314278
+  ],
+  "gt_path_length_m": 3.9441488533948226,
+  "ate_m": {
+    "rmse": 0.005371277027171753,
+    "mean": 0.004056033233548716,
+    "median": 0.003300812891247756,
+    "std": 0.003521251384234215,
+    "min": 0.00039515392225539356,
+    "max": 0.02347315512187932,
+    "sse": 0.0029139123071649257
+  },
+  "ate_rmse_percent_of_path": 0.13618342579917003,
+  "orientation_error_deg": {
+    "rmse": 0.45349427825478567,
+    "mean": 0.4305049904306047,
+    "median": 0.4066342120406887,
+    "std": 0.14255705392639778,
+    "min": 0.22355748119046212,
+    "max": 1.2795112491829932,
+    "sse": 20.771363101392723
+  },
+  "rpe_delta_m": 1.0,
+  "rpe_translation_m": {
+    "rmse": 0.00859511535690001,
+    "mean": 0.007232846796231939,
+    "median": 0.006048955318026007,
+    "std": 0.004643483091457937,
+    "min": 0.0008032284992585408,
+    "max": 0.024846440405275522,
+    "sse": 0.0064272126958624005
+  },
+  "rpe_rotation_deg": {
+    "rmse": 0.449423102888778,
+    "mean": 0.396311644504941,
+    "median": 0.3324087199923417,
+    "std": 0.21193915598578403,
+    "min": 0.06256905247240108,
+    "max": 0.9835895827207626,
+    "sse": 17.57235791068541
+  },
+  "segments": [
+    {
+      "map": "primary",
+      "frames_posed": 502,
+      "associated_poses": 101,
+      "ate_rmse_m": 0.005371277027171753,
+      "gt_path_length_m": 3.9441488533948226,
+      "sim3_scale": 0.9153349475532042
+    },
+    {
+      "map": "map_1",
+      "frames_posed": 73,
+      "associated_poses": 15,
+      "ate_rmse_m": 0.004736486853897126,
+      "gt_path_length_m": 1.4293195449902298,
+      "sim3_scale": 1.0039976117471419
+    },
+    {
+      "map": "map_2",
+      "frames_posed": 457,
+      "associated_poses": 92,
+      "ate_rmse_m": 0.0031279664705311998,
+      "gt_path_length_m": 3.295467279902567,
+      "sim3_scale": 0.6640372673837305
+    },
+    {
+      "map": "map_3",
+      "frames_posed": 399,
+      "associated_poses": 79,
+      "ate_rmse_m": 0.004673261745354735,
+      "gt_path_length_m": 4.112968205658451,
+      "sim3_scale": 0.7660461921936341
+    },
+    {
+      "map": "map_4",
+      "frames_posed": 243,
+      "associated_poses": 49,
+      "ate_rmse_m": 0.004839048209677189,
+      "gt_path_length_m": 1.6697962196463854,
+      "sim3_scale": 1.467904213656429
+    }
+  ],
+  "all_maps": {
+    "maps": 5,
+    "frames_posed": 1674,
+    "associated_poses": 336,
+    "ate_rmse_m_each_map_aligned_separately": 0.0045719397116252
+  }
+}

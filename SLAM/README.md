@@ -15,6 +15,12 @@ issues are unresolved.
 
 ## Reports and results
 
+- [Monocular SLAM validated against ground truth, then run on the pool data](validation/REPORT.md)
+  (2026-09-23): a keyframe monocular SLAM built on the existing front end, scored with evo on a synthetic pool
+  scene with exact ground truth (0.2 to 0.6 cm over 10 m), TUM RGB-D, and AQUALOC underwater, beside a COLMAP
+  baseline; two scale bugs found and fixed; on Dr. Negahdaripour's 117 frames COLMAP gives a full trajectory and
+  3D model while the sequential SLAM loses track. [One page summary](validation/REPORT_onepage.pdf),
+  [debug log](validation/CHANGELOG.md), [handoff](validation/HANDOFF.md).
 - [Pairwise verification and multi-view consistency on real pool imagery](pool_consistency_20260919/README.md):
   the camera front end assessed on Dr. Negahdaripour's own 117-frame sequence
   (no ground truth available), using full pairwise geometric verification,

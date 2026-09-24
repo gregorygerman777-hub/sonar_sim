@@ -91,14 +91,15 @@ initialised size (median scene depth 1). The shape was still right, which is why
 
 ## 6. fr1/xyz is several times worse than COLMAP (investigated, not resolved)
 
-With the final code, fr1/xyz scores ATE 3.81 cm with ORB and 2.06 cm with SIFT. The COLMAP baseline on the same
+With the final code, fr1/xyz scores ATE 3.89 cm with ORB and 2.17 cm with SIFT (3.81 and 2.06 cm while fusion was on). The COLMAP baseline on the same
 undistorted images and intrinsics scores 0.91 cm, and published ORB-SLAM monocular results on this sequence are around
 1 cm. The plan says a result much worse than an established method is a bug until shown otherwise, so this was
-investigated with diagnostic runs (in `~/sonar_work/diag`, not in `results/`, because they change settings):
+investigated with diagnostic runs (kept outside the repository because they change settings; they were run while
+fusion was still on, entry 7, which does not change the fr1/xyz number materially):
 
 | Hypothesis | Test | fr1/xyz ORB ATE |
 |---|---|---|
-| (final code) | | 3.81 cm |
+| (code at the time, fusion on) | | 3.81 cm |
 | Ambiguous initialisation: the homography chosen at frames 0 and 2 had a runner up with 72 % of its points, close to the 75 % cut | Require runner up under 50 % (initialises at frames 0 and 23 instead) | 3.31 cm |
 | Homography decomposition itself | Essential matrix only (`homography_ratio=1.1`) | 3.83 cm |
 | Jitter of non keyframe poses | ATE on keyframes only vs all frames (v2 run) | 3.70 vs 3.79 cm |
@@ -123,7 +124,7 @@ an open limitation, stated in the report.** No setting was changed because of it
   keyframe test compares against. A likely mechanism is merges of points whose depths are only loosely
   determined, which lets local BA pull structure and cameras together. It was not pinned down further.
 * **Fix:** fusion is off by default (`fuse_neighbors=0`). The code stays in for anyone who wants to fix it.
-  Every monoslam result in `results/` was re-run after this change. The COLMAP runs were unaffected.
+  Every monoslam result in `results/` was rerun after this change. The COLMAP runs were unaffected.
 * **Test:** `tests/test_regressions.py::TestFusionScaleCollapse` (runs with `RUN_SLOW=1`, about 8 minutes)
   requires the median depth at frame 900 of fr3 to stay within 0.2 to 5. With `MONOSLAM_OLD_BEHAVIOUR=1` it
   switches fusion back on.

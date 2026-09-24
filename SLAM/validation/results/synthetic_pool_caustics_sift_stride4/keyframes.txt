@@ -1,0 +1,3 @@
+# timestamps of keyframes
+0.000000000
+0.400000000

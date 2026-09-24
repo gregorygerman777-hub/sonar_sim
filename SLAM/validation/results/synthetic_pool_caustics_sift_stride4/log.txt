@@ -1,0 +1,15 @@
+synthetic_pool_caustics: 60 frames, 640x480, front end sift
+  frame 0/60: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  initialized with frames 0 and 1: essential, R_H=0.43, 60 points, runner up 2/60
+  frame 11: lost for 10 frames, closing map 0 and starting a new map
+  initialized with frames 12 and 13: homography, R_H=0.47, 76 points, runner up 51/76
+  frame 23: lost for 10 frames, closing map 1 and starting a new map
+  initialized with frames 24 and 25: homography, R_H=0.46, 91 points, runner up 52/91
+  frame 35: lost for 10 frames, closing map 2 and starting a new map
+  initialized with frames 36 and 37: homography, R_H=0.47, 91 points, runner up 45/91
+  frame 47: lost for 10 frames, closing map 3 and starting a new map
+  initialized with frames 48 and 49: essential, R_H=0.44, 71 points, runner up 10/71
+  frame 50/60: untracked, inliers 0, map 4, keyframes 2, points 71, median depth 0.964, 7 s
+  frame 59/60: untracked, inliers 0, map 4, keyframes 2, points 71, median depth 0.964, 8 s
+global bundle adjustment and final localization pass
+done: 2/60 frames posed by the primary map (5 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 2, 'keyframes': 2, 'points': 60}, {'map': 1, 'first_frame': 12, 'frames_posed': 2, 'keyframes': 2, 'points': 76}, {'map': 2, 'first_frame': 24, 'frames_posed': 2, 'keyframes': 2, 'points': 91}, {'map': 3, 'first_frame': 36, 'frames_posed': 2, 'keyframes': 2, 'points': 91}, {'map': 4, 'first_frame': 48, 'frames_posed': 2, 'keyframes': 2, 'points': 71}]), 2 keyframes, 60 points, 9 s. Status: {'keyframe': 2, 'untracked': 10}

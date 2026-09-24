@@ -1,0 +1,145 @@
+[
+  {
+    "run": "synthetic_pool_caustics_orb",
+    "scene": "caustics",
+    "frontend": "orb",
+    "stride": 1,
+    "deg_per_frame": 1.2552301255230125,
+    "caustic_seconds_per_frame": 0.1,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.018616698698147957,
+    "ate_percent": 0.18548360985139717
+  },
+  {
+    "run": "synthetic_pool_caustics_orb_stride2",
+    "scene": "caustics",
+    "frontend": "orb",
+    "stride": 2,
+    "deg_per_frame": 2.510460251046025,
+    "caustic_seconds_per_frame": 0.2,
+    "fraction_posed": 0.9,
+    "ate_rmse_m": 0.045020950788471015,
+    "ate_percent": 0.5010111707245689
+  },
+  {
+    "run": "synthetic_pool_caustics_orb_stride4",
+    "scene": "caustics",
+    "frontend": "orb",
+    "stride": 4,
+    "deg_per_frame": 5.02092050209205,
+    "caustic_seconds_per_frame": 0.4,
+    "fraction_posed": 0.0,
+    "ate_rmse_m": null,
+    "ate_percent": null
+  },
+  {
+    "run": "synthetic_pool_caustics_orb_stride8",
+    "scene": "caustics",
+    "frontend": "orb",
+    "stride": 8,
+    "deg_per_frame": 10.0418410041841,
+    "caustic_seconds_per_frame": 0.8,
+    "fraction_posed": 0.0,
+    "ate_rmse_m": null,
+    "ate_percent": null
+  },
+  {
+    "run": "synthetic_pool_caustics_sift",
+    "scene": "caustics",
+    "frontend": "sift",
+    "stride": 1,
+    "deg_per_frame": 1.2552301255230125,
+    "caustic_seconds_per_frame": 0.1,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.007298349894548096,
+    "ate_percent": 0.07271559293882847
+  },
+  {
+    "run": "synthetic_pool_caustics_sift_stride2",
+    "scene": "caustics",
+    "frontend": "sift",
+    "stride": 2,
+    "deg_per_frame": 2.510460251046025,
+    "caustic_seconds_per_frame": 0.2,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.007098117930282623,
+    "ate_percent": 0.07102525007868542
+  },
+  {
+    "run": "synthetic_pool_caustics_sift_stride4",
+    "scene": "caustics",
+    "frontend": "sift",
+    "stride": 4,
+    "deg_per_frame": 5.02092050209205,
+    "caustic_seconds_per_frame": 0.4,
+    "fraction_posed": 0.03333333333333333,
+    "ate_rmse_m": null,
+    "ate_percent": null
+  },
+  {
+    "run": "synthetic_pool_orb",
+    "scene": "static",
+    "frontend": "orb",
+    "stride": 1,
+    "deg_per_frame": 1.2552301255230125,
+    "caustic_seconds_per_frame": 0.0,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.0056824224208263585,
+    "ate_percent": 0.05661563526406767
+  },
+  {
+    "run": "synthetic_pool_orb_stride12",
+    "scene": "static",
+    "frontend": "orb",
+    "stride": 12,
+    "deg_per_frame": 15.06276150627615,
+    "caustic_seconds_per_frame": 0.0,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.007155915499176523,
+    "ate_percent": 0.07500323045203396
+  },
+  {
+    "run": "synthetic_pool_orb_stride2",
+    "scene": "static",
+    "frontend": "orb",
+    "stride": 2,
+    "deg_per_frame": 2.510460251046025,
+    "caustic_seconds_per_frame": 0.0,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.0034639221619298935,
+    "ate_percent": 0.0346607284100696
+  },
+  {
+    "run": "synthetic_pool_orb_stride4",
+    "scene": "static",
+    "frontend": "orb",
+    "stride": 4,
+    "deg_per_frame": 5.02092050209205,
+    "caustic_seconds_per_frame": 0.0,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.004438249118002449,
+    "ate_percent": 0.04480192023660373
+  },
+  {
+    "run": "synthetic_pool_orb_stride8",
+    "scene": "static",
+    "frontend": "orb",
+    "stride": 8,
+    "deg_per_frame": 10.0418410041841,
+    "caustic_seconds_per_frame": 0.0,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.006406603990209585,
+    "ate_percent": 0.06586681696085916
+  },
+  {
+    "run": "synthetic_pool_sift",
+    "scene": "static",
+    "frontend": "sift",
+    "stride": 1,
+    "deg_per_frame": 1.2552301255230125,
+    "caustic_seconds_per_frame": 0.0,
+    "fraction_posed": 1.0,
+    "ate_rmse_m": 0.002046767313938237,
+    "ate_percent": 0.020392540915585636
+  }
+]

@@ -179,7 +179,7 @@ def main():
     axes[0].legend(loc="best", fontsize=8)
     fig.suptitle(f"{title}\n{stat}", fontsize=10)
     fig.tight_layout()
-    fig.savefig(out / "1_trajectory.png", dpi=DPI)
+    fig.savefig(out / "1_trajectory.png", dpi=DPI, bbox_inches="tight", pad_inches=0.05)
     plt.close(fig)
 
     # ---------------- 2: model and 3: overlay
@@ -213,7 +213,7 @@ def main():
         what = "3D map points" if not with_traj else "trajectory over the 3D map"
         ax.set_title(f"{title}\n{what}: {n_pts} points shown ({len(run['xyz'])} in map), {stat}", fontsize=9)
         fig.tight_layout()
-        fig.savefig(out / fname, dpi=DPI)
+        fig.savefig(out / fname, dpi=DPI, bbox_inches="tight", pad_inches=0.05)
         plt.close(fig)
     _interactive(out / "3_overlay.html", cloud, rgb, traj, P(gt) if has_gt else None, title, units)
     print(f"figures written to {out}")

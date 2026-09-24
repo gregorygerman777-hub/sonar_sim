@@ -1,0 +1,102 @@
+{
+  "run": "synthetic_pool_caustics_orb_stride2",
+  "dataset": "synthetic_pool_caustics",
+  "method": "monoslam",
+  "frontend": "orb",
+  "frames_total": 120,
+  "frames_posed": 108,
+  "fraction_posed": 0.9,
+  "status": "PARTIAL",
+  "associated_poses": 108,
+  "scorable_frames": 120,
+  "fraction_of_scorable_posed": 0.9,
+  "association_max_diff": 0.02,
+  "sim3_scale": 1.6874686100374685,
+  "sim3_rotation": [
+    [
+      0.503630650909485,
+      0.4294937133274087,
+      -0.7495941019489959
+    ],
+    [
+      0.8638007393177076,
+      -0.23598291114041076,
+      0.44515205088135773
+    ],
+    [
+      0.014298608976740073,
+      -0.8716921565908063,
+      -0.4898452142456836
+    ]
+  ],
+  "sim3_translation": [
+    1.6246136331950345,
+    -0.9231136509663801,
+    1.244545191887091
+  ],
+  "gt_path_length_m": 8.986017362319712,
+  "ate_m": {
+    "rmse": 0.045020950788471015,
+    "mean": 0.041465407433778696,
+    "median": 0.04373000258336478,
+    "std": 0.01753584888873813,
+    "min": 0.004176903816994954,
+    "max": 0.08867304569736356,
+    "sse": 0.21890368906897628
+  },
+  "ate_rmse_percent_of_path": 0.5010111707245689,
+  "orientation_error_deg": {
+    "rmse": 1.5763907351146498,
+    "mean": 1.5363598716928268,
+    "median": 1.669687651401737,
+    "std": 0.35299588440562285,
+    "min": 0.6161117926950415,
+    "max": 1.9419965818766374,
+    "sse": 268.380836973573
+  },
+  "rpe_delta_m": 1.0,
+  "rpe_translation_m": {
+    "rmse": 0.04555687549472919,
+    "mean": 0.041319310409445184,
+    "median": 0.03748122742389931,
+    "std": 0.019187065750921172,
+    "min": 0.012167545013933318,
+    "max": 0.08214172217047497,
+    "sse": 0.20339203267454123
+  },
+  "rpe_rotation_deg": {
+    "rmse": 0.7953586256145978,
+    "mean": 0.7117954077853527,
+    "median": 0.6532365806323448,
+    "std": 0.3548839821620944,
+    "min": 0.09793557615943972,
+    "max": 1.604721561724499,
+    "sse": 61.99434364727512
+  },
+  "map_to_surface_m": {
+    "points": 1043,
+    "median": 0.04214047137259658,
+    "p90": 0.11014056623281042,
+    "fraction_within_5cm": 0.5666347075743049
+  },
+  "segments": [
+    {
+      "map": "primary",
+      "frames_posed": 108,
+      "associated_poses": 108,
+      "ate_rmse_m": 0.045020950788471015,
+      "gt_path_length_m": 8.986017362319712,
+      "sim3_scale": 1.6874686100374685
+    },
+    {
+      "map": "map_0",
+      "frames_posed": 2
+    }
+  ],
+  "all_maps": {
+    "maps": 2,
+    "frames_posed": 110,
+    "associated_poses": 108,
+    "ate_rmse_m_each_map_aligned_separately": 0.045020950788471015
+  }
+}

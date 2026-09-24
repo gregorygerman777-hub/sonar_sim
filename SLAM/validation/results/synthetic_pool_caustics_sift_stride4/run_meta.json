@@ -1,0 +1,210 @@
+{
+  "dataset": "synthetic_pool_caustics",
+  "dataset_key": "synthetic_pool_caustics",
+  "method": "monoslam",
+  "frontend": "sift",
+  "stride": 4,
+  "frame_timestamps": [
+    0.0,
+    0.4,
+    0.8,
+    1.2,
+    1.6,
+    2.0,
+    2.4,
+    2.8,
+    3.2,
+    3.6,
+    4.0,
+    4.4,
+    4.8,
+    5.2,
+    5.6,
+    6.0,
+    6.4,
+    6.8,
+    7.2,
+    7.6,
+    8.0,
+    8.4,
+    8.8,
+    9.2,
+    9.6,
+    10.0,
+    10.4,
+    10.8,
+    11.2,
+    11.6,
+    12.0,
+    12.4,
+    12.8,
+    13.2,
+    13.6,
+    14.0,
+    14.4,
+    14.8,
+    15.2,
+    15.6,
+    16.0,
+    16.4,
+    16.8,
+    17.2,
+    17.6,
+    18.0,
+    18.4,
+    18.8,
+    19.2,
+    19.6,
+    20.0,
+    20.4,
+    20.8,
+    21.2,
+    21.6,
+    22.0,
+    22.4,
+    22.8,
+    23.2,
+    23.6
+  ],
+  "frames_total": 60,
+  "frames_posed": 2,
+  "fraction_posed": 0.03333333333333333,
+  "primary_map": 0,
+  "maps": [
+    {
+      "map": 0,
+      "first_frame": 0,
+      "frames_posed": 2,
+      "keyframes": 2,
+      "points": 60
+    },
+    {
+      "map": 1,
+      "first_frame": 12,
+      "frames_posed": 2,
+      "keyframes": 2,
+      "points": 76
+    },
+    {
+      "map": 2,
+      "first_frame": 24,
+      "frames_posed": 2,
+      "keyframes": 2,
+      "points": 91
+    },
+    {
+      "map": 3,
+      "first_frame": 36,
+      "frames_posed": 2,
+      "keyframes": 2,
+      "points": 91
+    },
+    {
+      "map": 4,
+      "first_frame": 48,
+      "frames_posed": 2,
+      "keyframes": 2,
+      "points": 71
+    }
+  ],
+  "frames_posed_any_map": 10,
+  "status_counts": {
+    "keyframe": 2,
+    "untracked": 10
+  },
+  "keyframes": 2,
+  "map_points": 60,
+  "median_observations_per_point": 2.0,
+  "initialization": {
+    "ref_frame": 0,
+    "frame": 1,
+    "model": "essential",
+    "r_h": 0.4298747189076771,
+    "matches": 183,
+    "points": 60,
+    "parallax_points": 60,
+    "runner_up_points": 2,
+    "median_parallax_deg": 4.031228952980207
+  },
+  "stats": {
+    "local_ba_seconds": 0.0,
+    "n_local_ba": 0,
+    "reinit": 0,
+    "relocalizations": 0,
+    "global_ba_seconds": 0.004434750007931143
+  },
+  "settings": {
+    "frontend": "sift",
+    "n_features": 2000,
+    "grid": [
+      8,
+      6
+    ],
+    "init_ratio": 0.9,
+    "init_min_matches": 100,
+    "init_min_points": 50,
+    "init_min_parallax_deg": 1.0,
+    "init_ambiguity": 0.75,
+    "init_max_gap": 30,
+    "homography_ratio": 0.45,
+    "search_radius_px": 15.0,
+    "search_radius_wide_px": 40.0,
+    "match_ratio": 0.9,
+    "track_min_inliers": 30,
+    "pnp_reprojection_px": 4.0,
+    "reloc_min_inliers": 50,
+    "reloc_candidates": 30,
+    "new_map_after_lost": 10,
+    "kf_track_ratio": 0.9,
+    "kf_ref_min_obs": 0,
+    "kf_reference": "points",
+    "covisible_local_map": true,
+    "kf_max_gap": 20,
+    "triang_neighbors": 6,
+    "fuse_neighbors": 0,
+    "fuse_max_rel_distance": 0.1,
+    "triang_min_parallax_deg": 1.0,
+    "local_window": 10,
+    "cull_after_kfs": 2,
+    "min_found_ratio": 0.25,
+    "local_ba_iterations": 20,
+    "local_ba_min_fixed": 2,
+    "global_ba_iterations": 50
+  },
+  "reprojection": {
+    "rmse_px": 0.4960626492448836,
+    "median_px": 0.22745026961163042,
+    "observations": 120
+  },
+  "K": [
+    [
+      500.0,
+      0.0,
+      320.0
+    ],
+    [
+      0.0,
+      500.0,
+      240.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "image_size": [
+    640,
+    480
+  ],
+  "dataset_notes": {
+    "source": "rendered by datasets/synthetic.py",
+    "undistorted": false,
+    "stride": 4
+  },
+  "runtime_seconds": 8.538942333019804,
+  "tracking_seconds": 7.5753344999975525,
+  "seconds_per_frame": 0.14231570555033007,
+  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
+  "git_dirty": false
+}

@@ -1,0 +1,59 @@
+aqualoc_harbor_07: 2261 frames, 640x512, front end sift
+  frame 0/2261: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  initialized with frames 0 and 3: homography, R_H=0.49, 260 points, runner up 22/260
+  frame 50/2261: tracked, inliers 204, map 0, keyframes 22, points 552, median depth 1.03, 7 s
+  frame 100/2261: keyframe, inliers 107, map 0, keyframes 39, points 600, median depth 1.1, 16 s
+  frame 150/2261: tracked, inliers 129, map 0, keyframes 51, points 687, median depth 1.04, 23 s
+  frame 200/2261: keyframe, inliers 50, map 0, keyframes 84, points 774, median depth 1.36, 29 s
+  frame 250/2261: tracked, inliers 66, map 0, keyframes 109, points 828, median depth 1.27, 36 s
+  frame 300/2261: tracked, inliers 134, map 0, keyframes 115, points 960, median depth 1.09, 41 s
+  frame 350/2261: tracked, inliers 144, map 0, keyframes 130, points 1143, median depth 1.19, 48 s
+  frame 400/2261: keyframe, inliers 73, map 0, keyframes 148, points 1215, median depth 1.03, 54 s
+  frame 450/2261: tracked, inliers 167, map 0, keyframes 167, points 1503, median depth 1.13, 61 s
+  frame 500/2261: keyframe, inliers 37, map 0, keyframes 196, points 1666, median depth 1.13, 67 s
+  frame 511: lost for 10 frames, closing map 0 and starting a new map
+  frame 550/2261: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 72 s
+  frame 600/2261: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 75 s
+  frame 650/2261: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 77 s
+  initialized with frames 675 and 676: homography, R_H=0.49, 152 points, runner up 0/152
+  frame 700/2261: keyframe, inliers 55, map 1, keyframes 24, points 424, median depth 1.04, 83 s
+  frame 750/2261: untracked, inliers 0, map 1, keyframes 63, points 2027, median depth 0.382, 98 s
+  frame 751: lost for 10 frames, closing map 1 and starting a new map
+  initialized with frames 783 and 785: essential, R_H=0.44, 169 points, runner up 1/169
+  frame 800/2261: keyframe, inliers 410, map 2, keyframes 17, points 1183, median depth 0.874, 107 s
+  frame 850/2261: tracked, inliers 496, map 2, keyframes 61, points 2938, median depth 0.826, 127 s
+  frame 900/2261: tracked, inliers 741, map 2, keyframes 104, points 5462, median depth 0.631, 156 s
+  frame 950/2261: keyframe, inliers 660, map 2, keyframes 142, points 7283, median depth 0.876, 182 s
+  frame 1000/2261: keyframe, inliers 670, map 2, keyframes 184, points 9508, median depth 0.576, 219 s
+  frame 1050/2261: tracked, inliers 173, map 2, keyframes 219, points 10078, median depth 0.42, 243 s
+  frame 1100/2261: tracked, inliers 677, map 2, keyframes 264, points 12662, median depth 0.861, 271 s
+  frame 1150/2261: keyframe, inliers 104, map 2, keyframes 302, points 13262, median depth 0.822, 285 s
+  frame 1200/2261: keyframe, inliers 91, map 2, keyframes 333, points 13352, median depth 0.859, 295 s
+  frame 1250: lost for 10 frames, closing map 2 and starting a new map
+  frame 1250/2261: untracked, inliers 0, map 3, keyframes 0, points 0, median depth nan, 301 s
+  initialized with frames 1282 and 1286: homography, R_H=0.49, 101 points, runner up 8/101
+  frame 1300/2261: keyframe, inliers 150, map 3, keyframes 13, points 335, median depth 1.02, 304 s
+  frame 1350/2261: keyframe, inliers 396, map 3, keyframes 32, points 937, median depth 0.931, 314 s
+  frame 1400/2261: keyframe, inliers 306, map 3, keyframes 48, points 1158, median depth 0.971, 322 s
+  frame 1450/2261: tracked, inliers 157, map 3, keyframes 77, points 1477, median depth 0.896, 329 s
+  frame 1500/2261: keyframe, inliers 304, map 3, keyframes 117, points 2719, median depth 0.919, 339 s
+  frame 1550/2261: keyframe, inliers 486, map 3, keyframes 163, points 5181, median depth 0.821, 357 s
+  frame 1600/2261: tracked, inliers 371, map 3, keyframes 212, points 7446, median depth 1.05, 375 s
+  frame 1650/2261: keyframe, inliers 175, map 3, keyframes 256, points 8676, median depth 1.23, 388 s
+  frame 1693: lost for 10 frames, closing map 3 and starting a new map
+  frame 1700/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 393 s
+  frame 1750/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 395 s
+  frame 1800/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 396 s
+  frame 1850/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 398 s
+  frame 1900/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 400 s
+  frame 1950/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 402 s
+  frame 2000/2261: untracked, inliers 0, map 4, keyframes 0, points 0, median depth nan, 404 s
+  initialized with frames 2018 and 2021: homography, R_H=0.49, 108 points, runner up 4/108
+  frame 2050/2261: tracked, inliers 141, map 4, keyframes 13, points 250, median depth 0.905, 407 s
+  frame 2100/2261: keyframe, inliers 171, map 4, keyframes 33, points 570, median depth 0.705, 412 s
+  frame 2150/2261: tracked, inliers 293, map 4, keyframes 55, points 1070, median depth 0.496, 418 s
+  frame 2200/2261: keyframe, inliers 634, map 4, keyframes 103, points 3600, median depth 0.388, 436 s
+  frame 2250/2261: tracked, inliers 633, map 4, keyframes 133, points 4575, median depth 0.464, 452 s
+  frame 2260/2261: keyframe, inliers 620, map 4, keyframes 143, points 5083, median depth 0.454, 457 s
+global bundle adjustment and final localization pass
+done: 502/2261 frames posed by the primary map (5 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 502, 'keyframes': 197, 'points': 1666}, {'map': 1, 'first_frame': 512, 'frames_posed': 73, 'keyframes': 63, 'points': 2027}, {'map': 2, 'first_frame': 752, 'frames_posed': 457, 'keyframes': 352, 'points': 13276}, {'map': 3, 'first_frame': 1251, 'frames_posed': 399, 'keyframes': 284, 'points': 8902}, {'map': 4, 'first_frame': 1694, 'frames_posed': 243, 'keyframes': 143, 'points': 5083}]), 197 keyframes, 1666 points, 504 s. Status: {'keyframe': 197, 'localized_after': 2, 'tracked': 303, 'untracked': 10}

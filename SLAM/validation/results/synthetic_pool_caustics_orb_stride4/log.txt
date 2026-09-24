@@ -1,0 +1,6 @@
+synthetic_pool_caustics: 60 frames, 640x480, front end orb
+  frame 0/60: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  frame 50/60: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 17 s
+  frame 59/60: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 20 s
+global bundle adjustment and final localization pass
+done: no map was initialized

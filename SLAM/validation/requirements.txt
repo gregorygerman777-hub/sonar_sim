@@ -9,3 +9,4 @@ pycolmap==4.2.0
 plotly==7.1.0
 reportlab==5.0.1
 PyYAML==6.0.3
+Pillow==12.3.0

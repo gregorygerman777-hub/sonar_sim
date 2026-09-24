@@ -1,0 +1,151 @@
+{
+  "dataset": "synthetic_pool",
+  "dataset_key": "synthetic_pool",
+  "method": "monoslam",
+  "frontend": "orb",
+  "stride": 8,
+  "frame_timestamps": [
+    0.0,
+    0.8,
+    1.6,
+    2.4,
+    3.2,
+    4.0,
+    4.8,
+    5.6,
+    6.4,
+    7.2,
+    8.0,
+    8.8,
+    9.6,
+    10.4,
+    11.2,
+    12.0,
+    12.8,
+    13.6,
+    14.4,
+    15.2,
+    16.0,
+    16.8,
+    17.6,
+    18.4,
+    19.2,
+    20.0,
+    20.8,
+    21.6,
+    22.4,
+    23.2
+  ],
+  "frames_total": 30,
+  "frames_posed": 30,
+  "fraction_posed": 1.0,
+  "primary_map": 0,
+  "maps": [
+    {
+      "map": 0,
+      "first_frame": 0,
+      "frames_posed": 30,
+      "keyframes": 30,
+      "points": 2079
+    }
+  ],
+  "frames_posed_any_map": 30,
+  "status_counts": {
+    "keyframe": 30
+  },
+  "keyframes": 30,
+  "map_points": 2079,
+  "median_observations_per_point": 4.0,
+  "initialization": {
+    "ref_frame": 0,
+    "frame": 1,
+    "model": "homography",
+    "r_h": 0.4500900939838127,
+    "matches": 427,
+    "points": 369,
+    "parallax_points": 369,
+    "runner_up_points": 196,
+    "median_parallax_deg": 8.815783900520723
+  },
+  "stats": {
+    "local_ba_seconds": 2.9945792040089145,
+    "n_local_ba": 28,
+    "reinit": 0,
+    "relocalizations": 0,
+    "global_ba_seconds": 0.33302833401830867
+  },
+  "settings": {
+    "frontend": "orb",
+    "n_features": 2000,
+    "grid": [
+      8,
+      6
+    ],
+    "init_ratio": 0.9,
+    "init_min_matches": 100,
+    "init_min_points": 50,
+    "init_min_parallax_deg": 1.0,
+    "init_ambiguity": 0.75,
+    "init_max_gap": 30,
+    "homography_ratio": 0.45,
+    "search_radius_px": 15.0,
+    "search_radius_wide_px": 40.0,
+    "match_ratio": 0.9,
+    "track_min_inliers": 30,
+    "pnp_reprojection_px": 4.0,
+    "reloc_min_inliers": 50,
+    "reloc_candidates": 30,
+    "new_map_after_lost": 10,
+    "kf_track_ratio": 0.9,
+    "kf_ref_min_obs": 0,
+    "kf_reference": "points",
+    "covisible_local_map": true,
+    "kf_max_gap": 20,
+    "triang_neighbors": 6,
+    "fuse_neighbors": 0,
+    "fuse_max_rel_distance": 0.1,
+    "triang_min_parallax_deg": 1.0,
+    "local_window": 10,
+    "cull_after_kfs": 2,
+    "min_found_ratio": 0.25,
+    "local_ba_iterations": 20,
+    "local_ba_min_fixed": 2,
+    "global_ba_iterations": 50
+  },
+  "reprojection": {
+    "rmse_px": 0.9366856574698795,
+    "median_px": 0.6122249690896353,
+    "observations": 9903
+  },
+  "K": [
+    [
+      500.0,
+      0.0,
+      320.0
+    ],
+    [
+      0.0,
+      500.0,
+      240.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "image_size": [
+    640,
+    480
+  ],
+  "dataset_notes": {
+    "source": "rendered by datasets/synthetic.py",
+    "undistorted": false,
+    "stride": 8
+  },
+  "runtime_seconds": 7.177792000002228,
+  "tracking_seconds": 6.84452791698277,
+  "seconds_per_frame": 0.23925973333340758,
+  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
+  "git_dirty": false
+}

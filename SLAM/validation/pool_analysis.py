@@ -194,7 +194,7 @@ def main():
         c = r["t"] - r["t"].mean(0)
         basis = np.linalg.svd(c, full_matrices=False)[2]
         q = c @ basis.T
-        fig, ax = plt.subplots(figsize=(6.5, 5.5))
+        fig, ax = plt.subplots(figsize=(6.5, 4.6))
         sc = ax.scatter(q[:, 0], q[:, 1], c=r["ts"], cmap="viridis", s=18, zorder=3)
         ax.plot(q[:, 0], q[:, 1], color="#9ca3af", lw=0.6, zorder=2)
         for k in range(len(r["ts"])):
