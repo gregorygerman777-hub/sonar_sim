@@ -4,8 +4,9 @@
 
 Text comes from report_summary.json (written by hand after reading the results); numbers in the table come from
 results/summary.csv; figures from figures/. Output: REPORT_summary.pdf.
-Each entry of "pages" has a heading, paragraphs, an optional results table ("table": true) and rows of figures;
-a row with one figure spans the page width, a row with two splits it.
+Each entry of "pages" has a heading, paragraphs, an optional results table ("table": true), an optional compact
+table with one row per dataset ("compact_table", used for the KITTI sequences) and rows of figures; a row with one
+figure spans the page width, a row with two splits it.
 """
 
 import csv
@@ -74,6 +75,35 @@ def results_table(cfg):
     return table
 
 
+def compact_table(spec):
+    """One row per dataset, one column group per method: frames posed and ATE (m and % of path) of each run.
+    spec: {"datasets": [...], "labels": {dataset: text}, "methods": [[summary method label, column title], ...]}."""
+    rows = {(r["dataset"], r["method"]): r for r in csv.DictReader(open(HERE / "results" / "summary.csv"))}
+    head = ["Sequence", "Path"] + [title for _, title in spec["methods"]]
+    data = [head]
+    for d in spec["datasets"]:
+        path = next((rows[(d, m)]["path_m"] for m, _ in spec["methods"] if (d, m) in rows and rows[(d, m)]["path_m"]), "")
+        line = [spec["labels"].get(d, d), f"{fmt(path, '.0f')} m" if path else ""]
+        for m, _ in spec["methods"]:
+            r = rows.get((d, m))
+            if r is None:
+                line.append("not run")
+            elif not r["ate_rmse_m"]:
+                line.append(f"{r['posed']}/{r['frames']}, failed")
+            else:
+                maps = f", {r['maps']} maps" if r["maps"] not in ("", "1") else ""
+                line.append(f"{r['posed']}/{r['frames']}{maps}: {fmt(r['ate_rmse_m'], '.2f')} m ({fmt(r['ate_pct'], '.2f')} %)")
+        data.append(line)
+    widths = [0.9 * inch, 0.6 * inch] + [(PAGE_W - 1.5 * inch) / len(spec["methods"])] * len(spec["methods"])
+    table = Table(data, colWidths=widths, repeatRows=1)
+    table.setStyle(TableStyle([
+        ("FONT", (0, 0), (-1, 0), "Helvetica-Bold", 7), ("FONT", (0, 1), (-1, -1), "Helvetica", 7),
+        ("LINEBELOW", (0, 0), (-1, 0), 0.6, colors.black), ("LINEBELOW", (0, -1), (-1, -1), 0.4, colors.grey),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f3f4f6")]),
+        ("TOPPADDING", (0, 0), (-1, -1), 0.8), ("BOTTOMPADDING", (0, 0), (-1, -1), 0.8)]))
+    return table
+
+
 def figure(path, width, max_height):
     path = trimmed(HERE / path)
     iw, ih = ImageReader(str(path)).getSize()
@@ -106,6 +136,8 @@ def main():
             story.append(Paragraph(para, BODY))
         if page.get("table"):
             story += [Spacer(1, 2), results_table(cfg), Spacer(1, 6)]
+        if page.get("compact_table"):
+            story += [Spacer(1, 2), compact_table(page["compact_table"]), Spacer(1, 6)]
         story += figure_rows(page.get("figures", []))
         if page.get("footer"):
             story.append(Paragraph(page["footer"], SUB))

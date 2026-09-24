@@ -218,8 +218,8 @@ design of ORB-SLAM without loop closure:
 * tracking by constant velocity prediction, projection guided matching against a covisibility local map
   and robust motion only BA; PnP RANSAC and relocalisation as fallbacks;
 * keyframes when tracking weakens; triangulation against covisible keyframes with epipolar, cheirality,
-  reprojection and 1 degree parallax checks; duplicate point fusion; local BA over the covisible window;
-  outlier and weak point culling;
+  reprojection and 1 degree parallax checks; local BA over the covisible window; outlier and weak point culling
+  (duplicate point fusion is implemented but off, because it collapsed the scale on fr3: `CHANGELOG.md`, entry 7);
 * global BA at the end, then every frame's pose recomposed from its reference keyframe;
 * a new map when a map is lost for 10 frames (maps are not merged; the largest is reported);
 * BA is Levenberg-Marquardt with the Schur complement and a Huber kernel, analytic Jacobians (`monoslam/ba.py`).
