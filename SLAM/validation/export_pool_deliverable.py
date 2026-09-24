@@ -11,7 +11,9 @@ Writes into <out> (default <run>/export):
     model.ply                the 3D model points with colour
     README.txt               conventions
 
-Convention: a world point X (column) projects to pixel x ~ K (R X + t); the camera centre is C = -R' t.
+Convention: a world point X (column) projects to pixel x ~ K (R X + t); the camera centre is C = -R' t. Pixel
+coordinates put the centre of the top left pixel at (0, 0), as OpenCV does and as K from OSCalibration.mat is used
+throughout (MATLAB indexes that pixel as (1, 1)).
 Frame: the reconstruction is rotated and translated (a similarity, which changes no projection) so that z is the
 height above the fitted pool floor plane, x runs along the floor lane stripes, and the origin is the floor point
 under the centre of the camera path. Units are the reconstruction's own (monocular, arbitrary) unless
@@ -82,7 +84,8 @@ def main():
     Rt = np.concatenate((R_out, t_out[:, :, None]), axis=2).transpose(1, 2, 0)   # 3 x 4 x N
     P = np.einsum("ij,jkn->ikn", K, Rt)
     frame_note = ("z: height above the fitted pool floor plane; x: along the floor lane stripes; origin: floor point "
-                  "under the centre of the camera path. x_pixel ~ K (R X + t), C = -R' t.")
+                  "under the centre of the camera path. x_pixel ~ K (R X + t), C = -R' t. Pixel coordinates put the centre "
+                  "of the top left pixel at (0, 0) (OpenCV); in MATLAB, image(v + 1, u + 1) is the pixel at (u, v).")
     import scipy.io
     scipy.io.savemat(str(out / "pool_reconstruction.mat"), dict(
         K=K, image_names=np.array(names, dtype=object), frame_numbers=np.array(frames_used, float),
