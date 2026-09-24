@@ -107,6 +107,9 @@ def main():
     parser.add_argument("--set", nargs="*", default=[], metavar="NAME=VALUE",
                         help="override a Settings field (diagnostic experiments only; recorded in run_meta.json)")
     args = parser.parse_args()
+    # The code this run executes is what was imported just now, so the commit is read here, not when the run ends
+    # (a commit made during a long run was once recorded as its code, CHANGELOG entry 21).
+    commit, dirty = export.git_commit(HERE.parents[1])
 
     seq = sequences.get(args.dataset).subsample(args.stride)
     n = len(seq) if args.max_frames is None else min(len(seq), args.max_frames)
@@ -141,8 +144,7 @@ def main():
         posed = [p for p in traj if p["status"] != "untracked"]
         results.append(dict(map=m, first_frame=first_, slam=s_, traj=traj, posed=posed))
     seconds = time.perf_counter() - started
-    commit, dirty = export.git_commit(HERE.parents[1])
-    maps_meta = [dict(map=r["map"], first_frame=r["first_frame"], frames_posed=len(r["posed"]),
+    maps_meta =[dict(map=r["map"], first_frame=r["first_frame"], frames_posed=len(r["posed"]),
                       keyframes=len(r["slam"].kfs), points=int(len(r["slam"].map_points()[0])))
                  for r in results]
     status = {i: ("untracked", -1, 0) for i in range(n)}

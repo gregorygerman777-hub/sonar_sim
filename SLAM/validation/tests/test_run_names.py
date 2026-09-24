@@ -74,7 +74,7 @@ class TestRerunReplacesPreviousRun(unittest.TestCase):
     of the earlier run (which had more maps), and evaluate.py and the figures counted them as maps of the new run
     (aqualoc_harbor_07_sift, kitti_00_orb)."""
 
-    def run_main(self, out, maps):
+    def run_main(self, out, maps=None, track=None, git_commit=None):
         import gc
         import warnings
         from unittest import mock
@@ -82,14 +82,31 @@ class TestRerunReplacesPreviousRun(unittest.TestCase):
         from monoslam import export
         argv = ["run_slam.py", "--dataset", "fake", "--out", str(out)]
         with mock.patch.object(sys, "argv", argv), mock.patch("sequences.get", lambda name: _FakeSequence()), \
-                mock.patch.object(run_slam, "track", lambda *a, **k: maps), \
-                mock.patch.object(export, "git_commit", lambda root: ("test", False)), \
+                mock.patch.object(run_slam, "track", track or (lambda *a, **k: maps)), \
+                mock.patch.object(export, "git_commit", git_commit or (lambda root: ("test", False))), \
                 mock.patch("builtins.print"), warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always", ResourceWarning)
             run_slam.main()
             gc.collect()
         self.assertEqual([str(w.message) for w in caught if issubclass(w.category, ResourceWarning)], [],
                          "run_slam.main left a file open")
+
+    def test_commit_is_read_when_the_run_starts(self):
+        """The code a run executes is the code it imported when it started. The commit was read when the run ended,
+        so kitti_08_sift (17:44 to 18:04) recorded a commit made at 18:02, and an unrelated uncommitted edit of 18:04."""
+        state = dict(tracking_done=False)
+
+        def track(*args, **kwargs):
+            state["tracking_done"] = True
+            return [(_FakeMap(0, 4, 9), 0)]
+
+        def git_commit(root):
+            return ("committed during the run", True) if state["tracking_done"] else ("at the start", False)
+
+        with tempfile.TemporaryDirectory() as d:
+            self.run_main(d, track=track, git_commit=git_commit)
+            meta = json.loads((Path(d) / "fake_orb" / "run_meta.json").read_text())
+        self.assertEqual((meta["git_commit"], meta["git_dirty"]), ("at the start", False))
 
     def test_fewer_maps_on_the_rerun(self):
         with tempfile.TemporaryDirectory() as d:
