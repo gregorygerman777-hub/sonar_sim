@@ -1,7 +1,7 @@
-"""Relocalization after tracking loss (CHANGELOG entry 14), on a synthetic corridor with a known answer.
+"""Relocalization after tracking loss (CHANGELOG entry 15), on a synthetic corridor with a known answer.
 
     python -m unittest SLAM/validation/tests/test_relocalization.py
-    MONOSLAM_OLD_BEHAVIOUR=1 python -m unittest ...     (the behaviour before entry 14: both tests fail)
+    MONOSLAM_OLD_BEHAVIOUR=1 python -m unittest ...     (the behaviour before entry 15: both tests fail)
 
 The camera flies 2 m above a 44 m strip of ground points, looking forward and down, so keyframes far apart see
 disjoint ground. It is then blinded (frames without features) and brought back over ground it mapped before.

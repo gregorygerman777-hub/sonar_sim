@@ -1,55 +1,9 @@
 aqualoc_harbor_07: 2261 frames, 640x512, front end orb
   frame 0/2261: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
   initialized with frames 0 and 4: homography, R_H=0.49, 760 points, runner up 171/760
-  frame 50/2261: tracked, inliers 879, map 0, keyframes 30, points 2646, median depth 1.06, 25 s
-  frame 100/2261: tracked, inliers 839, map 0, keyframes 52, points 3820, median depth 1.1, 53 s
-  frame 150/2261: tracked, inliers 756, map 0, keyframes 75, points 4777, median depth 1.02, 82 s
-  frame 200/2261: tracked, inliers 465, map 0, keyframes 102, points 5635, median depth 1.32, 114 s
-  frame 250/2261: keyframe, inliers 576, map 0, keyframes 118, points 6275, median depth 1.24, 129 s
-  frame 300/2261: keyframe, inliers 668, map 0, keyframes 143, points 7223, median depth 1.04, 151 s
-  frame 350/2261: tracked, inliers 526, map 0, keyframes 166, points 7869, median depth 1.14, 173 s
-  frame 400/2261: keyframe, inliers 449, map 0, keyframes 192, points 8840, median depth 1.12, 191 s
-  frame 450/2261: keyframe, inliers 618, map 0, keyframes 227, points 10476, median depth 1.13, 218 s
-  frame 500/2261: keyframe, inliers 373, map 0, keyframes 268, points 11927, median depth 1.14, 245 s
-  frame 550/2261: keyframe, inliers 297, map 0, keyframes 313, points 13377, median depth 1.1, 263 s
-  frame 600/2261: keyframe, inliers 278, map 0, keyframes 350, points 14637, median depth 1.16, 273 s
-  frame 650/2261: keyframe, inliers 550, map 0, keyframes 392, points 16442, median depth 1.14, 287 s
-  frame 700/2261: keyframe, inliers 373, map 0, keyframes 442, points 19400, median depth 1.16, 316 s
-  frame 750/2261: untracked, inliers 0, map 0, keyframes 483, points 20989, median depth 0.214, 329 s
-  frame 751: lost for 10 frames, closing map 0 and starting a new map
-  initialized with frames 783 and 784: homography, R_H=0.48, 213 points, runner up 115/213
-  frame 800/2261: keyframe, inliers 307, map 1, keyframes 18, points 948, median depth 0.829, 334 s
-  frame 850/2261: keyframe, inliers 388, map 1, keyframes 68, points 3258, median depth 0.738, 354 s
-  frame 900/2261: keyframe, inliers 524, map 1, keyframes 117, points 5456, median depth 0.611, 378 s
-  frame 950/2261: keyframe, inliers 588, map 1, keyframes 161, points 7295, median depth 0.847, 402 s
-  frame 1000/2261: keyframe, inliers 397, map 1, keyframes 206, points 9022, median depth 0.52, 424 s
-  frame 1050/2261: keyframe, inliers 225, map 1, keyframes 248, points 9762, median depth 0.433, 441 s
-  frame 1100/2261: keyframe, inliers 631, map 1, keyframes 297, points 11990, median depth 0.836, 462 s
-  frame 1150/2261: tracked, inliers 191, map 1, keyframes 339, points 13184, median depth 0.782, 484 s
-  frame 1200/2261: tracked, inliers 272, map 1, keyframes 365, points 13556, median depth 0.81, 494 s
-  frame 1250/2261: tracked, inliers 171, map 1, keyframes 394, points 13848, median depth 0.937, 508 s
-  frame 1300/2261: keyframe, inliers 586, map 1, keyframes 423, points 15053, median depth 1.13, 524 s
-  frame 1350/2261: tracked, inliers 466, map 1, keyframes 456, points 16038, median depth 1.01, 551 s
-  frame 1400/2261: keyframe, inliers 409, map 1, keyframes 476, points 16575, median depth 1.07, 564 s
-  frame 1450/2261: tracked, inliers 531, map 1, keyframes 517, points 18328, median depth 0.993, 584 s
-  frame 1500/2261: keyframe, inliers 491, map 1, keyframes 566, points 20605, median depth 1.04, 612 s
-  frame 1550/2261: keyframe, inliers 481, map 1, keyframes 616, points 23577, median depth 0.926, 631 s
-  frame 1600/2261: keyframe, inliers 486, map 1, keyframes 666, points 26730, median depth 1.24, 643 s
-  frame 1650/2261: keyframe, inliers 489, map 1, keyframes 715, points 29308, median depth 1.43, 655 s
-  frame 1700/2261: keyframe, inliers 102, map 1, keyframes 765, points 31148, median depth 1.82, 666 s
-  frame 1739: lost for 10 frames, closing map 1 and starting a new map
-  frame 1750/2261: untracked, inliers 0, map 2, keyframes 0, points 0, median depth nan, 668 s
-  frame 1800/2261: untracked, inliers 0, map 2, keyframes 0, points 0, median depth nan, 669 s
-  frame 1850/2261: untracked, inliers 0, map 2, keyframes 0, points 0, median depth nan, 669 s
-  initialized with frames 1886 and 1889: homography, R_H=0.49, 77 points, runner up 48/77
-  frame 1900/2261: keyframe, inliers 126, map 2, keyframes 9, points 219, median depth 0.881, 670 s
-  frame 1950/2261: tracked, inliers 269, map 2, keyframes 38, points 762, median depth 0.594, 675 s
-  frame 2000/2261: tracked, inliers 77, map 2, keyframes 58, points 773, median depth 0.483, 681 s
-  frame 2050/2261: tracked, inliers 195, map 2, keyframes 80, points 1112, median depth 0.26, 684 s
-  frame 2100/2261: tracked, inliers 457, map 2, keyframes 106, points 2029, median depth 0.205, 692 s
-  frame 2150/2261: keyframe, inliers 603, map 2, keyframes 136, points 3675, median depth 0.14, 706 s
-  frame 2200/2261: keyframe, inliers 514, map 2, keyframes 186, points 5929, median depth 0.103, 719 s
-  frame 2250/2261: keyframe, inliers 499, map 2, keyframes 229, points 7270, median depth 0.102, 732 s
-  frame 2260/2261: keyframe, inliers 457, map 2, keyframes 239, points 7758, median depth 0.119, 735 s
-global bundle adjustment and final localization pass
-done: 947/2261 frames posed by the primary map (3 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 742, 'keyframes': 483, 'points': 20989}, {'map': 1, 'first_frame': 752, 'frames_posed': 947, 'keyframes': 792, 'points': 31474}, {'map': 2, 'first_frame': 1740, 'frames_posed': 375, 'keyframes': 239, 'points': 7758}]), 792 keyframes, 31474 points, 943 s. Status: {'keyframe': 792, 'tracked': 155, 'untracked': 41}
+  frame 50/2261: tracked, inliers 879, map 0, keyframes 30, points 2646, median depth 1.06, 44 s
+  frame 100/2261: tracked, inliers 839, map 0, keyframes 52, points 3820, median depth 1.1, 101 s
+  frame 150/2261: tracked, inliers 756, map 0, keyframes 75, points 4777, median depth 1.02, 153 s
+  frame 200/2261: tracked, inliers 465, map 0, keyframes 102, points 5635, median depth 1.32, 206 s
+  frame 250/2261: keyframe, inliers 576, map 0, keyframes 118, points 6275, median depth 1.24, 230 s
+  frame 300/2261: keyframe, inliers 668, map 0, keyframes 143, points 7223, median depth 1.04, 270 s
