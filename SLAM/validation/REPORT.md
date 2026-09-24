@@ -11,7 +11,9 @@
 2. **On real underwater imagery it is accurate while it tracks, but it loses track.** AQUALOC harbor 07:
    0.83 cm ATE over the 8.6 m tracked by its main map (ORB), but that is 42 % of the frames; after tracking losses
    the run is split into 3 maps, one of them poor (all maps together 11 cm). COLMAP also splits this sequence
-   (3 models, largest 43 % of frames), so part of the difficulty is the data.
+   (3 models, largest 43 % of frames), so part of the difficulty is the data: the ORB run loses track where the image
+   goes black and then saturated (frames 742 to 782) and where the camera leaves a rock for featureless, turbid seabed
+   (from frame 1730).
 3. **On the standard TUM benchmark it is 2 to 4 times less accurate than COLMAP.** fr1/xyz: 3.9 cm (ORB),
    2.2 cm (SIFT) against COLMAP 0.9 cm; fr3/long_office: 5.8 cm (ORB), 7.3 cm (SIFT) against 2.1 cm. The gap was
    investigated (initialisation, homography choice, per frame jitter) and none of those explain it; it is a smooth

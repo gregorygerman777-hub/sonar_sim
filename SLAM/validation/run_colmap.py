@@ -10,6 +10,7 @@ recorded in run_meta.json.
 """
 
 import argparse
+import json
 import shutil
 import sys
 import time
@@ -32,6 +33,17 @@ def cam_from_world(image):
     return pose.rotation.matrix(), np.asarray(pose.translation, float)
 
 
+def check_overwrite(out, stride, overwrite=False):
+    """The output name has no stride in it (the reported fr3 and AQUALOC runs use every 3rd and 2nd frame under the
+    plain name), so refuse to replace an existing run made with a different stride."""
+    meta = Path(out) / "run_meta.json"
+    if meta.exists() and not overwrite:
+        old = int(json.loads(meta.read_text()).get("stride", 1))
+        if old != stride:
+            raise SystemExit(f"{out} holds a stride {old} run; refusing to replace it with stride {stride} "
+                             f"(pass --out elsewhere, or --overwrite)")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", required=True)
@@ -40,11 +52,13 @@ def main():
     parser.add_argument("--overlap", type=int, default=10)
     parser.add_argument("--out", type=Path, default=HERE / "results")
     parser.add_argument("--work", type=Path, default=sequences.DATA / "colmap_work")
+    parser.add_argument("--overwrite", action="store_true", help="replace an existing run made with another stride")
     args = parser.parse_args()
 
     seq = sequences.get(args.dataset).subsample(args.stride)
     name = f"{seq.name}_colmap_{args.matcher}"
     out = args.out / name
+    check_overwrite(out, args.stride, args.overwrite)
     out.mkdir(parents=True, exist_ok=True)
     work = args.work / name
     if work.exists():

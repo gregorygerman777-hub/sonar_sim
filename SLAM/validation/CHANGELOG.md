@@ -197,3 +197,13 @@ an open limitation, stated in the report.** No setting was changed because of it
   projection (to 1e-6 px on random cameras); on the real export the file reproduces the original projections to 4e-12 px.
 * **Finding:** about 7 % of the model points lie above the cameras; part of them come from reflections in the water
   surface and are not physical (REPORT.md, pool section). They are flagged, not removed.
+
+## 13. run_all.sh did not reproduce the reported runs (reproducibility bugs, fixed)
+
+* It ran COLMAP at full rate on every ground truth set, but the reported fr3 and AQUALOC baselines use every 3rd and
+  every 2nd frame; `run_colmap.py` does not put the stride in the directory name, so a full `run_all.sh` would have
+  replaced the reported baselines with different runs. It now passes the reported strides, and `run_colmap.py`
+  refuses to replace a run made with another stride (`tests/test_run_names.py` fails on the old code).
+* `for r in results/pool_*` also matched `pool_analysis.json`, so the figure step would have stopped the script.
+* It never made the frame spacing runs behind `spacing_experiment.png`, nor ran `spacing_experiment.py`,
+  `pool_scale.py` or the export; it now does, plus the pool frame skipping runs and KITTI when present.
