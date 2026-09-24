@@ -1,0 +1,102 @@
+{
+  "title": "Monocular SLAM: validation against ground truth, then your pool data",
+  "subtitle": "Gregory German, September 2026. Full report, code and every number: github.com/gregorygerman777-hub/sonar_sim, SLAM/validation/REPORT.md",
+  "author": "Gregory German",
+  "table_datasets": [
+    "synthetic_pool",
+    "synthetic_pool_caustics",
+    "tum_freiburg1_xyz",
+    "tum_freiburg3_long_office_household",
+    "aqualoc_harbor_07",
+    "pool_raw"
+  ],
+  "table_exclude_runs": [
+    "synthetic_pool_orb_stride2",
+    "synthetic_pool_orb_stride4",
+    "synthetic_pool_orb_stride8",
+    "synthetic_pool_orb_stride12",
+    "synthetic_pool_caustics_orb_stride2",
+    "synthetic_pool_caustics_orb_stride4",
+    "synthetic_pool_caustics_orb_stride8",
+    "synthetic_pool_caustics_sift_stride2",
+    "synthetic_pool_caustics_sift_stride4",
+    "synthetic_pool_caustics_colmap_exhaustive",
+    "pool_raw_colmap_sequential"
+  ],
+  "dataset_labels": {
+    "synthetic_pool": "Synthetic pool (exact GT)",
+    "synthetic_pool_caustics": "Synthetic pool + caustics",
+    "tum_freiburg1_xyz": "TUM fr1/xyz",
+    "tum_freiburg3_long_office_household": "TUM fr3/long office",
+    "aqualoc_harbor_07": "AQUALOC harbor 07",
+    "pool_raw": "Pool (117 stills, raw K)"
+  },
+  "pages": [
+    {
+      "heading": "1. Validation on datasets with ground truth",
+      "paragraphs": [
+        "As you asked, the implementation was first assessed on data with ground truth, to find bugs before running it on your data. It is a keyframe based monocular SLAM (initialisation, map, triangulation, local and global bundle adjustment), scored with the standard ATE after a similarity alignment, with COLMAP on the same images as a reference.",
+        "<b>Bugs found.</b> Ground truth exposed two real bugs that the trajectories alone did not show: the map scale grew about 2,500 times in local bundle adjustment, and map point fusion later collapsed the scale. Both are fixed, and each has a regression test that fails on the old code.",
+        "<b>Accuracy after the fixes.</b> On a rendered scene resembling your pool (exact ground truth) the 10 m trajectory is recovered to 0.6 cm (ORB) and 0.2 cm (SIFT), and the 3D map lies a median 0.9 cm and 0.5 cm from the true surface. On real underwater video (AQUALOC) it is under 1 cm while it tracks but it loses track, partly in stretches where the image is black or saturated. On the TUM benchmark it is 2 to 4 times less accurate than COLMAP, consistent with having no loop closure."
+      ],
+      "table": true,
+      "figures": [
+        [
+          {
+            "path": "figures/synthetic_pool/synthetic_pool_orb/1_trajectory.png",
+            "max_height_in": 2.4,
+            "caption": "Synthetic pool, exact ground truth: estimated trajectory (blue) over ground truth (black), top and side views. ATE 0.6 cm over 10 m."
+          },
+          {
+            "path": "figures/aqualoc_harbor_07/aqualoc_harbor_07_orb/1_trajectory.png",
+            "max_height_in": 2.4,
+            "caption": "AQUALOC harbor 07, real underwater: main map 0.8 cm ATE over 8.6 m; light blue are the maps started after tracking losses, each aligned separately."
+          }
+        ]
+      ],
+      "footer": "ATE: RMSE after Sim(3) alignment, on the frames each method posed (read it with the posed fraction). COLMAP got the same undistorted images and fixed intrinsics."
+    },
+    {
+      "heading": "2. Your pool data: estimated camera trajectory and 3D model",
+      "paragraphs": [
+        "All 117 frames, with the camera matrix you confirmed (K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1]). The trajectory and model below come from the multi view reconstruction (COLMAP, all frames matched against each other), which registers <b>all 117 frames in one model</b> with a mean reprojection error of 0.92 px. My sequential SLAM tracks only 11 of these stills: they are about 2 s apart with moving caustics on the floor, and skipping every other frame, or every 2 frames, made it worse (2 frames). Where both methods pose the same frames, their relative rotations agree to within 1 degree.",
+        "There is no ground truth here, so the result is internally consistent, not verified. The camera circles the rock and pebble mat about twice at nearly constant height; frames 106 to 117, taken about 10 minutes later, continue on the same circle. The units are arbitrary (monocular). The two floor lane stripes beside the mat measure 0.445 units wide, so knowing their real width would make everything metric."
+      ],
+      "figures": [
+        [
+          {
+            "path": "figures/pool_raw/pool_raw_colmap_exhaustive/1_trajectory.png",
+            "max_height_in": 3.0,
+            "caption": "(a) Estimated camera trajectory (the first key output), 117 frames: top view and side view. Green: first frame, red: last frame."
+          }
+        ],
+        [
+          {
+            "path": "figures/pool_raw/pool_raw_colmap_exhaustive/2_model.png",
+            "max_height_in": 4.4,
+            "caption": "(b) 3D model (the second key output): 12,133 reconstructed points. The dense patch is the rock and pebble mat; sparse points are pool walls and lane markings."
+          }
+        ]
+      ]
+    },
+    {
+      "heading": "3. Your pool data: trajectory superimposed on the 3D model",
+      "figures": [
+        [
+          {
+            "path": "figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.png",
+            "max_height_in": 4.0,
+            "caption": "(c) The estimated camera trajectory with camera frustums superimposed on the 3D model, same data and view as (b). An interactive, rotatable version is figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.html in the repository."
+          }
+        ],
+        [
+          {
+            "path": "figures/pool_raw/pool_raw_colmap_exhaustive/4_overlay_top.png",
+            "max_height_in": 5.0,
+            "caption": "(d) The same, seen from directly above the pool floor: map points coloured by height, trajectory in blue, arrows showing where the camera looks. The square is the pebble mat; the camera circles it looking inwards."
+          }
+        ]
+      ]
+    }
+  ]
+}

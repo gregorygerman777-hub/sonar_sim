@@ -12,7 +12,7 @@ The repo checkout this refers to is `~/sonar_work/sonar_sim` on Greg's Mac, with
   synthetic pool renderer with optional moving caustics, pool adapter with `width_scaled` / `raw` intrinsics).
 * Steps 3 and 4: `evaluate.py` (evo, Sim(3), ATE, RPE, per map scores), `run_colmap.py` (pycolmap baseline).
 * Step 5: `CHANGELOG.md` entries 1 to 7 (two real bugs fixed with regression tests, fr1 gap investigated).
-* Steps 6 to 8: all runs in `results/`, figures in `figures/`, `REPORT.md`, `REPORT_onepage.pdf`,
+* Steps 6 to 8: all runs in `results/`, figures in `figures/`, `REPORT.md`, `REPORT_summary.pdf` (was `REPORT_onepage.pdf`),
   `pool_analysis.py`, `spacing_experiment.py`. Everything is committed locally, **not pushed** (Greg's rule).
 
 ## Reproduce
@@ -28,7 +28,7 @@ PYTHON=../venv/bin/python SLAM/validation/run_all.sh --skip-downloads --skip-ren
 
 ## Open items, in priority order
 
-1. **Email to Dr. Negahdaripour.** A draft is in the Cowork chat. Attach `REPORT_onepage.pdf`. Greg's writing rule: no
+1. **Email to Dr. Negahdaripour.** Draft: `~/sonar_work/email_draft_2026-09-23.txt` (not in the repo). Attach `REPORT_summary.pdf`. Greg's writing rule: no
    dashes or hyphens in drafted prose.
 2. **Pool scale.** *Partly done 2026-09-23 (CHANGELOG entry 9): stripes measured in model units by `pool_scale.py`;
    needs the real stripe width or lane spacing from Dr. Negahdaripour to become metric. No sonar data for the same
@@ -62,3 +62,11 @@ PYTHON=../venv/bin/python SLAM/validation/run_all.sh --skip-downloads --skip-ren
   the raw K: 117/117, 0.92 px (width scaled 117/117, 0.94 px; trajectories agree to 0.4 % of extent). Sequential:
   106/117 in the largest of 2 models, 0.80 px (width scaled 110/117, 0.82 px). REPORT.md, the one page PDF and the pool
   figures now use the raw K. The raw K is not visibly worse, so the (953, 786) vs 1024 x 768 question need not be raised.
+
+## Feedback from Dr. Negahdaripour on the September 19 pairwise verification report (received 2026-09-24)
+
+He wants (1) the implementation assessed on datasets with ground truth to find bugs, then run on his data, and
+(2) the two key SLAM outputs, the estimated camera trajectory and the 3D model, shown separately and also with the
+trajectory superimposed on the model. `REPORT_summary.pdf` is now laid out in exactly that order: page 1 validation
+on ground truth (bugs found, accuracy table), page 2 pool trajectory and 3D model, page 3 trajectory over the model
+(3D view and top view). Keep that structure in anything sent to him.

@@ -58,9 +58,12 @@ Full table (every run, RPE, runtimes, per map numbers): `results/SUMMARY.md` and
 
 ## Figures
 
-Each dataset has three figures in `figures/<dataset>/<run>/`: `1_trajectory.png` (estimated trajectory
+Each run has four figures in `figures/<dataset>/<run>/`: `1_trajectory.png` (estimated trajectory
 against ground truth, top and side views), `2_model.png` (the 3D map points), `3_overlay.png` (the
-trajectory and camera frustums drawn over the 3D map), plus an interactive `3_overlay.html`.
+trajectory and camera frustums drawn over the 3D map), `4_overlay_top.png` (the same seen from above, map points
+coloured by height, arrows for the viewing direction), plus an interactive `3_overlay.html`.
+`REPORT_summary.pdf` (three pages, for e-mail) shows the validation first and then the pool trajectory, 3D model and
+trajectory over the model.
 
 Key figures:
 
@@ -73,6 +76,7 @@ Key figures:
 | TUM fr3/long_office, trajectory | `figures/tum_freiburg3_long_office_household/tum_freiburg3_long_office_household_sift/1_trajectory.png` |
 | **Pool: trajectory over the 3D model (COLMAP, all 117 frames, raw K)** | `figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.png` |
 | **Pool: trajectory alone / 3D model alone** | `.../pool_raw_colmap_exhaustive/1_trajectory.png`, `2_model.png` |
+| Pool: trajectory over the 3D model, seen from above | `.../pool_raw_colmap_exhaustive/4_overlay_top.png` |
 | Pool, width scaled K (comparison) | `figures/pool_width_scaled/pool_width_scaled_colmap_exhaustive/3_overlay.png` |
 | Pool: camera positions coloured by frame number | `figures/pool/frame_order_exhaustive.png` |
 | Pool: which frames each method could pose, with a floor caustic index | `figures/pool/coverage.png` |

@@ -215,6 +215,37 @@ def main():
         fig.tight_layout()
         fig.savefig(out / fname, dpi=DPI, bbox_inches="tight", pad_inches=0.05)
         plt.close(fig)
+    # ---------------- 4: overlay seen from above (map points coloured by height, cameras with viewing direction)
+    fig, ax = plt.subplots(figsize=(8, 7))
+    if len(cloud):
+        sc = ax.scatter(cloud[:, 0], cloud[:, 1], c=cloud[:, 2], cmap="cividis", s=1.5, linewidths=0, zorder=1)
+        plt.colorbar(sc, ax=ax, shrink=0.7, label=f"map point height [{units}]")
+    if has_gt:
+        pg = P(gt)
+        ax.plot(pg[:, 0], pg[:, 1], color=C_GT, lw=1.0, alpha=0.7, label="ground truth", zorder=2)
+    ax.plot(traj[:, 0], traj[:, 1], color=C_EST, lw=1.8, label="estimated trajectory", zorder=3)
+    every = args.frustum_every or max(1, len(traj) // 25)
+    look = np.einsum("ij,njk->nik", B, run["R"])[:, :, 2]   # optical axis in the view frame
+    arrow = 0.05 * np.ptp(lim[:2], axis=1).max()
+    for i in range(0, len(traj), every):
+        d = look[i, :2] / max(np.linalg.norm(look[i, :2]), 1e-9)
+        ax.annotate("", traj[i, :2] + arrow * d, traj[i, :2], zorder=4,
+                    arrowprops=dict(arrowstyle="->", color=C_EST, lw=1.0))
+    ax.plot(traj[0, 0], traj[0, 1], "o", color="#16a34a", ms=7, label="start", zorder=5)
+    ax.plot(traj[-1, 0], traj[-1, 1], "s", color="#dc2626", ms=7, label="end", zorder=5)
+    pad = 0.05 * np.ptp(traj[:, :2], axis=0).max()   # the whole trajectory stays inside the axes
+    ax.set_xlim(min(lim[0][0], traj[:, 0].min() - pad), max(lim[0][1], traj[:, 0].max() + pad))
+    ax.set_ylim(min(lim[1][0], traj[:, 1].min() - pad), max(lim[1][1], traj[:, 1].max() + pad))
+    ax.set_aspect("equal")
+    ax.grid(alpha=0.3)
+    ax.set_xlabel(f"along [{units}]")
+    ax.set_ylabel(f"across [{units}]")
+    ax.legend(loc="upper right", fontsize=8)
+    ax.set_title(f"{title}\ntrajectory over the 3D map, seen from above (arrows: viewing direction); {stat}",
+                 fontsize=9)
+    fig.tight_layout()
+    fig.savefig(out / "4_overlay_top.png", dpi=DPI, bbox_inches="tight", pad_inches=0.05)
+    plt.close(fig)
     _interactive(out / "3_overlay.html", cloud, rgb, traj, P(gt) if has_gt else None, title, units)
     print(f"figures written to {out}")
 
