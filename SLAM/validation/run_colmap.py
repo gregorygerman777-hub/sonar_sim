@@ -33,6 +33,13 @@ def cam_from_world(image):
     return pose.rotation.matrix(), np.asarray(pose.translation, float)
 
 
+def colmap_pinhole_params(K):
+    """PINHOLE parameters for COLMAP from an OpenCV style K. COLMAP puts the centre of the top left pixel at
+    (0.5, 0.5) (its keypoints come out half a pixel from OpenCV's, tests/test_colmap.py); OpenCV and every
+    calibration used here put it at (0, 0). So the principal point moves by half a pixel (CHANGELOG entry 17)."""
+    return [float(K[0, 0]), float(K[1, 1]), float(K[0, 2]) + 0.5, float(K[1, 2]) + 0.5]
+
+
 def check_overwrite(out, stride, overwrite=False):
     """The output name has no stride in it (the reported fr3 and AQUALOC runs use every 3rd and 2nd frame under the
     plain name), so refuse to replace an existing run made with a different stride."""
@@ -72,7 +79,7 @@ def main():
     K = seq.K
     reader = pycolmap.ImageReaderOptions()
     reader.camera_model = "PINHOLE"
-    reader.camera_params = f"{K[0, 0]},{K[1, 1]},{K[0, 2]},{K[1, 2]}"
+    reader.camera_params = ",".join(repr(v) for v in colmap_pinhole_params(K))
     extraction = pycolmap.FeatureExtractionOptions()
     extraction.sift.max_num_features = 8192
     db = work / "database.db"
@@ -101,8 +108,8 @@ def main():
     n = len(seq)
     meta = dict(dataset=seq.name, dataset_key=args.dataset, method=f"colmap_{args.matcher}", frontend="sift",
                 stride=args.stride, frame_timestamps=[float(x) for x in seq.timestamps],
-                frames_total=n, models=sizes, runtime_seconds=seconds, K=K,
-                pycolmap_version=pycolmap.__version__, notes="largest model exported; fixed PINHOLE intrinsics")
+                frames_total=n, models=sizes, runtime_seconds=seconds, K=K, colmap_camera_params=colmap_pinhole_params(K),
+                pycolmap_version=pycolmap.__version__, notes="largest model exported; fixed PINHOLE intrinsics (principal point + 0.5 px for COLMAP's pixel convention)")
     if not models:
         export.write_meta(out / "run_meta.json", frames_posed=0, fraction_posed=0.0, **meta)
         export.write_tum(out / "trajectory_tum.txt", [], [], [])
