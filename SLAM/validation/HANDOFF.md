@@ -30,7 +30,9 @@ PYTHON=../venv/bin/python SLAM/validation/run_all.sh --skip-downloads --skip-ren
 
 1. **Email to Dr. Negahdaripour.** A draft is in the Cowork chat. Attach `REPORT_onepage.pdf`. Greg's writing rule: no
    dashes or hyphens in drafted prose.
-2. **Pool scale.** The pool reconstruction (COLMAP exhaustive, `results/pool_width_scaled_colmap_exhaustive/`) is in
+2. **Pool scale.** *Partly done 2026-09-23 (CHANGELOG entry 9): stripes measured in model units by `pool_scale.py`;
+   needs the real stripe width or lane spacing from Dr. Negahdaripour to become metric. No sonar data for the same
+   instants exists, so the extrinsic route is closed.* The pool reconstruction (COLMAP exhaustive, `results/pool_width_scaled_colmap_exhaustive/`) is in
    arbitrary units. Fix it from a known length (tile or lane line width) or from the sonar extrinsic in
    `OSCalibration.mat` (`Ro2s`, `To2s`) if sonar data for the same instants exists.
 3. **Tracking robustness** (AQUALOC loses track, the pool frames can't be tracked). Candidates: relocalisation against

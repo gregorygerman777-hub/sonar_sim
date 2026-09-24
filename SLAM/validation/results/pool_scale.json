@@ -1,0 +1,80 @@
+{
+  "run": "pool_raw_colmap_exhaustive",
+  "floor_plane_inliers": 2596,
+  "map_points": 12133,
+  "camera_height_units": {
+    "median": 0.9726757435365796,
+    "iqr": [
+      0.9255334944194088,
+      1.0190956612114683
+    ]
+  },
+  "stripes": [
+    {
+      "centre_units": -1.7455246454103548,
+      "width_units_median": 0.45428226580724607,
+      "width_units_iqr": [
+        0.4465854431062399,
+        0.4623035238244432
+      ],
+      "width_units_range": [
+        0.4444832238787926,
+        0.4700239715661816
+      ],
+      "detections": 6,
+      "frames": [
+        107,
+        108,
+        109,
+        111,
+        112,
+        113
+      ]
+    },
+    {
+      "centre_units": 1.5209002907544718,
+      "width_units_median": 0.4359264550548658,
+      "width_units_iqr": [
+        0.4120444689809542,
+        0.487772138606714
+      ],
+      "width_units_range": [
+        0.3278700017417062,
+        0.49272670160253984
+      ],
+      "detections": 8,
+      "frames": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        68
+      ]
+    }
+  ],
+  "min_stripe_width_units": 0.2431689358841449,
+  "stripe_spacing_units": 3.2664249361648263,
+  "spacing_over_width": 7.338559732377136,
+  "conditional_scale": {
+    "note": "metres per model unit IF the stripe width is the stated value; not a measurement of the pool",
+    "stripe_width_0.200_m": {
+      "metres_per_unit": 0.4493328256912883,
+      "camera_height_m": 0.43705514032466614
+    },
+    "stripe_width_0.254_m": {
+      "metres_per_unit": 0.5706526886279361,
+      "camera_height_m": 0.5550600282123259
+    },
+    "stripe_width_0.250_m": {
+      "metres_per_unit": 0.5616660321141103,
+      "camera_height_m": 0.5463189254058326
+    },
+    "stripe_width_0.300_m": {
+      "metres_per_unit": 0.6739992385369323,
+      "camera_height_m": 0.6555827104869991
+    }
+  }
+}

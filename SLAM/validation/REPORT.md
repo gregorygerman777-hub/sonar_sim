@@ -165,9 +165,13 @@ one global model, rather than relying on the previous frame.
 **What this means for the questions in my September 22 email.**
 * A multi view, global method (COLMAP's incremental SfM) handles this sequence where a better descriptor alone
   did not: SIFT inside the sequential SLAM still loses track, while COLMAP (also SIFT) registers every frame.
-* The scale of the pool reconstruction is unknown (monocular). It could be fixed from a known length in the scene,
-  e.g. the pool tile or lane marking width, or from the sonar to optical extrinsic in `OSCalibration.mat` if the sonar
-  data for the same instants is available.
+* The scale of the pool reconstruction is unknown (monocular). No sonar frames were delivered for the same instants,
+  so the sonar to optical extrinsic in `OSCalibration.mat` cannot fix it. The floor's dark lane stripes can:
+  `pool_scale.py` rectifies each frame onto the fitted floor plane and measures the two stripes beside the mat at
+  0.454 and 0.436 model units wide (6 and 8 detections in different frames), 3.27 units apart, with the camera a
+  median 0.97 units above the floor. One known length fixes everything: metres per unit = true stripe width / 0.445.
+  For a stripe between 0.20 and 0.30 m that would put the camera 0.44 to 0.66 m above the floor, but this is
+  conditional; the real stripe width or lane spacing is needed (`results/pool_scale.json`, `CHANGELOG.md` entry 9).
 
 ## Method (details)
 

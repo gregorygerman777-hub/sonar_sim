@@ -142,3 +142,21 @@ an open limitation, stated in the report.** No setting was changed because of it
   extent. COLMAP sequential, raw K: 106/117 in the largest of 2 models, 0.80 px (width scaled: 110/117 in 1, 0.82 px).
 * **Report fix:** REPORT.md listed the sequential gaps as frames "56 to 61 and 116"; those were zero based indices.
   The frames are opt57 to opt62 and opt117.
+
+## 9. Pool scale: stripe widths measured in model units (tooling, scale still conditional)
+
+* **Why:** the pool model is monocular. No sonar frames exist for the same instants (only `opt*.bmp` were delivered),
+  so the sonar extrinsic cannot fix the scale. `Final_Proj` in `OSCalibration.mat` holds 28 rigid calibration poses
+  (translations 1 to 4.7 m), not poses of the pool stills.
+* **Change:** `pool_scale.py` fits the floor plane to the COLMAP map, rectifies every frame onto it and measures the
+  dark lane stripes (width at half depth, centre spacing) in model units. Writes `results/pool_scale.json`.
+* **Defect found while building it (no ground truth needed):** the first version reported two large rocks on the mat
+  as stripes (about 0.28 units wide): a rock covering most of the rows a frame sees pulls the median profile down.
+  Fix: `is_elongated` requires the dip in each third of the seen rows along the stripe direction.
+  `tests/test_pool_scale.py::TestElongation` **fails** with the check disabled and passes with it; the end to end
+  test (rendered floor, known stripes, 12 views) recovers a 0.30 wide stripe to within 3 % and the spacing to 0.02.
+* **Result (primary raw K model):** two stripes, 0.454 units wide (6 detections, frames 107 to 113) and 0.436 units
+  (8 detections, frames 15 to 21 and 68; range 0.33 to 0.49), centres 3.27 units apart (7.3 widths). Camera height
+  above the floor: median 0.97 units. The scale is **not** fixed: metres per unit = (true stripe width) / 0.445. For
+  a 0.20 to 0.30 m stripe that is 0.45 to 0.67 m per unit (camera about 0.44 to 0.66 m above the floor). The real
+  stripe width, or the lane spacing, is needed from Dr. Negahdaripour.
