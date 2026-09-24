@@ -1,0 +1,180 @@
+{
+  "dataset": "pool_raw",
+  "dataset_key": "pool_raw",
+  "method": "monoslam",
+  "frontend": "orb",
+  "stride": 3,
+  "frame_timestamps": [
+    1.0,
+    4.0,
+    7.0,
+    10.0,
+    13.0,
+    16.0,
+    19.0,
+    22.0,
+    25.0,
+    28.0,
+    31.0,
+    34.0,
+    37.0,
+    40.0,
+    43.0,
+    46.0,
+    49.0,
+    52.0,
+    55.0,
+    58.0,
+    61.0,
+    64.0,
+    67.0,
+    70.0,
+    73.0,
+    76.0,
+    79.0,
+    82.0,
+    85.0,
+    88.0,
+    91.0,
+    94.0,
+    97.0,
+    100.0,
+    103.0,
+    106.0,
+    109.0,
+    112.0,
+    115.0
+  ],
+  "frames_total": 39,
+  "frames_posed": 2,
+  "fraction_posed": 0.05128205128205128,
+  "primary_map": 0,
+  "maps": [
+    {
+      "map": 0,
+      "first_frame": 0,
+      "frames_posed": 2,
+      "keyframes": 2,
+      "points": 77
+    }
+  ],
+  "frames_posed_any_map": 2,
+  "status_counts": {
+    "keyframe": 2,
+    "untracked": 10
+  },
+  "keyframes": 2,
+  "map_points": 77,
+  "median_observations_per_point": 2.0,
+  "initialization": {
+    "ref_frame": 0,
+    "frame": 1,
+    "model": "essential",
+    "r_h": 0.3417904764628759,
+    "matches": 142,
+    "points": 77,
+    "parallax_points": 77,
+    "runner_up_points": 0,
+    "median_parallax_deg": 9.97712670729931
+  },
+  "stats": {
+    "local_ba_seconds": 0.0,
+    "n_local_ba": 0,
+    "reinit": 0,
+    "relocalizations": 0,
+    "global_ba_seconds": 0.017534458020236343
+  },
+  "settings": {
+    "frontend": "orb",
+    "n_features": 2000,
+    "grid": [
+      8,
+      6
+    ],
+    "init_ratio": 0.9,
+    "init_min_matches": 100,
+    "init_min_points": 50,
+    "init_min_parallax_deg": 1.0,
+    "init_ambiguity": 0.75,
+    "init_max_gap": 30,
+    "homography_ratio": 0.45,
+    "search_radius_px": 15.0,
+    "search_radius_wide_px": 40.0,
+    "match_ratio": 0.9,
+    "track_min_inliers": 30,
+    "pnp_reprojection_px": 4.0,
+    "reloc_min_inliers": 50,
+    "reloc_candidates": 30,
+    "new_map_after_lost": 10,
+    "kf_track_ratio": 0.9,
+    "kf_ref_min_obs": 0,
+    "kf_reference": "points",
+    "covisible_local_map": true,
+    "kf_max_gap": 20,
+    "triang_neighbors": 6,
+    "fuse_neighbors": 0,
+    "fuse_max_rel_distance": 0.1,
+    "triang_min_parallax_deg": 1.0,
+    "local_window": 10,
+    "cull_after_kfs": 2,
+    "min_found_ratio": 0.25,
+    "local_ba_iterations": 20,
+    "local_ba_min_fixed": 2,
+    "global_ba_iterations": 50
+  },
+  "reprojection": {
+    "rmse_px": 1.1861301200990817,
+    "median_px": 0.5444740616232322,
+    "observations": 154
+  },
+  "K": [
+    [
+      1403.4610865271711,
+      0.0,
+      476.51680038567855
+    ],
+    [
+      0.0,
+      1403.4610865271711,
+      392.91565856150174
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "image_size": [
+    1024,
+    768
+  ],
+  "dataset_notes": {
+    "source": "opt1.bmp..opt117.bmp and OSCalibration.mat from Dr. Negahdaripour",
+    "K_raw": [
+      [
+        1403.4610865271711,
+        0.0,
+        476.51680038567855
+      ],
+      [
+        0.0,
+        1403.4610865271711,
+        392.91565856150174
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "K_source": "OSCalibration.mat",
+    "k_hypothesis": "raw",
+    "timestamp": "frame number",
+    "stride": 3
+  },
+  "runtime_seconds": 4.491156874981243,
+  "tracking_seconds": 4.41825395898195,
+  "seconds_per_frame": 0.11515786858926265,
+  "git_commit": "b4f6c8083b9f3c307c7e88b5e2f439f8fc0df424",
+  "git_dirty": true
+}

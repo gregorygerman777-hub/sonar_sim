@@ -131,6 +131,10 @@ frame size (cropping or resizing) is still open but does not affect these result
 | COLMAP, sequential matching | 106 in the largest of 2 models | frames 1 to 4, 57 to 62 and 117 not in it; 0.80 px mean reprojection error |
 | COLMAP, exhaustive matching | **117 in one model** | 0.92 px mean reprojection error; 12,133 map points |
 
+**Skipping frames** (suggested for an initial result): with every 2nd or every 3rd frame, our SLAM poses only the two
+frames it initialises on (2/59 and 2/39, ORB and SIFT alike) and then never re-initialises. The stills are already
+about 2 s apart, so skipping widens the gaps that break tracking (`CHANGELOG.md`, entry 10).
+
 (Frame numbers are the n in `opt<n>.bmp`. The September 23 version of this report gave the sequential gaps as
 "56 to 61 and 116", which were zero based indices; the frames are opt57 to opt62 and opt117.)
 

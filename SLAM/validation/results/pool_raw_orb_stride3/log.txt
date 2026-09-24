@@ -1,0 +1,7 @@
+pool_raw: 39 frames, 1024x768, front end orb
+  frame 0/39: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  initialized with frames 0 and 1: essential, R_H=0.34, 77 points, runner up 0/77
+  frame 11: lost for 10 frames, closing map 0 and starting a new map
+  frame 38/39: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 4 s
+global bundle adjustment and final localization pass
+done: 2/39 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 2, 'keyframes': 2, 'points': 77}]), 2 keyframes, 77 points, 4 s. Status: {'keyframe': 2, 'untracked': 10}

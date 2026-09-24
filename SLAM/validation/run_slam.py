@@ -26,6 +26,14 @@ from monoslam.system import MonoSLAM, Settings  # noqa: E402
 import sequences  # noqa: E402
 
 
+def output_name(dataset_name, frontend, stride=1, tag=""):
+    """Run directory name. A subsampled run gets "_stride<N>" unless a tag is given, so it can never overwrite the
+    full rate run of the same dataset (that happened once: --stride without --tag replaced results/pool_raw_orb)."""
+    if stride > 1 and not tag:
+        tag = f"_stride{stride}"
+    return f"{dataset_name}_{frontend}{tag}"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", required=True)
@@ -40,7 +48,7 @@ def main():
 
     seq = sequences.get(args.dataset).subsample(args.stride)
     n = len(seq) if args.max_frames is None else min(len(seq), args.max_frames)
-    out = args.out / f"{seq.name}_{args.frontend}{args.tag}"
+    out = args.out / output_name(seq.name, args.frontend, args.stride, args.tag)
     out.mkdir(parents=True, exist_ok=True)
     log_file = open(out / "log.txt", "w")
 

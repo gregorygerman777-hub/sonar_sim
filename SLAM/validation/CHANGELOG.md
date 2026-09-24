@@ -160,3 +160,17 @@ an open limitation, stated in the report.** No setting was changed because of it
   above the floor: median 0.97 units. The scale is **not** fixed: metres per unit = (true stripe width) / 0.445. For
   a 0.20 to 0.30 m stripe that is 0.45 to 0.67 m per unit (camera about 0.44 to 0.66 m above the floor). The real
   stripe width, or the lane spacing, is needed from Dr. Negahdaripour.
+
+## 10. Frame skipping on the pool, and a run naming bug (2026-09-24)
+
+* **Bug:** `run_slam.py --stride N` without `--tag` wrote to the same directory as the full rate run, and the first
+  pool stride runs overwrote `results/pool_raw_orb` and `results/pool_raw_sift` (restored from git before anything
+  used them). Fix: `output_name` adds `_stride<N>` when no tag is given.
+  `tests/test_pool.py::TestRunNames` **fails** on the old code and passes now. `run_colmap.py` has the same naming
+  and was left alone because the existing fr3 and AQUALOC COLMAP runs (stride 3 and 2) use the unsuffixed names;
+  pass `--out` or rename by hand when running it with a stride.
+* **Result (Dr. Negahdaripour suggested skipping every other frame, or every 2 frames, for an initial result):**
+  ours on `pool_raw` with every 2nd frame: 2/59 posed (ORB and SIFT); every 3rd frame: 2/39 (ORB and SIFT). Each run
+  initialises on its first two frames (opt1 and opt3, or opt1 and opt4), loses track at the next frame and never
+  initialises a new map in the remaining frames. Skipping frames makes this sequence harder, not easier: the stills are
+  already a median 2 s apart, and the synthetic experiment (`spacing_experiment.py`) predicts the same direction.

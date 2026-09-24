@@ -39,5 +39,15 @@ class TestPoolIntrinsics(unittest.TestCase):
         np.testing.assert_allclose(seq.K, K_CONFIRMED, atol=0.06)
 
 
+class TestRunNames(unittest.TestCase):
+    """A --stride run without --tag once overwrote results/pool_raw_orb; subsampled runs must get their own name."""
+
+    def test_stride_run_does_not_reuse_the_full_rate_name(self):
+        import run_slam
+        self.assertEqual(run_slam.output_name("pool_raw", "orb"), "pool_raw_orb")
+        self.assertEqual(run_slam.output_name("pool_raw", "orb", stride=2), "pool_raw_orb_stride2")
+        self.assertEqual(run_slam.output_name("pool_raw", "sift", stride=3, tag="_x"), "pool_raw_sift_x")
+
+
 if __name__ == "__main__":
     unittest.main()
