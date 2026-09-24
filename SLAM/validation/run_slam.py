@@ -34,6 +34,30 @@ def output_name(dataset_name, frontend, stride=1, tag=""):
     return f"{dataset_name}_{frontend}{tag}"
 
 
+# What a run and its evaluation (evaluate.py) write into the run directory, and into each maps/map_<k>/.
+RUN_OUTPUTS = ("trajectory_tum.txt", "points.ply", "frames.csv", "keyframes.txt", "run_meta.json", "log.txt",
+               "metrics.json", "aligned_estimate_tum.txt", "associated_gt_tum.txt")
+MAP_OUTPUTS = ("trajectory_tum.txt", "points.ply", "aligned_estimate_tum.txt")
+
+
+def clear_previous_run(out):
+    """Remove the outputs of an earlier run in `out`, so that a rerun leaves only its own. A rerun with fewer maps once
+    left the earlier run's maps/map_<k>, which evaluate.py and the figures then counted as maps of the new run
+    (CHANGELOG entry 21). Files a run does not write are left alone."""
+    out = Path(out)
+    for name in RUN_OUTPUTS:
+        (out / name).unlink(missing_ok=True)
+    maps = out / "maps"
+    for d in maps.glob("map_*"):
+        if d.is_dir():
+            for name in MAP_OUTPUTS:
+                (d / name).unlink(missing_ok=True)
+            if not any(d.iterdir()):
+                d.rmdir()
+    if maps.is_dir() and not any(maps.iterdir()):
+        maps.rmdir()
+
+
 def track(n, load, timestamps, make_slam, settings, log=print, started=None):
     """Frames 0..n-1 through the SLAM with map management. Returns [(slam, first_frame)] in creation order.
 
@@ -88,12 +112,14 @@ def main():
     n = len(seq) if args.max_frames is None else min(len(seq), args.max_frames)
     out = args.out / output_name(seq.name, args.frontend, args.stride, args.tag)
     out.mkdir(parents=True, exist_ok=True)
-    log_file = open(out / "log.txt", "w")
+    clear_previous_run(out)
+    log_path = out / "log.txt"
+    log_path.write_text("")
 
     def log(msg):
         print(msg, flush=True)
-        log_file.write(msg + "\n")
-        log_file.flush()
+        with open(log_path, "a") as fh:     # every line is on disk at once, and no file is left open
+            fh.write(msg + "\n")
 
     settings = Settings(frontend=args.frontend)
     for item in args.set:
