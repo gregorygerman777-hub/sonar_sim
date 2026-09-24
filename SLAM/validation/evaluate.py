@@ -73,7 +73,8 @@ def evaluate(run_dir, max_diff=None, rpe_delta_m=None, trajectory_file="trajecto
                   frontend=meta.get("frontend"), frames_total=meta["frames_total"],
                   frames_posed=int(len(ts)), fraction_posed=len(ts) / max(meta["frames_total"], 1))
     if len(ts) < 3:
-        result.update(status="FAILED", reason="fewer than 3 posed frames")
+        # Not an error of the run or of this script: the method posed too few frames for anything to be scored.
+        result.update(status="TOO FEW POSED", reason="fewer than 3 posed frames")
         (run_dir / "metrics.json").write_text(json.dumps(result, indent=2))
         return result
     if max_diff is None:
@@ -213,8 +214,7 @@ def main():
             print(f"{run.name}: {r['status']} posed {r['fraction_posed']:.1%}, ATE RMSE {r['ate_m']['rmse']:.4f} m "
                   f"({r['ate_rmse_percent_of_path']:.2f} % of {r['gt_path_length_m']:.2f} m), scale {r['sim3_scale']:.4f}")
         else:   # the method posed too few frames to score: a result of the run, not an error of this script
-            print(f"{run.name}: {r['status']}, {r.get('reason')} ({r['frames_posed']}/{r['frames_total']} frames posed, "
-                  f"nothing to score)")
+            print(f"{run.name}: {r['status']} ({r['frames_posed']}/{r['frames_total']} frames posed, nothing to score)")
 
 
 if __name__ == "__main__":

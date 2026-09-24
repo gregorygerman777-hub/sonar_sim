@@ -84,5 +84,24 @@ class TestRelativeError(unittest.TestCase):
         self.assertEqual(evaluate.default_rpe_delta_m("tum_freiburg1_xyz"), 1.0)
 
 
+class TestTooFewFrames(unittest.TestCase):
+    def test_a_run_with_two_posed_frames_is_labelled_not_failed(self):
+        n = 50
+        gt_p = np.column_stack((np.arange(n) * 0.1, np.zeros(n), np.zeros(n)))
+        gt_R = np.repeat(np.eye(3)[None], n, axis=0)
+        original = evaluate.sequences.get
+        evaluate.sequences.get = lambda key: FakeSequence(np.arange(n) * 0.1, gt_R, gt_p)
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                run = Path(d)
+                (run / "run_meta.json").write_text(json.dumps(dict(dataset="fake_sequence", frames_total=n)))
+                export.write_tum(run / "trajectory_tum.txt", [0.0, 0.1], gt_R[:2], gt_p[:2])
+                r = evaluate.evaluate(run)
+        finally:
+            evaluate.sequences.get = original
+        self.assertEqual(r["status"], "TOO FEW POSED")
+        self.assertEqual(r["frames_posed"], 2)
+
+
 if __name__ == "__main__":
     unittest.main()
