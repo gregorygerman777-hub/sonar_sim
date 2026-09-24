@@ -131,6 +131,33 @@ def aqualoc_harbor(seq=7, root=DATA / "aqualoc"):
                          timestamp="image number", undistorted=True))
 
 
+# ---------------------------------------------------------------------- KITTI odometry (left grayscale camera only)
+def kitti(seq=0, root=None):
+    """KITTI odometry sequence <seq>, used monocularly: camera 0 (left, grayscale, already rectified).
+    Ground truth (sequences 00 to 10) is poses/<seq>.txt, one row major 3 x 4 T_w_cam0 per frame, the world being
+    the first camera frame. Dr. Negahdaripour named KITTI as the reference dataset with ground truth."""
+    import os
+    root = Path(root or os.environ.get("KITTI_DIR", DATA / "kitti_odometry" / "dataset"))
+    folder = root / "sequences" / f"{seq:02d}"
+    calib = {}
+    for line in (folder / "calib.txt").read_text().splitlines():
+        if ":" in line:
+            key, values = line.split(":", 1)
+            calib[key.strip()] = np.array(values.split(), float).reshape(3, 4)
+    K = calib["P0"][:, :3].copy()
+    stamps = np.loadtxt(folder / "times.txt", ndmin=1)
+    paths = sorted((folder / "image_0").glob("*.png"))
+    image = cv2.imread(str(paths[0]), cv2.IMREAD_GRAYSCALE)
+    ground_truth = None
+    poses = root / "poses" / f"{seq:02d}.txt"
+    if poses.exists():
+        T = np.loadtxt(poses, ndmin=2).reshape(-1, 3, 4)
+        ground_truth = (stamps[:len(T)], T[:, :, :3], T[:, :, 3])
+    return Sequence(f"kitti_{seq:02d}", K, (image.shape[1], image.shape[0]), stamps, paths, ground_truth, None,
+                    dict(source="KITTI odometry, camera 0 (left grayscale), rectified; GPS/INS ground truth",
+                         undistorted=False))
+
+
 # ---------------------------------------------------------------------- synthetic (rendered by synthetic.py)
 def synthetic(name="synthetic_pool", root=DATA / "synthetic"):
     folder = Path(root) / name
@@ -186,6 +213,8 @@ def get(name, **kw):
         return euroc(name[6:], **kw)
     if name.startswith("aqualoc_harbor_"):
         return aqualoc_harbor(int(name.rsplit("_", 1)[1]), **kw)
+    if name.startswith("kitti_"):
+        return kitti(int(name[6:]), **kw)
     if name.startswith("synthetic"):
         return synthetic(name, **kw)
     if name.startswith("pool"):
