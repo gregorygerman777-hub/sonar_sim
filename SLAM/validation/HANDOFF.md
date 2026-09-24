@@ -92,3 +92,23 @@ In progress:
   behaviour; with both features off the pool runs are bit identical. Being scored on AQUALOC, then the pool. Merge
   into `main` only after KITTI has finished (queued KITTI jobs must keep the code version they started with), then
   rerun every run that lost track (AQUALOC, the pool, KITTI runs with several maps) and record the numbers either way.
+
+### Update, later on 2026-09-24: code review ("fix any errors in the code") and a full rerun
+
+Errors found and fixed, each with a test that fails on the old code (CHANGELOG entries 15 to 17 still to be written
+with before and after numbers once the rerun is scored):
+* entry 15 (item 3): relocalization candidates by place recognition over the whole map; reopening a closed map
+  while the new one is not initialized. Alone it never fired on AQUALOC or the pool (0 relocalizations, 0 reopens).
+* entry 16: `visible` was counted per search attempt instead of once per tracked frame; the found ratio test culled
+  established points for ever instead of only recent ones (ORB-SLAM MapPointCulling). Also: `recent` list cleared on a
+  rejected initialization; ba.py docstring.
+* entry 17: COLMAP got the principal point in OpenCV's pixel convention; it uses pixel centres at +0.5 (measured).
+* Also fixed on main: orientation metric on straight paths (11), RPE on KITTI (14), run_all.sh (13).
+Findings not changed: OpenCV SIFT keypoints sit about +0.25 px from true (library behaviour, a quarter pixel principal
+point shift for the SIFT runs); `calibration_board.py` needs `data_external/sonar_extrinsics`, absent here.
+
+Full rerun in progress (`~/sonar_work/rerun_all.sh`, logs in `~/sonar_work/logs/jobs_rerun_*.log`): every SLAM run and
+every COLMAP baseline with the merged code (`4c81dab` and later; SLAM code frozen until it ends). Pre-fix KITTI
+scores are saved in `~/sonar_work/before_entry15_17/`. When it ends: `run_all.sh --skip-downloads --skip-render
+--only-eval`, then CHANGELOG 15 to 17, REPORT.md (every number, plus a KITTI section), `report_summary.json` (KITTI
+page), the email draft and `~/sonar_work/for_dr_negahdaripour/`.
