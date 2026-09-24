@@ -186,3 +186,14 @@ an open limitation, stated in the report.** No setting was changed because of it
   positions are nearly collinear (second over first singular value below 0.05). RPE rotation, which needs no
   alignment, is unaffected. `tests/test_evaluate.py` **fails** on the old code (27 degrees reported for an exactly
   right estimate) and passes now. None of the 21 runs scored so far is affected (all ratios at least 0.1).
+
+## 12. Pool outputs verified and exported as data (2026-09-24)
+
+* **Reproducibility:** a fresh run from the raw frames and `OSCalibration.mat` into an empty directory gives identical
+  ORB and SIFT SLAM results, the COLMAP exhaustive model to 0.17 % of extent (0.925 vs 0.923 px) and the sequential
+  model to 1.8 %. The inputs were checked: exactly opt1 to opt117, no duplicates by hash, all 1024 x 768 x 3.
+* **Export:** `export_pool_deliverable.py` writes the trajectory and 3D model as `.mat` (the `Final_Proj` layout),
+  `.csv` and `.ply` in a floor aligned frame. `tests/test_export.py` checks that the change of frame keeps every
+  projection (to 1e-6 px on random cameras); on the real export the file reproduces the original projections to 4e-12 px.
+* **Finding:** about 7 % of the model points lie above the cameras; part of them come from reflections in the water
+  surface and are not physical (REPORT.md, pool section). They are flagged, not removed.

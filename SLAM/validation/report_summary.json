@@ -74,7 +74,7 @@
           {
             "path": "figures/pool_raw/pool_raw_colmap_exhaustive/2_model.png",
             "max_height_in": 4.4,
-            "caption": "(b) 3D model (the second key output): 12,133 reconstructed points. The dense patch is the rock and pebble mat; sparse points are pool walls and lane markings."
+            "caption": "(b) 3D model (the second key output): 12,133 reconstructed points. The dense patch is the rock and pebble mat. The sparse points are the lane ropes, the wall targets and, above the cameras, features seen in reflections in the underside of the moving water surface; those reflection points are not physical structure (about 7 % of all points lie above the cameras)."
           }
         ]
       ]

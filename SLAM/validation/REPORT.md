@@ -153,6 +153,28 @@ about 2 s apart, so skipping widens the gaps that break tracking (`CHANGELOG.md`
 * The reconstruction is physically plausible: the cameras move on a near circle at nearly constant height around
   the rock and pebble patch, all looking inwards, and the densest part of the map is the patch itself.
 
+**Checks that the pool outputs are right** (no ground truth, so these are consistency checks, 2026-09-24).
+* *Reproducible from the raw inputs.* A fresh run on `opt1.bmp` ... `opt117.bmp` and `OSCalibration.mat` into an empty
+  directory reproduces our SLAM results bit for bit, and the primary COLMAP model to 0.17 % of the trajectory extent
+  (117/117 frames, 0.925 px against 0.923 px; COLMAP is multithreaded and not bit reproducible). The sequential COLMAP
+  model repeats only to 1.8 %, the same size as its disagreement with the exhaustive one.
+* *Metric consistency of K and the poses.* Every frame warped onto the fitted floor plane with its own pose shows the
+  lane stripes straight, parallel and of constant width, and the two stripes measure the same width (0.454 and 0.436
+  units) in different frames (`pool_scale.py`). A wrong K or wrong poses would bend or shear them.
+* *The model reprojects onto the images.* Projected with each frame's pose, the 3D points land on the rock target, the
+  pebbles, the lane rope floats and the wall targets (checked on opt1, opt40, opt80 and opt110; the image is not in the
+  repository because the frames are unpublished).
+* *Known spurious points.* About 7 % of the points lie above the cameras. Some are real (lane rope floats at the
+  surface); others are triangulated from the mirror images of the wall targets in the underside of the moving water
+  surface. The latter sit about 1.3 to 1.5 units up and 2.6 units from the centre, inside the camera circle where no
+  structure exists, so they are not physical. They were left in the model and are flagged here instead of removed by hand.
+
+**Data files** (`export_pool_deliverable.py`, in `results/pool_raw_colmap_exhaustive/export/`): the trajectory and
+model in a frame tied to the pool (z up from the floor plane, x along the lane stripes, origin under the centre of the
+camera path) as `pool_reconstruction.mat` (per frame `Rt` as 3 x 4 x N in the layout of `Final_Proj` in
+`OSCalibration.mat`, `P = K Rt`, camera centres `C`, `points`, `colors`), `camera_trajectory.csv` and `model.ply`.
+Units are the reconstruction's own until the stripe width is known (`--metres-per-unit` then rescales).
+
 **Capture timing.** The only timing information delivered with the frames is the files' modification times
 (2014-03-07). Consecutive frames are a median 2 s apart, except for one gap of **574 s (9.6 minutes) between
 opt105 and opt106**. In the COLMAP reconstruction (`figures/pool/frame_order_exhaustive.png`), frames 1 to about 50
