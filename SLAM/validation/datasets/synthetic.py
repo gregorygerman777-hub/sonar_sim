@@ -130,11 +130,25 @@ def caustics(x, y, t):
     return np.clip(out / 1.5, 0.0, 1.0)
 
 
-def render(height, albedo, K, R_wc, c, size, rng, noise=2.0, caustic_time=None, caustic_gain=0.9):
+def pixel_rays(K, size):
+    """Camera rays through the pixel centres, row by row. The renderer puts pixel centres at half integers
+    (u = column + 0.5) with this K; opencv_K() gives the same camera in OpenCV's convention (centres at integers)."""
     w, h = size
     u, v = np.meshgrid(np.arange(w) + 0.5, np.arange(h) + 0.5)
-    rays_c = np.stack(((u - K[0, 2]) / K[0, 0], (v - K[1, 2]) / K[1, 1], np.ones_like(u)), -1).reshape(-1, 3)
-    d = rays_c @ R_wc.T
+    return np.stack(((u - K[0, 2]) / K[0, 0], (v - K[1, 2]) / K[1, 1], np.ones_like(u)), -1).reshape(-1, 3)
+
+
+def opencv_K(K):
+    """The rendering K in OpenCV's pixel convention, which every consumer of K.txt uses (CHANGELOG entry 19)."""
+    K = np.array(K, float)
+    K[0, 2] -= 0.5
+    K[1, 2] -= 0.5
+    return K
+
+
+def render(height, albedo, K, R_wc, c, size, rng, noise=2.0, caustic_time=None, caustic_gain=0.9):
+    w, h = size
+    d = pixel_rays(K, size) @ R_wc.T
     d /= np.linalg.norm(d, axis=1, keepdims=True)
     n = len(d)
     s_prev = np.zeros(n)
@@ -210,7 +224,7 @@ def main():
     out = args.out / args.name
     (out / "images").mkdir(parents=True, exist_ok=True)
     K = np.array([[args.focal, 0, args.width / 2], [0, args.focal, args.height / 2], [0, 0, 1.0]])
-    np.savetxt(out / "K.txt", K)
+    np.savetxt(out / "K.txt", opencv_K(K))   # read by sequences.synthetic in OpenCV's convention
     height, albedo = build_scene(args.seed)
     rng = np.random.default_rng(args.seed + 1)
     poses = trajectory(args.frames)
