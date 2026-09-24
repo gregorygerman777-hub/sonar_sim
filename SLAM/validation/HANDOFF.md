@@ -70,3 +70,25 @@ He wants (1) the implementation assessed on datasets with ground truth to find b
 trajectory superimposed on the model. `REPORT_summary.pdf` is now laid out in exactly that order: page 1 validation
 on ground truth (bugs found, accuracy table), page 2 pool trajectory and 3D model, page 3 trajectory over the model
 (3D view and top view). Keep that structure in anything sent to him.
+
+## Status 2026-09-24 (Claude Code session)
+
+Done and committed on `main` (not pushed):
+* `pool_raw` primary (entry 8); pool scale tooling (entry 9); frame skipping runs and the stride naming fix (entry 10);
+  orientation metric fix (entry 11); pool outputs verified and exported as `.mat`/`.csv`/`.ply` (entry 12);
+  `run_all.sh` reproducibility fixes (entry 13). `run_all.sh --only-eval` was run end to end in a clean worktree:
+  exit 0, every committed number reproduced.
+* `REPORT_summary.pdf` (3 pages, in the order Dr. Negahdaripour asked for). Email package outside the repo:
+  `~/sonar_work/for_dr_negahdaripour/` (PDF, data files, `reprojection_check.jpg` made from his photos, which must
+  stay out of the repo). Email draft: `~/sonar_work/email_draft_2026-09-23.txt`. Nothing has been sent.
+
+In progress:
+* KITTI 00 to 10 (he named KITTI; the new SLAM had never been run on it): ORB and SIFT with the code at `e292541`
+  (runs record it), COLMAP on 04 and 07. Queue logs in `~/sonar_work/logs/jobs_kitti_*.log`. After they finish:
+  `evaluate.py` each run, `make_figures.py`, `summarize.py`, `pool_analysis.py`, then add KITTI to REPORT.md and page 1
+  of the summary PDF.
+* Item 3 on branch `tracking-robustness` (worktree `~/sonar_work/dev_tracking`, commit `bb5c9f7`): place recognition
+  over the whole map for relocalization, and reopening a closed map when the camera returns. Tests fail with the old
+  behaviour; with both features off the pool runs are bit identical. Being scored on AQUALOC, then the pool. Merge
+  into `main` only after KITTI has finished (queued KITTI jobs must keep the code version they started with), then
+  rerun every run that lost track (AQUALOC, the pool, KITTI runs with several maps) and record the numbers either way.
