@@ -55,8 +55,8 @@ PYTHON=../venv/bin/python SLAM/validation/run_all.sh --skip-downloads --skip-ren
   for an initial result** (`run_slam.py --stride 2` or `--stride 3`; `run_colmap.py --stride N`).
 * He gave the camera matrix directly: `K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1]`. This is the **raw** K in
   `OSCalibration.mat` (to 4 significant figures), i.e. the `pool_raw` hypothesis, not the width scaled one used as
-  primary so far. **Next step:** make `pool_raw` the primary pool configuration: run
-  `run_colmap.py --dataset pool_raw --matcher exhaustive` (and sequential), rerun `pool_analysis.py` and the pool
-  figures, and update REPORT.md / the one page PDF, which currently show the `width_scaled` COLMAP model. Still note
-  that (2 cx, 2 cy) = (953, 786) does not match the 1024 x 768 frames; ask him whether the frames were cropped or
-  resized only if the raw K gives a visibly worse reconstruction (compare reprojection error and registered frames).
+  primary so far.
+  **Done (2026-09-23, CHANGELOG entry 8):** `pool_raw` is primary (`sequences.POOL_PRIMARY`). COLMAP exhaustive with
+  the raw K: 117/117, 0.92 px (width scaled 117/117, 0.94 px; trajectories agree to 0.4 % of extent). Sequential:
+  106/117 in the largest of 2 models, 0.80 px (width scaled 110/117, 0.82 px). REPORT.md, the one page PDF and the pool
+  figures now use the raw K. The raw K is not visibly worse, so the (953, 786) vs 1024 x 768 question need not be raised.

@@ -128,3 +128,17 @@ an open limitation, stated in the report.** No setting was changed because of it
 * **Test:** `tests/test_regressions.py::TestFusionScaleCollapse` (runs with `RUN_SLOW=1`, about 8 minutes)
   requires the median depth at frame 900 of fr3 to stay within 0.2 to 5. With `MONOSLAM_OLD_BEHAVIOUR=1` it
   switches fusion back on.
+
+## 8. Pool intrinsics: the raw K is now primary (configuration, 2026-09-23)
+
+* **Reason (external, not a benchmark number):** Dr. Negahdaripour confirmed the camera matrix as
+  K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1], the K stored in `OSCalibration.mat`. `datasets/sequences.py` now has
+  `POOL_PRIMARY = "raw"`, `sequences.get("pool")` returns `pool_raw`, and `pool_analysis.py` uses it as the reference.
+  `width_scaled` is kept as a comparison.
+* **Test:** `tests/test_pool.py` checks the stored constant, the calibration file and the default pool sequence against
+  the quoted K. `test_default_pool_uses_confirmed_k` **fails** on the old default (`pool_width_scaled`) and passes now.
+* **Result (no ground truth on the pool):** COLMAP exhaustive, raw K: 117/117 frames in one model, 0.92 px mean
+  reprojection error, 12,133 points (width scaled: 117/117, 0.94 px, 12,117). The two trajectories agree to 0.4 % of
+  extent. COLMAP sequential, raw K: 106/117 in the largest of 2 models, 0.80 px (width scaled: 110/117 in 1, 0.82 px).
+* **Report fix:** REPORT.md listed the sequential gaps as frames "56 to 61 and 116"; those were zero based indices.
+  The frames are opt57 to opt62 and opt117.

@@ -33,9 +33,11 @@ RPE is per 1 m of ground truth travel. Map error is only available for the synth
 | aqualoc_harbor_07 | COLMAP (sequential), 1 frame in 2 | 482/1131 (43 %) | PARTIAL | 0.0056 | 0.06 | 8.73 | 0.0061 | 0.34 | n/a | 3 | 482 | n/a | 1214 |
 | aqualoc_harbor_07 | ours (ORB) | 947/2261 (42 %) | PARTIAL | 0.0083 | 0.10 | 8.58 | 0.0081 | 0.58 | n/a | 3 | 2064 | 0.1131 | 943 |
 | aqualoc_harbor_07 | ours (SIFT) | 502/2261 (22 %) | PARTIAL | 0.0054 | 0.14 | 3.94 | 0.0086 | 0.45 | n/a | 5 | 1674 | 0.0046 | 504 |
+| pool_raw | COLMAP (exhaustive) | 117/117 (100 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 117 | n/a | 198 |
+| pool_raw | COLMAP (sequential) | 106/117 (91 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 2 | 106 | n/a | 132 |
+| pool_raw | ours (ORB) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 4 | 20 | n/a | 29 |
+| pool_raw | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 6 | 28 | n/a | 29 |
 | pool_width_scaled | COLMAP (exhaustive) | 117/117 (100 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 117 | n/a | 380 |
 | pool_width_scaled | COLMAP (sequential) | 110/117 (94 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 110 | n/a | 190 |
 | pool_width_scaled | ours (ORB) | 10/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 4 | 19 | n/a | 30 |
 | pool_width_scaled | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 5 | 26 | n/a | 30 |
-| pool_raw | ours (ORB) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 4 | 20 | n/a | 29 |
-| pool_raw | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | 6 | 28 | n/a | 29 |

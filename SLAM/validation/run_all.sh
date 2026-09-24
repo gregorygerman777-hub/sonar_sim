@@ -33,11 +33,11 @@ if [ $ONLY_EVAL = 0 ]; then
     $PY $V/run_colmap.py --dataset $d --matcher sequential
   done
   # Pool: no ground truth. Both front ends, both intrinsics hypotheses, COLMAP sequential and exhaustive.
-  for k in pool_width_scaled pool_raw; do
+  # pool_raw (the K Dr. Negahdaripour confirmed) is primary; pool_width_scaled is kept as the comparison.
+  for k in pool_raw pool_width_scaled; do
     for f in orb sift; do $PY $V/run_slam.py --dataset $k --frontend $f; done
+    for m in sequential exhaustive; do $PY $V/run_colmap.py --dataset $k --matcher $m; done
   done
-  $PY $V/run_colmap.py --dataset pool_width_scaled --matcher sequential
-  $PY $V/run_colmap.py --dataset pool_width_scaled --matcher exhaustive
 fi
 
 for d in $GT_SETS; do

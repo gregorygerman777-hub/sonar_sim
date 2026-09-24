@@ -8,7 +8,7 @@ HERE = Path(__file__).resolve().parent
 RESULTS = HERE / "results"
 
 ORDER = ["synthetic_pool", "synthetic_pool_caustics", "tum_freiburg1_xyz", "tum_freiburg3_long_office_household",
-         "aqualoc_harbor_07", "pool_width_scaled", "pool_raw"]
+         "aqualoc_harbor_07", "pool_raw", "pool_width_scaled"]
 
 
 def fmt(x, spec):

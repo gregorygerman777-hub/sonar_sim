@@ -20,11 +20,12 @@
    local bundle adjustment, and a scale collapse caused by map point fusion. Both are fixed and covered by
    regression tests that fail on the old code (`CHANGELOG.md`, entries 1 and 7).
 5. **Pool data: the trajectory and 3D model come from COLMAP, not from the sequential SLAM.** The sequential SLAM
-   holds only 10 to 11 consecutive stills (frames 28 to 39) before losing track; COLMAP registers **all 117 frames
-   in one model** (mean reprojection error 0.94 px) showing the camera circling the rock target about twice at
+   holds only 11 stills (within frames 28 to 39) before losing track; COLMAP registers **all 117 frames
+   in one model** (mean reprojection error 0.92 px) showing the camera circling the rock target about twice at
    constant height, with the 3D map concentrated on the rock and pebble patch. Where both methods pose the same
-   frames their relative rotations agree to 0.5 to 1 degree. There is no ground truth, so this reconstruction is
-   plausible and internally consistent, not verified.
+   frames their relative rotations agree to 0.7 to 0.8 degrees. There is no ground truth, so this reconstruction is
+   plausible and internally consistent, not verified. All pool numbers use the camera matrix Dr. Negahdaripour
+   confirmed on September 23 (the raw K in `OSCalibration.mat`); the earlier width scaled K gives the same picture.
 6. **A likely cause of the tracking failures on the pool is moving caustics.** In the synthetic scene with
    moving caustics added, frame to frame tracking (ours, ORB and SIFT) and even COLMAP fail once consecutive frames are
    0.4 s and 5 degrees apart, while the same scene without caustics works at 15 degrees per frame. The real pool
@@ -52,7 +53,7 @@ Full table (every run, RPE, runtimes, per map numbers): `results/SUMMARY.md` and
 | AQUALOC harbor 07 | ours ORB | 947/2261 main map (2064 in 3 maps) | 0.83 cm (11.3 cm all maps) | 0.10 % | |
 | | ours SIFT | 502/2261 main map (1674 in 5 maps) | 0.54 cm (0.46 cm all maps) | 0.14 % | |
 | | COLMAP (1 frame in 2) | 482/1131 largest of 3 models | 0.56 cm | 0.06 % | |
-| Pool (no ground truth) | ours ORB / SIFT | 10 / 11 of 117 | n/a | | |
+| Pool (no ground truth, raw K) | ours ORB / SIFT | 11 / 11 of 117 | n/a | | |
 | | COLMAP exhaustive | 117/117 | n/a | | |
 
 ## Figures
@@ -70,8 +71,9 @@ Key figures:
 | AQUALOC harbor 07, trajectory vs ground truth, all maps | `figures/aqualoc_harbor_07/aqualoc_harbor_07_orb/1_trajectory.png` |
 | TUM fr1/xyz, ours vs COLMAP vs ground truth | `figures/tum_freiburg1_xyz/tum_freiburg1_xyz_sift/1_trajectory.png` |
 | TUM fr3/long_office, trajectory | `figures/tum_freiburg3_long_office_household/tum_freiburg3_long_office_household_sift/1_trajectory.png` |
-| **Pool: trajectory over the 3D model (COLMAP, all 117 frames)** | `figures/pool_width_scaled/pool_width_scaled_colmap_exhaustive/3_overlay.png` |
-| **Pool: trajectory alone / 3D model alone** | `.../pool_width_scaled_colmap_exhaustive/1_trajectory.png`, `2_model.png` |
+| **Pool: trajectory over the 3D model (COLMAP, all 117 frames, raw K)** | `figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.png` |
+| **Pool: trajectory alone / 3D model alone** | `.../pool_raw_colmap_exhaustive/1_trajectory.png`, `2_model.png` |
+| Pool, width scaled K (comparison) | `figures/pool_width_scaled/pool_width_scaled_colmap_exhaustive/3_overlay.png` |
 | Pool: camera positions coloured by frame number | `figures/pool/frame_order_exhaustive.png` |
 | Pool: which frames each method could pose, with a floor caustic index | `figures/pool/coverage.png` |
 | Synthetic: frame spacing vs moving caustics | `figures/pool/spacing_experiment.png` |
@@ -96,27 +98,50 @@ unit test, not on benchmark numbers.
 
 ## The pool data
 
-Inputs: `opt1.bmp` ... `opt117.bmp` (1024 x 768) and `OSCalibration.mat`. The calibration implies a
-953 x 786 image, so two intrinsics hypotheses were run: `width_scaled` (fx scaled by 1024/953, cx = 512;
-the hypothesis used in the September 19 report) and `raw` (K exactly as stored). Both give the same coverage.
+Inputs: `opt1.bmp` ... `opt117.bmp` (1024 x 768) and `OSCalibration.mat`. On September 23 Dr. Negahdaripour
+confirmed the camera matrix as K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1], which is the K stored in the
+calibration file (`raw`). That is now the primary configuration and every pool number below uses it. The
+September 19 report used a `width_scaled` hypothesis (fx scaled by 1024/953 and cx = 512, because the stored
+principal point implies a 953 x 786 image, not 1024 x 768). It is kept as a comparison.
 
-**What each method could do** (`results/pool_analysis.json`, `figures/pool/coverage.png`):
+**Raw K against width scaled K** (same frames, same settings, COLMAP with fixed intrinsics;
+`results/pool_analysis.json`, key `k_model_comparison`):
+
+| COLMAP matcher | K | Frames registered | Models | Mean reprojection error | Map points |
+|---|---|---|---|---|---|
+| exhaustive | **raw (confirmed)** | **117/117** | 1 | **0.92 px** | 12,133 |
+| exhaustive | width scaled | 117/117 | 1 | 0.94 px | 12,117 |
+| sequential | **raw (confirmed)** | 106/117 in the largest model | 2 (106 and 24 frames) | 0.80 px | 9,610 |
+| sequential | width scaled | 110/117 | 1 | 0.82 px | 10,006 |
+
+With exhaustive matching the two K models register the same frames, the raw K has a slightly lower reprojection
+error, and the two trajectories agree to 0.4 % of the trajectory extent (RMS after Sim(3)) with relative rotations
+between consecutive frames agreeing to a median of 0.3 degrees. With sequential matching the raw K model loses
+frames 1 to 4 from its largest model (they end up in a second, overlapping model) in addition to the frames 57 to 62
+and 117 that both K models miss. So the raw K does not give a visibly worse reconstruction; the difference is
+within what changing the matcher does. The question of why (2 cx, 2 cy) = (953, 786) differs from the 1024 x 768
+frame size (cropping or resizing) is still open but does not affect these results materially.
+
+**What each method could do** with the raw K (`results/pool_analysis.json`, `figures/pool/coverage.png`):
 
 | Method | Frames posed | Notes |
 |---|---|---|
-| Ours, ORB | 10 (largest map), 19 over 4 maps | loses track within a dozen frames every time it restarts |
-| Ours, SIFT | 11 (largest map), 26 over 5 maps | same |
-| COLMAP, sequential matching | 110 in one model | frames 56 to 61 and 116 not registered; 0.82 px mean reprojection error |
-| COLMAP, exhaustive matching | **117 in one model** | 0.94 px mean reprojection error; 12,117 map points |
+| Ours, ORB | 11 (largest map), 20 over 4 maps | loses track within a dozen frames every time it restarts |
+| Ours, SIFT | 11 (largest map), 28 over 6 maps | same |
+| COLMAP, sequential matching | 106 in the largest of 2 models | frames 1 to 4, 57 to 62 and 117 not in it; 0.80 px mean reprojection error |
+| COLMAP, exhaustive matching | **117 in one model** | 0.92 px mean reprojection error; 12,133 map points |
 
-**Consistency checks without ground truth.**
-* COLMAP sequential vs exhaustive, 110 common frames: positions agree to 3 % of the trajectory extent (RMS after
-  Sim(3)), and the relative rotation between consecutive frames agrees to a median of 0.26 degrees (max 12 degrees,
+(Frame numbers are the n in `opt<n>.bmp`. The September 23 version of this report gave the sequential gaps as
+"56 to 61 and 116", which were zero based indices; the frames are opt57 to opt62 and opt117.)
+
+**Consistency checks without ground truth** (raw K).
+* COLMAP sequential vs exhaustive, 106 common frames: positions agree to 1.8 % of the trajectory extent (RMS after
+  Sim(3)), and the relative rotation between consecutive frames agrees to a median of 0.24 degrees (max 11 degrees,
   at one step).
-* Ours vs COLMAP on the frames both pose: positions within 1 to 3 % of extent, relative rotations within a median of
-  0.5 (ORB) to 1.0 (SIFT) degrees. (The absolute rotation after a alignment on positions only differs by about 10 degrees,
-  but with only 10 nearly collinear common frames that alignment's rotation is poorly determined, which is why the
-  alignment free comparison is used.)
+* Ours vs COLMAP exhaustive on the 11 frames both pose: positions within 0.8 % (ORB) and 2.2 % (SIFT) of extent,
+  relative rotations within a median of 0.8 (ORB) and 0.7 (SIFT) degrees. (The absolute rotation after an alignment
+  on positions only differs by 4 (ORB) to 8 (SIFT) degrees, but with only 11 nearly collinear common frames that
+  alignment's rotation is poorly determined, which is why the alignment free comparison is used.)
 * The reconstruction is physically plausible: the cameras move on a near circle at nearly constant height around
   the rock and pebble patch, all looking inwards, and the densest part of the map is the patch itself.
 

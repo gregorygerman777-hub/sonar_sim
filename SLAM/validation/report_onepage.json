@@ -4,7 +4,7 @@
   "author": "Gregory German",
   "headline": [
     "<b>Validation.</b> A keyframe based monocular SLAM (initialisation, map, triangulation, local and global bundle adjustment) was built and checked on data with ground truth. On a rendered scene resembling the pool with exact ground truth it recovers a 10 m trajectory to 0.6 cm (ORB) and 0.2 cm (SIFT), and its 3D map lies within a median 0.9 cm / 0.5 cm of the true surface. On real underwater video (AQUALOC) it is under 1 cm while tracking but loses track, and on the TUM benchmark it is 2 to 4 times less accurate than COLMAP (no loop closure). Ground truth exposed two scale bugs, both fixed with regression tests.",
-    "<b>Pool data.</b> The sequential SLAM holds only about 10 consecutive frames. COLMAP registers all 117 frames into one model (0.94 px reprojection error): the camera circles the rock target about twice at constant height, and frames 106 to 117, taken 9.6 minutes later, continue on the same circle. Where both methods pose the same frames, their relative rotations agree to within 1 degree. There is no ground truth, so this is plausible and internally consistent, not verified. The scale is unknown (monocular).",
+    "<b>Pool data.</b> The sequential SLAM holds only about 11 frames. With the camera matrix you confirmed (the raw K), COLMAP registers all 117 frames into one model (0.92 px reprojection error; the earlier width scaled K gave 117 frames at 0.94 px and a trajectory within 0.4 % of this one): the camera circles the rock target about twice at constant height, and frames 106 to 117, taken 9.6 minutes later, continue on the same circle. Where both methods pose the same frames, their relative rotations agree to within 1 degree. There is no ground truth, so this is plausible and internally consistent, not verified. The scale is unknown (monocular).",
     "<b>Likely cause of the pool tracking failures.</b> Stills about 2 s apart with moving sunlight caustics. In the synthetic scene, adding moving caustics makes tracking fail at 5 degrees between frames, where the static scene works at 15 degrees."
   ],
   "table_datasets": [
@@ -13,7 +13,7 @@
     "tum_freiburg1_xyz",
     "tum_freiburg3_long_office_household",
     "aqualoc_harbor_07",
-    "pool_width_scaled"
+    "pool_raw"
   ],
   "table_exclude_runs": [
     "synthetic_pool_orb_stride2",
@@ -26,7 +26,7 @@
     "synthetic_pool_caustics_sift_stride2",
     "synthetic_pool_caustics_sift_stride4",
     "synthetic_pool_caustics_colmap_exhaustive",
-    "pool_width_scaled_colmap_sequential"
+    "pool_raw_colmap_sequential"
   ],
   "dataset_labels": {
     "synthetic_pool": "Synthetic pool (exact GT)",
@@ -34,7 +34,7 @@
     "tum_freiburg1_xyz": "TUM fr1/xyz",
     "tum_freiburg3_long_office_household": "TUM fr3/long office",
     "aqualoc_harbor_07": "AQUALOC harbor 07",
-    "pool_width_scaled": "Pool (117 stills)"
+    "pool_raw": "Pool (117 stills, raw K)"
   },
   "figure_width_in": 3.45,
   "figures": [
@@ -43,7 +43,7 @@
       "caption": "Synthetic pool (exact ground truth): estimated trajectory and camera frustums over the reconstructed 3D map; the ground truth trajectory is drawn but indistinguishable."
     },
     {
-      "path": "figures/pool_width_scaled/pool_width_scaled_colmap_exhaustive/3_overlay.png",
+      "path": "figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.png",
       "caption": "Pool data: COLMAP trajectory (all 117 frames) and camera frustums over the 3D model; the dense patch is the rock and pebble target. Arbitrary units."
     },
     {

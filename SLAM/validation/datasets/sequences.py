@@ -145,9 +145,12 @@ def synthetic(name="synthetic_pool", root=DATA / "synthetic"):
 
 # ---------------------------------------------------------------------- Dr. Negahdaripour's pool frames (no ground truth)
 POOL_K_RAW = np.array([[1403.46109, 0, 476.5168], [0, 1403.46109, 392.915659], [0, 0, 1.0]])
+# Dr. Negahdaripour confirmed on 2026-09-23 that K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1], the raw K, is the
+# camera matrix for these frames, so "raw" is the primary pool configuration. "width_scaled" stays as a comparison.
+POOL_PRIMARY = "raw"
 
 
-def pool(root=None, calibration=None, k_hypothesis="width_scaled"):
+def pool(root=None, calibration=None, k_hypothesis=POOL_PRIMARY):
     import os
     import scipy.io
     root = Path(root or os.environ.get("POOL_DIR", Path.home() / "Downloads/Archive 2"))
@@ -186,5 +189,5 @@ def get(name, **kw):
     if name.startswith("synthetic"):
         return synthetic(name, **kw)
     if name.startswith("pool"):
-        return pool(k_hypothesis=name[5:] or "width_scaled", **kw)
+        return pool(k_hypothesis=name[5:] or POOL_PRIMARY, **kw)
     raise KeyError(name)

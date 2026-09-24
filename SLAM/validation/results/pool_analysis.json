@@ -1,5 +1,38 @@
 {
   "runs": {
+    "pool_raw_colmap_exhaustive": {
+      "label": "COLMAP (exhaustive)",
+      "k_hypothesis": "pool_raw",
+      "frames_posed": 117,
+      "frames_total": 117,
+      "reprojection": {
+        "mean_px": 0.9231292964804261
+      },
+      "keyframes": null,
+      "map_points": 12133,
+      "status_counts": null,
+      "models": {
+        "0": 117
+      },
+      "initialization": null
+    },
+    "pool_raw_colmap_sequential": {
+      "label": "COLMAP (sequential)",
+      "k_hypothesis": "pool_raw",
+      "frames_posed": 106,
+      "frames_total": 117,
+      "reprojection": {
+        "mean_px": 0.7973764557278388
+      },
+      "keyframes": null,
+      "map_points": 9610,
+      "status_counts": null,
+      "models": {
+        "0": 106,
+        "1": 24
+      },
+      "initialization": null
+    },
     "pool_raw_orb": {
       "label": "ours (ORB)",
       "k_hypothesis": "pool_raw",
@@ -152,6 +185,150 @@
     }
   },
   "agreement": {
+    "pool_raw_colmap_exhaustive -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 0.2355494516706729,
+      "relative_rotation_max_deg": 11.046165185725874,
+      "common_frames": 106,
+      "rms_percent_of_extent": 1.808760634264936,
+      "max_percent_of_extent": 5.588002732713209,
+      "rotation_median_deg": 3.5475189931527873,
+      "rotation_max_deg": 8.033932703165455
+    },
+    "pool_raw_colmap_exhaustive -> pool_raw_orb": {
+      "relative_rotation_median_deg": 0.8340674537604399,
+      "relative_rotation_max_deg": 2.2948987259975437,
+      "common_frames": 11,
+      "rms_percent_of_extent": 0.8184933927868455,
+      "max_percent_of_extent": 1.4225989216449362,
+      "rotation_median_deg": 3.5938137421448704,
+      "rotation_max_deg": 7.745163669744985
+    },
+    "pool_raw_colmap_exhaustive -> pool_raw_sift": {
+      "relative_rotation_median_deg": 0.7061590408693137,
+      "relative_rotation_max_deg": 1.7806938607571374,
+      "common_frames": 11,
+      "rms_percent_of_extent": 2.1857994013920337,
+      "max_percent_of_extent": 3.208436205847299,
+      "rotation_median_deg": 8.22187220443835,
+      "rotation_max_deg": 11.998251787859509
+    },
+    "pool_raw_colmap_exhaustive -> pool_width_scaled_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.2968920340306076,
+      "relative_rotation_max_deg": 1.9107382078100532,
+      "common_frames": 117,
+      "rms_percent_of_extent": 0.40189264943326436,
+      "max_percent_of_extent": 0.9006512810384073,
+      "rotation_median_deg": 1.8224272098145111,
+      "rotation_max_deg": 3.0987622262346397
+    },
+    "pool_raw_colmap_exhaustive -> pool_width_scaled_colmap_sequential": {
+      "relative_rotation_median_deg": 0.3863940171313957,
+      "relative_rotation_max_deg": 14.478292128511338,
+      "common_frames": 110,
+      "rms_percent_of_extent": 2.9377507324648517,
+      "max_percent_of_extent": 7.771564947916246,
+      "rotation_median_deg": 4.254100014820496,
+      "rotation_max_deg": 11.230296510716006
+    },
+    "pool_raw_colmap_exhaustive -> pool_width_scaled_orb": {
+      "relative_rotation_median_deg": 1.1463161207085086,
+      "relative_rotation_max_deg": 2.7955892427529623,
+      "common_frames": 10,
+      "rms_percent_of_extent": 5.245119026609423,
+      "max_percent_of_extent": 8.246483532351952,
+      "rotation_median_deg": 4.335922482277303,
+      "rotation_max_deg": 9.233773895749533
+    },
+    "pool_raw_colmap_exhaustive -> pool_width_scaled_sift": {
+      "relative_rotation_median_deg": 1.2207626293805247,
+      "relative_rotation_max_deg": 2.0498280867985317,
+      "common_frames": 11,
+      "rms_percent_of_extent": 2.7999109296789144,
+      "max_percent_of_extent": 3.9724397385560613,
+      "rotation_median_deg": 8.998901757609744,
+      "rotation_max_deg": 12.955930058737415
+    },
+    "pool_raw_colmap_sequential -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.2355494516706729,
+      "relative_rotation_max_deg": 11.046165185725874,
+      "common_frames": 106,
+      "rms_percent_of_extent": 1.7975509095398428,
+      "max_percent_of_extent": 5.57541601915098,
+      "rotation_median_deg": 3.547518993152993,
+      "rotation_max_deg": 8.033932703165727
+    },
+    "pool_raw_colmap_sequential -> pool_raw_orb": {
+      "relative_rotation_median_deg": 0.6918302414219293,
+      "relative_rotation_max_deg": 2.0147703461307787,
+      "common_frames": 11,
+      "rms_percent_of_extent": 0.8854717407504721,
+      "max_percent_of_extent": 1.503802305948733,
+      "rotation_median_deg": 4.180408585785877,
+      "rotation_max_deg": 7.110869378355058
+    },
+    "pool_raw_colmap_sequential -> pool_raw_sift": {
+      "relative_rotation_median_deg": 0.6140671003746532,
+      "relative_rotation_max_deg": 1.5312709047832844,
+      "common_frames": 11,
+      "rms_percent_of_extent": 1.957270822133996,
+      "max_percent_of_extent": 2.869756182802565,
+      "rotation_median_deg": 7.205325161371751,
+      "rotation_max_deg": 10.585176520323246
+    },
+    "pool_raw_colmap_sequential -> pool_width_scaled_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.3221994609807616,
+      "relative_rotation_max_deg": 8.896331790097,
+      "common_frames": 106,
+      "rms_percent_of_extent": 1.7335830456621566,
+      "max_percent_of_extent": 6.6076454389335755,
+      "rotation_median_deg": 4.23335488524361,
+      "rotation_max_deg": 9.348128771017025
+    },
+    "pool_raw_colmap_sequential -> pool_width_scaled_colmap_sequential": {
+      "relative_rotation_median_deg": 0.2242837077339365,
+      "relative_rotation_max_deg": 3.594752548654012,
+      "common_frames": 106,
+      "rms_percent_of_extent": 1.1493332824620652,
+      "max_percent_of_extent": 2.5068401085862555,
+      "rotation_median_deg": 1.2187089016314157,
+      "rotation_max_deg": 3.2424196783960006
+    },
+    "pool_raw_colmap_sequential -> pool_width_scaled_orb": {
+      "relative_rotation_median_deg": 0.9842040074023245,
+      "relative_rotation_max_deg": 2.923129348797701,
+      "common_frames": 10,
+      "rms_percent_of_extent": 5.2072551740726185,
+      "max_percent_of_extent": 8.232951200524854,
+      "rotation_median_deg": 3.9124001051893993,
+      "rotation_max_deg": 8.06687664933017
+    },
+    "pool_raw_colmap_sequential -> pool_width_scaled_sift": {
+      "relative_rotation_median_deg": 1.0899479980045714,
+      "relative_rotation_max_deg": 1.7890290028011955,
+      "common_frames": 11,
+      "rms_percent_of_extent": 2.5653922117077963,
+      "max_percent_of_extent": 3.6371921017432016,
+      "rotation_median_deg": 7.915751390768751,
+      "rotation_max_deg": 11.51358566557039
+    },
+    "pool_raw_orb -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.8340674537604399,
+      "relative_rotation_max_deg": 2.2948987259975437,
+      "common_frames": 11,
+      "rms_percent_of_extent": 0.8075892658839623,
+      "max_percent_of_extent": 1.3655952943838436,
+      "rotation_median_deg": 3.593813742145276,
+      "rotation_max_deg": 7.745163669745174
+    },
+    "pool_raw_orb -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 0.6918302414219293,
+      "relative_rotation_max_deg": 2.0147703461307787,
+      "common_frames": 11,
+      "rms_percent_of_extent": 0.8768495142408457,
+      "max_percent_of_extent": 1.4486152808516302,
+      "rotation_median_deg": 4.180408585785877,
+      "rotation_max_deg": 7.110869378355058
+    },
     "pool_raw_orb -> pool_raw_sift": {
       "relative_rotation_median_deg": 0.36400614317930724,
       "relative_rotation_max_deg": 0.7509673770139609,
@@ -196,6 +373,24 @@
       "max_percent_of_extent": 5.811041318477632,
       "rotation_median_deg": 11.932832998862231,
       "rotation_max_deg": 12.92025962181658
+    },
+    "pool_raw_sift -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.7061590408693137,
+      "relative_rotation_max_deg": 1.7806938607571374,
+      "common_frames": 11,
+      "rms_percent_of_extent": 2.11275493200853,
+      "max_percent_of_extent": 3.0625006582137795,
+      "rotation_median_deg": 8.22187220443835,
+      "rotation_max_deg": 11.998251787859509
+    },
+    "pool_raw_sift -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 0.6140671003746532,
+      "relative_rotation_max_deg": 1.5312709047832844,
+      "common_frames": 11,
+      "rms_percent_of_extent": 1.905730197449625,
+      "max_percent_of_extent": 2.7597114270013066,
+      "rotation_median_deg": 7.205325161371751,
+      "rotation_max_deg": 10.585176520323246
     },
     "pool_raw_sift -> pool_raw_orb": {
       "relative_rotation_median_deg": 0.36400614317930724,
@@ -242,6 +437,24 @@
       "rotation_median_deg": 2.277747331587044,
       "rotation_max_deg": 3.417110665995949
     },
+    "pool_width_scaled_colmap_exhaustive -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.2968920340306076,
+      "relative_rotation_max_deg": 1.9107382078100532,
+      "common_frames": 117,
+      "rms_percent_of_extent": 0.3893609433999538,
+      "max_percent_of_extent": 0.875726675604512,
+      "rotation_median_deg": 1.8224272098145111,
+      "rotation_max_deg": 3.0987622262346397
+    },
+    "pool_width_scaled_colmap_exhaustive -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 0.3221994609807616,
+      "relative_rotation_max_deg": 8.896331790097,
+      "common_frames": 106,
+      "rms_percent_of_extent": 1.7178898288922195,
+      "max_percent_of_extent": 6.533417623770309,
+      "rotation_median_deg": 4.233354885243523,
+      "rotation_max_deg": 9.348128771016869
+    },
     "pool_width_scaled_colmap_exhaustive -> pool_raw_orb": {
       "relative_rotation_median_deg": 0.6832104006155422,
       "relative_rotation_max_deg": 2.1692504097345933,
@@ -286,6 +499,24 @@
       "max_percent_of_extent": 3.5391362870318206,
       "rotation_median_deg": 8.475126183048408,
       "rotation_max_deg": 10.850035834429729
+    },
+    "pool_width_scaled_colmap_sequential -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 0.3863940171313957,
+      "relative_rotation_max_deg": 14.478292128511338,
+      "common_frames": 110,
+      "rms_percent_of_extent": 2.9961822912062845,
+      "max_percent_of_extent": 7.877466941155343,
+      "rotation_median_deg": 4.254100014820153,
+      "rotation_max_deg": 11.230296510715876
+    },
+    "pool_width_scaled_colmap_sequential -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 0.2242837077339365,
+      "relative_rotation_max_deg": 3.594752548654012,
+      "common_frames": 106,
+      "rms_percent_of_extent": 1.1656333979349354,
+      "max_percent_of_extent": 2.4987579400357625,
+      "rotation_median_deg": 1.2187089016290265,
+      "rotation_max_deg": 3.2424196783955503
     },
     "pool_width_scaled_colmap_sequential -> pool_raw_orb": {
       "relative_rotation_median_deg": 0.6141503580560495,
@@ -332,6 +563,24 @@
       "rotation_median_deg": 7.6689234859614235,
       "rotation_max_deg": 9.386925241275073
     },
+    "pool_width_scaled_orb -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 1.1463161207085086,
+      "relative_rotation_max_deg": 2.7955892427529623,
+      "common_frames": 10,
+      "rms_percent_of_extent": 5.0505890041949195,
+      "max_percent_of_extent": 8.875053757720774,
+      "rotation_median_deg": 4.335922482277047,
+      "rotation_max_deg": 9.233773895749453
+    },
+    "pool_width_scaled_orb -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 0.9842040074023245,
+      "relative_rotation_max_deg": 2.923129348797701,
+      "common_frames": 10,
+      "rms_percent_of_extent": 5.051267397146981,
+      "max_percent_of_extent": 8.901016734872554,
+      "rotation_median_deg": 3.9124001051892128,
+      "rotation_max_deg": 8.06687664933008
+    },
     "pool_width_scaled_orb -> pool_raw_orb": {
       "relative_rotation_median_deg": 0.28440634101090945,
       "relative_rotation_max_deg": 3.5766853443404307,
@@ -376,6 +625,24 @@
       "max_percent_of_extent": 9.79180030320662,
       "rotation_median_deg": 7.001710296469659,
       "rotation_max_deg": 9.080199661983297
+    },
+    "pool_width_scaled_sift -> pool_raw_colmap_exhaustive": {
+      "relative_rotation_median_deg": 1.2207626293805247,
+      "relative_rotation_max_deg": 2.0498280867985317,
+      "common_frames": 11,
+      "rms_percent_of_extent": 2.6936061183685216,
+      "max_percent_of_extent": 3.8835083311547707,
+      "rotation_median_deg": 8.998901757609744,
+      "rotation_max_deg": 12.955930058737415
+    },
+    "pool_width_scaled_sift -> pool_raw_colmap_sequential": {
+      "relative_rotation_median_deg": 1.0899479980045714,
+      "relative_rotation_max_deg": 1.7890290028011955,
+      "common_frames": 11,
+      "rms_percent_of_extent": 2.4860812502253347,
+      "max_percent_of_extent": 3.582546007376681,
+      "rotation_median_deg": 7.915751390768566,
+      "rotation_max_deg": 11.513585665570263
     },
     "pool_width_scaled_sift -> pool_raw_orb": {
       "relative_rotation_median_deg": 0.6824083768365173,
@@ -555,5 +822,63 @@
     "115": 0.222930908203125,
     "116": 0.2186711629231771,
     "117": 0.17928059895833334
+  },
+  "primary": "pool_raw",
+  "k_model_comparison": {
+    "exhaustive": {
+      "primary": {
+        "frames_posed": 117,
+        "models": {
+          "0": 117
+        },
+        "map_points": 12133,
+        "reprojection_mean_px": 0.9231292964804261
+      },
+      "width_scaled": {
+        "frames_posed": 117,
+        "models": {
+          "0": 117
+        },
+        "map_points": 12117,
+        "reprojection_mean_px": 0.9363971269576854
+      },
+      "agreement": {
+        "relative_rotation_median_deg": 0.2968920340306076,
+        "relative_rotation_max_deg": 1.9107382078100532,
+        "common_frames": 117,
+        "rms_percent_of_extent": 0.40189264943326436,
+        "max_percent_of_extent": 0.9006512810384073,
+        "rotation_median_deg": 1.8224272098145111,
+        "rotation_max_deg": 3.0987622262346397
+      }
+    },
+    "sequential": {
+      "primary": {
+        "frames_posed": 106,
+        "models": {
+          "0": 106,
+          "1": 24
+        },
+        "map_points": 9610,
+        "reprojection_mean_px": 0.7973764557278388
+      },
+      "width_scaled": {
+        "frames_posed": 110,
+        "models": {
+          "0": 110
+        },
+        "map_points": 10006,
+        "reprojection_mean_px": 0.8208044359495229
+      },
+      "agreement": {
+        "relative_rotation_median_deg": 0.2242837077339365,
+        "relative_rotation_max_deg": 3.594752548654012,
+        "common_frames": 106,
+        "rms_percent_of_extent": 1.1493332824620652,
+        "max_percent_of_extent": 2.5068401085862555,
+        "rotation_median_deg": 1.2187089016314157,
+        "rotation_max_deg": 3.2424196783960006
+      }
+    }
   }
 }

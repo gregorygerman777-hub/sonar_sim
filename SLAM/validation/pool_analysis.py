@@ -12,6 +12,8 @@ Without ground truth, the evidence is:
    the relative rotation between consecutive common frames, compared between the two methods.
 3. Reprojection error of each final map.
 4. Capture timing from the files' modification times (the only timing information delivered with the frames).
+5. Intrinsics comparison: the primary K model (raw, confirmed by Dr. Negahdaripour) against the width scaled
+   hypothesis, by registered frames, reprojection error and map size for each COLMAP matcher.
 Writes results/pool_analysis.json and figures/pool/{agreement.png, coverage.png}.
 """
 
@@ -30,10 +32,12 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE / "datasets")]
 
 from monoslam import export, geometry as geo  # noqa: E402
+from sequences import POOL_PRIMARY  # noqa: E402
 
 RESULTS = HERE / "results"
 FIG = HERE / "figures" / "pool"
 POOL_DIR = Path(os.environ.get("POOL_DIR", Path.home() / "Downloads/Archive 2"))
+PRIMARY = f"pool_{POOL_PRIMARY}"   # the raw K, confirmed by Dr. Negahdaripour on 2026-09-23
 COLORS = {"ours (ORB)": "#2563eb", "ours (SIFT)": "#7c3aed", "COLMAP (sequential)": "#f59e0b",
           "COLMAP (exhaustive)": "#b45309"}
 
@@ -109,6 +113,20 @@ def caustic_index():
     return out
 
 
+def k_model_comparison(out):
+    """Primary (raw) K against width scaled K, per COLMAP matcher: frames, reprojection error, points, agreement."""
+    rows = {}
+    for matcher in ("exhaustive", "sequential"):
+        a, b = f"{PRIMARY}_colmap_{matcher}", f"pool_width_scaled_colmap_{matcher}"
+        if a == b or a not in out["runs"] or b not in out["runs"]:
+            continue
+        pick = lambda r: dict(frames_posed=r["frames_posed"], models=r["models"], map_points=r["map_points"],
+                              reprojection_mean_px=(r["reprojection"] or {}).get("mean_px"))
+        rows[matcher] = dict(primary=pick(out["runs"][a]), width_scaled=pick(out["runs"][b]),
+                             agreement=out["agreement"].get(f"{a} -> {b}"))
+    return rows
+
+
 def main():
     runs = [load(r) for r in sorted(RESULTS.glob("pool_*")) if (r / "trajectory_tum.txt").exists()]
     out = dict(runs={}, agreement={}, file_times=file_times(), caustic_index=caustic_index())
@@ -121,6 +139,8 @@ def main():
                                       initialization=m.get("initialization"))
     for a, b in itertools.permutations(runs, 2):
         out["agreement"][f"{a['name']} -> {b['name']}"] = agreement(a, b)
+    out["primary"] = PRIMARY
+    out["k_model_comparison"] = k_model_comparison(out)
     (RESULTS / "pool_analysis.json").write_text(json.dumps(out, indent=2))
     FIG.mkdir(parents=True, exist_ok=True)
 
@@ -153,7 +173,7 @@ def main():
     plt.close(fig)
 
     # Agreement: every run aligned onto COLMAP exhaustive (or the run with most frames), top and side views.
-    ref = next((r for r in runs if r["label"] == "COLMAP (exhaustive)" and r["meta"]["dataset"] == "pool_width_scaled"),
+    ref = next((r for r in runs if r["label"] == "COLMAP (exhaustive)" and r["meta"]["dataset"] == PRIMARY),
                max(runs, key=lambda r: len(r["ts"])) if runs else None)
     if ref is not None:
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))
@@ -189,7 +209,7 @@ def main():
         plt.close(fig)
     # Frame order along each COLMAP trajectory: which frames form which part of the path (two capture passes?).
     for r in runs:
-        if not r["label"].startswith("COLMAP") or r["meta"]["dataset"] != "pool_width_scaled":
+        if not r["label"].startswith("COLMAP") or r["meta"]["dataset"] != PRIMARY:
             continue
         c = r["t"] - r["t"].mean(0)
         basis = np.linalg.svd(c, full_matrices=False)[2]
