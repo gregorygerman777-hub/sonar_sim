@@ -34,6 +34,44 @@ def output_name(dataset_name, frontend, stride=1, tag=""):
     return f"{dataset_name}_{frontend}{tag}"
 
 
+def track(n, load, timestamps, make_slam, settings, log=print, started=None):
+    """Frames 0..n-1 through the SLAM with map management. Returns [(slam, first_frame)] in creation order.
+
+    A map that stays lost for settings.new_map_after_lost frames is closed and a new map is started (like
+    ORB-SLAM3's Atlas or COLMAP's multiple models). While the new map is not initialized, each frame is first tried
+    against the closed maps, most recent first (settings.reopen_maps): if one relocalizes it, the camera is back in
+    that map, so the map is reopened and the empty new map dropped. Maps are never merged."""
+    started = started or time.perf_counter()
+    maps, slam, first, lost = [], make_slam(), 0, 0
+    for i in range(n):
+        gray, color = load(i)
+        rec = None
+        if settings.reopen_maps and maps and not slam.initialized:
+            for k in range(len(maps) - 1, -1, -1):
+                rec = maps[k][0].try_reopen(i, float(timestamps[i]), gray, color)
+                if rec is not None:
+                    log(f"  frame {i}: relocalized in closed map {k}, reopening it")
+                    old, old_first = maps.pop(k)
+                    old.absorb(slam)
+                    slam, first, lost = old, old_first, 0
+                    break
+        if rec is None:
+            rec = slam.process(i, float(timestamps[i]), gray, color)
+        lost = lost + 1 if (slam.initialized and rec.status == "untracked") else 0
+        if lost >= settings.new_map_after_lost and i < n - 1:
+            log(f"  frame {i}: lost for {lost} frames, closing map {len(maps)} and starting a new map")
+            maps.append((slam, first))
+            slam = make_slam()
+            first, lost = i + 1, 0
+        if i % 50 == 0 or i == n - 1:
+            log(f"  frame {i}/{n}: {rec.status}, inliers {rec.inliers}, map {len(maps)}, keyframes {len(slam.kfs)}, "
+                f"points {sum(1 for p in slam.points.values() if not p.bad)}, "
+                f"median depth {slam.median_depth():.3g}, "
+                f"{time.perf_counter() - started:.0f} s")
+    maps.append((slam, first))
+    return maps
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", required=True)
@@ -64,28 +102,8 @@ def main():
         setattr(settings, name, type(default)(value) if not isinstance(default, bool) else value.lower() == "true")
     log(f"{seq.name}: {n} frames, {seq.size[0]}x{seq.size[1]}, front end {args.frontend}")
     started = time.perf_counter()
-    # A map that stays lost for settings.new_map_after_lost frames is closed and a new map is started
-    # (like ORB-SLAM3's Atlas or COLMAP's multiple models). The map that poses the most frames is the
-    # primary output; the others are written to maps/. Maps are never merged.
-    maps = []
-    slam = MonoSLAM(seq.K, seq.size, settings, log=log)
-    first = 0
-    lost = 0
-    for i in range(n):
-        gray, color = seq.load(i)
-        rec = slam.process(i, float(seq.timestamps[i]), gray, color)
-        lost = lost + 1 if (slam.initialized and rec.status == "untracked") else 0
-        if lost >= settings.new_map_after_lost and i < n - 1:
-            log(f"  frame {i}: lost for {lost} frames, closing map {len(maps)} and starting a new map")
-            maps.append((slam, first))
-            slam = MonoSLAM(seq.K, seq.size, settings, log=log)
-            first, lost = i + 1, 0
-        if i % 50 == 0 or i == n - 1:
-            log(f"  frame {i}/{n}: {rec.status}, inliers {rec.inliers}, map {len(maps)}, keyframes {len(slam.kfs)}, "
-                f"points {sum(1 for p in slam.points.values() if not p.bad)}, "
-                f"median depth {slam.median_depth():.3g}, "
-                f"{time.perf_counter() - started:.0f} s")
-    maps.append((slam, first))
+    maps = track(n, seq.load, seq.timestamps, lambda: MonoSLAM(seq.K, seq.size, settings, log=log), settings, log,
+                 started)
     track_seconds = time.perf_counter() - started
     log("global bundle adjustment and final localization pass")
     results = []
