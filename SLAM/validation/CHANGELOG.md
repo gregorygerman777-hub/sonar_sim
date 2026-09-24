@@ -174,3 +174,15 @@ an open limitation, stated in the report.** No setting was changed because of it
   initialises on its first two frames (opt1 and opt3, or opt1 and opt4), loses track at the next frame and never
   initialises a new map in the remaining frames. Skipping frames makes this sequence harder, not easier: the stills are
   already a median 2 s apart, and the synthetic experiment (`spacing_experiment.py`) predicts the same direction.
+
+## 11. Orientation error on nearly straight paths (evaluation bug, fixed)
+
+* **Found on ground truth (KITTI 04, first 80 frames):** ATE 5 cm over 109 m but an "orientation error" of 36 degrees,
+  constant over the run. Checked without any alignment: the camera's optical axis is 1.02 degrees from its direction
+  of travel (ground truth 1.04), and the relative rotation over the run is 0.51 degrees (ground truth 0.36). The
+  positions are collinear to 7 mm in 6.6 units, so the Sim(3) alignment, which uses positions only, cannot fix the
+  rotation about the path; the 36 degrees was that arbitrary roll, not an error of the SLAM.
+* **Fix:** `evaluate.py` reports the orientation error as not determined (with the reason) when the ground truth
+  positions are nearly collinear (second over first singular value below 0.05). RPE rotation, which needs no
+  alignment, is unaffected. `tests/test_evaluate.py` **fails** on the old code (27 degrees reported for an exactly
+  right estimate) and passes now. None of the 21 runs scored so far is affected (all ratios at least 0.1).

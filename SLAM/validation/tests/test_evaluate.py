@@ -1,0 +1,74 @@
+"""evaluate.py on synthetic trajectories with a known answer.
+
+    python -m unittest SLAM/validation/tests/test_evaluate.py
+"""
+
+import json
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+import numpy as np
+
+HERE = Path(__file__).resolve().parent.parent
+sys.path[:0] = [str(HERE), str(HERE / "datasets")]
+
+import evaluate  # noqa: E402
+from monoslam import export, geometry as geo  # noqa: E402
+
+
+class FakeSequence:
+    name = "fake_sequence"
+
+    def __init__(self, stamps, R_wc, t_wc):
+        self.ground_truth = (stamps, R_wc, t_wc)
+
+
+def run_with(gt_R, gt_p, seed=0):
+    """Score an estimate that is ground truth under a similarity transform plus 1 cm of position noise."""
+    rng = np.random.default_rng(seed)
+    n = len(gt_p)
+    stamps = np.arange(n) * 0.1
+    Rs = geo.rotvec_to_matrix(np.array([0.3, -1.1, 0.7]))[0]
+    s, ts = 0.25, np.array([4.0, -2.0, 1.0])
+    est_p = s * (gt_p @ Rs.T) + ts + s * rng.normal(0, 0.01, (n, 3))
+    est_R = np.einsum("ij,njk->nik", Rs, gt_R)
+    original = evaluate.sequences.get
+    evaluate.sequences.get = lambda name: FakeSequence(stamps, gt_R, gt_p)
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d)
+            (run / "run_meta.json").write_text(json.dumps(dict(dataset="fake_sequence", frames_total=n,
+                                                               frame_timestamps=stamps.tolist())))
+            export.write_tum(run / "trajectory_tum.txt", stamps, est_R, est_p)
+            return evaluate.evaluate(run, rpe_delta_m=1.0)
+    finally:
+        evaluate.sequences.get = original
+
+
+class TestOrientationError(unittest.TestCase):
+    def test_straight_path_orientation_is_reported_as_undetermined(self):
+        # A 100 m straight drive with 2 mm of lateral wobble; the camera looks along the path.
+        n = 100
+        rng = np.random.default_rng(1)
+        gt_p = np.column_stack((rng.normal(0, 0.002, n), rng.normal(0, 0.002, n), np.linspace(0, 100, n)))
+        gt_R = np.repeat(np.eye(3)[None], n, axis=0)
+        r = run_with(gt_R, gt_p)
+        self.assertLess(r["ate_m"]["rmse"], 0.05)            # positions are right...
+        self.assertIsNone(r["orientation_error_deg"])       # ...but a roll about the path cannot be scored
+        self.assertIn("nearly straight", r["orientation_error_note"])
+        self.assertLess(r["rpe_rotation_deg"]["rmse"], 1e-6)  # the alignment free rotation check still works
+
+    def test_curved_path_orientation_is_scored(self):
+        n = 120
+        a = np.linspace(0, 1.5 * np.pi, n)
+        gt_p = np.column_stack((10 * np.cos(a), 10 * np.sin(a), 0.5 * np.sin(3 * a)))
+        gt_R = geo.rotvec_to_matrix(np.column_stack((np.zeros(n), np.zeros(n), a)))
+        r = run_with(gt_R, gt_p)
+        self.assertIsNotNone(r["orientation_error_deg"])
+        self.assertLess(r["orientation_error_deg"]["rmse"], 0.5)
+
+
+if __name__ == "__main__":
+    unittest.main()

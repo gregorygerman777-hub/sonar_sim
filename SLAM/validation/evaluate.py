@@ -30,6 +30,19 @@ from monoslam import export  # noqa: E402
 import sequences  # noqa: E402
 
 PARTIAL_THRESHOLD = 0.95
+COLLINEAR_RATIO = 0.05   # second / first singular value of the centred ground truth positions
+
+
+def rotation_is_constrained(positions, ratio=COLLINEAR_RATIO):
+    """Whether a position only alignment (Umeyama) determines the full rotation. On a nearly straight path the
+    rotation about the path is fixed only by noise, so an orientation error after that alignment is arbitrary
+    (KITTI 04: 36 degrees of 'error' from a trajectory whose relative rotations match ground truth to 0.2 degrees)."""
+    p = np.asarray(positions, float)
+    if len(p) < 3:
+        return False, 0.0
+    sv = np.linalg.svd(p - p.mean(0), compute_uv=False)
+    r = float(sv[1] / sv[0]) if sv[0] > 0 else 0.0
+    return r >= ratio, r
 
 
 def to_evo(timestamps, R_wc, t_wc):
@@ -79,6 +92,7 @@ def evaluate(run_dir, max_diff=None, rpe_delta_m=1.0, trajectory_file="trajector
     ape_rot = metrics.APE(metrics.PoseRelation.rotation_angle_deg)
     ape_rot.process_data((ref_a, est_aligned))
     gt_len = path_length(ref_a.positions_xyz)
+    constrained, spread = rotation_is_constrained(ref_a.positions_xyz)
     rpe_t = rpe_r = None
     if gt_len > 2 * rpe_delta_m:
         try:
@@ -100,7 +114,11 @@ def evaluate(run_dir, max_diff=None, rpe_delta_m=1.0, trajectory_file="trajector
         gt_path_length_m=gt_len,
         ate_m={k: float(v) for k, v in ape_stats.items()},
         ate_rmse_percent_of_path=100.0 * ape_stats["rmse"] / gt_len if gt_len > 0 else None,
-        orientation_error_deg={k: float(v) for k, v in ape_rot.get_all_statistics().items()},
+        orientation_error_deg=({k: float(v) for k, v in ape_rot.get_all_statistics().items()}
+                               if constrained else None),
+        orientation_error_note=(None if constrained else
+                                f"not determined: ground truth path nearly straight (singular value ratio {spread:.3f} "
+                                f"< {COLLINEAR_RATIO}), so the alignment's rotation about it is arbitrary; see RPE"),
         rpe_delta_m=rpe_delta_m,
         rpe_translation_m={k: float(v) for k, v in rpe_t.items()} if rpe_t else None,
         rpe_rotation_deg={k: float(v) for k, v in rpe_r.items()} if rpe_r else None,
