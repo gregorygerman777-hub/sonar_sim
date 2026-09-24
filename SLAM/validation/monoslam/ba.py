@@ -7,7 +7,8 @@ d^2 = 5.991 (chi-square, 2 dof, 95 %), as in ORB-SLAM / g2o.
 
 Camera updates are left perturbations: R <- exp([dw]x) R, t <- t + dt, so
     d(R X + t)/d dw = -[R X]x,   d(R X + t)/d dt = I,   d(R X + t)/dX = R.
-The camera block is solved densely after eliminating points (Schur complement).
+After eliminating the points (Schur complement) the camera block is solved by Cholesky up to 150 cameras and
+by sparse LU above that (the reduced camera system is banded by covisibility).
 """
 
 import numpy as np

@@ -124,13 +124,15 @@ class MonoSLAM:
         self.velocity = None            # T_last_lastlast
         self.lost_features = {}         # features of frames that were not tracked, for the final pass
         self.stats = dict(local_ba_seconds=0.0, n_local_ba=0, reinit=0, relocalizations=0, reopened=0)
-        self._count_visible = True      # off while a closed map is only being tried, so a miss changes nothing
+        self._searched = set()          # map points searched for in the current frame (visibility, see _accept)
+        self.recent = []                # ids of points still on probation (ORB-SLAM's recently added points)
 
     # ---------------------------------------------------------------- utilities
     def _add_point(self, X, desc, kf, color):
         p = MapPoint(self.next_pid, X, desc, kf.id, color)
         self.points[p.id] = p
         self.next_pid += 1
+        self.recent.append(p.id)
         return p
 
     def _observe(self, p, kf, kp):
@@ -204,9 +206,7 @@ class MonoSLAM:
             return np.empty(0, int), np.empty(0, int)
         tree = tree or cKDTree(f.uv)
         idx = np.flatnonzero(ok)
-        if self._count_visible:
-            for i in idx:
-                self.points[pids[i]].visible += 1
+        self._searched.update(pids[i] for i in idx)
         neighbours = tree.query_ball_point(uv[idx], r=radius)
         best_for_kp = {}
         thresh = feat.LOOSE[self.kind]
@@ -388,6 +388,7 @@ class MonoSLAM:
         if n_left < self.s.init_min_points:
             self.log(f"  init at {ref_index}-{index} rejected after BA ({n_left} points)")
             self.points.clear()
+            self.recent = []
             self.kfs = []
             return False
         # re-normalise the scale after BA
@@ -413,6 +414,7 @@ class MonoSLAM:
 
     # ---------------------------------------------------------------- main loop
     def process(self, index, timestamp, gray, color=None):
+        self._searched = set()
         f = self.extract(gray)
         rec = FrameRecord(index, timestamp)
         self.frames.append(rec)
@@ -469,13 +471,10 @@ class MonoSLAM:
         f = self.extract(gray)
         if len(f.uv) < 10:
             return None
-        self._count_visible = False
-        try:
-            best = self._relocalize(f, cKDTree(f.uv), self._reloc_candidates(f))
-        finally:
-            self._count_visible = True
+        self._searched = set()
+        best = self._relocalize(f, cKDTree(f.uv), self._reloc_candidates(f))
         if best is None:
-            return None
+            return None         # nothing was counted: visibility is only booked for frames that are accepted
         rec = FrameRecord(index, timestamp)
         self.frames.append(rec)
         self.last, self.velocity = None, None
@@ -490,9 +489,23 @@ class MonoSLAM:
         self.frames = sorted(self.frames + other.frames, key=lambda r: r.index)
         self.lost_features.update(other.lost_features)
 
+    def _count_visibility(self, R, t):
+        """ORB-SLAM's IncreaseVisible: once per tracked frame, for every searched map point that falls inside the
+        image under the frame's final pose. Counting once per search attempt instead (as before CHANGELOG entry 16)
+        counted a point up to four times in a hard frame and none of it for frames that were then lost."""
+        pids = [i for i in self._searched if not self.points[i].bad]
+        self._searched = set()
+        if not pids:
+            return
+        uv, z = geo.project(self.K, R, t, np.array([self.points[i].X for i in pids]))
+        inside = (z > 0) & (uv[:, 0] >= 0) & (uv[:, 0] < self.width) & (uv[:, 1] >= 0) & (uv[:, 1] < self.height)
+        for i in np.flatnonzero(inside):
+            self.points[pids[i]].visible += 1
+
     def _accept(self, rec, index, f, color, got, status):
         """Book a tracked or relocalized frame: point statistics, motion model, keyframe decision and mapping."""
         R, t, mp, kps = got
+        self._count_visibility(R, t)
         for pid in mp:
             self.points[pid].found += 1
         if self.last is not None and status == "tracked":
@@ -668,15 +681,22 @@ class MonoSLAM:
                 self._replace(drop, keep)
 
     def _local_mapping(self, kf):
-        # Cull recently created points that did not get re-observed or were rarely found when visible.
-        for p in list(self.points.values()):
+        # Cull recently created points that were rarely found when visible or did not get re-observed (ORB-SLAM
+        # MapPointCulling). A point leaves probation once it is cull_after_kfs + 1 keyframes old; before CHANGELOG
+        # entry 16 the found ratio test was applied to every point from age 2 on, for ever.
+        still_recent = []
+        for pid in self.recent:
+            p = self.points[pid]
             if p.bad:
                 continue
             age = kf.id - p.first_kf
-            if age >= 2 and p.found / max(p.visible, 1) < self.s.min_found_ratio:
+            if age >= 1 and p.found / max(p.visible, 1) < self.s.min_found_ratio:
                 self._set_bad(p)
-            elif age >= self.s.cull_after_kfs and age <= self.s.cull_after_kfs + 1 and len(p.obs) <= 2:
+            elif age >= self.s.cull_after_kfs and len(p.obs) <= 2:
                 self._set_bad(p)
+            elif age <= self.s.cull_after_kfs:
+                still_recent.append(pid)
+        self.recent = still_recent
         window = [kf] + self._covisible(kf, self.s.local_window - 1)
         ids = sorted({k.id for k in window})
         started = time.perf_counter()
