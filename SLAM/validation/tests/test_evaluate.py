@@ -19,13 +19,12 @@ from monoslam import export, geometry as geo  # noqa: E402
 
 
 class FakeSequence:
-    name = "fake_sequence"
-
-    def __init__(self, stamps, R_wc, t_wc):
+    def __init__(self, stamps, R_wc, t_wc, name="fake_sequence"):
+        self.name = name
         self.ground_truth = (stamps, R_wc, t_wc)
 
 
-def run_with(gt_R, gt_p, seed=0):
+def run_with(gt_R, gt_p, seed=0, name="fake_sequence", rpe_delta_m=1.0):
     """Score an estimate that is ground truth under a similarity transform plus 1 cm of position noise."""
     rng = np.random.default_rng(seed)
     n = len(gt_p)
@@ -35,14 +34,14 @@ def run_with(gt_R, gt_p, seed=0):
     est_p = s * (gt_p @ Rs.T) + ts + s * rng.normal(0, 0.01, (n, 3))
     est_R = np.einsum("ij,njk->nik", Rs, gt_R)
     original = evaluate.sequences.get
-    evaluate.sequences.get = lambda name: FakeSequence(stamps, gt_R, gt_p)
+    evaluate.sequences.get = lambda key: FakeSequence(stamps, gt_R, gt_p, name)
     try:
         with tempfile.TemporaryDirectory() as d:
             run = Path(d)
             (run / "run_meta.json").write_text(json.dumps(dict(dataset="fake_sequence", frames_total=n,
                                                                frame_timestamps=stamps.tolist())))
             export.write_tum(run / "trajectory_tum.txt", stamps, est_R, est_p)
-            return evaluate.evaluate(run, rpe_delta_m=1.0)
+            return evaluate.evaluate(run, rpe_delta_m=rpe_delta_m)
     finally:
         evaluate.sequences.get = original
 
@@ -68,6 +67,21 @@ class TestOrientationError(unittest.TestCase):
         r = run_with(gt_R, gt_p)
         self.assertIsNotNone(r["orientation_error_deg"])
         self.assertLess(r["orientation_error_deg"]["rmse"], 0.5)
+
+
+class TestRelativeError(unittest.TestCase):
+    def test_rpe_is_computed_on_kitti_like_frame_spacing(self):
+        """KITTI frames are about 1.4 m apart, so an RPE over 1 m of travel has no frame pairs; the KITTI default
+        must still produce one (it silently came out empty on KITTI 04)."""
+        n = 300
+        a = np.linspace(0, np.pi, n)
+        gt_p = np.column_stack((140 * np.sin(a), np.zeros(n), 140 * (1 - np.cos(a))))   # 1.47 m per frame
+        gt_R = geo.rotvec_to_matrix(np.column_stack((np.zeros(n), -a, np.zeros(n))))
+        r = run_with(gt_R, gt_p, name="kitti_99", rpe_delta_m=None)
+        self.assertEqual(r["rpe_delta_m"], 100.0)
+        self.assertIsNotNone(r["rpe_translation_m"])
+        self.assertLess(r["rpe_rotation_deg"]["rmse"], 1e-6)
+        self.assertEqual(evaluate.default_rpe_delta_m("tum_freiburg1_xyz"), 1.0)
 
 
 if __name__ == "__main__":

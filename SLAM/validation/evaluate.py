@@ -55,11 +55,19 @@ def path_length(xyz):
     return float(np.sum(np.linalg.norm(np.diff(xyz, axis=0), axis=1))) if len(xyz) > 1 else 0.0
 
 
-def evaluate(run_dir, max_diff=None, rpe_delta_m=1.0, trajectory_file="trajectory_tum.txt", dataset=None):
+def default_rpe_delta_m(dataset_name):
+    """RPE step: 1 m of ground truth travel, except on KITTI, whose frames are about 1.4 m apart (no two frames are
+    1 m apart there); it uses 100 m, the shortest segment of the KITTI odometry benchmark's own metric."""
+    return 100.0 if dataset_name.startswith("kitti_") else 1.0
+
+
+def evaluate(run_dir, max_diff=None, rpe_delta_m=None, trajectory_file="trajectory_tum.txt", dataset=None):
     run_dir = Path(run_dir)
     meta = json.loads((run_dir / "run_meta.json").read_text())
     seq = sequences.get(dataset or meta.get("dataset_key") or meta["dataset"])
     gt_t, gt_R, gt_p = seq.ground_truth
+    if rpe_delta_m is None:
+        rpe_delta_m = default_rpe_delta_m(seq.name)
     ts, R, p = export.read_tum(run_dir / trajectory_file)
     result = dict(run=run_dir.name, dataset=meta["dataset"], method=meta.get("method", "monoslam"),
                   frontend=meta.get("frontend"), frames_total=meta["frames_total"],
@@ -197,7 +205,7 @@ def map_surface_error(xyz, R, t, s, height, extent=3.0):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("runs", nargs="+", type=Path)
-    parser.add_argument("--rpe-delta-m", type=float, default=1.0)
+    parser.add_argument("--rpe-delta-m", type=float, default=None, help="default: 1 m (100 m on KITTI)")
     args = parser.parse_args()
     for run in args.runs:
         r = evaluate(run, rpe_delta_m=args.rpe_delta_m)

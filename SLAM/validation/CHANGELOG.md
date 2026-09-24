@@ -207,3 +207,14 @@ an open limitation, stated in the report.** No setting was changed because of it
 * `for r in results/pool_*` also matched `pool_analysis.json`, so the figure step would have stopped the script.
 * It never made the frame spacing runs behind `spacing_experiment.png`, nor ran `spacing_experiment.py`,
   `pool_scale.py` or the export; it now does, plus the pool frame skipping runs and KITTI when present.
+
+## 14. RPE on KITTI came out empty (evaluation bug, fixed)
+
+* **Found on the first KITTI run scored (COLMAP, sequence 04):** `rpe_translation_m` and `rpe_rotation_deg` were empty,
+  with evo reporting that a 1 m step "produced an empty index list". KITTI frames are about 1.4 m apart, so no two
+  frames are 1 m apart; the RPE per 1 m used for the other datasets is undefined there, and the failure was silent
+  in the summary (n/a).
+* **Fix:** `evaluate.py` measures RPE over 100 m on KITTI (the shortest segment of the KITTI odometry benchmark's own
+  metric) and over 1 m elsewhere; the step is stored in `metrics.json` and shown as "RPE over [m]" in
+  `results/SUMMARY.md`. `tests/test_evaluate.py::TestRelativeError` fails on the old code and passes now. No existing
+  result changes (every committed run had frames closer than 1 m).
