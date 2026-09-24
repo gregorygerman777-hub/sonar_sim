@@ -38,7 +38,7 @@ def main():
             rpe_over_m=m.get("rpe_delta_m"),
             orient_deg=(m.get("orientation_error_deg") or {}).get("rmse"),
             map_surface_median_m=(m.get("map_to_surface_m") or {}).get("median"),
-            maps=len(meta.get("maps") or []) or (len(meta["models"]) if meta.get("models") else 1),
+            maps=len(meta.get("maps") or []) if method == "monoslam" else len(meta.get("models") or {}),
             posed_all_maps=meta.get("frames_posed_any_map", meta.get("frames_posed")),
             ate_all_maps_m=(m.get("all_maps") or {}).get("ate_rmse_m_each_map_aligned_separately"),
             keyframes=meta.get("keyframes"), points=meta.get("map_points"),
