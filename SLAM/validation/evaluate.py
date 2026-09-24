@@ -212,8 +212,9 @@ def main():
         if r.get("ate_m"):
             print(f"{run.name}: {r['status']} posed {r['fraction_posed']:.1%}, ATE RMSE {r['ate_m']['rmse']:.4f} m "
                   f"({r['ate_rmse_percent_of_path']:.2f} % of {r['gt_path_length_m']:.2f} m), scale {r['sim3_scale']:.4f}")
-        else:
-            print(f"{run.name}: {r['status']}")
+        else:   # the method posed too few frames to score: a result of the run, not an error of this script
+            print(f"{run.name}: {r['status']}, {r.get('reason')} ({r['frames_posed']}/{r['frames_total']} frames posed, "
+                  f"nothing to score)")
 
 
 if __name__ == "__main__":
