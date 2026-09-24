@@ -58,11 +58,22 @@ def read_ply(path):
     return xyz, rgb
 
 
+GENERATED = ("/results/", "/figures/")   # outputs a run rewrites; not evidence of modified code
+
+
+def _is_generated(path):
+    path = "/" + path
+    return any(g in path for g in GENERATED) or path.endswith("REPORT_summary.pdf")
+
+
 def git_commit(root):
+    """HEAD and whether any tracked source file differs from it. Generated outputs are not counted: results are
+    tracked, so a rerun rewrites them, and counting them marked every rerun as dirty (CHANGELOG entry 18)."""
     try:
         commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
-        dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root, text=True).strip())
-        return commit, dirty
+        status = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root, text=True)
+        changed = [line[3:].split(" -> ")[-1] for line in status.splitlines() if line.strip()]
+        return commit, any(not _is_generated(path) for path in changed)
     except Exception:  # noqa: BLE001
         return None, None
 

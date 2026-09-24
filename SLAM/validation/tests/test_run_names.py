@@ -29,5 +29,29 @@ class TestColmapOverwriteGuard(unittest.TestCase):
             run_colmap.check_overwrite(Path(d) / "new_run", stride=2)  # nothing there yet
 
 
+class TestGitDirty(unittest.TestCase):
+    """A rerun rewrites tracked results; that alone must not mark the run as made with modified code."""
+
+    def test_only_source_changes_count(self):
+        import subprocess
+        from monoslam import export
+        with tempfile.TemporaryDirectory() as d:
+            run = lambda *a: subprocess.run(["git", *a], cwd=d, check=True, capture_output=True)
+            run("init", "-q")
+            run("config", "user.email", "t@example.com")
+            run("config", "user.name", "t")
+            for rel in ("SLAM/validation/run_slam.py", "SLAM/validation/results/x/run_meta.json",
+                        "SLAM/validation/figures/x/1.png"):
+                (Path(d) / rel).parent.mkdir(parents=True, exist_ok=True)
+                (Path(d) / rel).write_text("a")
+            run("add", "-A")
+            run("commit", "-q", "-m", "c")
+            (Path(d) / "SLAM/validation/results/x/run_meta.json").write_text("b")
+            (Path(d) / "SLAM/validation/figures/x/1.png").write_text("b")
+            self.assertFalse(export.git_commit(d)[1])
+            (Path(d) / "SLAM/validation/run_slam.py").write_text("b")
+            self.assertTrue(export.git_commit(d)[1])
+
+
 if __name__ == "__main__":
     unittest.main()
