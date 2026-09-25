@@ -41,5 +41,29 @@ class TestInteractiveOverlay(unittest.TestCase):
             self.assertNotIn("map points shown", path.read_text())
 
 
+class TestKittiOverview(unittest.TestCase):
+    def test_draws_the_scored_sequences(self):
+        import json
+        from unittest import mock
+        import kitti_overview
+        n = 30
+        gt = np.column_stack((np.linspace(0, 20, n), np.zeros(n), np.linspace(0, 40, n)))
+        fake = type("Seq", (), {"ground_truth": (np.arange(n) * 0.1, np.repeat(np.eye(3)[None], n, 0), gt)})()
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d) / "results" / "kitti_03_sift"
+            run.mkdir(parents=True)
+            (run / "run_meta.json").write_text(json.dumps(dict(frames_posed=n, frames_total=n, maps=[{"map": 0}])))
+            (run / "metrics.json").write_text(json.dumps(dict(ate_m=dict(rmse=0.5), ate_rmse_percent_of_path=1.1)))
+            rows = np.column_stack((np.arange(n) * 0.1, gt + 0.3, np.tile([0, 0, 0, 1.0], (n, 1))))
+            np.savetxt(run / "aligned_estimate_tum.txt", rows, header="timestamp tx ty tz qx qy qz qw")
+            with mock.patch.object(kitti_overview, "HERE", Path(d)), mock.patch.object(sys, "argv", ["x"]), \
+                    mock.patch("sequences.get", lambda name: fake), mock.patch("builtins.print"):
+                kitti_overview.main()
+            self.assertTrue((Path(d) / "figures" / "kitti" / "overview_sift.png").stat().st_size > 10000)
+        self.assertEqual(kitti_overview.panel_title("03", dict(frames_posed=396, frames_total=801, maps=[1, 2]),
+                                                    dict(ate_m=dict(rmse=1.21), ate_rmse_percent_of_path=0.43)),
+                         "03: 1.2 m (0.4 %), 396/801 frames, 2 maps")
+
+
 if __name__ == "__main__":
     unittest.main()

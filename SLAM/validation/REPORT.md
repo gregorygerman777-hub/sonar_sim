@@ -130,6 +130,7 @@ Key figures:
 
 | What | Figure |
 |---|---|
+| **KITTI 00 to 10 seen from above, ours against ground truth (SIFT; ORB)** | `figures/kitti/overview_sift.png`, `overview_orb.png` |
 | KITTI 00 with SIFT, trajectory against ground truth (every frame, one map) | `figures/kitti_00/kitti_00_sift/1_trajectory.png` |
 | KITTI 07, ours (ORB) and COLMAP against ground truth | `figures/kitti_07/kitti_07_orb/1_trajectory.png` |
 | Synthetic pool, trajectory over the 3D map (exact ground truth) | `figures/synthetic_pool/synthetic_pool_orb/3_overlay.png` |

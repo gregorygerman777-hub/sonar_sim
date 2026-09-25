@@ -87,6 +87,7 @@ for d in $GT_SETS $KITTI_SETS; do
   fi
 done
 for r in $V/results/pool_*/; do $PY $V/make_figures.py "${r%/}"; done
+[ -z "$KITTI_SETS" ] || for f in sift orb; do $PY $V/kitti_overview.py --frontend $f; done
 $PY $V/spacing_experiment.py
 $PY $V/pool_analysis.py
 $PY $V/pool_scale.py
