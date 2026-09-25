@@ -55,14 +55,41 @@
           {
             "path": "figures/kitti/overview_sift.png",
             "max_height_in": 4.45,
-            "caption": "KITTI 00 to 10 seen from above: my SLAM with SIFT (blue, after one Sim(3) alignment) over the ground truth (black). On 03, 04 and 10 it follows the ground truth closely; on the long sequences the monocular scale drifts, which is most of the error. 01, a highway, splits into 4 maps; its main map is shown."
+            "caption": "KITTI 00 to 10 seen from above: my SLAM with SIFT (blue, after one Sim(3) alignment) over the ground truth (black). On 03, 04 and 10 it follows the ground truth closely; on the long sequences the monocular scale drifts, which is most of the error. 01, a highway, splits into 4 maps; its main map is shown. Page 2 shows 07 with its 3D model."
           }
         ]
       ],
       "footer": "ATE: RMSE after a Sim(3) alignment (monocular scale is not observable), over the frames the main map posed, and as a percentage of their path. Other datasets, the relative error over 100 m, and every run: REPORT.md."
     },
     {
-      "heading": "2. Your pool data: trajectory and 3D model from my SLAM",
+      "heading": "2. Ground truth example, KITTI 07: trajectory and 3D model from my SLAM",
+      "paragraphs": [
+        "The same two outputs you asked for on your data, first on a sequence with ground truth: KITTI 07, a 695 m loop, all 1101 frames tracked in one map with SIFT; ATE 16.6 m (2.4 % of the path) after one Sim(3) alignment. Shown separately and superimposed, with the ground truth for comparison."
+      ],
+      "figures": [
+        [
+          {
+            "path": "figures/kitti_07/kitti_07_sift/1_trajectory.png",
+            "max_height_in": 2.9,
+            "caption": "(a) Estimated camera trajectory (blue) against the ground truth (black), top and side views; orange: COLMAP on the same frames."
+          }
+        ],
+        [
+          {
+            "path": "figures/kitti_07/kitti_07_sift/2_model.png",
+            "max_height_in": 3.6,
+            "caption": "(b) 3D model: the 75,512 map points of the run."
+          },
+          {
+            "path": "figures/kitti_07/kitti_07_sift/4_overlay_top.png",
+            "max_height_in": 3.6,
+            "caption": "(c) The trajectory superimposed on the 3D model, seen from above: points coloured by height, arrows where the camera looks."
+          }
+        ]
+      ]
+    },
+    {
+      "heading": "3. Your pool data: trajectory and 3D model from my SLAM",
       "paragraphs": [
         "All 117 frames, with your K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1]. My SLAM initializes on your stills and tracks 12 consecutive frames, opt28 to opt39, then loses track; over the sequence it starts 4 maps, and none of the others grows beyond 4 frames. The stills are about 2 s apart with large viewpoint changes and moving caustics on the floor, which break frame to frame tracking. Skipping every other frame, or every 2 frames, made it worse (2 frames posed). Below are its two outputs for the longest map, separately and superimposed. Units are arbitrary (monocular)."
       ],
@@ -71,25 +98,25 @@
           {
             "path": "figures/pool_raw/pool_raw_orb/1_trajectory.png",
             "max_height_in": 2.9,
-            "caption": "(a) Estimated camera trajectory, opt28 to opt39: top and side views. Green: first frame, red: last frame."
+            "caption": "(d) Estimated camera trajectory, opt28 to opt39: top and side views. Green: first frame, red: last frame."
           }
         ],
         [
           {
             "path": "figures/pool_raw/pool_raw_orb/2_model.png",
             "max_height_in": 3.6,
-            "caption": "(b) 3D model: the 635 points of this map."
+            "caption": "(e) 3D model: the 635 points of this map."
           },
           {
             "path": "figures/pool_raw/pool_raw_orb/3_overlay.png",
             "max_height_in": 3.6,
-            "caption": "(c) The trajectory, with a camera frustum at each frame, superimposed on the 3D model."
+            "caption": "(f) The trajectory, with a camera frustum at each frame, superimposed on the 3D model."
           }
         ]
       ]
     },
     {
-      "heading": "3. Your pool data, all 117 frames: trajectory superimposed on the 3D model",
+      "heading": "4. Your pool data, all 117 frames: trajectory superimposed on the 3D model",
       "paragraphs": [
         "To see what your data supports, I also ran a multi view reconstruction (COLMAP: every frame matched against every other, one global bundle adjustment) on the same frames and K. It registers all 117 frames in one model (mean reprojection error 0.92 px). The camera circles the rock and pebble mat about twice at nearly constant height; frames 106 to 117, taken about 10 minutes later, continue on the same circle. Where my SLAM and this model pose the same frames, their relative rotations agree to a median of 0.6 degrees. There is no ground truth, so this is internally consistent, not verified. Units are arbitrary; the floor lane stripes beside the mat measure 0.44 units wide, so their real width would make it metric."
       ],
@@ -98,14 +125,14 @@
           {
             "path": "figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.png",
             "max_height_in": 3.5,
-            "caption": "(d) Camera trajectory with frustums, superimposed on the 3D model (12,152 points). The dense patch is the rock and pebble mat; the points above the cameras include reflections in the underside of the moving water surface, which are not physical structure."
+            "caption": "(g) Camera trajectory with frustums, superimposed on the 3D model (12,152 points). The dense patch is the rock and pebble mat; the points above the cameras include reflections in the underside of the moving water surface, which are not physical structure."
           }
         ],
         [
           {
             "path": "figures/pool_raw/pool_raw_colmap_exhaustive/4_overlay_top.png",
             "max_height_in": 4.3,
-            "caption": "(e) The same from directly above the pool floor: points coloured by height, arrows where the camera looks. The trajectory and the model are also attached as data files (.mat, .csv, .ply)."
+            "caption": "(h) The same from directly above the pool floor: points coloured by height, arrows where the camera looks. The trajectory and the model are also attached as data files (.mat, .csv, .ply)."
           }
         ]
       ]
