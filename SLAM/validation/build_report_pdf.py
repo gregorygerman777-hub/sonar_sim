@@ -52,13 +52,20 @@ def trimmed(path, pad=12):
     return out
 
 
+def no_score(r):
+    """Why a row has no ATE: no ground truth, or the method posed too few frames to score (a result, not a failure;
+    CHANGELOG entry 20)."""
+    status = (r.get("status") or "").strip()
+    return "no ground truth" if status in ("", "no ground truth") else status.lower()
+
+
 def results_table(cfg):
     rows = list(csv.DictReader(open(HERE / "results" / "summary.csv")))
     data = [["Dataset", "Method", "Frames posed", "ATE RMSE", "ATE / path", "Map error (median)"]]
     for r in rows:
         if r["dataset"] not in cfg["table_datasets"] or r["run"] in cfg.get("table_exclude_runs", []):
             continue
-        ate = f"{fmt(r['ate_rmse_m'], '.3f')} m" if r["ate_rmse_m"] else "no ground truth"
+        ate = f"{fmt(r['ate_rmse_m'], '.3f')} m" if r["ate_rmse_m"] else no_score(r)
         pct = f"{fmt(r['ate_pct'], '.2f')} %" if r["ate_pct"] else ""
         mp = f"{fmt(r['map_surface_median_m'], '.3f')} m" if r["map_surface_median_m"] else ""
         method = (r["method"].replace("(sequential)", "(seq.)").replace("(exhaustive)", "(exh.)")
@@ -76,20 +83,22 @@ def results_table(cfg):
 
 
 def compact_table(spec):
-    """One row per dataset, one column group per method: frames posed and ATE (m and % of path) of each run.
+    """One row per dataset, one column group per method: frames posed and ATE (m and % of the posed path) of each run.
+    "Path" is the ground truth length of the whole sequence (run_path_m), not the part one method posed.
     spec: {"datasets": [...], "labels": {dataset: text}, "methods": [[summary method label, column title], ...]}."""
     rows = {(r["dataset"], r["method"]): r for r in csv.DictReader(open(HERE / "results" / "summary.csv"))}
     head = ["Sequence", "Path"] + [title for _, title in spec["methods"]]
     data = [head]
     for d in spec["datasets"]:
-        path = next((rows[(d, m)]["path_m"] for m, _ in spec["methods"] if (d, m) in rows and rows[(d, m)]["path_m"]), "")
+        path = next((rows[(d, m)]["run_path_m"] for m, _ in spec["methods"]
+                     if (d, m) in rows and rows[(d, m)].get("run_path_m")), "")
         line = [spec["labels"].get(d, d), f"{fmt(path, '.0f')} m" if path else ""]
         for m, _ in spec["methods"]:
             r = rows.get((d, m))
             if r is None:
                 line.append("not run")
             elif not r["ate_rmse_m"]:
-                line.append(f"{r['posed']}/{r['frames']}, failed")
+                line.append(f"{r['posed']}/{r['frames']}, {no_score(r)}")
             else:
                 maps = f", {r['maps']} maps" if r["maps"] not in ("", "1") else ""
                 line.append(f"{r['posed']}/{r['frames']}{maps}: {fmt(r['ate_rmse_m'], '.2f')} m ({fmt(r['ate_pct'], '.2f')} %)")
