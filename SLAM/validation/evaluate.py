@@ -6,7 +6,8 @@
 * Aligns with Sim(3) Umeyama (monocular scale is unobservable) and reports the recovered scale.
 * ATE: RMSE, mean, median, max of the translation error after alignment.
 * RPE: translation and rotation error over a fixed travelled distance (default 1 m of ground truth
-  path), computed on the Sim(3) aligned estimate.
+  path; 100 m on KITTI), between poses that far apart along the ground truth, computed on the Sim(3) aligned
+  estimate.
 * Coverage: the fraction of frames that received a pose. A run that posed less than 95 % of its
   frames is flagged PARTIAL; its ATE covers only the posed frames and must be read with that fraction.
 Writes metrics.json into the run directory. Ground truth is only read here, never by the SLAM.
@@ -105,11 +106,13 @@ def evaluate(run_dir, max_diff=None, rpe_delta_m=None, trajectory_file="trajecto
     rpe_t = rpe_r = None
     if gt_len > 2 * rpe_delta_m:
         try:
+            # Pairs rpe_delta_m apart along the ground truth. evo's default picks them along the estimate, where a
+            # drifted monocular scale makes a "100 m" segment any true length (CHANGELOG entry 22).
             m_t = metrics.RPE(metrics.PoseRelation.translation_part, delta=rpe_delta_m,
-                              delta_unit=metrics.Unit.meters, all_pairs=True)
+                              delta_unit=metrics.Unit.meters, all_pairs=True, pairs_from_reference=True)
             m_t.process_data((ref_a, est_aligned))
             m_r = metrics.RPE(metrics.PoseRelation.rotation_angle_deg, delta=rpe_delta_m,
-                              delta_unit=metrics.Unit.meters, all_pairs=True)
+                              delta_unit=metrics.Unit.meters, all_pairs=True, pairs_from_reference=True)
             m_r.process_data((ref_a, est_aligned))
             rpe_t, rpe_r = m_t.get_all_statistics(), m_r.get_all_statistics()
         except Exception as exc:  # noqa: BLE001  (too few pairs at this delta)

@@ -83,6 +83,50 @@ class TestRelativeError(unittest.TestCase):
         self.assertLess(r["rpe_rotation_deg"]["rmse"], 1e-6)
         self.assertEqual(evaluate.default_rpe_delta_m("tum_freiburg1_xyz"), 1.0)
 
+    def test_segments_are_measured_along_the_ground_truth(self):
+        """RPE over d metres compares pose pairs d metres apart along the ground truth, as the KITTI benchmark does.
+        evo picks the pairs along the estimate unless told otherwise, so where the monocular scale had drifted a
+        '100 m' segment could span 200 m of road (KITTI 00 SIFT: 122 m instead of 51 m)."""
+        from scipy.spatial.transform import Rotation
+        n = 61
+        wobble = 0.05 * np.sin(np.arange(n))                                     # keeps the alignment well posed
+        gt_p = np.column_stack((np.arange(n, dtype=float), wobble, np.zeros(n)))  # about 1 m per frame
+        est_x = np.concatenate(([0.0], np.cumsum(np.where(np.arange(1, n) <= 30, 1.0, 0.5))))   # half scale later
+        est_p = np.column_stack((est_x, wobble, np.zeros(n)))
+        gt_R = np.repeat(np.eye(3)[None], n, axis=0)
+        stamps = np.arange(n) * 0.1
+        original = evaluate.sequences.get
+        evaluate.sequences.get = lambda key: FakeSequence(stamps, gt_R, gt_p)
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                run = Path(d)
+                (run / "run_meta.json").write_text(json.dumps(dict(dataset="fake_sequence", frames_total=n,
+                                                                   frame_timestamps=stamps.tolist())))
+                export.write_tum(run / "trajectory_tum.txt", stamps, gt_R, est_p)
+                r = evaluate.evaluate(run, rpe_delta_m=10.0)
+                est = np.loadtxt(run / "aligned_estimate_tum.txt", ndmin=2)
+                ref = np.loadtxt(run / "associated_gt_tum.txt", ndmin=2)
+        finally:
+            evaluate.sequences.get = original
+
+        def pose(row):
+            T = np.eye(4)
+            T[:3, :3], T[:3, 3] = Rotation.from_quat(row[4:8]).as_matrix(), row[1:4]
+            return T
+
+        # Pairs 10 m apart along the ground truth (evo's rule: the nearest distance, within 10 % of 10 m), scored on
+        # the aligned estimate that evaluate.py saved.
+        dist = np.concatenate(([0.0], np.cumsum(np.linalg.norm(np.diff(ref[:, 1:4], axis=0), axis=1))))
+        errors = []
+        for i in range(len(ref) - 1):
+            j = i + 1 + int(np.argmin(np.abs(dist[i + 1:] - dist[i] - 10.0)))
+            if abs(dist[j] - dist[i] - 10.0) <= 1.0:
+                g = np.linalg.inv(pose(ref[i])) @ pose(ref[j])
+                e = np.linalg.inv(pose(est[i])) @ pose(est[j])
+                errors.append(np.linalg.norm((np.linalg.inv(g) @ e)[:3, 3]))
+        self.assertGreater(len(errors), 40)
+        self.assertAlmostEqual(r["rpe_translation_m"]["rmse"], float(np.sqrt(np.mean(np.square(errors)))), places=6)
+
 
 class TestTooFewFrames(unittest.TestCase):
     def test_a_run_with_two_posed_frames_is_labelled_not_failed(self):
