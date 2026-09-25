@@ -147,14 +147,14 @@
       "first_frame": 27,
       "frames_posed": 11,
       "keyframes": 10,
-      "points": 459
+      "points": 582
     },
     {
       "map": 3,
       "first_frame": 48,
       "frames_posed": 6,
       "keyframes": 6,
-      "points": 340
+      "points": 397
     },
     {
       "map": 4,
@@ -171,8 +171,8 @@
     "untracked": 10
   },
   "keyframes": 10,
-  "map_points": 459,
-  "median_observations_per_point": 4.0,
+  "map_points": 582,
+  "median_observations_per_point": 3.0,
   "initialization": {
     "ref_frame": 27,
     "frame": 28,
@@ -185,11 +185,12 @@
     "median_parallax_deg": 0.9207923281772088
   },
   "stats": {
-    "local_ba_seconds": 0.6609307088656351,
+    "local_ba_seconds": 0.5639754590811208,
     "n_local_ba": 8,
     "reinit": 0,
     "relocalizations": 0,
-    "global_ba_seconds": 0.26449216704349965
+    "reopened": 0,
+    "global_ba_seconds": 0.08626420801738277
   },
   "settings": {
     "frontend": "sift",
@@ -212,6 +213,9 @@
     "pnp_reprojection_px": 4.0,
     "reloc_min_inliers": 50,
     "reloc_candidates": 30,
+    "reloc_place_candidates": 10,
+    "reloc_place_min_votes": 15,
+    "reopen_maps": true,
     "new_map_after_lost": 10,
     "kf_track_ratio": 0.9,
     "kf_ref_min_obs": 0,
@@ -230,9 +234,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 1.3460479360747764,
-    "median_px": 0.49310216022452635,
-    "observations": 1747
+    "rmse_px": 1.5221795994680738,
+    "median_px": 0.5205746791933181,
+    "observations": 2162
   },
   "K": [
     [
@@ -278,9 +282,10 @@
     "k_hypothesis": "width_scaled",
     "timestamp": "frame number"
   },
-  "runtime_seconds": 30.077439333021175,
-  "tracking_seconds": 26.517402333032805,
-  "seconds_per_frame": 0.25707213105146304,
-  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
-  "git_dirty": false
+  "runtime_seconds": 73.54245016601635,
+  "tracking_seconds": 69.56797637505224,
+  "seconds_per_frame": 0.6285679501368919,
+  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
+  "git_dirty": false,
+  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
 }

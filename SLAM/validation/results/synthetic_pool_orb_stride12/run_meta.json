@@ -36,7 +36,7 @@
       "first_frame": 0,
       "frames_posed": 20,
       "keyframes": 20,
-      "points": 1046
+      "points": 1469
     }
   ],
   "frames_posed_any_map": 20,
@@ -44,25 +44,26 @@
     "keyframe": 20
   },
   "keyframes": 20,
-  "map_points": 1046,
+  "map_points": 1469,
   "median_observations_per_point": 3.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 1,
     "model": "essential",
-    "r_h": 0.4225562774535516,
+    "r_h": 0.4225642698464419,
     "matches": 326,
     "points": 245,
     "parallax_points": 245,
     "runner_up_points": 2,
-    "median_parallax_deg": 14.975809221413725
+    "median_parallax_deg": 14.96706878622968
   },
   "stats": {
-    "local_ba_seconds": 1.063667460810393,
+    "local_ba_seconds": 0.9494472499936819,
     "n_local_ba": 18,
     "reinit": 0,
     "relocalizations": 0,
-    "global_ba_seconds": 0.13653245801106095
+    "reopened": 0,
+    "global_ba_seconds": 0.13163520797388628
   },
   "settings": {
     "frontend": "orb",
@@ -85,6 +86,9 @@
     "pnp_reprojection_px": 4.0,
     "reloc_min_inliers": 50,
     "reloc_candidates": 30,
+    "reloc_place_candidates": 10,
+    "reloc_place_min_votes": 15,
+    "reopen_maps": true,
     "new_map_after_lost": 10,
     "kf_track_ratio": 0.9,
     "kf_ref_min_obs": 0,
@@ -103,20 +107,20 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.9242032713667508,
-    "median_px": 0.5775298912298081,
-    "observations": 4070
+    "rmse_px": 0.9110607667606417,
+    "median_px": 0.5734120670962491,
+    "observations": 5497
   },
   "K": [
     [
       500.0,
       0.0,
-      320.0
+      319.5
     ],
     [
       0.0,
       500.0,
-      240.0
+      239.5
     ],
     [
       0.0,
@@ -133,9 +137,9 @@
     "undistorted": false,
     "stride": 12
   },
-  "runtime_seconds": 3.831815999990795,
-  "tracking_seconds": 3.695116250019055,
-  "seconds_per_frame": 0.19159079999953973,
-  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
+  "runtime_seconds": 3.2430880829924718,
+  "tracking_seconds": 3.1112617919570766,
+  "seconds_per_frame": 0.1621544041496236,
+  "git_commit": "e9e312c66e9e679425ca8e3e5c60420150e8fdef",
   "git_dirty": false
 }

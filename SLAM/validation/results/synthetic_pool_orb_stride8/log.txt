@@ -1,6 +1,6 @@
 synthetic_pool: 30 frames, 640x480, front end orb
   frame 0/30: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
   initialized with frames 0 and 1: homography, R_H=0.45, 369 points, runner up 196/369
-  frame 29/30: keyframe, inliers 268, map 0, keyframes 30, points 2079, median depth 0.958, 7 s
+  frame 29/30: keyframe, inliers 270, map 0, keyframes 30, points 3206, median depth 0.952, 8 s
 global bundle adjustment and final localization pass
-done: 30/30 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 30, 'keyframes': 30, 'points': 2079}]), 30 keyframes, 2079 points, 7 s. Status: {'keyframe': 30}
+done: 30/30 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 30, 'keyframes': 30, 'points': 3206}]), 30 keyframes, 3206 points, 8 s. Status: {'keyframe': 30}

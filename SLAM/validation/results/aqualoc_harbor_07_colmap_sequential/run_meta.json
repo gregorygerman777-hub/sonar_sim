@@ -2,9 +2,9 @@
   "frames_posed": 482,
   "fraction_posed": 0.4261715296198055,
   "reprojection": {
-    "mean_px": 0.2852751566199705
+    "mean_px": 0.2850163004785947
   },
-  "map_points": 99407,
+  "map_points": 99357,
   "median_observations_per_point": 7.0,
   "dataset": "aqualoc_harbor_07",
   "dataset_key": "aqualoc_harbor_07",
@@ -1150,7 +1150,7 @@
     "1": 198,
     "2": 371
   },
-  "runtime_seconds": 1213.546441875049,
+  "runtime_seconds": 322.30769516696455,
   "K": [
     [
       413.32595366566017,
@@ -1168,6 +1168,12 @@
       1.0
     ]
   ],
+  "colmap_camera_params": [
+    413.32595366566017,
+    413.70198739483686,
+    306.4507483284928,
+    259.9439948946375
+  ],
   "pycolmap_version": "4.2.0",
-  "notes": "largest model exported; fixed PINHOLE intrinsics"
+  "notes": "largest model exported; fixed PINHOLE intrinsics (principal point + 0.5 px for COLMAP's pixel convention)"
 }

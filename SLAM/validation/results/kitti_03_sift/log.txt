@@ -1,0 +1,21 @@
+kitti_03: 801 frames, 1242x375, front end sift
+  frame 0/801: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  initialized with frames 0 and 1: essential, R_H=0.27, 459 points, runner up 4/459
+  frame 50/801: keyframe, inliers 497, map 0, keyframes 51, points 5558, median depth 1.34, 15 s
+  frame 100/801: keyframe, inliers 282, map 0, keyframes 100, points 8918, median depth 1.39, 28 s
+  frame 150/801: keyframe, inliers 459, map 0, keyframes 150, points 13404, median depth 1.17, 40 s
+  frame 200/801: keyframe, inliers 318, map 0, keyframes 200, points 18233, median depth 1.27, 53 s
+  frame 250/801: keyframe, inliers 352, map 0, keyframes 250, points 22315, median depth 1.17, 63 s
+  frame 300/801: keyframe, inliers 363, map 0, keyframes 300, points 27234, median depth 1.22, 75 s
+  frame 350/801: keyframe, inliers 367, map 0, keyframes 350, points 31819, median depth 1.69, 87 s
+  frame 400/801: keyframe, inliers 119, map 0, keyframes 400, points 35712, median depth 2.38, 98 s
+  frame 450/801: keyframe, inliers 221, map 0, keyframes 450, points 39088, median depth 1.52, 109 s
+  frame 500/801: keyframe, inliers 321, map 0, keyframes 500, points 42292, median depth 1.21, 120 s
+  frame 550/801: keyframe, inliers 133, map 0, keyframes 550, points 45756, median depth 1.82, 131 s
+  frame 600/801: keyframe, inliers 132, map 0, keyframes 600, points 49125, median depth 2.44, 142 s
+  frame 650/801: keyframe, inliers 434, map 0, keyframes 650, points 53442, median depth 1.29, 153 s
+  frame 700/801: keyframe, inliers 337, map 0, keyframes 700, points 57518, median depth 4.08, 164 s
+  frame 750/801: keyframe, inliers 625, map 0, keyframes 750, points 60679, median depth 2.22, 176 s
+  frame 800/801: tracked, inliers 627, map 0, keyframes 794, points 63798, median depth 0.956, 192 s
+global bundle adjustment and final localization pass
+done: 801/801 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 801, 'keyframes': 794, 'points': 63798}]), 794 keyframes, 63798 points, 248 s. Status: {'keyframe': 794, 'tracked': 7}

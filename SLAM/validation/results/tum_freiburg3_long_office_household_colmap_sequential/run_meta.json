@@ -2,9 +2,9 @@
   "frames_posed": 862,
   "fraction_posed": 1.0,
   "reprojection": {
-    "mean_px": 0.7465211166853561
+    "mean_px": 0.7466589078790025
   },
-  "map_points": 70240,
+  "map_points": 70215,
   "median_observations_per_point": 6.0,
   "dataset": "tum_freiburg3_long_office_household",
   "dataset_key": "tum_freiburg3_long_office_household",
@@ -879,7 +879,7 @@
   "models": {
     "0": 862
   },
-  "runtime_seconds": 1253.673076749954,
+  "runtime_seconds": 670.2089807910379,
   "K": [
     [
       535.4,
@@ -897,6 +897,12 @@
       1.0
     ]
   ],
+  "colmap_camera_params": [
+    535.4,
+    539.2,
+    320.6,
+    248.1
+  ],
   "pycolmap_version": "4.2.0",
-  "notes": "largest model exported; fixed PINHOLE intrinsics"
+  "notes": "largest model exported; fixed PINHOLE intrinsics (principal point + 0.5 px for COLMAP's pixel convention)"
 }

@@ -2268,56 +2268,49 @@
     2260.0
   ],
   "frames_total": 2261,
-  "frames_posed": 502,
-  "fraction_posed": 0.22202565236620964,
-  "primary_map": 0,
+  "frames_posed": 758,
+  "fraction_posed": 0.335249889429456,
+  "primary_map": 3,
   "maps": [
     {
       "map": 0,
-      "first_frame": 0,
-      "frames_posed": 502,
-      "keyframes": 197,
-      "points": 1666
+      "first_frame": 512,
+      "frames_posed": 74,
+      "keyframes": 63,
+      "points": 2603
     },
     {
       "map": 1,
-      "first_frame": 512,
-      "frames_posed": 73,
-      "keyframes": 63,
-      "points": 2027
+      "first_frame": 752,
+      "frames_posed": 458,
+      "keyframes": 335,
+      "points": 19005
     },
     {
       "map": 2,
-      "first_frame": 752,
-      "frames_posed": 457,
-      "keyframes": 352,
-      "points": 13276
+      "first_frame": 1251,
+      "frames_posed": 400,
+      "keyframes": 278,
+      "points": 9879
     },
     {
       "map": 3,
-      "first_frame": 1251,
-      "frames_posed": 399,
-      "keyframes": 284,
-      "points": 8902
-    },
-    {
-      "map": 4,
-      "first_frame": 1694,
-      "frames_posed": 243,
-      "keyframes": 143,
-      "points": 5083
+      "first_frame": 0,
+      "frames_posed": 758,
+      "keyframes": 330,
+      "points": 8647
     }
   ],
-  "frames_posed_any_map": 1674,
+  "frames_posed_any_map": 1690,
   "status_counts": {
-    "keyframe": 197,
-    "localized_after": 2,
-    "tracked": 303,
-    "untracked": 10
+    "keyframe": 330,
+    "localized_after": 8,
+    "tracked": 420,
+    "untracked": 321
   },
-  "keyframes": 197,
-  "map_points": 1666,
-  "median_observations_per_point": 11.0,
+  "keyframes": 330,
+  "map_points": 8647,
+  "median_observations_per_point": 7.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 3,
@@ -2330,11 +2323,12 @@
     "median_parallax_deg": 0.9892570442476848
   },
   "stats": {
-    "local_ba_seconds": 19.922275125572924,
-    "n_local_ba": 195,
+    "local_ba_seconds": 33.22825307509629,
+    "n_local_ba": 328,
     "reinit": 0,
-    "relocalizations": 0,
-    "global_ba_seconds": 2.3242699169786647
+    "relocalizations": 1,
+    "reopened": 1,
+    "global_ba_seconds": 4.445320833008736
   },
   "settings": {
     "frontend": "sift",
@@ -2357,6 +2351,9 @@
     "pnp_reprojection_px": 4.0,
     "reloc_min_inliers": 50,
     "reloc_candidates": 30,
+    "reloc_place_candidates": 10,
+    "reloc_place_min_votes": 15,
+    "reopen_maps": true,
     "new_map_after_lost": 10,
     "kf_track_ratio": 0.9,
     "kf_ref_min_obs": 0,
@@ -2375,9 +2372,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.7448555819220456,
-    "median_px": 0.19445685318791867,
-    "observations": 23321
+    "rmse_px": 0.8070351625887714,
+    "median_px": 0.21138197625384403,
+    "observations": 92922
   },
   "K": [
     [
@@ -2405,9 +2402,9 @@
     "timestamp": "image number",
     "undistorted": true
   },
-  "runtime_seconds": 503.7166688750149,
-  "tracking_seconds": 456.6955842919997,
-  "seconds_per_frame": 0.2227849044117713,
-  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
+  "runtime_seconds": 454.1153649580083,
+  "tracking_seconds": 436.78928725002334,
+  "seconds_per_frame": 0.20084713178151628,
+  "git_commit": "cb9f1f8e3b1d51096bb814269fca0526cefc8617",
   "git_dirty": false
 }

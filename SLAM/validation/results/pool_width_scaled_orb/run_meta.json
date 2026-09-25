@@ -124,8 +124,8 @@
     117.0
   ],
   "frames_total": 117,
-  "frames_posed": 10,
-  "fraction_posed": 0.08547008547008547,
+  "frames_posed": 11,
+  "fraction_posed": 0.09401709401709402,
   "primary_map": 2,
   "maps": [
     {
@@ -145,26 +145,26 @@
     {
       "map": 2,
       "first_frame": 27,
-      "frames_posed": 10,
-      "keyframes": 10,
-      "points": 290
+      "frames_posed": 11,
+      "keyframes": 11,
+      "points": 659
     },
     {
       "map": 3,
-      "first_frame": 48,
-      "frames_posed": 2,
-      "keyframes": 2,
-      "points": 162
+      "first_frame": 49,
+      "frames_posed": 3,
+      "keyframes": 3,
+      "points": 107
     }
   ],
-  "frames_posed_any_map": 19,
+  "frames_posed_any_map": 21,
   "status_counts": {
-    "keyframe": 10,
+    "keyframe": 11,
     "untracked": 11
   },
-  "keyframes": 10,
-  "map_points": 290,
-  "median_observations_per_point": 4.0,
+  "keyframes": 11,
+  "map_points": 659,
+  "median_observations_per_point": 3.0,
   "initialization": {
     "ref_frame": 27,
     "frame": 29,
@@ -177,11 +177,12 @@
     "median_parallax_deg": 7.175414004196941
   },
   "stats": {
-    "local_ba_seconds": 0.255237792909611,
-    "n_local_ba": 8,
+    "local_ba_seconds": 0.1446197089389898,
+    "n_local_ba": 9,
     "reinit": 0,
-    "relocalizations": 1,
-    "global_ba_seconds": 0.26842662499984726
+    "relocalizations": 2,
+    "reopened": 0,
+    "global_ba_seconds": 0.055317291989922523
   },
   "settings": {
     "frontend": "orb",
@@ -204,6 +205,9 @@
     "pnp_reprojection_px": 4.0,
     "reloc_min_inliers": 50,
     "reloc_candidates": 30,
+    "reloc_place_candidates": 10,
+    "reloc_place_min_votes": 15,
+    "reopen_maps": true,
     "new_map_after_lost": 10,
     "kf_track_ratio": 0.9,
     "kf_ref_min_obs": 0,
@@ -222,9 +226,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 1.3686418626744867,
-    "median_px": 0.89460257639874,
-    "observations": 1127
+    "rmse_px": 1.3319296379984193,
+    "median_px": 0.815403514890914,
+    "observations": 2335
   },
   "K": [
     [
@@ -270,9 +274,10 @@
     "k_hypothesis": "width_scaled",
     "timestamp": "frame number"
   },
-  "runtime_seconds": 29.795410334016196,
-  "tracking_seconds": 27.688788500032388,
-  "seconds_per_frame": 0.2546616267864632,
-  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
-  "git_dirty": false
+  "runtime_seconds": 14.963452375028282,
+  "tracking_seconds": 14.511013792012818,
+  "seconds_per_frame": 0.12789275534212208,
+  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
+  "git_dirty": false,
+  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
 }

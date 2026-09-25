@@ -2,7 +2,7 @@ pool_raw: 59 frames, 1024x768, front end sift
   frame 0/59: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
   initialized with frames 0 and 1: homography, R_H=0.48, 199 points, runner up 12/199
   frame 11: lost for 10 frames, closing map 0 and starting a new map
-  frame 50/59: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 6 s
-  frame 58/59: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 7 s
+  frame 50/59: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 17 s
+  frame 58/59: untracked, inliers 0, map 1, keyframes 0, points 0, median depth nan, 20 s
 global bundle adjustment and final localization pass
-done: 2/59 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 2, 'keyframes': 2, 'points': 199}]), 2 keyframes, 199 points, 7 s. Status: {'keyframe': 2, 'untracked': 10}
+done: 2/59 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 2, 'keyframes': 2, 'points': 199}]), 2 keyframes, 199 points, 20 s. Status: {'keyframe': 2, 'untracked': 10}

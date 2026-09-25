@@ -3,8 +3,8 @@ synthetic_pool_caustics: 120 frames, 640x480, front end orb
   initialized with frames 0 and 1: homography, R_H=0.47, 111 points, runner up 41/111
   frame 11: lost for 10 frames, closing map 0 and starting a new map
   initialized with frames 12 and 13: essential, R_H=0.45, 125 points, runner up 3/125
-  frame 50/120: keyframe, inliers 73, map 1, keyframes 39, points 540, median depth 0.868, 6 s
-  frame 100/120: keyframe, inliers 58, map 1, keyframes 89, points 867, median depth 0.94, 13 s
-  frame 119/120: keyframe, inliers 57, map 1, keyframes 108, points 1043, median depth 1.11, 16 s
+  frame 50/120: keyframe, inliers 76, map 1, keyframes 39, points 1032, median depth 0.937, 7 s
+  frame 100/120: keyframe, inliers 59, map 1, keyframes 89, points 2340, median depth 0.915, 22 s
+  frame 119/120: keyframe, inliers 62, map 1, keyframes 108, points 2868, median depth 1.08, 27 s
 global bundle adjustment and final localization pass
-done: 108/120 frames posed by the primary map (2 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 2, 'keyframes': 2, 'points': 111}, {'map': 1, 'first_frame': 12, 'frames_posed': 108, 'keyframes': 108, 'points': 1043}]), 108 keyframes, 1043 points, 17 s. Status: {'keyframe': 108}
+done: 108/120 frames posed by the primary map (2 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 2, 'keyframes': 2, 'points': 111}, {'map': 1, 'first_frame': 12, 'frames_posed': 108, 'keyframes': 108, 'points': 2868}]), 108 keyframes, 2868 points, 28 s. Status: {'keyframe': 108}

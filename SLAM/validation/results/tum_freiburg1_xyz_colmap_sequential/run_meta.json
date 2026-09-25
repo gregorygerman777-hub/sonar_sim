@@ -1,7 +1,10 @@
 {
   "frames_posed": 798,
   "fraction_posed": 1.0,
-  "map_points": 35138,
+  "reprojection": {
+    "mean_px": 0.8475244629052203
+  },
+  "map_points": 35205,
   "median_observations_per_point": 6.0,
   "dataset": "tum_freiburg1_xyz",
   "dataset_key": "tum_freiburg1_xyz",
@@ -812,7 +815,7 @@
   "models": {
     "0": 798
   },
-  "runtime_seconds": 2578.0620555829955,
+  "runtime_seconds": 2765.145320874988,
   "K": [
     [
       517.3,
@@ -830,6 +833,12 @@
       1.0
     ]
   ],
+  "colmap_camera_params": [
+    517.3,
+    516.5,
+    319.1,
+    255.8
+  ],
   "pycolmap_version": "4.2.0",
-  "notes": "largest model exported; fixed PINHOLE intrinsics"
+  "notes": "largest model exported; fixed PINHOLE intrinsics (principal point + 0.5 px for COLMAP's pixel convention)"
 }

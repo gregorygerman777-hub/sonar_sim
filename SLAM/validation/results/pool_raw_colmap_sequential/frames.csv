@@ -1,8 +1,8 @@
 index,timestamp,status,inliers
-0,1.000000000,untracked,0
-1,2.000000000,untracked,0
-2,3.000000000,untracked,0
-3,4.000000000,untracked,0
+0,1.000000000,registered,0
+1,2.000000000,registered,0
+2,3.000000000,registered,0
+3,4.000000000,registered,0
 4,5.000000000,registered,0
 5,6.000000000,registered,0
 6,7.000000000,registered,0

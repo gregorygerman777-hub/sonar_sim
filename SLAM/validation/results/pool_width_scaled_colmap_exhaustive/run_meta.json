@@ -2,9 +2,9 @@
   "frames_posed": 117,
   "fraction_posed": 1.0,
   "reprojection": {
-    "mean_px": 0.9363971269576854
+    "mean_px": 0.9396704143856822
   },
-  "map_points": 12117,
+  "map_points": 12154,
   "median_observations_per_point": 3.0,
   "dataset": "pool_width_scaled",
   "dataset_key": "pool_width_scaled",
@@ -134,7 +134,7 @@
   "models": {
     "0": 117
   },
-  "runtime_seconds": 379.97391820902703,
+  "runtime_seconds": 188.11732554197079,
   "K": [
     [
       1507.967978716219,
@@ -152,6 +152,12 @@
       1.0
     ]
   ],
+  "colmap_camera_params": [
+    1507.967978716219,
+    1403.4610865271711,
+    512.5,
+    393.41565856150174
+  ],
   "pycolmap_version": "4.2.0",
-  "notes": "largest model exported; fixed PINHOLE intrinsics"
+  "notes": "largest model exported; fixed PINHOLE intrinsics (principal point + 0.5 px for COLMAP's pixel convention)"
 }

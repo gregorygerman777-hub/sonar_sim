@@ -1,0 +1,23 @@
+kitti_03: 801 frames, 1242x375, front end orb
+  frame 0/801: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  initialized with frames 0 and 1: essential, R_H=0.34, 226 points, runner up 0/226
+  frame 50/801: keyframe, inliers 275, map 0, keyframes 51, points 3580, median depth 1.83, 3 s
+  frame 100/801: keyframe, inliers 169, map 0, keyframes 97, points 5571, median depth 1.35, 8 s
+  frame 150/801: keyframe, inliers 269, map 0, keyframes 147, points 9408, median depth 1.08, 12 s
+  frame 200/801: keyframe, inliers 161, map 0, keyframes 197, points 12566, median depth 1.54, 17 s
+  frame 250/801: keyframe, inliers 202, map 0, keyframes 247, points 15602, median depth 1.24, 21 s
+  frame 300/801: keyframe, inliers 192, map 0, keyframes 297, points 18768, median depth 1.3, 25 s
+  frame 350/801: keyframe, inliers 255, map 0, keyframes 347, points 22420, median depth 1.48, 30 s
+  frame 400/801: untracked, inliers 0, map 0, keyframes 392, points 24738, median depth 1.27, 34 s
+  frame 405: lost for 10 frames, closing map 0 and starting a new map
+  initialized with frames 406 and 410: essential, R_H=0.39, 160 points, runner up 1/160
+  frame 450/801: keyframe, inliers 126, map 1, keyframes 42, points 2821, median depth 0.164, 39 s
+  frame 500/801: keyframe, inliers 216, map 1, keyframes 92, points 5636, median depth 0.137, 43 s
+  frame 550/801: keyframe, inliers 108, map 1, keyframes 142, points 8721, median depth 0.194, 48 s
+  frame 600/801: keyframe, inliers 99, map 1, keyframes 192, points 11101, median depth 0.246, 52 s
+  frame 650/801: keyframe, inliers 348, map 1, keyframes 242, points 14943, median depth 0.19, 57 s
+  frame 700/801: keyframe, inliers 389, map 1, keyframes 292, points 18508, median depth 0.37, 63 s
+  frame 750/801: keyframe, inliers 538, map 1, keyframes 337, points 21231, median depth 0.24, 68 s
+  frame 800/801: keyframe, inliers 462, map 1, keyframes 374, points 23440, median depth 0.154, 75 s
+global bundle adjustment and final localization pass
+done: 396/801 frames posed by the primary map (2 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 396, 'keyframes': 392, 'points': 24738}, {'map': 1, 'first_frame': 406, 'frames_posed': 394, 'keyframes': 374, 'points': 23440}]), 392 keyframes, 24738 points, 97 s. Status: {'keyframe': 392, 'tracked': 4, 'untracked': 10}

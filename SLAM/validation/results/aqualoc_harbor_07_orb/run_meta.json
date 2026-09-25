@@ -2276,33 +2276,33 @@
       "map": 0,
       "first_frame": 0,
       "frames_posed": 742,
-      "keyframes": 483,
-      "points": 20989
+      "keyframes": 480,
+      "points": 27190
     },
     {
       "map": 1,
       "first_frame": 752,
       "frames_posed": 947,
-      "keyframes": 792,
-      "points": 31474
+      "keyframes": 760,
+      "points": 43463
     },
     {
       "map": 2,
       "first_frame": 1740,
-      "frames_posed": 375,
-      "keyframes": 239,
-      "points": 7758
+      "frames_posed": 377,
+      "keyframes": 260,
+      "points": 12865
     }
   ],
-  "frames_posed_any_map": 2064,
+  "frames_posed_any_map": 2066,
   "status_counts": {
-    "keyframe": 792,
-    "tracked": 155,
+    "keyframe": 760,
+    "tracked": 187,
     "untracked": 41
   },
-  "keyframes": 792,
-  "map_points": 31474,
-  "median_observations_per_point": 8.0,
+  "keyframes": 760,
+  "map_points": 43463,
+  "median_observations_per_point": 6.0,
   "initialization": {
     "ref_frame": 783,
     "frame": 784,
@@ -2315,11 +2315,12 @@
     "median_parallax_deg": 2.089267794422284
   },
   "stats": {
-    "local_ba_seconds": 237.65892541431822,
-    "n_local_ba": 790,
+    "local_ba_seconds": 182.43161450786283,
+    "n_local_ba": 758,
     "reinit": 0,
     "relocalizations": 0,
-    "global_ba_seconds": 103.18323712499114
+    "reopened": 0,
+    "global_ba_seconds": 169.8177967920201
   },
   "settings": {
     "frontend": "orb",
@@ -2342,6 +2343,9 @@
     "pnp_reprojection_px": 4.0,
     "reloc_min_inliers": 50,
     "reloc_candidates": 30,
+    "reloc_place_candidates": 10,
+    "reloc_place_min_votes": 15,
+    "reopen_maps": true,
     "new_map_after_lost": 10,
     "kf_track_ratio": 0.9,
     "kf_ref_min_obs": 0,
@@ -2360,9 +2364,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.9985672453953772,
-    "median_px": 0.5937948098939012,
-    "observations": 362232
+    "rmse_px": 0.9937052031861718,
+    "median_px": 0.5845821724443212,
+    "observations": 399305
   },
   "K": [
     [
@@ -2390,9 +2394,10 @@
     "timestamp": "image number",
     "undistorted": true
   },
-  "runtime_seconds": 943.0383723339764,
-  "tracking_seconds": 734.8495975839905,
-  "seconds_per_frame": 0.417089063394063,
-  "git_commit": "6fc045dabf2a978457977fec6fedde28d6882e61",
-  "git_dirty": false
+  "runtime_seconds": 785.504282666021,
+  "tracking_seconds": 546.5707287080004,
+  "seconds_per_frame": 0.3474145434170814,
+  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
+  "git_dirty": false,
+  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
 }

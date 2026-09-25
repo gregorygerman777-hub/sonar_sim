@@ -1,0 +1,29 @@
+kitti_10: 1201 frames, 1226x370, front end orb
+  frame 0/1201: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
+  initialized with frames 0 and 4: essential, R_H=0.36, 143 points, runner up 2/143
+  frame 50/1201: keyframe, inliers 215, map 0, keyframes 48, points 3173, median depth 0.731, 10 s
+  frame 100/1201: keyframe, inliers 181, map 0, keyframes 98, points 5866, median depth 1.04, 21 s
+  frame 150/1201: keyframe, inliers 157, map 0, keyframes 148, points 9028, median depth 0.641, 31 s
+  frame 200/1201: keyframe, inliers 111, map 0, keyframes 198, points 10966, median depth 0.714, 39 s
+  frame 250/1201: keyframe, inliers 134, map 0, keyframes 248, points 13504, median depth 0.795, 48 s
+  frame 300/1201: keyframe, inliers 123, map 0, keyframes 298, points 16025, median depth 0.723, 57 s
+  frame 350/1201: keyframe, inliers 171, map 0, keyframes 348, points 18601, median depth 0.54, 66 s
+  frame 400/1201: keyframe, inliers 262, map 0, keyframes 398, points 21839, median depth 1.19, 76 s
+  frame 450/1201: keyframe, inliers 187, map 0, keyframes 448, points 24759, median depth 0.588, 85 s
+  frame 500/1201: keyframe, inliers 91, map 0, keyframes 498, points 27677, median depth 0.628, 95 s
+  frame 550/1201: keyframe, inliers 121, map 0, keyframes 548, points 30199, median depth 0.587, 103 s
+  frame 600/1201: keyframe, inliers 195, map 0, keyframes 598, points 33154, median depth 0.543, 112 s
+  frame 650/1201: keyframe, inliers 360, map 0, keyframes 647, points 36227, median depth 0.665, 128 s
+  frame 700/1201: keyframe, inliers 197, map 0, keyframes 697, points 40097, median depth 0.765, 144 s
+  frame 750/1201: keyframe, inliers 234, map 0, keyframes 747, points 42845, median depth 0.771, 155 s
+  frame 800/1201: keyframe, inliers 124, map 0, keyframes 797, points 45737, median depth 0.724, 164 s
+  frame 850/1201: keyframe, inliers 262, map 0, keyframes 847, points 49076, median depth 0.84, 173 s
+  frame 900/1201: keyframe, inliers 120, map 0, keyframes 897, points 52393, median depth 0.297, 186 s
+  frame 950/1201: keyframe, inliers 278, map 0, keyframes 947, points 55661, median depth 1.26, 195 s
+  frame 1000/1201: keyframe, inliers 286, map 0, keyframes 995, points 58036, median depth 0.632, 212 s
+  frame 1050/1201: keyframe, inliers 143, map 0, keyframes 1045, points 60593, median depth 1.25, 222 s
+  frame 1100/1201: keyframe, inliers 136, map 0, keyframes 1095, points 63345, median depth 0.902, 232 s
+  frame 1150/1201: keyframe, inliers 204, map 0, keyframes 1143, points 66009, median depth 0.215, 246 s
+  frame 1200/1201: keyframe, inliers 323, map 0, keyframes 1180, points 67069, median depth 0.535, 256 s
+global bundle adjustment and final localization pass
+done: 1201/1201 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 1201, 'keyframes': 1180, 'points': 67069}]), 1180 keyframes, 67069 points, 507 s. Status: {'keyframe': 1180, 'localized_after': 3, 'tracked': 18}
