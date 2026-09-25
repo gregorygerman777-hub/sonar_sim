@@ -31,6 +31,7 @@ from monoslam import export, geometry as geo  # noqa: E402
 
 C_EST, C_GT, C_BASE = "#2563eb", "#111827", "#f59e0b"
 DPI = 200
+MAX_HTML_POINTS = 100_000   # interactive overlay only (a KITTI map has up to 413,000 points); the PNGs show every point
 
 
 def statistical_filter(xyz, k=8, n_std=2.0):
@@ -273,6 +274,10 @@ def _interactive(path, cloud, rgb, traj, gt, title, units):
     except ImportError:
         return
     data = []
+    if len(cloud) > MAX_HTML_POINTS:          # a random subset with a fixed seed, said in the title
+        keep = np.sort(np.random.default_rng(0).choice(len(cloud), MAX_HTML_POINTS, replace=False))
+        title = f"{title} ({MAX_HTML_POINTS:,} of {len(cloud):,} map points shown)"
+        cloud, rgb = cloud[keep], (rgb[keep] if rgb is not None else None)
     if len(cloud):
         col = [f"rgb({r},{g},{b})" for r, g, b in rgb] if rgb is not None else "gray"
         data.append(go.Scatter3d(x=cloud[:, 0], y=cloud[:, 1], z=cloud[:, 2], mode="markers",
