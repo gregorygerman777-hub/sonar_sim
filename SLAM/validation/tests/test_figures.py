@@ -73,6 +73,18 @@ class TestRunWithoutPoses(unittest.TestCase):
             self.assertFalse(out.exists() and any(out.iterdir()))
 
 
+class TestViewPlane(unittest.TestCase):
+    def test_the_same_map_gives_the_same_view_on_every_call(self):
+        """The RANSAC generator was a default argument, created once: a second figure drawn in the same process
+        continued its random stream, so the view depended on what had been drawn before."""
+        rng = np.random.default_rng(3)
+        floor = np.column_stack((rng.uniform(-5, 5, (2000, 2)), rng.normal(0, 0.05, 2000)))
+        clutter = rng.uniform(-5, 5, (800, 3))
+        xyz, centres = np.vstack((floor, clutter)), np.array([[0.0, 0.0, 2.0]])
+        first = make_figures.dominant_plane_normal(xyz, centres)
+        np.testing.assert_array_equal(make_figures.dominant_plane_normal(xyz, centres), first)
+
+
 class TestStatusLine(unittest.TestCase):
     def test_too_few_posed_is_not_called_no_ground_truth(self):
         meta = dict(frames_posed=2, frames_total=60)

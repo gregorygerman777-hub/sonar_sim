@@ -40,6 +40,28 @@ def colmap_pinhole_params(K):
     return [float(K[0, 0]), float(K[1, 1]), float(K[0, 2]) + 0.5, float(K[1, 2]) + 0.5]
 
 
+# What a COLMAP run and its evaluation write into the run directory, and what export_pool_deliverable.py makes from
+# the model in <run>/export/.
+RUN_OUTPUTS = ("trajectory_tum.txt", "points.ply", "frames.csv", "run_meta.json", "metrics.json",
+               "aligned_estimate_tum.txt", "associated_gt_tum.txt")
+EXPORT_OUTPUTS = ("pool_reconstruction.mat", "camera_trajectory.csv", "model.ply", "README.txt")
+
+
+def clear_previous_run(out):
+    """Remove the outputs of an earlier run in `out`, and the data export made from its model, so that a rerun leaves
+    only its own (a rerun that builds no model would otherwise keep the earlier frames.csv and scores; see
+    run_slam.clear_previous_run, CHANGELOG entries 21 and 25). Files a run does not write are left alone."""
+    out = Path(out)
+    for name in RUN_OUTPUTS:
+        (out / name).unlink(missing_ok=True)
+    export = out / "export"
+    if export.is_dir():
+        for name in EXPORT_OUTPUTS:
+            (export / name).unlink(missing_ok=True)
+        if not any(export.iterdir()):
+            export.rmdir()
+
+
 def check_overwrite(out, stride, overwrite=False):
     """The output name has no stride in it (the reported fr3 and AQUALOC runs use every 3rd and 2nd frame under the
     plain name), so refuse to replace an existing run made with a different stride."""
@@ -67,6 +89,7 @@ def main():
     out = args.out / name
     check_overwrite(out, args.stride, args.overwrite)
     out.mkdir(parents=True, exist_ok=True)
+    clear_previous_run(out)
     work = args.work / name
     if work.exists():
         shutil.rmtree(work)

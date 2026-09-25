@@ -29,6 +29,24 @@ class TestColmapOverwriteGuard(unittest.TestCase):
             run_colmap.check_overwrite(Path(d) / "new_run", stride=2)  # nothing there yet
 
 
+class TestColmapRerun(unittest.TestCase):
+    """run_colmap.py overwrote only what a run with a model writes. A rerun that built no model would have kept the
+    earlier run's frames.csv, scores and pool export next to its own empty trajectory (as entry 21 for run_slam.py)."""
+
+    def test_rerun_removes_the_earlier_runs_outputs(self):
+        import run_colmap
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d)
+            for name in ("trajectory_tum.txt", "points.ply", "frames.csv", "run_meta.json", "metrics.json",
+                         "aligned_estimate_tum.txt", "associated_gt_tum.txt", "notes.txt"):
+                (run / name).write_text("earlier run")
+            (run / "export").mkdir()
+            for name in ("pool_reconstruction.mat", "camera_trajectory.csv", "model.ply", "README.txt"):
+                (run / "export" / name).write_text("earlier model")
+            run_colmap.clear_previous_run(run)
+            self.assertEqual(sorted(p.name for p in run.iterdir()), ["notes.txt"])   # only a run's own outputs go
+
+
 class _FakeSequence:
     name, K, size, notes = "fake", [[100.0, 0, 16], [0, 100.0, 12], [0, 0, 1]], (32, 24), ""
 

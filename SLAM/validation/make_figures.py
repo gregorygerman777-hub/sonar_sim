@@ -43,9 +43,10 @@ def statistical_filter(xyz, k=8, n_std=2.0):
     return m < m.mean() + n_std * m.std()
 
 
-def dominant_plane_normal(xyz, centers, rng=np.random.default_rng(0), iters=500):
+def dominant_plane_normal(xyz, centers, rng=None, iters=500):
     if len(xyz) < 50:
         return None
+    rng = np.random.default_rng(0) if rng is None else rng   # a fresh generator per call: the same map, the same view
     scale = np.median(np.linalg.norm(xyz - np.median(xyz, 0), axis=1))
     thresh = 0.02 * scale
     best, best_n = 0, None

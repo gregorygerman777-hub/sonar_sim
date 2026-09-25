@@ -130,8 +130,7 @@ been sent. Greg reads the PDF and the draft and sends.
   figure fixes) reproduced every metric.
 * **Code errors found and fixed on 2026-09-24** (tests fail on the old code): CHANGELOG entries 21 to 24.
 
-**Open, not started** (none of it was asked for): KITTI 02 ORB now splits into 2 maps and was not traced (03 was: a
-knife edge at the 30 inlier minimum, evidence in `~/sonar_work/diag/kitti_03_knife_edge/`); no loop closure (most of
+**Open, not started** (none of it was asked for): KITTI 02 and 03 ORB now split into 2 maps (both traced to a knife
+edge at the 30 inlier minimum, evidence in `~/sonar_work/diag/kitti_0{2,3}_knife_edge/`); no loop closure (most of
 the KITTI error is scale drift); no map merging; the pool scale needs the real lane stripe width; whether
-OSCalibration.mat uses 1 based pixel coordinates (1 px on the principal point); `run_colmap.py` does not clear an
-earlier run's outputs (only matters if COLMAP ever builds no model).
+OSCalibration.mat uses 1 based pixel coordinates (1 px on the principal point).

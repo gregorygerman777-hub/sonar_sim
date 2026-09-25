@@ -113,8 +113,9 @@ What it shows:
 * **COLMAP** is more accurate on 04 (0.65 m against 1.05 and 1.20 m). On the 07 loop, with no loop detection, it
   drifts as our SLAM does: 16.98 m, against 16.61 m (SIFT) and 10.11 m (ORB, over the 1060 frames of its main map).
 * **Effect of the fixes.** With ORB, 02 and 03 now lose track once where the code before entries 15 to 19 tracked
-  every frame. On 03 that was traced to a knife edge: the tracked inliers fall exactly to the minimum of 30 at frame
-  395 in every version of the code (`CHANGELOG.md`, after entry 19).
+  every frame. Both were traced to a knife edge: in every version of the code the tracked inliers fall to the minimum
+  of 30 at the same frame (03: frame 395; 02: frame 2291, where the old code kept 32 and the new one fell below 30),
+  and the old code happened to hold on (`CHANGELOG.md`, after entry 19).
 
 ## Figures
 
@@ -357,8 +358,9 @@ before and after numbers.
 * Maps are not merged after a tracking loss (a closed map is only reopened when the camera relocalizes in it), so a
   run that loses track reports its largest map as primary. With ORB, 7 of the 11 KITTI sequences lose track at least
   once.
-* Tracking can sit on a knife edge: on KITTI 03 with ORB the tracked inliers fall exactly to the minimum of 30 at
-  frame 395, and whether the run holds there depended on small, correct code changes (`CHANGELOG.md`, after entry 19).
+* Tracking can sit on a knife edge: on KITTI 02 and 03 with ORB the tracked inliers fall to the minimum of 30 (at
+  frames 2291 and 395), and whether the run holds there depended on small, correct code changes (`CHANGELOG.md`, after
+  entry 19).
 * On KITTI a keyframe is made on 91 to 100 % of the posed frames (the forward motion moves points out of view quickly),
   which makes the runs slow and the maps dense. It was left as is.
 * Python implementation: about 0.1 to 1.3 s per frame. That's fine for validation but not real time.

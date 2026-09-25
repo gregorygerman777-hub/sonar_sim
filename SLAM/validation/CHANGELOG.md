@@ -337,7 +337,11 @@ these numbers existed):
   refactored code with the old behaviour reproduces the old run exactly (801/801 frames, ATE 1.2452 m); with either
   fix of entry 16 alone the run splits; turning entry 15 off changes nothing. In every version the tracked inliers fall
   to 30 at frame 395, the minimum (`track_min_inliers`); the old version stayed at exactly 30 for one more frame and
-  then recovered. That is a knife edge, not a code error. KITTI 02 was not traced.
+  then recovered. That is a knife edge, not a code error.
+* **KITTI 02 was traced the same way** (2026-09-25, first 2400 frames, `~/sonar_work/diag/kitti_02_knife_edge/`; the
+  copy of the current code reproduces the committed run's status and inliers at all 2400 frames). Both versions lose
+  inliers identically from frame 2282 (about 150) to 2290 (38 and 36). At frame 2291 the old behaviour keeps 32, just
+  above the minimum of 30, and recovers; the new one falls below 30 and a new map starts at 2301. Also a knife edge.
 * **Mixed:** KITTI 00 ORB's main map grows from 2693 to 3540 of the 4541 frames (3 maps instead of 4), and its ATE
   from 44.38 to 53.85 m over that longer stretch (1.89 to 1.79 % of it).
 * The other runs change less: on KITTI by at most 0.7 m, except 06 ORB (50.93 to 54.83 m); on the other datasets by
@@ -431,3 +435,14 @@ these numbers existed):
 * **Presentation:** in the 3D views the map points could be drawn over the trajectory (matplotlib sorts 3D artists by
   depth); the trajectory, ground truth and camera frustums are now always drawn on top. On flat scenes (a street, a
   pool floor) the vertical axis labels overlapped; that axis now has at most 3 ticks.
+
+## 25. Two latent errors of the same kind as entries 21 and 24 (fixed; no result changes)
+
+* `run_colmap.py` overwrote only what a run with a model writes, so a rerun that built no model would have kept the
+  earlier run's `frames.csv`, scores and pool export beside its own empty trajectory. It now removes them first
+  (`clear_previous_run`, like `run_slam.py`). No committed COLMAP run built zero models, so nothing changed.
+  `tests/test_run_names.py::TestColmapRerun` fails on the old code.
+* `make_figures.dominant_plane_normal` created its random generator once, as a default argument, so a second figure
+  drawn in the same process continued the stream and could get a different view of the same map. Each call now starts
+  its own generator. Every figure is drawn in its own process, so no committed figure changes.
+  `tests/test_figures.py::TestViewPlane` fails on the old code.
