@@ -127,8 +127,10 @@ been sent. Greg reads the PDF and the draft and sends.
   `~/sonar_work/for_dr_negahdaripour/`: the PDF, `.mat`, `.csv`, `.ply` and README, identical to the committed files.
 * **Checks:** `~/sonar_work/tools/audit_runs.py --scored` prints `problems: 0`; `check_report.py` finds every REPORT.md
   number in the results; all unit tests pass. The last `run_all.sh --only-eval` pass (after CHANGELOG entry 24, the
-  figure fixes) reproduced every metric.
-* **Code errors found and fixed on 2026-09-24** (tests fail on the old code): CHANGELOG entries 21 to 24.
+  figure fixes) reproduced every metric; after the SIFT reruns only SIFT rows changed.
+* **Code errors found and fixed on 2026-09-24 and 25** (tests fail on the old code): CHANGELOG entries 21 to 26. Entry 26:
+  OpenCV's SIFT keypoints were 0.25 px off (measured); fixed, all 22 SIFT runs rerun and rescored (fr3 SIFT moved from
+  5.28 to 7.33 cm, the drift of that loop is that sensitive; nothing else of note).
 
 **Open, not started** (none of it was asked for): KITTI 02 and 03 ORB now split into 2 maps (both traced to a knife
 edge at the 30 inlier minimum, evidence in `~/sonar_work/diag/kitti_0{2,3}_knife_edge/`); no loop closure (most of
