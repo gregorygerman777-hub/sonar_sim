@@ -113,54 +113,33 @@ scores are saved in `~/sonar_work/before_entry15_17/`. When it ends: `run_all.sh
 --only-eval`, then CHANGELOG 15 to 17, REPORT.md (every number, plus a KITTI section), `report_summary.json` (KITTI
 page), the email draft and `~/sonar_work/for_dr_negahdaripour/`.
 
-## START HERE (next session): state at 18:10 on 2026-09-24
+## START HERE (next session): state at 23:15 on 2026-09-24
 
-Greg's instruction: no errors in the code; rerun anything that failed; report results honestly (never tune on ground
-truth). Nothing has been sent to Dr. Negahdaripour and nothing has been pushed.
+Everything in the 18:10 plan is done and committed on `main` (not pushed). Nothing has been sent.
 
-**Done and committed on `main`** (tests: 31, all pass except the RUN_SLOW fr3 test, which passed separately):
-* Code errors fixed, each with a test that fails on the old code (CHANGELOG entries still to write, numbers ready):
-  15 item 3, relocalization over the whole map and reopening closed maps (`bb5c9f7`); 16 visibility counted once per
-  frame and found ratio culling only for recent points (`71cfea5`); 17 COLMAP principal point + 0.5 px for COLMAP's
-  pixel convention, measured (`b8e7b50`); 18 `export.git_commit` counted rewritten results as modified code
-  (`55f6007`; the 48 affected run_meta.json files were corrected with a `git_dirty_note`); 19 synthetic `K.txt` was
-  half a pixel off in OpenCV's convention (`0c65de5`; the K.txt files on disk were corrected, images unchanged);
-  20 unscorable runs labelled TOO FEW POSED, not FAILED (`3335221`). Also `a781145`, `e9e312c` (export README states
-  the pixel convention for MATLAB).
-* Every SLAM run was rerun with the final code: 49 runs, all complete (`~/sonar_work/tools/audit_runs.py`).
-  Before and after table: `~/sonar_work/tools/before_after_2026-09-24.md` (pre-fix KITTI metrics:
-  `~/sonar_work/before_entry15_17/`). Findings to record: fr1/xyz ORB 3.89 to 1.58 cm; fr3 ORB 5.77 to 7.72 cm and SIFT
-  7.28 to 5.28 cm; AQUALOC SIFT main map 502 to 758 frames (a closed map was reopened); KITTI 02 and 03 ORB now split
-  in two maps. KITTI 03 was diagnosed: the refactor reproduces the old result exactly (1.2452 m); each fix alone
-  causes the split; both versions fall to exactly 30 inliers (the minimum) at frame 395, the old one held one frame
-  longer, i.e. a knife edge, not a code error. Item 3 fired in the rerun only in AQUALOC SIFT (1 reopen) and
-  pool_width_scaled ORB (2 relocalizations).
-* `calibration_board.py` (old sonar code) works once `data_external/sonar_extrinsics` is linked (done) and reproduces
-  its committed results exactly.
+* **Reruns:** every SLAM run and COLMAP baseline was made with the final code. `~/sonar_work/tools/audit_runs.py
+  --scored` prints `problems: 0`; it now also checks each run's own log, its map directories against run_meta.json,
+  its pose count, and that the SLAM code at the commit it recorded equals HEAD. The old session's background jobs were
+  killed when it closed (18:30); jobs started from a session die with it, so keep the session open while they run.
+* **Code errors found and fixed this session** (each with a test that fails on the old code; CHANGELOG 21 to 23): a
+  rerun kept the earlier run's `maps/map_k` (aqualoc_harbor_07_sift, kitti_00_orb; both rerun, bit identical); the
+  commit was read when a run ended (kitti_08_sift rerun, bit identical); `log.txt` never closed; evo picked RPE pairs
+  along the estimate (KITTI RPE was off by up to a factor of 2.4); summary map count; the PDF tables' sequence length
+  and "failed" label; an empty trajectory warning; the interactive overlay capped at 100,000 points.
+* **Scoring:** `run_all.sh --only-eval` exit 0 (commit e097b5c). **CHANGELOG** entries 15 to 23 with generated
+  before and after tables, worse results included. **REPORT.md:** every number checked by
+  `~/sonar_work/tools/check_report.py` (0 missing), plus a KITTI section. **REPORT_summary.pdf:** 3 pages, in the order
+  Dr. Negahdaripour asked for: KITTI assessment and bugs; his pool data, trajectory and 3D model from our SLAM (12 of
+  117 stills, separately and superimposed); all 117 frames from COLMAP, trajectory superimposed on the model.
+* **Email draft:** `~/sonar_work/email_draft_2026-09-23.txt` (230 words). **Package:**
+  `~/sonar_work/for_dr_negahdaripour/` holds exactly the attachments (PDF, .mat, .csv, .ply, README), identical to the
+  committed files. The reprojection check (his photos, never in the repo) is `~/sonar_work/diag/reprojection_check.jpg`
+  (made by `tools/reprojection_check.py`; not in the package, since he did not ask for it).
 
-**Still running when this was written** (background jobs of the old session; they may have stopped with it):
-COLMAP reruns with the pixel convention fix, queue `~/sonar_work/rerun_colmap_b.txt` (pool_raw and
-pool_width_scaled exhaustive and sequential, kitti_04, fr3 at stride 3, AQUALOC at stride 2, kitti_07), plus
-tum_freiburg1_xyz. First step: `cd ~/sonar_work/sonar_sim && ../venv/bin/python ~/sonar_work/tools/audit_runs.py`.
-It must print `problems: 0`; rerun whatever it lists with `~/sonar_work/runq.sh <jobs file> 1` (write job files
-with bash, not zsh: zsh does not split `$var` into words), then audit again. Keep the Mac awake
-(`caffeinate -i -s -t 43200`); it slept for 5 hours once and paused every job.
+**Before sending (Greg):** read the PDF and the draft; push `main` (the PDF cites SLAM/validation/REPORT.md on
+GitHub, which is not pushed yet; the push adds about 300 MB of results and figures, no file over 20 MB); then send.
 
-**Then, in order:**
-1. `PYTHON=../venv/bin/python SLAM/validation/run_all.sh --skip-downloads --skip-render --only-eval` (scores
-   everything, figures, summary, pool analysis, pool scale, export, PDF). It stops on the first error (`set -e`).
-2. CHANGELOG entries 15 to 20 with the before and after numbers (table above; COLMAP numbers from the rerun).
-3. REPORT.md: every number (conclusions, table, pool section, pool scale), a KITTI section (11 sequences, ORB and SIFT,
-   COLMAP on 04 and 07; RPE over 100 m), method text (relocalization, reopening, culling, visibility), limitations
-   (KITTI tracking losses and the frame 395 knife edge; no map merging; a keyframe on nearly every KITTI frame), and a
-   note that K from OSCalibration.mat is used in OpenCV's pixel convention (if it came from a 1 based MATLAB toolbox the
-   principal point moves by 1 px). Then check every number in REPORT.md and report_summary.json against results/.
-4. `report_summary.json`: a KITTI page with `compact_table` (build_report_pdf.py supports it); rebuild the PDF.
-5. Email draft `~/sonar_work/email_draft_2026-09-23.txt` (mention KITTI and the data files) and refresh
-   `~/sonar_work/for_dr_negahdaripour/` (copy the new PDF and export; regenerate `reprojection_check.jpg` from the new
-   `pool_reconstruction.mat` and the photos in `~/Downloads/Archive 2`, never into the repo).
-6. Commit; do not push; nothing is sent without Greg.
-
-**Tooling notes:** `~/sonar_work/runq.sh` reported rc=0 for every job until 17:48 today (fixed); jobs started with
-`nohup ... &` inside a tool call do not survive (use a background tool call); the queue logs are
-`~/sonar_work/logs/<jobsfile>_<n>.log`.
+**Open, not started:** KITTI 02 ORB now splits into 2 maps and was not traced (03 was: a knife edge at the 30 inlier
+minimum, evidence in `~/sonar_work/diag/kitti_03_knife_edge/`); no loop closure (most of the KITTI error is scale
+drift); no map merging; the pool scale needs the real lane stripe width; whether OSCalibration.mat uses 1 based pixel
+coordinates (1 px on the principal point).
