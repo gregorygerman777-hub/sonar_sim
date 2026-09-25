@@ -26,8 +26,8 @@ from make_figures import C_EST, C_GT, DPI  # noqa: E402
 
 def panel_title(seq, meta, m):
     maps = len(meta.get("maps") or [])
-    posed = f"{meta['frames_posed']}/{meta['frames_total']} frames" + (f", {maps} maps" if maps > 1 else "")
-    return f"{seq}: {m['ate_m']['rmse']:.1f} m ({m['ate_rmse_percent_of_path']:.1f} %), {posed}"
+    return f"{seq}: {m['ate_m']['rmse']:.1f} m ({m['ate_rmse_percent_of_path']:.1f} %)" + (
+        f", main map of {maps}" if maps > 1 else "")
 
 
 def main():
@@ -39,25 +39,25 @@ def main():
     if not runs:
         print("no scored KITTI runs")
         return
-    fig, axes = plt.subplots(3, 4, figsize=(12, 9.6))
+    fig, axes = plt.subplots(3, 4, figsize=(10, 7.4))
     for ax, (seq, run) in zip(axes.flat, runs):
         meta = json.loads((run / "run_meta.json").read_text())
         m = json.loads((run / "metrics.json").read_text())
         gt = sequences.get(f"kitti_{seq}").ground_truth[2]
         est = np.loadtxt(run / "aligned_estimate_tum.txt", comments="#", ndmin=2)[:, 1:4]
-        ax.plot(gt[:, 0], gt[:, 2], color=C_GT, lw=1.0, label="ground truth")
-        ax.plot(est[:, 0], est[:, 2], color=C_EST, lw=1.0, label=f"ours ({args.frontend.upper()}), main map")
+        ax.plot(gt[:, 0], gt[:, 2], color=C_GT, lw=1.1, label="ground truth")
+        ax.plot(est[:, 0], est[:, 2], color=C_EST, lw=1.0, label=f"ours ({args.frontend.upper()})")
         ax.plot(gt[0, 0], gt[0, 2], "o", color="#16a34a", ms=4, label="start of the sequence")
-        ax.set_title(panel_title(seq, meta, m), fontsize=8.5)
+        ax.set_title(panel_title(seq, meta, m), fontsize=10)
         ax.set_aspect("equal", adjustable="datalim")
-        ax.tick_params(labelsize=7)
+        ax.tick_params(labelsize=8)
         ax.grid(alpha=0.3)
     for ax in axes.flat[len(runs):]:
         ax.axis("off")
     handles, labels = axes.flat[0].get_legend_handles_labels()
-    axes.flat[-1].legend(handles, labels, loc="center", fontsize=9, frameon=False)
-    fig.suptitle(f"KITTI odometry 00 to 10, left camera only (monocular), seen from above [m]. ATE after one Sim(3) "
-                 f"alignment, as % of the posed path", fontsize=10)
+    axes.flat[-1].legend(handles, labels, loc="center", fontsize=10.5, frameon=False)
+    fig.suptitle(f"KITTI 00 to 10 from above [m], left camera only. ATE after one Sim(3) alignment (% of the posed "
+                 f"path)", fontsize=11)
     fig.tight_layout()
     out = HERE / "figures" / "kitti"
     out.mkdir(parents=True, exist_ok=True)

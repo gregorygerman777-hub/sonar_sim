@@ -1,99 +1,111 @@
 {
-  "title": "Monocular SLAM: validation against ground truth, then your pool data",
-  "subtitle": "Gregory German, September 2026. Full report, code and every number: github.com/gregorygerman777-hub/sonar_sim, SLAM/validation/REPORT.md",
+  "title": "Monocular SLAM: assessment on ground truth, then your pool data",
+  "subtitle": "Gregory German, September 2026. Code, full report and every number: github.com/gregorygerman777-hub/sonar_sim, SLAM/validation/REPORT.md",
   "author": "Gregory German",
-  "table_datasets": [
-    "synthetic_pool",
-    "synthetic_pool_caustics",
-    "tum_freiburg1_xyz",
-    "tum_freiburg3_long_office_household",
-    "aqualoc_harbor_07",
-    "pool_raw"
-  ],
-  "table_exclude_runs": [
-    "synthetic_pool_orb_stride2",
-    "synthetic_pool_orb_stride4",
-    "synthetic_pool_orb_stride8",
-    "synthetic_pool_orb_stride12",
-    "synthetic_pool_caustics_orb_stride2",
-    "synthetic_pool_caustics_orb_stride4",
-    "synthetic_pool_caustics_orb_stride8",
-    "synthetic_pool_caustics_sift_stride2",
-    "synthetic_pool_caustics_sift_stride4",
-    "synthetic_pool_caustics_colmap_exhaustive",
-    "pool_raw_colmap_sequential"
-  ],
-  "dataset_labels": {
-    "synthetic_pool": "Synthetic pool (exact GT)",
-    "synthetic_pool_caustics": "Synthetic pool + caustics",
-    "tum_freiburg1_xyz": "TUM fr1/xyz",
-    "tum_freiburg3_long_office_household": "TUM fr3/long office",
-    "aqualoc_harbor_07": "AQUALOC harbor 07",
-    "pool_raw": "Pool (117 stills, raw K)"
-  },
+  "table_datasets": [],
+  "dataset_labels": {},
   "pages": [
     {
-      "heading": "1. Validation on datasets with ground truth",
+      "heading": "1. Assessment on datasets with ground truth",
       "paragraphs": [
-        "As you asked, the implementation was first assessed on data with ground truth, to find bugs before running it on your data. It is a keyframe based monocular SLAM (initialisation, map, triangulation, local and global bundle adjustment), scored with the standard ATE after a similarity alignment, with COLMAP on the same images as a reference.",
-        "<b>Bugs found.</b> Ground truth exposed two real bugs that the trajectories alone did not show: the map scale grew about 2,500 times in local bundle adjustment, and map point fusion later collapsed the scale. Both are fixed, and each has a regression test that fails on the old code.",
-        "<b>Accuracy after the fixes.</b> On a rendered scene resembling your pool (exact ground truth) the 10 m trajectory is recovered to 0.6 cm (ORB) and 0.2 cm (SIFT), and the 3D map lies a median 0.9 cm and 0.5 cm from the true surface. On real underwater video (AQUALOC) it is under 1 cm while it tracks, but it loses track twice: where the image goes black and then saturated (frames 742 to 782), and over featureless, turbid seabed (from frame 1730). On the TUM benchmark it is 2 to 4 times less accurate than COLMAP, consistent with having no loop closure."
+        "As you asked, I first assessed the implementation on data with ground truth, to find bugs before running it on your data: KITTI odometry 00 to 10 (left camera only), plus TUM RGB D, AQUALOC (real underwater video) and a rendered pool scene with exact ground truth, all with the same settings. The SLAM is keyframe based and monocular (tracking against a local map, triangulation, local and global bundle adjustment, relocalization).",
+        "<b>Bugs found and fixed.</b> Ground truth exposed two bugs in how the monocular scale is held (the map grew about 2,500 times in local bundle adjustment; map point fusion later collapsed it). A review against the published design the code follows found two more (map points counted and culled wrongly), measurement found a half pixel principal point error in the reference method and the rendered scene, and three errors were in the evaluation metrics. Each is fixed with a test that fails on the old code, and every result here was rerun with the final code.",
+        "<b>Results.</b> With SIFT features the SLAM tracks every frame of 10 of the 11 KITTI sequences; with ORB it loses track on 7 and restarts in a new map. Where it tracks every frame, the error is 0.3 % of the distance driven on the short sequences and up to 4.9 % on the long ones, because with no loop closure yet the monocular scale drifts. COLMAP on the same frames: 0.65 m on 04 (mine 1.05 to 1.20 m), 16.98 m on the 07 loop (mine 10.11 to 16.61 m). On the rendered pool scene the 10 m path is recovered to 0.5 cm (ORB) and 0.2 cm (SIFT); on AQUALOC, under 1 cm while it tracks."
       ],
-      "table": true,
+      "compact_table": {
+        "datasets": [
+          "kitti_00",
+          "kitti_01",
+          "kitti_02",
+          "kitti_03",
+          "kitti_04",
+          "kitti_05",
+          "kitti_06",
+          "kitti_07",
+          "kitti_08",
+          "kitti_09",
+          "kitti_10"
+        ],
+        "labels": {
+          "kitti_00": "KITTI 00",
+          "kitti_01": "KITTI 01",
+          "kitti_02": "KITTI 02",
+          "kitti_03": "KITTI 03",
+          "kitti_04": "KITTI 04",
+          "kitti_05": "KITTI 05",
+          "kitti_06": "KITTI 06",
+          "kitti_07": "KITTI 07",
+          "kitti_08": "KITTI 08",
+          "kitti_09": "KITTI 09",
+          "kitti_10": "KITTI 10"
+        },
+        "methods": [
+          [
+            "ours (ORB)",
+            "My SLAM, ORB: frames posed, ATE"
+          ],
+          [
+            "ours (SIFT)",
+            "My SLAM, SIFT: frames posed, ATE"
+          ]
+        ]
+      },
       "figures": [
         [
           {
-            "path": "figures/synthetic_pool/synthetic_pool_orb/1_trajectory.png",
-            "max_height_in": 2.4,
-            "caption": "Synthetic pool, exact ground truth: estimated trajectory (blue) over ground truth (black), top and side views. ATE 0.6 cm over 10 m."
-          },
-          {
-            "path": "figures/aqualoc_harbor_07/aqualoc_harbor_07_orb/1_trajectory.png",
-            "max_height_in": 2.4,
-            "caption": "AQUALOC harbor 07, real underwater: main map 0.8 cm ATE over 8.6 m; light blue are the maps started after tracking losses, each aligned separately."
+            "path": "figures/kitti/overview_sift.png",
+            "max_height_in": 4.45,
+            "caption": "KITTI 00 to 10 seen from above: my SLAM with SIFT (blue, after one Sim(3) alignment) over the ground truth (black). On 03, 04 and 10 it follows the ground truth closely; on the long sequences the monocular scale drifts, which is most of the error. 01, a highway, splits into 4 maps; its main map is shown."
           }
         ]
       ],
-      "footer": "ATE: RMSE after Sim(3) alignment, on the frames each method posed (read it with the posed fraction). COLMAP got the same undistorted images and fixed intrinsics."
+      "footer": "ATE: RMSE after a Sim(3) alignment (monocular scale is not observable), over the frames the main map posed, and as a percentage of their path. Other datasets, the relative error over 100 m, and every run: REPORT.md."
     },
     {
-      "heading": "2. Your pool data: estimated camera trajectory and 3D model",
+      "heading": "2. Your pool data: trajectory and 3D model from my SLAM",
       "paragraphs": [
-        "All 117 frames, with the camera matrix you confirmed (K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1]). The trajectory and model below come from the multi view reconstruction (COLMAP, all frames matched against each other), which registers <b>all 117 frames in one model</b> with a mean reprojection error of 0.92 px. My sequential SLAM tracks only 11 of these stills: they are about 2 s apart with moving caustics on the floor, and skipping every other frame, or every 2 frames, made it worse (2 frames). Where both methods pose the same frames, their relative rotations agree to within 1 degree.",
-        "There is no ground truth here, so the result is internally consistent, not verified. The camera circles the rock and pebble mat about twice at nearly constant height; frames 106 to 117, taken about 10 minutes later, continue on the same circle. The units are arbitrary (monocular). The two floor lane stripes beside the mat measure 0.445 units wide, so knowing their real width would make everything metric."
+        "All 117 frames, with your K = [1403.5 0 476.5; 0 1403.5 392.9; 0 0 1]. My SLAM initializes on your stills and tracks 12 consecutive frames, opt28 to opt39, then loses track; over the sequence it starts 4 maps, and none of the others grows beyond 4 frames. The stills are about 2 s apart with large viewpoint changes and moving caustics on the floor, which break frame to frame tracking. Skipping every other frame, or every 2 frames, made it worse (2 frames posed). Below are its two outputs for the longest map, separately and superimposed. Units are arbitrary (monocular)."
       ],
       "figures": [
         [
           {
-            "path": "figures/pool_raw/pool_raw_colmap_exhaustive/1_trajectory.png",
-            "max_height_in": 3.0,
-            "caption": "(a) Estimated camera trajectory (the first key output), 117 frames: top view and side view. Green: first frame, red: last frame."
+            "path": "figures/pool_raw/pool_raw_orb/1_trajectory.png",
+            "max_height_in": 2.9,
+            "caption": "(a) Estimated camera trajectory, opt28 to opt39: top and side views. Green: first frame, red: last frame."
           }
         ],
         [
           {
-            "path": "figures/pool_raw/pool_raw_colmap_exhaustive/2_model.png",
-            "max_height_in": 4.4,
-            "caption": "(b) 3D model (the second key output): 12,133 reconstructed points. The dense patch is the rock and pebble mat. The sparse points are the lane ropes, the wall targets and, above the cameras, features seen in reflections in the underside of the moving water surface; those reflection points are not physical structure (about 7 % of all points lie above the cameras)."
+            "path": "figures/pool_raw/pool_raw_orb/2_model.png",
+            "max_height_in": 3.6,
+            "caption": "(b) 3D model: the 635 points of this map."
+          },
+          {
+            "path": "figures/pool_raw/pool_raw_orb/3_overlay.png",
+            "max_height_in": 3.6,
+            "caption": "(c) The trajectory, with a camera frustum at each frame, superimposed on the 3D model."
           }
         ]
       ]
     },
     {
-      "heading": "3. Your pool data: trajectory superimposed on the 3D model",
+      "heading": "3. Your pool data, all 117 frames: trajectory superimposed on the 3D model",
+      "paragraphs": [
+        "To see what your data supports, I also ran a multi view reconstruction (COLMAP: every frame matched against every other, one global bundle adjustment) on the same frames and K. It registers all 117 frames in one model (mean reprojection error 0.92 px). The camera circles the rock and pebble mat about twice at nearly constant height; frames 106 to 117, taken about 10 minutes later, continue on the same circle. Where my SLAM and this model pose the same frames, their relative rotations agree to a median of 0.6 degrees. There is no ground truth, so this is internally consistent, not verified. Units are arbitrary; the floor lane stripes beside the mat measure 0.44 units wide, so their real width would make it metric."
+      ],
       "figures": [
         [
           {
             "path": "figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.png",
-            "max_height_in": 4.0,
-            "caption": "(c) The estimated camera trajectory with camera frustums superimposed on the 3D model, same data and view as (b). An interactive, rotatable version is figures/pool_raw/pool_raw_colmap_exhaustive/3_overlay.html in the repository."
+            "max_height_in": 3.5,
+            "caption": "(d) Camera trajectory with frustums, superimposed on the 3D model (12,152 points). The dense patch is the rock and pebble mat; the points above the cameras include reflections in the underside of the moving water surface, which are not physical structure."
           }
         ],
         [
           {
             "path": "figures/pool_raw/pool_raw_colmap_exhaustive/4_overlay_top.png",
-            "max_height_in": 5.0,
-            "caption": "(d) The same, seen from directly above the pool floor: map points coloured by height, trajectory in blue, arrows showing where the camera looks. The square is the pebble mat; the camera circles it looking inwards."
+            "max_height_in": 4.3,
+            "caption": "(e) The same from directly above the pool floor: points coloured by height, arrows where the camera looks. The trajectory and the model are also attached as data files (.mat, .csv, .ply)."
           }
         ]
       ]

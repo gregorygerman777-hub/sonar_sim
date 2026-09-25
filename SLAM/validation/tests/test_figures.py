@@ -62,7 +62,7 @@ class TestKittiOverview(unittest.TestCase):
             self.assertTrue((Path(d) / "figures" / "kitti" / "overview_sift.png").stat().st_size > 10000)
         self.assertEqual(kitti_overview.panel_title("03", dict(frames_posed=396, frames_total=801, maps=[1, 2]),
                                                     dict(ate_m=dict(rmse=1.21), ate_rmse_percent_of_path=0.43)),
-                         "03: 1.2 m (0.4 %), 396/801 frames, 2 maps")
+                         "03: 1.2 m (0.4 %), main map of 2")
 
 
 if __name__ == "__main__":
