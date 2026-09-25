@@ -11,6 +11,9 @@ import cv2
 import numpy as np
 
 _POPCOUNT = np.array([bin(i).count("1") for i in range(256)], dtype=np.uint8)
+# OpenCV's SIFT reports keypoints 0.25 px right of and below their position (it detects on the image upsampled by 2
+# and halves the coordinates without the half pixel shift); measured in tests/test_features.py, CHANGELOG entry 26.
+SIFT_KEYPOINT_OFFSET = 0.25
 
 
 @dataclass
@@ -41,6 +44,7 @@ class Extractor:
             return Features(np.empty((0, 2)), np.empty((0, width), dtype), np.empty(0), self.kind)
         keep = self._bucket(kps, gray.shape)
         uv = np.array([kps[i].pt for i in keep], dtype=float)
+        uv -= SIFT_KEYPOINT_OFFSET if self.kind == "sift" else 0.0    # to the pixel centre convention of K
         if self.kind == "orb":
             sigma = 1.2 ** np.array([kps[i].octave for i in keep], dtype=float)
         else:
