@@ -33,7 +33,7 @@ def main():
             status=m.get("status", "no ground truth"),
             ate_rmse_m=m.get("ate_m", {}).get("rmse"), ate_median_m=m.get("ate_m", {}).get("median"),
             ate_max_m=m.get("ate_m", {}).get("max"), ate_pct=m.get("ate_rmse_percent_of_path"),
-            path_m=m.get("gt_path_length_m"), scale=m.get("sim3_scale"),
+            path_m=m.get("gt_path_length_m"), run_path_m=m.get("run_path_length_m"), scale=m.get("sim3_scale"),
             rpe_t_m=(m.get("rpe_translation_m") or {}).get("rmse"), rpe_r_deg=(m.get("rpe_rotation_deg") or {}).get("rmse"),
             rpe_over_m=m.get("rpe_delta_m"),
             orient_deg=(m.get("orientation_error_deg") or {}).get("rmse"),

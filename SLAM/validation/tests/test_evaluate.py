@@ -128,6 +128,29 @@ class TestRelativeError(unittest.TestCase):
         self.assertAlmostEqual(r["rpe_translation_m"]["rmse"], float(np.sqrt(np.mean(np.square(errors)))), places=6)
 
 
+class TestRunLength(unittest.TestCase):
+    def test_run_length_counts_frames_that_were_not_posed(self):
+        """gt_path_length_m covers the posed frames only; the length of the run (every frame the method was given)
+        is recorded separately, so a table does not show a partial run's posed length as the sequence length."""
+        n = 50
+        gt_p = np.column_stack((np.arange(n) * 0.1, 0.01 * np.sin(np.arange(n)), np.zeros(n)))
+        gt_R = np.repeat(np.eye(3)[None], n, axis=0)
+        stamps = np.arange(n) * 0.1
+        original = evaluate.sequences.get
+        evaluate.sequences.get = lambda key: FakeSequence(stamps, gt_R, gt_p)
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                run = Path(d)
+                (run / "run_meta.json").write_text(json.dumps(dict(dataset="fake_sequence", frames_total=n,
+                                                                   frame_timestamps=stamps.tolist())))
+                export.write_tum(run / "trajectory_tum.txt", stamps[:20], gt_R[:20], 2.0 * gt_p[:20])
+                r = evaluate.evaluate(run)
+        finally:
+            evaluate.sequences.get = original
+        self.assertAlmostEqual(r["gt_path_length_m"], evaluate.path_length(gt_p[:20]), places=9)
+        self.assertAlmostEqual(r["run_path_length_m"], evaluate.path_length(gt_p), places=9)
+
+
 class TestTooFewFrames(unittest.TestCase):
     def test_a_run_with_two_posed_frames_is_labelled_not_failed(self):
         n = 50

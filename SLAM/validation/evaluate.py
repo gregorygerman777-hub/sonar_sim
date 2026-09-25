@@ -56,6 +56,19 @@ def path_length(xyz):
     return float(np.sum(np.linalg.norm(np.diff(xyz, axis=0), axis=1))) if len(xyz) > 1 else 0.0
 
 
+def run_path_length(gt_t, gt_p, frame_ts, max_diff):
+    """Ground truth path length of the whole run: through the ground truth poses nearest to every frame the method was
+    given, posed or not (gt_path_length_m covers only the posed frames). None without frame timestamps."""
+    frame_ts = np.asarray(frame_ts, float)
+    if not len(frame_ts) or len(gt_t) < 2:
+        return None
+    order = np.argsort(gt_t)
+    t, p = np.asarray(gt_t, float)[order], np.asarray(gt_p, float)[order]
+    pos = np.clip(np.searchsorted(t, frame_ts), 1, len(t) - 1)
+    near = np.where(np.abs(t[pos] - frame_ts) < np.abs(t[pos - 1] - frame_ts), pos, pos - 1)
+    return path_length(p[near[np.abs(t[near] - frame_ts) <= max_diff]])
+
+
 def default_rpe_delta_m(dataset_name):
     """RPE step: 1 m of ground truth travel, except on KITTI, whose frames are about 1.4 m apart (no two frames are
     1 m apart there); it uses 100 m, the shortest segment of the KITTI odometry benchmark's own metric."""
@@ -70,17 +83,18 @@ def evaluate(run_dir, max_diff=None, rpe_delta_m=None, trajectory_file="trajecto
     if rpe_delta_m is None:
         rpe_delta_m = default_rpe_delta_m(seq.name)
     ts, R, p = export.read_tum(run_dir / trajectory_file)
+    if max_diff is None:
+        step = np.median(np.diff(gt_t)) if len(gt_t) > 1 else 0.02
+        max_diff = min(0.02, 0.5 * step) if step > 0.001 else 0.01
     result = dict(run=run_dir.name, dataset=meta["dataset"], method=meta.get("method", "monoslam"),
                   frontend=meta.get("frontend"), frames_total=meta["frames_total"],
-                  frames_posed=int(len(ts)), fraction_posed=len(ts) / max(meta["frames_total"], 1))
+                  frames_posed=int(len(ts)), fraction_posed=len(ts) / max(meta["frames_total"], 1),
+                  run_path_length_m=run_path_length(gt_t, gt_p, meta.get("frame_timestamps", []), max_diff))
     if len(ts) < 3:
         # Not an error of the run or of this script: the method posed too few frames for anything to be scored.
         result.update(status="TOO FEW POSED", reason="fewer than 3 posed frames")
         (run_dir / "metrics.json").write_text(json.dumps(result, indent=2))
         return result
-    if max_diff is None:
-        step = np.median(np.diff(gt_t)) if len(gt_t) > 1 else 0.02
-        max_diff = min(0.02, 0.5 * step) if step > 0.001 else 0.01
     ref = to_evo(gt_t, gt_R, gt_p)
     est = to_evo(ts, R, p)
     ref_a, est_a = sync.associate_trajectories(ref, est, max_diff=max_diff)
