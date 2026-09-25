@@ -51,8 +51,8 @@
     "deg_per_frame": 1.2552301255230125,
     "caustic_seconds_per_frame": 0.1,
     "fraction_posed": 1.0,
-    "ate_rmse_m": 0.005770471839185346,
-    "ate_percent": 0.05749289735158083
+    "ate_rmse_m": 0.006201006624824381,
+    "ate_percent": 0.061782441244498325
   },
   {
     "run": "synthetic_pool_caustics_sift_stride2",
@@ -62,8 +62,8 @@
     "deg_per_frame": 2.510460251046025,
     "caustic_seconds_per_frame": 0.2,
     "fraction_posed": 1.0,
-    "ate_rmse_m": 0.0045147834662807975,
-    "ate_percent": 0.045175866038469736
+    "ate_rmse_m": 0.004634189650895796,
+    "ate_percent": 0.046370669253423404
   },
   {
     "run": "synthetic_pool_caustics_sift_stride4",
@@ -139,7 +139,7 @@
     "deg_per_frame": 1.2552301255230125,
     "caustic_seconds_per_frame": 0.0,
     "fraction_posed": 1.0,
-    "ate_rmse_m": 0.0023445202208119595,
-    "ate_percent": 0.023359140144920493
+    "ate_rmse_m": 0.0020964447669127874,
+    "ate_percent": 0.02088749189778418
   }
 ]

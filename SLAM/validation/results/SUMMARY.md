@@ -16,58 +16,58 @@ Map error is only available for the synthetic scenes.
 | synthetic_pool | ours (ORB), 1 frame in 2 | 120/120 (100 %) | OK | 0.0033 | 0.03 | 9.99 | 0.0037 | 0.06 | 1 | 0.0097 | 1 | 120 | n/a | 88 |
 | synthetic_pool | ours (ORB), 1 frame in 4 | 60/60 (100 %) | OK | 0.0041 | 0.04 | 9.91 | 0.0037 | 0.08 | 1 | 0.0068 | 1 | 60 | n/a | 26 |
 | synthetic_pool | ours (ORB), 1 frame in 8 | 30/30 (100 %) | OK | 0.0055 | 0.06 | 9.73 | 0.0046 | 0.10 | 1 | 0.0056 | 1 | 30 | n/a | 8 |
-| synthetic_pool | ours (SIFT) | 240/240 (100 %) | OK | 0.0023 | 0.02 | 10.04 | 0.0023 | 0.05 | 1 | 0.0062 | 1 | 240 | n/a | 261 |
+| synthetic_pool | ours (SIFT) | 240/240 (100 %) | OK | 0.0021 | 0.02 | 10.04 | 0.0022 | 0.05 | 1 | 0.0062 | 1 | 240 | n/a | 72 |
 | synthetic_pool_caustics | COLMAP (exhaustive), 1 frame in 4 | 2/60 (3 %) | TOO FEW POSED | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 47 |
 | synthetic_pool_caustics | COLMAP (sequential) | 240/240 (100 %) | OK | 0.0051 | 0.05 | 10.04 | 0.0054 | 0.14 | 1 | 0.0130 | 1 | 240 | n/a | 123 |
 | synthetic_pool_caustics | ours (ORB) | 240/240 (100 %) | OK | 0.0195 | 0.19 | 10.04 | 0.0203 | 0.43 | 1 | 0.0308 | 1 | 240 | n/a | 142 |
 | synthetic_pool_caustics | ours (ORB), 1 frame in 2 | 108/120 (90 %) | PARTIAL | 0.0389 | 0.43 | 8.99 | 0.0419 | 0.76 | 1 | 0.0342 | 2 | 110 | 0.0389 | 28 |
 | synthetic_pool_caustics | ours (ORB), 1 frame in 4 | 0/60 (0 %) | TOO FEW POSED | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 0 | 0 | n/a | 38 |
 | synthetic_pool_caustics | ours (ORB), 1 frame in 8 | 0/30 (0 %) | TOO FEW POSED | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 0 | 0 | n/a | 23 |
-| synthetic_pool_caustics | ours (SIFT) | 240/240 (100 %) | OK | 0.0058 | 0.06 | 10.04 | 0.0049 | 0.12 | 1 | 0.0172 | 1 | 240 | n/a | 92 |
-| synthetic_pool_caustics | ours (SIFT), 1 frame in 2 | 120/120 (100 %) | OK | 0.0045 | 0.05 | 9.99 | 0.0040 | 0.09 | 1 | 0.0078 | 1 | 120 | n/a | 39 |
-| synthetic_pool_caustics | ours (SIFT), 1 frame in 4 | 2/60 (3 %) | TOO FEW POSED | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 5 | 10 | n/a | 14 |
+| synthetic_pool_caustics | ours (SIFT) | 240/240 (100 %) | OK | 0.0062 | 0.06 | 10.04 | 0.0051 | 0.12 | 1 | 0.0172 | 1 | 240 | n/a | 47 |
+| synthetic_pool_caustics | ours (SIFT), 1 frame in 2 | 120/120 (100 %) | OK | 0.0046 | 0.05 | 9.99 | 0.0041 | 0.09 | 1 | 0.0078 | 1 | 120 | n/a | 20 |
+| synthetic_pool_caustics | ours (SIFT), 1 frame in 4 | 2/60 (3 %) | TOO FEW POSED | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 5 | 10 | n/a | 4 |
 | tum_freiburg1_xyz | COLMAP (sequential) | 798/798 (100 %) | OK | 0.0092 | 0.11 | 8.01 | 0.0144 | 0.92 | 1 | n/a | 1 | 798 | n/a | 2765 |
 | tum_freiburg1_xyz | ours (ORB) | 798/798 (100 %) | OK | 0.0158 | 0.20 | 8.01 | 0.0176 | 1.02 | 1 | n/a | 1 | 798 | n/a | 111 |
-| tum_freiburg1_xyz | ours (SIFT) | 798/798 (100 %) | OK | 0.0235 | 0.29 | 8.01 | 0.0324 | 1.62 | 1 | n/a | 1 | 798 | n/a | 253 |
+| tum_freiburg1_xyz | ours (SIFT) | 798/798 (100 %) | OK | 0.0239 | 0.30 | 8.01 | 0.0358 | 1.73 | 1 | n/a | 1 | 798 | n/a | 169 |
 | tum_freiburg3_long_office_household | COLMAP (sequential), 1 frame in 3 | 862/862 (100 %) | OK | 0.0198 | 0.09 | 22.11 | 0.0148 | 0.62 | 1 | n/a | 1 | 862 | n/a | 670 |
 | tum_freiburg3_long_office_household | ours (ORB) | 2585/2585 (100 %) | OK | 0.0772 | 0.35 | 22.14 | 0.0249 | 0.84 | 1 | n/a | 1 | 2585 | n/a | 1781 |
-| tum_freiburg3_long_office_household | ours (SIFT) | 2585/2585 (100 %) | OK | 0.0528 | 0.24 | 22.14 | 0.0194 | 0.88 | 1 | n/a | 1 | 2585 | n/a | 1104 |
+| tum_freiburg3_long_office_household | ours (SIFT) | 2585/2585 (100 %) | OK | 0.0733 | 0.33 | 22.14 | 0.0232 | 0.87 | 1 | n/a | 1 | 2585 | n/a | 773 |
 | aqualoc_harbor_07 | COLMAP (sequential), 1 frame in 2 | 482/1131 (43 %) | PARTIAL | 0.0054 | 0.06 | 8.73 | 0.0062 | 0.32 | 1 | n/a | 3 | 482 | n/a | 322 |
 | aqualoc_harbor_07 | ours (ORB) | 947/2261 (42 %) | PARTIAL | 0.0093 | 0.11 | 8.58 | 0.0084 | 0.61 | 1 | n/a | 3 | 2066 | 0.0081 | 786 |
-| aqualoc_harbor_07 | ours (SIFT) | 758/2261 (34 %) | PARTIAL | 0.0068 | 0.08 | 8.76 | 0.0095 | 0.51 | 1 | n/a | 4 | 1690 | 0.0054 | 454 |
+| aqualoc_harbor_07 | ours (SIFT) | 758/2261 (34 %) | PARTIAL | 0.0080 | 0.09 | 8.76 | 0.0103 | 0.56 | 1 | n/a | 4 | 1690 | 0.0062 | 249 |
 | kitti_00 | ours (ORB) | 3540/4541 (78 %) | PARTIAL | 53.8461 | 1.79 | 3008.05 | 22.7802 | 1.02 | 100 | n/a | 3 | 4521 | 47.6722 | 1412 |
-| kitti_00 | ours (SIFT) | 4541/4541 (100 %) | OK | 107.1361 | 2.88 | 3724.19 | 50.6926 | 0.90 | 100 | n/a | 1 | 4541 | n/a | 772 |
+| kitti_00 | ours (SIFT) | 4541/4541 (100 %) | OK | 107.2630 | 2.88 | 3724.19 | 50.7407 | 0.89 | 100 | n/a | 1 | 4541 | n/a | 1044 |
 | kitti_01 | ours (ORB) | 574/1101 (52 %) | PARTIAL | 173.4724 | 12.37 | 1402.81 | 78.7246 | 7.19 | 100 | n/a | 8 | 1031 | 146.3290 | 561 |
-| kitti_01 | ours (SIFT) | 478/1101 (43 %) | PARTIAL | 7.0749 | 0.63 | 1116.00 | 5.5211 | 0.55 | 100 | n/a | 4 | 1066 | 5.7318 | 352 |
+| kitti_01 | ours (SIFT) | 478/1101 (43 %) | PARTIAL | 7.3742 | 0.66 | 1116.00 | 5.5789 | 0.53 | 100 | n/a | 4 | 1066 | 5.9296 | 329 |
 | kitti_02 | ours (ORB) | 2360/4661 (51 %) | PARTIAL | 22.8341 | 0.87 | 2622.04 | 9.5220 | 0.77 | 100 | n/a | 2 | 4651 | 29.0211 | 1415 |
-| kitti_02 | ours (SIFT) | 4661/4661 (100 %) | OK | 121.5101 | 2.40 | 5067.23 | 40.5440 | 0.49 | 100 | n/a | 1 | 4661 | n/a | 1439 |
+| kitti_02 | ours (SIFT) | 4661/4661 (100 %) | OK | 122.1966 | 2.41 | 5067.23 | 40.8469 | 0.48 | 100 | n/a | 1 | 4661 | n/a | 1195 |
 | kitti_03 | ours (ORB) | 396/801 (49 %) | PARTIAL | 1.2096 | 0.43 | 281.06 | 2.0207 | 0.62 | 100 | n/a | 2 | 790 | 0.8682 | 97 |
-| kitti_03 | ours (SIFT) | 801/801 (100 %) | OK | 1.5058 | 0.27 | 560.89 | 1.9148 | 0.47 | 100 | n/a | 1 | 801 | n/a | 248 |
+| kitti_03 | ours (SIFT) | 801/801 (100 %) | OK | 1.4859 | 0.26 | 560.89 | 1.9047 | 0.47 | 100 | n/a | 1 | 801 | n/a | 219 |
 | kitti_04 | COLMAP (sequential) | 271/271 (100 %) | OK | 0.6459 | 0.16 | 393.65 | 1.0357 | 0.13 | 100 | n/a | 1 | 271 | n/a | 218 |
 | kitti_04 | ours (ORB) | 271/271 (100 %) | OK | 1.0468 | 0.27 | 393.65 | 1.6784 | 0.35 | 100 | n/a | 1 | 271 | n/a | 22 |
-| kitti_04 | ours (SIFT) | 271/271 (100 %) | OK | 1.1976 | 0.30 | 393.65 | 1.8288 | 0.16 | 100 | n/a | 1 | 271 | n/a | 57 |
+| kitti_04 | ours (SIFT) | 271/271 (100 %) | OK | 1.2063 | 0.31 | 393.65 | 1.8390 | 0.16 | 100 | n/a | 1 | 271 | n/a | 56 |
 | kitti_05 | ours (ORB) | 2761/2761 (100 %) | OK | 24.9548 | 1.13 | 2205.58 | 18.0060 | 0.69 | 100 | n/a | 1 | 2761 | n/a | 693 |
-| kitti_05 | ours (SIFT) | 2761/2761 (100 %) | OK | 51.6955 | 2.34 | 2205.58 | 34.1423 | 0.49 | 100 | n/a | 1 | 2761 | n/a | 987 |
+| kitti_05 | ours (SIFT) | 2761/2761 (100 %) | OK | 51.5326 | 2.34 | 2205.58 | 34.1673 | 0.48 | 100 | n/a | 1 | 2761 | n/a | 766 |
 | kitti_06 | ours (ORB) | 1101/1101 (100 %) | OK | 54.8305 | 4.45 | 1232.88 | 28.7971 | 0.50 | 100 | n/a | 1 | 1101 | n/a | 194 |
-| kitti_06 | ours (SIFT) | 1101/1101 (100 %) | OK | 60.5134 | 4.91 | 1232.88 | 31.7290 | 0.37 | 100 | n/a | 1 | 1101 | n/a | 267 |
+| kitti_06 | ours (SIFT) | 1101/1101 (100 %) | OK | 60.5159 | 4.91 | 1232.88 | 31.7120 | 0.36 | 100 | n/a | 1 | 1101 | n/a | 260 |
 | kitti_07 | COLMAP (sequential) | 1101/1101 (100 %) | OK | 16.9797 | 2.44 | 694.70 | 16.6604 | 1.09 | 100 | n/a | 1 | 1101 | n/a | 3276 |
 | kitti_07 | ours (ORB) | 1060/1101 (96 %) | OK | 10.1066 | 1.48 | 684.24 | 10.8523 | 0.72 | 100 | n/a | 2 | 1091 | 9.9623 | 142 |
-| kitti_07 | ours (SIFT) | 1101/1101 (100 %) | OK | 16.6142 | 2.39 | 694.70 | 16.0660 | 0.55 | 100 | n/a | 1 | 1101 | n/a | 267 |
+| kitti_07 | ours (SIFT) | 1101/1101 (100 %) | OK | 16.5592 | 2.38 | 694.70 | 16.0168 | 0.53 | 100 | n/a | 1 | 1101 | n/a | 206 |
 | kitti_08 | ours (ORB) | 2812/4071 (69 %) | PARTIAL | 41.3426 | 1.91 | 2159.13 | 25.0466 | 0.85 | 100 | n/a | 4 | 4041 | 34.6239 | 1114 |
-| kitti_08 | ours (SIFT) | 4071/4071 (100 %) | OK | 114.7553 | 3.56 | 3222.80 | 55.3531 | 0.59 | 100 | n/a | 1 | 4071 | n/a | 1779 |
+| kitti_08 | ours (SIFT) | 4071/4071 (100 %) | OK | 115.4805 | 3.58 | 3222.80 | 55.5498 | 0.57 | 100 | n/a | 1 | 4071 | n/a | 988 |
 | kitti_09 | ours (ORB) | 760/1591 (48 %) | PARTIAL | 2.0881 | 0.27 | 777.91 | 2.6666 | 0.70 | 100 | n/a | 4 | 1561 | 5.0457 | 388 |
-| kitti_09 | ours (SIFT) | 1591/1591 (100 %) | OK | 80.7591 | 4.74 | 1705.05 | 27.3616 | 0.45 | 100 | n/a | 1 | 1591 | n/a | 516 |
+| kitti_09 | ours (SIFT) | 1591/1591 (100 %) | OK | 81.1145 | 4.76 | 1705.05 | 27.5037 | 0.44 | 100 | n/a | 1 | 1591 | n/a | 577 |
 | kitti_10 | ours (ORB) | 1201/1201 (100 %) | OK | 10.3644 | 1.13 | 919.52 | 8.6190 | 1.22 | 100 | n/a | 1 | 1201 | n/a | 507 |
-| kitti_10 | ours (SIFT) | 1201/1201 (100 %) | OK | 15.8429 | 1.72 | 919.52 | 15.5337 | 0.79 | 100 | n/a | 1 | 1201 | n/a | 643 |
+| kitti_10 | ours (SIFT) | 1201/1201 (100 %) | OK | 15.9978 | 1.74 | 919.52 | 15.6824 | 0.79 | 100 | n/a | 1 | 1201 | n/a | 500 |
 | pool_raw | COLMAP (exhaustive) | 117/117 (100 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 117 | n/a | 193 |
 | pool_raw | COLMAP (sequential) | 110/117 (94 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 110 | n/a | 83 |
 | pool_raw | ours (ORB) | 12/117 (10 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 4 | 21 | n/a | 15 |
 | pool_raw | ours (ORB), 1 frame in 2 | 2/59 (3 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 2 |
 | pool_raw | ours (ORB), 1 frame in 3 | 2/39 (5 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 2 |
-| pool_raw | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 6 | 28 | n/a | 68 |
-| pool_raw | ours (SIFT), 1 frame in 2 | 2/59 (3 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 20 |
-| pool_raw | ours (SIFT), 1 frame in 3 | 2/39 (5 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 8 |
+| pool_raw | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 6 | 28 | n/a | 31 |
+| pool_raw | ours (SIFT), 1 frame in 2 | 2/59 (3 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 7 |
+| pool_raw | ours (SIFT), 1 frame in 3 | 2/39 (5 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 2 | n/a | 4 |
 | pool_width_scaled | COLMAP (exhaustive) | 117/117 (100 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 117 | n/a | 188 |
 | pool_width_scaled | COLMAP (sequential) | 110/117 (94 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 1 | 110 | n/a | 70 |
 | pool_width_scaled | ours (ORB) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 4 | 21 | n/a | 15 |
-| pool_width_scaled | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 5 | 26 | n/a | 74 |
+| pool_width_scaled | ours (SIFT) | 11/117 (9 %) | no ground truth | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 5 | 26 | n/a | 32 |
