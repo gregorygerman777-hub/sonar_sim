@@ -1,0 +1,130 @@
+{
+  "run": "kitti_01_orb",
+  "dataset": "kitti_01",
+  "method": "monoslam",
+  "frontend": "orb",
+  "frames_total": 1101,
+  "frames_posed": 574,
+  "fraction_posed": 0.5213442325158947,
+  "run_path_length_m": 2453.2030391857943,
+  "status": "PARTIAL",
+  "associated_poses": 574,
+  "scorable_frames": 1101,
+  "fraction_of_scorable_posed": 0.5213442325158947,
+  "association_max_diff": 0.02,
+  "sim3_scale": 104.20973154706424,
+  "sim3_rotation": [
+    [
+      0.3346087180824017,
+      0.04101978654029662,
+      0.9414639573002467
+    ],
+    [
+      0.14691148237548843,
+      0.9845662575967977,
+      -0.09511204312847671
+    ],
+    [
+      -0.9308351208079164,
+      0.17013718439548992,
+      0.3234181756742914
+    ]
+  ],
+  "sim3_translation": [
+    -155.87272671445214,
+    2.353156787947981,
+    83.89250334815358
+  ],
+  "gt_path_length_m": 1402.8145855346806,
+  "ate_m": {
+    "rmse": 173.4724107014426,
+    "mean": 149.15001769300613,
+    "median": 147.89824786023598,
+    "std": 88.58300907479916,
+    "min": 8.177831309242597,
+    "max": 401.3581108174433,
+    "sse": 17273196.755603172
+  },
+  "ate_rmse_percent_of_path": 12.366025595273081,
+  "orientation_error_deg": null,
+  "orientation_error_note": "not determined: ground truth path nearly straight (singular value ratio 0.049 < 0.05), so the alignment's rotation about it is arbitrary; see RPE",
+  "rpe_delta_m": 100.0,
+  "rpe_translation_m": {
+    "rmse": 78.72457287881066,
+    "mean": 73.1295991730933,
+    "median": 84.40207082444667,
+    "std": 29.148243510268035,
+    "min": 3.1978538146513973,
+    "max": 113.221687215625,
+    "sse": 3334286.40572373
+  },
+  "rpe_rotation_deg": {
+    "rmse": 7.18966916007511,
+    "mean": 4.936878140133484,
+    "median": 3.000069251167055,
+    "std": 5.226717599106277,
+    "min": 0.0637797364902207,
+    "max": 19.96259350615113,
+    "sse": 27809.942335658307
+  },
+  "segments": [
+    {
+      "map": "primary",
+      "frames_posed": 574,
+      "associated_poses": 574,
+      "ate_rmse_m": 173.4724107014426,
+      "gt_path_length_m": 1402.8145855346806,
+      "sim3_scale": 104.20973154706424
+    },
+    {
+      "map": "map_0",
+      "frames_posed": 2
+    },
+    {
+      "map": "map_1",
+      "frames_posed": 3,
+      "associated_poses": 3,
+      "ate_rmse_m": 0.4381706294335399,
+      "gt_path_length_m": 1.9507295849791904,
+      "sim3_scale": 12.6870224785488
+    },
+    {
+      "map": "map_3",
+      "frames_posed": 62,
+      "associated_poses": 62,
+      "ate_rmse_m": 3.4215936890746694,
+      "gt_path_length_m": 165.0583131136718,
+      "sim3_scale": 141.92919711217266
+    },
+    {
+      "map": "map_4",
+      "frames_posed": 2
+    },
+    {
+      "map": "map_5",
+      "frames_posed": 2
+    },
+    {
+      "map": "map_6",
+      "frames_posed": 368,
+      "associated_poses": 368,
+      "ate_rmse_m": 112.6919149027297,
+      "gt_path_length_m": 693.3485334978154,
+      "sim3_scale": 2416.316303438666
+    },
+    {
+      "map": "map_7",
+      "frames_posed": 18,
+      "associated_poses": 18,
+      "ate_rmse_m": 2.7975862214404783,
+      "gt_path_length_m": 27.776997897727036,
+      "sim3_scale": 167.25852908478794
+    }
+  ],
+  "all_maps": {
+    "maps": 8,
+    "frames_posed": 1031,
+    "associated_poses": 1025,
+    "ate_rmse_m_each_map_aligned_separately": 146.32895840324883
+  }
+}

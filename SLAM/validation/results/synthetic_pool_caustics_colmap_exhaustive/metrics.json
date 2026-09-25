@@ -6,6 +6,7 @@
   "frames_total": 60,
   "frames_posed": 2,
   "fraction_posed": 0.03333333333333333,
-  "status": "FAILED",
+  "run_path_length_m": 9.906381455445617,
+  "status": "TOO FEW POSED",
   "reason": "fewer than 3 posed frames"
 }

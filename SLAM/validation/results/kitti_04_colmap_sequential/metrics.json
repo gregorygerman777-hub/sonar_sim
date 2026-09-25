@@ -1,0 +1,71 @@
+{
+  "run": "kitti_04_colmap_sequential",
+  "dataset": "kitti_04",
+  "method": "colmap_sequential",
+  "frontend": "sift",
+  "frames_total": 271,
+  "frames_posed": 271,
+  "fraction_posed": 1.0,
+  "run_path_length_m": 393.6451343954618,
+  "status": "OK",
+  "associated_poses": 271,
+  "scorable_frames": 271,
+  "fraction_of_scorable_posed": 1.0,
+  "association_max_diff": 0.02,
+  "sim3_scale": 31.3727930704828,
+  "sim3_rotation": [
+    [
+      0.9203464011240733,
+      0.36772934462572565,
+      0.13318269797199936
+    ],
+    [
+      -0.3906612758232576,
+      0.8805627080106311,
+      0.2683152713378968
+    ],
+    [
+      -0.01860831830422737,
+      -0.29897231704978755,
+      0.9540803342107886
+    ]
+  ],
+  "sim3_translation": [
+    -0.2525064632790403,
+    -3.3433868207084263,
+    188.1001118535863
+  ],
+  "gt_path_length_m": 393.6451343954618,
+  "ate_m": {
+    "rmse": 0.6459385447476717,
+    "mean": 0.5645232300580812,
+    "median": 0.5555813414532839,
+    "std": 0.31392694423309786,
+    "min": 0.05154176840628341,
+    "max": 1.4391025484041629,
+    "sse": 113.0711195730905
+  },
+  "ate_rmse_percent_of_path": 0.1640915861286252,
+  "orientation_error_deg": null,
+  "orientation_error_note": "not determined: ground truth path nearly straight (singular value ratio 0.002 < 0.05), so the alignment's rotation about it is arbitrary; see RPE",
+  "rpe_delta_m": 100.0,
+  "rpe_translation_m": {
+    "rmse": 1.0356501145644983,
+    "mean": 0.9669157094165612,
+    "median": 0.9539383119324096,
+    "std": 0.37100562082120286,
+    "min": 0.34548962456871696,
+    "max": 1.7165238027997922,
+    "sse": 230.60279935645354
+  },
+  "rpe_rotation_deg": {
+    "rmse": 0.13222676557310864,
+    "mean": 0.11902244715277513,
+    "median": 0.11214788019714678,
+    "std": 0.05759839066927718,
+    "min": 0.015674607449982766,
+    "max": 0.2686937965241626,
+    "sse": 3.759042269794053
+  },
+  "segments": []
+}

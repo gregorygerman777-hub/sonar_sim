@@ -1,0 +1,71 @@
+{
+  "run": "kitti_04_sift",
+  "dataset": "kitti_04",
+  "method": "monoslam",
+  "frontend": "sift",
+  "frames_total": 271,
+  "frames_posed": 271,
+  "fraction_posed": 1.0,
+  "run_path_length_m": 393.6451343954618,
+  "status": "OK",
+  "associated_poses": 271,
+  "scorable_frames": 271,
+  "fraction_of_scorable_posed": 1.0,
+  "association_max_diff": 0.02,
+  "sim3_scale": 42.88420580899211,
+  "sim3_rotation": [
+    [
+      0.9978088662877138,
+      0.06609472095296927,
+      0.002992360235009422
+    ],
+    [
+      -0.0660879479035747,
+      0.9978111313693915,
+      -0.0023085184057697176
+    ],
+    [
+      -0.003138391231403962,
+      0.002105701185945337,
+      0.9999928582359949
+    ]
+  ],
+  "sim3_translation": [
+    0.04297933044575056,
+    0.11350774211994885,
+    2.5285063673598813
+  ],
+  "gt_path_length_m": 393.6451343954618,
+  "ate_m": {
+    "rmse": 1.1976234004846844,
+    "mean": 1.040940582507177,
+    "median": 1.0728766746558984,
+    "std": 0.5922368724405113,
+    "min": 0.0745035455282071,
+    "max": 2.697100888267048,
+    "sse": 388.6957903442832
+  },
+  "ate_rmse_percent_of_path": 0.30423935058258184,
+  "orientation_error_deg": null,
+  "orientation_error_note": "not determined: ground truth path nearly straight (singular value ratio 0.002 < 0.05), so the alignment's rotation about it is arbitrary; see RPE",
+  "rpe_delta_m": 100.0,
+  "rpe_translation_m": {
+    "rmse": 1.828807667554462,
+    "mean": 1.6428933858280912,
+    "median": 1.6525879363586342,
+    "std": 0.8033920635084101,
+    "min": 0.3990514754757957,
+    "max": 3.081837182492351,
+    "sse": 719.0755592547881
+  },
+  "rpe_rotation_deg": {
+    "rmse": 0.15665856502394726,
+    "mean": 0.1389988557591756,
+    "median": 0.1499668483943437,
+    "std": 0.07225803825874472,
+    "min": 0.01650866244285841,
+    "max": 0.3045225656359554,
+    "sse": 5.276509789002898
+  },
+  "segments": []
+}

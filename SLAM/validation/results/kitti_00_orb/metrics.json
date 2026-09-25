@@ -1,0 +1,110 @@
+{
+  "run": "kitti_00_orb",
+  "dataset": "kitti_00",
+  "method": "monoslam",
+  "frontend": "orb",
+  "frames_total": 4541,
+  "frames_posed": 3540,
+  "fraction_posed": 0.7795639726932394,
+  "run_path_length_m": 3724.186990597451,
+  "status": "PARTIAL",
+  "associated_poses": 3540,
+  "scorable_frames": 4541,
+  "fraction_of_scorable_posed": 0.7795639726932394,
+  "association_max_diff": 0.02,
+  "sim3_scale": 17.14486821169316,
+  "sim3_rotation": [
+    [
+      -0.9999338548457136,
+      -0.006637206704936379,
+      -0.009393264637333905
+    ],
+    [
+      -0.00720676020046292,
+      0.9980526466462862,
+      0.06195947974084472
+    ],
+    [
+      0.008963734757569721,
+      0.06202307642723865,
+      -0.9980344630571112
+    ]
+  ],
+  "sim3_translation": [
+    -93.16931180974376,
+    -10.985447251338632,
+    323.8056473056672
+  ],
+  "gt_path_length_m": 3008.0469298804283,
+  "ate_m": {
+    "rmse": 53.846110101636164,
+    "mean": 47.424447323883555,
+    "median": 49.02178367389528,
+    "std": 25.501477782703457,
+    "min": 2.4894692500682547,
+    "max": 100.09503395799965,
+    "sse": 10263888.648694437
+  },
+  "ate_rmse_percent_of_path": 1.7900688173032122,
+  "orientation_error_deg": {
+    "rmse": 3.9041108609848263,
+    "mean": 3.8470095981491843,
+    "median": 3.708118032613938,
+    "std": 0.6652809681688904,
+    "min": 0.33815062095578224,
+    "max": 5.570386430386519,
+    "sse": 53956.96891660328
+  },
+  "orientation_error_note": null,
+  "rpe_delta_m": 100.0,
+  "rpe_translation_m": {
+    "rmse": 22.78016392875799,
+    "mean": 21.56493953905666,
+    "median": 23.126453949661208,
+    "std": 7.3409298660263405,
+    "min": 1.4663590435683864,
+    "max": 39.5488582554786,
+    "sse": 1793961.2978230969
+  },
+  "rpe_rotation_deg": {
+    "rmse": 1.01818352836025,
+    "mean": 0.7653053384221369,
+    "median": 0.6453515520292065,
+    "std": 0.6715693831665548,
+    "min": 0.03077940695428814,
+    "max": 7.353756293808634,
+    "sse": 3583.8639399952112
+  },
+  "segments": [
+    {
+      "map": "primary",
+      "frames_posed": 3540,
+      "associated_poses": 3540,
+      "ate_rmse_m": 53.846110101636164,
+      "gt_path_length_m": 3008.0469298804283,
+      "sim3_scale": 17.14486821169316
+    },
+    {
+      "map": "map_0",
+      "frames_posed": 768,
+      "associated_poses": 768,
+      "ate_rmse_m": 3.724627252289274,
+      "gt_path_length_m": 529.7268737437753,
+      "sim3_scale": 21.039720836109165
+    },
+    {
+      "map": "map_1",
+      "frames_posed": 213,
+      "associated_poses": 213,
+      "ate_rmse_m": 0.5138412148206973,
+      "gt_path_length_m": 167.11065066122535,
+      "sim3_scale": 17.46096160791869
+    }
+  ],
+  "all_maps": {
+    "maps": 3,
+    "frames_posed": 4521,
+    "associated_poses": 4521,
+    "ate_rmse_m_each_map_aligned_separately": 47.672199734564146
+  }
+}

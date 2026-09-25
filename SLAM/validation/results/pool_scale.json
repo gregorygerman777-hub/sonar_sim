@@ -1,25 +1,25 @@
 {
   "run": "pool_raw_colmap_exhaustive",
-  "floor_plane_inliers": 2596,
-  "map_points": 12133,
+  "floor_plane_inliers": 2539,
+  "map_points": 12152,
   "camera_height_units": {
-    "median": 0.9726757435365796,
+    "median": 0.9730134356191972,
     "iqr": [
-      0.9255334944194088,
-      1.0190956612114683
+      0.9157451755664057,
+      1.0103989475539055
     ]
   },
   "stripes": [
     {
-      "centre_units": -1.7455246454103548,
-      "width_units_median": 0.45428226580724607,
+      "centre_units": -1.7655756797342315,
+      "width_units_median": 0.4514142419278122,
       "width_units_iqr": [
-        0.4465854431062399,
-        0.4623035238244432
+        0.4473554278141616,
+        0.46015021690021973
       ],
       "width_units_range": [
-        0.4444832238787926,
-        0.4700239715661816
+        0.4434131719195944,
+        0.4727543034247821
       ],
       "detections": 6,
       "frames": [
@@ -32,15 +32,15 @@
       ]
     },
     {
-      "centre_units": 1.5209002907544718,
-      "width_units_median": 0.4359264550548658,
+      "centre_units": 1.5124767444711713,
+      "width_units_median": 0.43227418859843625,
       "width_units_iqr": [
-        0.4120444689809542,
-        0.487772138606714
+        0.4101202776508271,
+        0.4925305046245032
       ],
       "width_units_range": [
-        0.3278700017417062,
-        0.49272670160253984
+        0.32980953001926894,
+        0.49273935564909577
       ],
       "detections": 8,
       "frames": [
@@ -55,26 +55,26 @@
       ]
     }
   ],
-  "min_stripe_width_units": 0.2431689358841449,
-  "stripe_spacing_units": 3.2664249361648263,
-  "spacing_over_width": 7.338559732377136,
+  "min_stripe_width_units": 0.2432533589047993,
+  "stripe_spacing_units": 3.278052424205403,
+  "spacing_over_width": 7.4190230650712,
   "conditional_scale": {
     "note": "metres per model unit IF the stripe width is the stated value; not a measurement of the pool",
     "stripe_width_0.200_m": {
-      "metres_per_unit": 0.4493328256912883,
-      "camera_height_m": 0.43705514032466614
+      "metres_per_unit": 0.4526482255310218,
+      "camera_height_m": 0.44043280505087273
     },
     "stripe_width_0.254_m": {
-      "metres_per_unit": 0.5706526886279361,
-      "camera_height_m": 0.5550600282123259
+      "metres_per_unit": 0.5748632464243977,
+      "camera_height_m": 0.5593496624146084
     },
     "stripe_width_0.250_m": {
-      "metres_per_unit": 0.5616660321141103,
-      "camera_height_m": 0.5463189254058326
+      "metres_per_unit": 0.5658102819137772,
+      "camera_height_m": 0.5505410063135909
     },
     "stripe_width_0.300_m": {
-      "metres_per_unit": 0.6739992385369323,
-      "camera_height_m": 0.6555827104869991
+      "metres_per_unit": 0.6789723382965327,
+      "camera_height_m": 0.6606492075763091
     }
   }
 }

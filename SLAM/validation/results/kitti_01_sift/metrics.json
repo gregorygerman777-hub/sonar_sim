@@ -1,0 +1,118 @@
+{
+  "run": "kitti_01_sift",
+  "dataset": "kitti_01",
+  "method": "monoslam",
+  "frontend": "sift",
+  "frames_total": 1101,
+  "frames_posed": 478,
+  "fraction_posed": 0.43415077202543145,
+  "run_path_length_m": 2453.2030391857943,
+  "status": "PARTIAL",
+  "associated_poses": 478,
+  "scorable_frames": 1101,
+  "fraction_of_scorable_posed": 0.43415077202543145,
+  "association_max_diff": 0.02,
+  "sim3_scale": 64.47076248979555,
+  "sim3_rotation": [
+    [
+      0.9999362434565021,
+      0.002428828851039618,
+      -0.011027683914148552
+    ],
+    [
+      -0.002693793912257892,
+      0.9997064937577167,
+      -0.024076333047420767
+    ],
+    [
+      0.01096596992774917,
+      0.024104504331440058,
+      0.9996492986915353
+    ]
+  ],
+  "sim3_translation": [
+    -7.721164012354052,
+    1.002318015179152,
+    -0.5987004037085342
+  ],
+  "gt_path_length_m": 1115.9987623795746,
+  "ate_m": {
+    "rmse": 7.074937062367386,
+    "mean": 5.6465233556155185,
+    "median": 5.515690733319629,
+    "std": 4.262805230238432,
+    "min": 0.26497085887040306,
+    "max": 26.939863157060653,
+    "sse": 23926.163060627714
+  },
+  "ate_rmse_percent_of_path": 0.6339556369472972,
+  "orientation_error_deg": {
+    "rmse": 1.5420529835789762,
+    "mean": 1.2742103073267563,
+    "median": 1.005743533315918,
+    "std": 0.8685133832400489,
+    "min": 0.35703291955386784,
+    "max": 3.93295465214451,
+    "sse": 1136.649299190785
+  },
+  "orientation_error_note": null,
+  "rpe_delta_m": 100.0,
+  "rpe_translation_m": {
+    "rmse": 5.521139937985564,
+    "mean": 3.810941644131384,
+    "median": 1.9674388538421586,
+    "std": 3.9949605755056483,
+    "min": 0.7669071517487593,
+    "max": 18.83382488524411,
+    "sse": 13503.962893164922
+  },
+  "rpe_rotation_deg": {
+    "rmse": 0.5480104074741938,
+    "mean": 0.47447539040673603,
+    "median": 0.41279926563581126,
+    "std": 0.27420523444749806,
+    "min": 0.04985885460859138,
+    "max": 1.0569519544659043,
+    "sse": 133.03972516811416
+  },
+  "segments": [
+    {
+      "map": "primary",
+      "frames_posed": 478,
+      "associated_poses": 478,
+      "ate_rmse_m": 7.074937062367386,
+      "gt_path_length_m": 1115.9987623795746,
+      "sim3_scale": 64.47076248979555
+    },
+    {
+      "map": "map_1",
+      "frames_posed": 110,
+      "associated_poses": 110,
+      "ate_rmse_m": 1.2637692291909186,
+      "gt_path_length_m": 285.27739905722495,
+      "sim3_scale": 345.0675246087192
+    },
+    {
+      "map": "map_2",
+      "frames_posed": 463,
+      "associated_poses": 463,
+      "ate_rmse_m": 4.856458988771076,
+      "gt_path_length_m": 950.0213344628467,
+      "sim3_scale": 44.99418287222554
+    },
+    {
+      "map": "map_3",
+      "frames_posed": 15,
+      "associated_poses": 15,
+      "ate_rmse_m": 0.023323065242493158,
+      "gt_path_length_m": 27.776954978631085,
+      "sim3_scale": 136.07876980351466
+    }
+  ],
+  "all_maps": {
+    "maps": 4,
+    "frames_posed": 1066,
+    "associated_poses": 1066,
+    "ate_rmse_m_each_map_aligned_separately": 5.731794606592997
+  }
+}

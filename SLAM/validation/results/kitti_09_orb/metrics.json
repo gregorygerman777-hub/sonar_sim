@@ -1,0 +1,118 @@
+{
+  "run": "kitti_09_orb",
+  "dataset": "kitti_09",
+  "method": "monoslam",
+  "frontend": "orb",
+  "frames_total": 1591,
+  "frames_posed": 760,
+  "fraction_posed": 0.4776869893148963,
+  "run_path_length_m": 1705.0514567133232,
+  "status": "PARTIAL",
+  "associated_poses": 760,
+  "scorable_frames": 1591,
+  "fraction_of_scorable_posed": 0.4776869893148963,
+  "association_max_diff": 0.02,
+  "sim3_scale": 23.348160086014083,
+  "sim3_rotation": [
+    [
+      0.9992477864529556,
+      0.017410357643306798,
+      -0.03465170581084473
+    ],
+    [
+      -0.017819179275131828,
+      0.9997748077157684,
+      -0.011524352773970552
+    ],
+    [
+      0.03444325941065809,
+      0.01213314895772576,
+      0.9993330018455009
+    ]
+  ],
+  "sim3_translation": [
+    5.202890115112508,
+    0.0006865589342268663,
+    -2.5500871126773177
+  ],
+  "gt_path_length_m": 777.9104009356864,
+  "ate_m": {
+    "rmse": 2.0880780271639137,
+    "mean": 1.6407645210418473,
+    "median": 1.0942918369159798,
+    "std": 1.29149589004962,
+    "min": 0.10765547897569976,
+    "max": 5.79422214827336,
+    "sse": 3313.653084118804
+  },
+  "ate_rmse_percent_of_path": 0.2684214049140275,
+  "orientation_error_deg": {
+    "rmse": 1.0537531985111495,
+    "mean": 0.8676711518338448,
+    "median": 0.7202518006671503,
+    "std": 0.5979486396404015,
+    "min": 0.2044033239985829,
+    "max": 2.4182068764180933,
+    "sse": 843.9008105630833
+  },
+  "orientation_error_note": null,
+  "rpe_delta_m": 100.0,
+  "rpe_translation_m": {
+    "rmse": 2.666595454413109,
+    "mean": 2.0383118682405437,
+    "median": 1.4976462176004377,
+    "std": 1.719306850241224,
+    "min": 0.24182615340669877,
+    "max": 8.122945760018908,
+    "sse": 4728.636326135275
+  },
+  "rpe_rotation_deg": {
+    "rmse": 0.7039173099461071,
+    "mean": 0.6324232926585318,
+    "median": 0.5556079589120873,
+    "std": 0.3090960338546985,
+    "min": 0.2405112929070867,
+    "max": 1.573484170289451,
+    "sse": 329.507220195773
+  },
+  "segments": [
+    {
+      "map": "primary",
+      "frames_posed": 760,
+      "associated_poses": 760,
+      "ate_rmse_m": 2.0880780271639137,
+      "gt_path_length_m": 777.9104009356864,
+      "sim3_scale": 23.348160086014083
+    },
+    {
+      "map": "map_1",
+      "frames_posed": 678,
+      "associated_poses": 678,
+      "ate_rmse_m": 7.326381750066076,
+      "gt_path_length_m": 783.9981525872705,
+      "sim3_scale": 12.001721897522103
+    },
+    {
+      "map": "map_2",
+      "frames_posed": 22,
+      "associated_poses": 22,
+      "ate_rmse_m": 0.059742360590313986,
+      "gt_path_length_m": 30.106371912189882,
+      "sim3_scale": 24.922035399634435
+    },
+    {
+      "map": "map_3",
+      "frames_posed": 101,
+      "associated_poses": 101,
+      "ate_rmse_m": 0.5925070292911766,
+      "gt_path_length_m": 70.18028261296611,
+      "sim3_scale": 24.94891116170006
+    }
+  ],
+  "all_maps": {
+    "maps": 4,
+    "frames_posed": 1561,
+    "associated_poses": 1561,
+    "ate_rmse_m_each_map_aligned_separately": 5.045686767209391
+  }
+}
