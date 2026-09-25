@@ -2,6 +2,7 @@
 
 import json
 import subprocess
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -21,8 +22,10 @@ def write_tum(path, timestamps, R_wc, t_wc):
 
 
 def read_tum(path):
-    """Returns timestamps (N,), R_wc (N,3,3), t_wc (N,3)."""
-    rows = np.loadtxt(path, comments="#", ndmin=2)
+    """Returns timestamps (N,), R_wc (N,3,3), t_wc (N,3); empty arrays for a run that posed no frame."""
+    with warnings.catch_warnings():     # a header only file is a valid empty trajectory, not a problem to report
+        warnings.filterwarnings("ignore", message="loadtxt: input contained no data")
+        rows = np.loadtxt(path, comments="#", ndmin=2)
     if rows.size == 0:
         return np.empty(0), np.empty((0, 3, 3)), np.empty((0, 3))
     from scipy.spatial.transform import Rotation

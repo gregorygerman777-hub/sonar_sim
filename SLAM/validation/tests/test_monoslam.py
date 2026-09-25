@@ -144,6 +144,19 @@ class TestExportConvention(unittest.TestCase):
         np.testing.assert_allclose(row[1:4], [1, 2, 3])
         np.testing.assert_allclose(row[4:8], [0, 0, np.sin(np.pi / 4), np.cos(np.pi / 4)], atol=1e-9)
 
+    def test_empty_trajectory_reads_quietly(self):
+        """A run that posed no frame writes a header only trajectory; reading it gave a numpy 'input contained no
+        data' warning in every scoring log, which reads like an error. The result was right and stays right."""
+        import warnings
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "traj.txt"
+            export.write_tum(path, [], [], [])
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always")
+                ts, R, t = export.read_tum(path)
+        self.assertEqual([str(w.message) for w in caught], [])
+        self.assertEqual((ts.shape, R.shape, t.shape), ((0,), (0, 3, 3), (0, 3)))
+
     def test_ply_round_trip(self):
         xyz = np.random.default_rng(7).normal(size=(20, 3))
         rgb = np.random.default_rng(8).integers(0, 255, (20, 3)).astype(np.uint8)
