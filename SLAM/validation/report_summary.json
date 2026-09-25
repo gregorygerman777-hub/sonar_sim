@@ -9,8 +9,8 @@
       "heading": "1. Assessment on datasets with ground truth",
       "paragraphs": [
         "As you asked, I first assessed the implementation on data with ground truth, to find bugs before running it on your data: KITTI odometry 00 to 10 (left camera only), plus TUM RGB D, AQUALOC (real underwater video) and a rendered pool scene with exact ground truth, all with the same settings. The SLAM is keyframe based and monocular (tracking against a local map, triangulation, local and global bundle adjustment, relocalization).",
-        "<b>Bugs found and fixed.</b> Ground truth exposed two bugs in how the monocular scale is held (the map grew about 2,500 times in local bundle adjustment; map point fusion later collapsed it). A review against the published design the code follows found two more (map points counted and culled wrongly), measurement found a half pixel principal point error in the reference method and the rendered scene, and three errors were in the evaluation metrics. Each is fixed with a test that fails on the old code, and every result here was rerun with the final code.",
-        "<b>Results.</b> With SIFT features the SLAM tracks every frame of 10 of the 11 KITTI sequences; with ORB it loses track on 7 and restarts in a new map. Where it tracks every frame, the error is 0.3 % of the distance driven on the short sequences and up to 4.9 % on the long ones, because with no loop closure yet the monocular scale drifts. COLMAP on the same frames: 0.65 m on 04 (mine 1.05 to 1.20 m), 16.98 m on the 07 loop (mine 10.11 to 16.61 m). On the rendered pool scene the 10 m path is recovered to 0.5 cm (ORB) and 0.2 cm (SIFT); on AQUALOC, under 1 cm while it tracks."
+        "<b>Bugs found and fixed.</b> Ground truth exposed two bugs in how the monocular scale is held (the map grew about 2,500 times in local bundle adjustment; map point fusion later collapsed it). A review against the published design the code follows found two more (map points counted and culled wrongly), measurement found pixel convention errors (half a pixel in the reference method and the rendered scene, a quarter pixel in the SIFT keypoints), and three errors were in the evaluation metrics. Each is fixed with a test that fails on the old code, and every result here was rerun with the final code.",
+        "<b>Results.</b> With SIFT features the SLAM tracks every frame of 10 of the 11 KITTI sequences; with ORB it loses track on 7 and restarts in a new map. Where it tracks every frame, the error is 0.3 % of the distance driven on the short sequences and up to 4.9 % on the long ones, because with no loop closure yet the monocular scale drifts. COLMAP on the same frames: 0.65 m on 04 (mine 1.05 to 1.21 m), 16.98 m on the 07 loop (mine 10.11 to 16.56 m). On the rendered pool scene the 10 m path is recovered to 0.5 cm (ORB) and 0.2 cm (SIFT); on AQUALOC, under 1 cm while it tracks."
       ],
       "compact_table": {
         "datasets": [
@@ -78,7 +78,7 @@
           {
             "path": "figures/kitti_07/kitti_07_sift/2_model.png",
             "max_height_in": 3.6,
-            "caption": "(b) 3D model: the 75,512 map points of the run."
+            "caption": "(b) 3D model: the 75,513 map points of the run."
           },
           {
             "path": "figures/kitti_07/kitti_07_sift/4_overlay_top.png",

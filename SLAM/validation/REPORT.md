@@ -6,7 +6,7 @@
 
 1. **The implementation is correct where the answer is known exactly.** On a rendered scene resembling the pool (an arc
    around a rock on tiles and pebbles, exact ground truth), the monocular SLAM recovers the 10 m trajectory to
-   **0.52 cm ATE (0.05 %) with ORB and 0.23 cm (0.02 %) with SIFT**, and its 3D map lies a **median 1.10 cm (ORB) /
+   **0.52 cm ATE (0.05 %) with ORB and 0.21 cm (0.02 %) with SIFT**, and its 3D map lies a **median 1.10 cm (ORB) /
    0.62 cm (SIFT) from the true surface**. COLMAP on the same images: 0.29 cm (map 0.76 cm).
 2. **On KITTI, the benchmark Dr. Negahdaripour named, it tracks, and its error is monocular drift.** With SIFT it tracks
    every frame of 10 of the 11 sequences 00 to 10 in one map (01, a highway, splits into 4 maps); with ORB, 4 of the 11,
@@ -14,26 +14,27 @@
    alignment is 0.3 % of the path on the two short sequences and 1.1 to 4.9 % on the long ones. The RPE over 100 m shows
    why: with no loop closure the monocular scale drifts along a long run (on 00 with SIFT, 100 m of road measures a
    median 0.46 times that in the aligned estimate). COLMAP, on the same frames: 0.65 m on 04 (ours 1.05 and 1.20 m); on
-   the 07 loop, without loop detection, 16.98 m (ours 10.11 m with ORB on its main map, 16.61 m with SIFT).
+   the 07 loop, without loop detection, 16.98 m (ours 10.11 m with ORB on its main map, 16.56 m with SIFT).
 3. **On real underwater imagery it is accurate while it tracks, but it loses track.** AQUALOC harbor 07:
    0.93 cm ATE over the 8.6 m tracked by its main map (ORB), but that is 42 % of the frames; after tracking losses the
    run continues in 3 maps (all maps together 0.81 cm, each aligned separately). COLMAP also splits this sequence
    (3 models, the largest 43 % of the frames), so part of the difficulty is the data: the ORB run loses track where the
    image goes black and then saturated (frames 742 to 782) and where the camera leaves a rock for featureless, turbid
    seabed (frames 1730 to 1883). With SIFT, a closed map is reopened when the camera comes back, and the main map
-   covers 758 frames at 0.68 cm.
-4. **On the TUM benchmark it is 1.7 to 3.9 times less accurate than COLMAP.** fr1/xyz: 1.58 cm (ORB), 2.35 cm (SIFT)
-   against COLMAP 0.92 cm; fr3/long_office: 7.72 cm (ORB), 5.28 cm (SIFT) against 1.98 cm. The gap was investigated
-   (initialisation, homography choice, per frame jitter) and none of those explain it; it is a smooth drift consistent
-   with having no loop closure and using only keyframe observations (`CHANGELOG.md`, entry 6).
+   covers 758 frames at 0.80 cm.
+4. **On the TUM benchmark it is 1.7 to 3.9 times less accurate than COLMAP.** fr1/xyz: 1.58 cm (ORB), 2.39 cm (SIFT)
+   against COLMAP 0.92 cm; fr3/long_office: 7.72 cm (ORB), 7.33 cm (SIFT) against 1.98 cm (the fr3 numbers are
+   sensitive: a quarter pixel correction of the SIFT keypoints moved the SIFT result from 5.28 to 7.33 cm, entry 26).
+   The gap was investigated (initialisation, homography choice, per frame jitter) and none of those explain it; it is a
+   smooth drift consistent with having no loop closure and using only keyframe observations (`CHANGELOG.md`, entry 6).
 5. **The validation found bugs, and each is fixed with a regression test that fails on the old code.** Ground truth
    exposed two scale bugs, both invisible without it: a monocular scale blow up (about 2,500x) in local bundle
    adjustment, and a scale collapse caused by map point fusion (entries 1 and 7). A code review against the ORB-SLAM
    design the code follows found two deviations in how map points are counted and culled (entry 16). Measurement found
-   a half pixel principal point error in the COLMAP baseline and in the synthetic scenes (entries 17 and 19). Checks of
-   the evaluation found three errors in the metrics themselves (entries 11, 14 and 22). Every run was then repeated
-   with the final code, and every number here comes from those runs (`CHANGELOG.md`, entries 15 to 23, has the before
-   and after numbers, including where they got worse).
+   pixel convention errors: half a pixel in the COLMAP baseline and in the synthetic scenes, and a quarter pixel in
+   OpenCV's SIFT keypoints (entries 17, 19 and 26). Checks of the evaluation found three errors in the metrics
+   themselves (entries 11, 14 and 22). Every run was then repeated with the final code, and every number here comes from
+   those runs (`CHANGELOG.md`, entries 15 to 26, has the before and after numbers, including where they got worse).
 6. **Pool data: our SLAM tracks 12 of the 117 stills; a multi view reconstruction registers all of them.** The
    longest map of our sequential SLAM holds 12 consecutive stills (opt28 to opt39); over the sequence it starts 4 maps,
    and none of the other three grows beyond 4 frames. COLMAP registers **all 117 frames in one model** (mean
@@ -56,19 +57,19 @@ Sim(3) alignment on the frames each method posed, and "ATE / path" is a percenta
 | Dataset | Method | Frames posed | ATE RMSE | ATE / path | Map error (median) |
 |---|---|---|---|---|---|
 | Synthetic pool (exact GT, 10.0 m) | ours ORB | 240/240 | 0.52 cm | 0.05 % | 1.10 cm |
-| | ours SIFT | 240/240 | 0.23 cm | 0.02 % | 0.62 cm |
+| | ours SIFT | 240/240 | 0.21 cm | 0.02 % | 0.62 cm |
 | | COLMAP | 240/240 | 0.29 cm | 0.03 % | 0.76 cm |
 | Synthetic pool + moving caustics | ours ORB | 240/240 | 1.95 cm | 0.19 % | 3.08 cm |
-| | ours SIFT | 240/240 | 0.58 cm | 0.06 % | 1.72 cm |
+| | ours SIFT | 240/240 | 0.62 cm | 0.06 % | 1.72 cm |
 | | COLMAP | 240/240 | 0.51 cm | 0.05 % | 1.30 cm |
 | TUM fr1/xyz (8.0 m) | ours ORB | 798/798 | 1.58 cm | 0.20 % | |
-| | ours SIFT | 798/798 | 2.35 cm | 0.29 % | |
+| | ours SIFT | 798/798 | 2.39 cm | 0.30 % | |
 | | COLMAP | 798/798 | 0.92 cm | 0.11 % | |
 | TUM fr3/long_office (22.1 m) | ours ORB | 2585/2585 | 7.72 cm | 0.35 % | |
-| | ours SIFT | 2585/2585 | 5.28 cm | 0.24 % | |
+| | ours SIFT | 2585/2585 | 7.33 cm | 0.33 % | |
 | | COLMAP (1 frame in 3) | 862/862 | 1.98 cm | 0.09 % | |
 | AQUALOC harbor 07 (23.9 m) | ours ORB | 947/2261 main map (2066 in 3 maps) | 0.93 cm (0.81 cm all maps) | 0.11 % | |
-| | ours SIFT | 758/2261 main map (1690 in 4 maps) | 0.68 cm (0.54 cm all maps) | 0.08 % | |
+| | ours SIFT | 758/2261 main map (1690 in 4 maps) | 0.80 cm (0.62 cm all maps) | 0.09 % | |
 | | COLMAP (1 frame in 2) | 482/1131 largest of 3 models | 0.54 cm | 0.06 % | |
 | KITTI 00 to 10 | ours ORB and SIFT; COLMAP on 04 and 07 | see the KITTI section | | | |
 | Pool (no ground truth, raw K) | ours ORB / SIFT | 12 / 11 of 117 | n/a | | |
@@ -86,17 +87,17 @@ shortest sequence, and on 07, a loop. Generated from `results/summary.csv`:
 
 | Seq | Length | ours ORB | ours SIFT | COLMAP (sequential) |
 |---|---|---|---|---|
-| 00 | 3724 m | 3540/4541, 3 maps: 53.85 m (1.79 %), RPE 22.8 m, 1.02 deg | 4541/4541: 107.14 m (2.88 %), RPE 50.7 m, 0.90 deg | not run |
-| 01 | 2453 m | 574/1101, 8 maps: 173.47 m (12.37 %), RPE 78.7 m, 7.19 deg | 478/1101, 4 maps: 7.07 m (0.63 %), RPE 5.5 m, 0.55 deg | not run |
-| 02 | 5067 m | 2360/4661, 2 maps: 22.83 m (0.87 %), RPE 9.5 m, 0.77 deg | 4661/4661: 121.51 m (2.40 %), RPE 40.5 m, 0.49 deg | not run |
-| 03 | 561 m | 396/801, 2 maps: 1.21 m (0.43 %), RPE 2.0 m, 0.62 deg | 801/801: 1.51 m (0.27 %), RPE 1.9 m, 0.47 deg | not run |
-| 04 | 394 m | 271/271: 1.05 m (0.27 %), RPE 1.7 m, 0.35 deg | 271/271: 1.20 m (0.30 %), RPE 1.8 m, 0.16 deg | 271/271: 0.65 m (0.16 %), RPE 1.0 m, 0.13 deg |
-| 05 | 2206 m | 2761/2761: 24.95 m (1.13 %), RPE 18.0 m, 0.69 deg | 2761/2761: 51.70 m (2.34 %), RPE 34.1 m, 0.49 deg | not run |
-| 06 | 1233 m | 1101/1101: 54.83 m (4.45 %), RPE 28.8 m, 0.50 deg | 1101/1101: 60.51 m (4.91 %), RPE 31.7 m, 0.37 deg | not run |
-| 07 | 695 m | 1060/1101, 2 maps: 10.11 m (1.48 %), RPE 10.9 m, 0.72 deg | 1101/1101: 16.61 m (2.39 %), RPE 16.1 m, 0.55 deg | 1101/1101: 16.98 m (2.44 %), RPE 16.7 m, 1.09 deg |
-| 08 | 3223 m | 2812/4071, 4 maps: 41.34 m (1.91 %), RPE 25.0 m, 0.85 deg | 4071/4071: 114.76 m (3.56 %), RPE 55.4 m, 0.59 deg | not run |
-| 09 | 1705 m | 760/1591, 4 maps: 2.09 m (0.27 %), RPE 2.7 m, 0.70 deg | 1591/1591: 80.76 m (4.74 %), RPE 27.4 m, 0.45 deg | not run |
-| 10 | 920 m | 1201/1201: 10.36 m (1.13 %), RPE 8.6 m, 1.22 deg | 1201/1201: 15.84 m (1.72 %), RPE 15.5 m, 0.79 deg | not run |
+| 00 | 3724 m | 3540/4541, 3 maps: 53.85 m (1.79 %), RPE 22.8 m, 1.02 deg | 4541/4541: 107.26 m (2.88 %), RPE 50.7 m, 0.89 deg | not run |
+| 01 | 2453 m | 574/1101, 8 maps: 173.47 m (12.37 %), RPE 78.7 m, 7.19 deg | 478/1101, 4 maps: 7.37 m (0.66 %), RPE 5.6 m, 0.53 deg | not run |
+| 02 | 5067 m | 2360/4661, 2 maps: 22.83 m (0.87 %), RPE 9.5 m, 0.77 deg | 4661/4661: 122.20 m (2.41 %), RPE 40.8 m, 0.48 deg | not run |
+| 03 | 561 m | 396/801, 2 maps: 1.21 m (0.43 %), RPE 2.0 m, 0.62 deg | 801/801: 1.49 m (0.26 %), RPE 1.9 m, 0.47 deg | not run |
+| 04 | 394 m | 271/271: 1.05 m (0.27 %), RPE 1.7 m, 0.35 deg | 271/271: 1.21 m (0.31 %), RPE 1.8 m, 0.16 deg | 271/271: 0.65 m (0.16 %), RPE 1.0 m, 0.13 deg |
+| 05 | 2206 m | 2761/2761: 24.95 m (1.13 %), RPE 18.0 m, 0.69 deg | 2761/2761: 51.53 m (2.34 %), RPE 34.2 m, 0.48 deg | not run |
+| 06 | 1233 m | 1101/1101: 54.83 m (4.45 %), RPE 28.8 m, 0.50 deg | 1101/1101: 60.52 m (4.91 %), RPE 31.7 m, 0.36 deg | not run |
+| 07 | 695 m | 1060/1101, 2 maps: 10.11 m (1.48 %), RPE 10.9 m, 0.72 deg | 1101/1101: 16.56 m (2.38 %), RPE 16.0 m, 0.53 deg | 1101/1101: 16.98 m (2.44 %), RPE 16.7 m, 1.09 deg |
+| 08 | 3223 m | 2812/4071, 4 maps: 41.34 m (1.91 %), RPE 25.0 m, 0.85 deg | 4071/4071: 115.48 m (3.58 %), RPE 55.5 m, 0.57 deg | not run |
+| 09 | 1705 m | 760/1591, 4 maps: 2.09 m (0.27 %), RPE 2.7 m, 0.70 deg | 1591/1591: 81.11 m (4.76 %), RPE 27.5 m, 0.44 deg | not run |
+| 10 | 920 m | 1201/1201: 10.36 m (1.13 %), RPE 8.6 m, 1.22 deg | 1201/1201: 16.00 m (1.74 %), RPE 15.7 m, 0.79 deg | not run |
 
 What it shows:
 * **Tracking.** With SIFT, every frame of 10 of the 11 sequences is tracked in one map; on 01 (a highway) tracking is
@@ -106,12 +107,12 @@ What it shows:
   on the short 03 and 04, 1.1 to 4.9 % on the others (a split run's ATE covers its main map only: 12.4 % on 01 with
   ORB, over 574 frames). Most of it is scale drift. Without loop closure a monocular map's scale changes
   along the run and one Sim(3) cannot absorb it: on 00 with SIFT, a 100 m stretch of road measures a median 0.46 times
-  that in the aligned estimate (0.17 to 1.31 times between the 5th and 95th percentiles), against 1.00 (0.96 to 1.02)
+  that in the aligned estimate (0.17 to 1.30 times between the 5th and 95th percentiles), against 1.00 (0.96 to 1.02)
   on 04. Rotation drift is small: under 1.3 degrees per 100 m except on 01 with ORB.
-* **ORB against SIFT.** ORB loses track more often, but drifts less while it tracks (05: 24.95 m against 51.70 m over
-  the same 2761 frames; 10: 10.36 m against 15.84 m).
+* **ORB against SIFT.** ORB loses track more often, but drifts less while it tracks (05: 24.95 m against 51.53 m over
+  the same 2761 frames; 10: 10.36 m against 16.00 m).
 * **COLMAP** is more accurate on 04 (0.65 m against 1.05 and 1.20 m). On the 07 loop, with no loop detection, it
-  drifts as our SLAM does: 16.98 m, against 16.61 m (SIFT) and 10.11 m (ORB, over the 1060 frames of its main map).
+  drifts as our SLAM does: 16.98 m, against 16.56 m (SIFT) and 10.11 m (ORB, over the 1060 frames of its main map).
 * **Effect of the fixes.** With ORB, 02 and 03 now lose track once where the code before entries 15 to 19 tracked
   every frame. Both were traced to a knife edge: in every version of the code the tracked inliers fall to the minimum
   of 30 at the same frame (03: frame 395; 02: frame 2291, where the old code kept 32 and the new one fell below 30),
@@ -165,8 +166,9 @@ Full details, tests and before/after numbers are in `CHANGELOG.md`. Each fix has
 5. **Relocalization and lost maps:** a lost map is replaced by a new one instead of the run ending (entry 4);
    relocalization searches the whole map by place recognition, and a closed map is reopened when the camera returns
    to it (entry 15). Maps are never merged.
-6. **Half pixel principal point errors (found by measurement):** in the COLMAP baseline, which uses a different pixel
-   convention (entry 17), and in the synthetic scenes' `K.txt` (entry 19).
+6. **Pixel convention errors (found by measurement):** half a pixel in the COLMAP baseline, which uses a different pixel
+   convention (entry 17), and in the synthetic scenes' `K.txt` (entry 19); a quarter pixel in OpenCV's SIFT keypoints
+   (entry 26).
 7. **Errors in the evaluation itself:** an orientation error reported on nearly straight paths, where the alignment
    cannot determine it (entry 11); an empty RPE on KITTI (entry 14); RPE segments measured along the estimate instead
    of the ground truth, which distorted the KITTI RPE by up to a factor of 2.4 (entry 22).
@@ -177,11 +179,11 @@ Full details, tests and before/after numbers are in `CHANGELOG.md`. Each fix has
 9. **Runtime:** sparse reduced camera system and an LM stopping rule, with no change to results (entry 5).
 10. **fr1/xyz accuracy gap to COLMAP:** investigated, not resolved; stated as a limitation (entry 6).
 
-Two tried changes were **not** adopted because they failed the synthetic unit test (ORB-SLAM's keyframe rule
-and a keyframe rule based on the tracked count both cut keyframes and doubled the map error); that decision was taken on
-the unit test, not on benchmark numbers. Some fixes made benchmark numbers worse (fr3 with ORB, KITTI 01, 02 and 03 with
-ORB); they were kept because they were decided on engineering grounds, and changing them back because of those numbers
-would be tuning on ground truth.
+Two tried changes were **not** adopted because they failed the synthetic unit test (ORB-SLAM's keyframe rule and a
+keyframe rule based on the tracked count both cut keyframes and doubled the map error); that decision was taken on the
+unit test, not on benchmark numbers. Some fixes made benchmark numbers worse (fr3 with ORB and with SIFT, KITTI 01, 02
+and 03 with ORB); they were kept because they were decided on engineering grounds, and changing them back because of
+those numbers would be tuning on ground truth.
 
 ## The pool data
 
