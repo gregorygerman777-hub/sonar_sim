@@ -177,20 +177,20 @@
     "ref_frame": 27,
     "frame": 28,
     "model": "homography",
-    "r_h": 0.4651304253790779,
+    "r_h": 0.46523526813943716,
     "matches": 464,
     "points": 446,
-    "parallax_points": 148,
+    "parallax_points": 147,
     "runner_up_points": 279,
-    "median_parallax_deg": 0.9207923281772088
+    "median_parallax_deg": 0.9206664049151227
   },
   "stats": {
-    "local_ba_seconds": 0.5639754590811208,
+    "local_ba_seconds": 0.302541957993526,
     "n_local_ba": 8,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 0.08626420801738277
+    "global_ba_seconds": 0.045463957998435944
   },
   "settings": {
     "frontend": "sift",
@@ -234,8 +234,8 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 1.5221795994680738,
-    "median_px": 0.5205746791933181,
+    "rmse_px": 1.5223176012324497,
+    "median_px": 0.5207805474284617,
     "observations": 2162
   },
   "K": [
@@ -282,10 +282,9 @@
     "k_hypothesis": "width_scaled",
     "timestamp": "frame number"
   },
-  "runtime_seconds": 73.54245016601635,
-  "tracking_seconds": 69.56797637505224,
-  "seconds_per_frame": 0.6285679501368919,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 32.17445749999024,
+  "tracking_seconds": 30.68416729097953,
+  "seconds_per_frame": 0.27499536324777984,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

@@ -7,11 +7,11 @@ pool_width_scaled: 117 frames, 1024x768, front end sift
   initialized with frames 27 and 28: homography, R_H=0.47, 446 points, runner up 279/446
   frame 47: lost for 10 frames, closing map 2 and starting a new map
   initialized with frames 48 and 49: essential, R_H=0.45, 263 points, runner up 16/263
-  frame 50/117: keyframe, inliers 82, map 3, keyframes 3, points 193, median depth 1.03, 14 s
+  frame 50/117: keyframe, inliers 82, map 3, keyframes 3, points 193, median depth 1.03, 6 s
   frame 63: lost for 10 frames, closing map 3 and starting a new map
   initialized with frames 64 and 65: essential, R_H=0.36, 87 points, runner up 1/87
   frame 75: lost for 10 frames, closing map 4 and starting a new map
-  frame 100/117: untracked, inliers 0, map 5, keyframes 0, points 0, median depth nan, 48 s
-  frame 116/117: untracked, inliers 0, map 5, keyframes 0, points 0, median depth nan, 70 s
+  frame 100/117: untracked, inliers 0, map 5, keyframes 0, points 0, median depth nan, 21 s
+  frame 116/117: untracked, inliers 0, map 5, keyframes 0, points 0, median depth nan, 31 s
 global bundle adjustment and final localization pass
-done: 11/117 frames posed by the primary map (5 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 3, 'keyframes': 2, 'points': 198}, {'map': 1, 'first_frame': 13, 'frames_posed': 4, 'keyframes': 4, 'points': 352}, {'map': 2, 'first_frame': 27, 'frames_posed': 11, 'keyframes': 10, 'points': 582}, {'map': 3, 'first_frame': 48, 'frames_posed': 6, 'keyframes': 6, 'points': 397}, {'map': 4, 'first_frame': 64, 'frames_posed': 2, 'keyframes': 2, 'points': 87}]), 10 keyframes, 582 points, 74 s. Status: {'keyframe': 10, 'tracked': 1, 'untracked': 10}
+done: 11/117 frames posed by the primary map (5 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 3, 'keyframes': 2, 'points': 198}, {'map': 1, 'first_frame': 13, 'frames_posed': 4, 'keyframes': 4, 'points': 352}, {'map': 2, 'first_frame': 27, 'frames_posed': 11, 'keyframes': 10, 'points': 582}, {'map': 3, 'first_frame': 48, 'frames_posed': 6, 'keyframes': 6, 'points': 397}, {'map': 4, 'first_frame': 64, 'frames_posed': 2, 'keyframes': 2, 'points': 87}]), 10 keyframes, 582 points, 32 s. Status: {'keyframe': 10, 'tracked': 1, 'untracked': 10}

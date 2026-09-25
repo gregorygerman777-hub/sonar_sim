@@ -813,37 +813,37 @@
       "map": 0,
       "first_frame": 0,
       "frames_posed": 798,
-      "keyframes": 297,
-      "points": 12529
+      "keyframes": 291,
+      "points": 12071
     }
   ],
   "frames_posed_any_map": 798,
   "status_counts": {
-    "keyframe": 297,
+    "keyframe": 291,
     "localized_after": 1,
-    "tracked": 500
+    "tracked": 506
   },
-  "keyframes": 297,
-  "map_points": 12529,
+  "keyframes": 291,
+  "map_points": 12071,
   "median_observations_per_point": 6.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 2,
     "model": "homography",
-    "r_h": 0.490488974049304,
+    "r_h": 0.49048748297009304,
     "matches": 636,
     "points": 587,
-    "parallax_points": 559,
-    "runner_up_points": 283,
-    "median_parallax_deg": 1.256302521329757
+    "parallax_points": 558,
+    "runner_up_points": 284,
+    "median_parallax_deg": 1.255766613154439
   },
   "stats": {
-    "local_ba_seconds": 82.88798875297653,
-    "n_local_ba": 295,
+    "local_ba_seconds": 45.57757733843755,
+    "n_local_ba": 289,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 76.2885054590297
+    "global_ba_seconds": 71.49762595799984
   },
   "settings": {
     "frontend": "sift",
@@ -887,9 +887,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 1.1741766115315924,
-    "median_px": 0.521933278311789,
-    "observations": 137871
+    "rmse_px": 1.170276164051578,
+    "median_px": 0.5273183770723922,
+    "observations": 132847
   },
   "K": [
     [
@@ -916,10 +916,9 @@
     "source": "TUM RGB-D, RGB stream only",
     "undistorted": true
   },
-  "runtime_seconds": 252.5751055830042,
-  "tracking_seconds": 175.91134525003145,
-  "seconds_per_frame": 0.3165101573721857,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 169.31875179201597,
+  "tracking_seconds": 97.68310958403163,
+  "seconds_per_frame": 0.2121788869574135,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

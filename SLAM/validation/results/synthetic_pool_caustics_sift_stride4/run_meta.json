@@ -119,12 +119,12 @@
     "ref_frame": 0,
     "frame": 1,
     "model": "essential",
-    "r_h": 0.4298407505903167,
+    "r_h": 0.4298566429923674,
     "matches": 183,
     "points": 60,
     "parallax_points": 60,
     "runner_up_points": 2,
-    "median_parallax_deg": 4.02600848652718
+    "median_parallax_deg": 4.028617790496186
   },
   "stats": {
     "local_ba_seconds": 0.0,
@@ -132,7 +132,7 @@
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 0.003762583015486598
+    "global_ba_seconds": 0.0026910000015050173
   },
   "settings": {
     "frontend": "sift",
@@ -176,8 +176,8 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.4954346831550816,
-    "median_px": 0.22755717841869416,
+    "rmse_px": 0.49574746350280013,
+    "median_px": 0.2275038878924336,
     "observations": 120
   },
   "K": [
@@ -206,9 +206,9 @@
     "undistorted": false,
     "stride": 4
   },
-  "runtime_seconds": 13.525509290979244,
-  "tracking_seconds": 12.609578499977943,
-  "seconds_per_frame": 0.22542515484965406,
-  "git_commit": "e9e312c66e9e679425ca8e3e5c60420150e8fdef",
+  "runtime_seconds": 4.369789041986223,
+  "tracking_seconds": 3.996654583956115,
+  "seconds_per_frame": 0.07282981736643705,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
   "git_dirty": false
 }

@@ -154,7 +154,7 @@
       "first_frame": 48,
       "frames_posed": 6,
       "keyframes": 6,
-      "points": 394
+      "points": 393
     },
     {
       "map": 4,
@@ -184,20 +184,20 @@
     "ref_frame": 27,
     "frame": 28,
     "model": "homography",
-    "r_h": 0.4653880206212946,
+    "r_h": 0.4653839563117587,
     "matches": 464,
     "points": 445,
     "parallax_points": 86,
     "runner_up_points": 265,
-    "median_parallax_deg": 0.8654716015513115
+    "median_parallax_deg": 0.8653505963884391
   },
   "stats": {
-    "local_ba_seconds": 0.5003395429230295,
+    "local_ba_seconds": 0.2363542500534095,
     "n_local_ba": 8,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 0.16823608300182968
+    "global_ba_seconds": 0.08154104196000844
   },
   "settings": {
     "frontend": "sift",
@@ -241,8 +241,8 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 1.4770306229849128,
-    "median_px": 0.5223078068131428,
+    "rmse_px": 1.477045624187482,
+    "median_px": 0.5224767610426684,
     "observations": 2189
   },
   "K": [
@@ -289,10 +289,9 @@
     "k_hypothesis": "raw",
     "timestamp": "frame number"
   },
-  "runtime_seconds": 68.30798500002129,
-  "tracking_seconds": 65.16235595801845,
-  "seconds_per_frame": 0.5838289316241136,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 30.61583274998702,
+  "tracking_seconds": 28.778923040954396,
+  "seconds_per_frame": 0.26167378418792325,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

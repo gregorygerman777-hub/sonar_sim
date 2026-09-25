@@ -816,36 +816,36 @@
       "map": 0,
       "first_frame": 0,
       "frames_posed": 801,
-      "keyframes": 794,
-      "points": 63798
+      "keyframes": 795,
+      "points": 63840
     }
   ],
   "frames_posed_any_map": 801,
   "status_counts": {
-    "keyframe": 794,
-    "tracked": 7
+    "keyframe": 795,
+    "tracked": 6
   },
-  "keyframes": 794,
-  "map_points": 63798,
+  "keyframes": 795,
+  "map_points": 63840,
   "median_observations_per_point": 4.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 1,
     "model": "essential",
-    "r_h": 0.26878161021178787,
+    "r_h": 0.2687730555581093,
     "matches": 654,
     "points": 459,
     "parallax_points": 300,
     "runner_up_points": 4,
-    "median_parallax_deg": 2.1406555054258125
+    "median_parallax_deg": 2.140598126421189
   },
   "stats": {
-    "local_ba_seconds": 101.96535686444258,
-    "n_local_ba": 792,
+    "local_ba_seconds": 101.671947782801,
+    "n_local_ba": 793,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 55.474543749995064
+    "global_ba_seconds": 31.35851695796009
   },
   "settings": {
     "frontend": "sift",
@@ -889,9 +889,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.8422859339061358,
-    "median_px": 0.20807205886400446,
-    "observations": 406895
+    "rmse_px": 0.8409141067316981,
+    "median_px": 0.20819667586981025,
+    "observations": 407408
   },
   "K": [
     [
@@ -918,10 +918,9 @@
     "source": "KITTI odometry, camera 0 (left grayscale), rectified; GPS/INS ground truth",
     "undistorted": false
   },
-  "runtime_seconds": 247.54802220896818,
-  "tracking_seconds": 192.07062095898436,
-  "seconds_per_frame": 0.3090487168651288,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 218.6872983330395,
+  "tracking_seconds": 187.32685687503545,
+  "seconds_per_frame": 0.27301785060304556,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

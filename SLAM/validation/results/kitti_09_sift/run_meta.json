@@ -1607,7 +1607,7 @@
       "first_frame": 0,
       "frames_posed": 1591,
       "keyframes": 1590,
-      "points": 121898
+      "points": 121876
     }
   ],
   "frames_posed_any_map": 1591,
@@ -1616,26 +1616,26 @@
     "localized_after": 1
   },
   "keyframes": 1590,
-  "map_points": 121898,
+  "map_points": 121876,
   "median_observations_per_point": 4.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 2,
     "model": "essential",
-    "r_h": 0.2892391216207819,
+    "r_h": 0.2892265404200249,
     "matches": 415,
     "points": 337,
     "parallax_points": 107,
     "runner_up_points": 0,
-    "median_parallax_deg": 0.7205231204289586
+    "median_parallax_deg": 0.7204184517241001
   },
   "stats": {
-    "local_ba_seconds": 147.89988807722693,
+    "local_ba_seconds": 154.77125706337392,
     "n_local_ba": 1588,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 203.5719076670357
+    "global_ba_seconds": 276.0632272500079
   },
   "settings": {
     "frontend": "sift",
@@ -1679,9 +1679,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.9109352904291461,
-    "median_px": 0.21276074575595813,
-    "observations": 667919
+    "rmse_px": 0.9110629367186869,
+    "median_px": 0.2127321929218389,
+    "observations": 667707
   },
   "K": [
     [
@@ -1708,10 +1708,9 @@
     "source": "KITTI odometry, camera 0 (left grayscale), rectified; GPS/INS ground truth",
     "undistorted": false
   },
-  "runtime_seconds": 515.5135590829886,
-  "tracking_seconds": 311.8262497080141,
-  "seconds_per_frame": 0.3240185789333681,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 576.6782007910078,
+  "tracking_seconds": 300.5180291660363,
+  "seconds_per_frame": 0.3624627283412997,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

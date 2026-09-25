@@ -4087,7 +4087,7 @@
       "first_frame": 0,
       "frames_posed": 4071,
       "keyframes": 4033,
-      "points": 309677
+      "points": 309659
     }
   ],
   "frames_posed_any_map": 4071,
@@ -4096,26 +4096,26 @@
     "tracked": 38
   },
   "keyframes": 4033,
-  "map_points": 309677,
+  "map_points": 309659,
   "median_observations_per_point": 4.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 1,
     "model": "essential",
-    "r_h": 0.38245736713780976,
+    "r_h": 0.3824573205629636,
     "matches": 591,
     "points": 340,
     "parallax_points": 86,
     "runner_up_points": 0,
-    "median_parallax_deg": 0.6934435305111342
+    "median_parallax_deg": 0.6933757664514224
   },
   "stats": {
-    "local_ba_seconds": 773.9052753594588,
+    "local_ba_seconds": 350.1088275373331,
     "n_local_ba": 4031,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 286.6296809579944
+    "global_ba_seconds": 273.6556132910191
   },
   "settings": {
     "frontend": "sift",
@@ -4159,9 +4159,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.8819542220614841,
-    "median_px": 0.2174342409085903,
-    "observations": 1761049
+    "rmse_px": 0.8811623637682404,
+    "median_px": 0.21746566672278986,
+    "observations": 1760717
   },
   "K": [
     [
@@ -4188,9 +4188,9 @@
     "source": "KITTI odometry, camera 0 (left grayscale), rectified; GPS/INS ground truth",
     "undistorted": false
   },
-  "runtime_seconds": 1778.8487296669628,
-  "tracking_seconds": 1492.1956450419966,
-  "seconds_per_frame": 0.4369562096946605,
-  "git_commit": "ee214f319d8d17aa997f867c7e9182cfcf8145cb",
+  "runtime_seconds": 988.3283651669626,
+  "tracking_seconds": 714.6508680419647,
+  "seconds_per_frame": 0.24277287279954868,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
   "git_dirty": false
 }

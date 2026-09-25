@@ -70,12 +70,12 @@
     "ref_frame": 0,
     "frame": 1,
     "model": "essential",
-    "r_h": 0.32723507720866135,
+    "r_h": 0.32723386261057097,
     "matches": 161,
     "points": 87,
     "parallax_points": 87,
     "runner_up_points": 0,
-    "median_parallax_deg": 15.28952181452337
+    "median_parallax_deg": 15.290823415356432
   },
   "stats": {
     "local_ba_seconds": 0.0,
@@ -83,7 +83,7 @@
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 0.004283707996364683
+    "global_ba_seconds": 0.003148999996483326
   },
   "settings": {
     "frontend": "sift",
@@ -127,8 +127,8 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 1.3260905011582564,
-    "median_px": 0.28836977581148987,
+    "rmse_px": 1.325891319964061,
+    "median_px": 0.288340691967527,
     "observations": 174
   },
   "K": [
@@ -176,10 +176,9 @@
     "timestamp": "frame number",
     "stride": 3
   },
-  "runtime_seconds": 8.105067041004077,
-  "tracking_seconds": 8.067257166025229,
-  "seconds_per_frame": 0.20782223182061735,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 4.248915833013598,
+  "tracking_seconds": 4.222651957999915,
+  "seconds_per_frame": 0.10894655982086149,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

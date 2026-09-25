@@ -1,11 +1,11 @@
 kitti_04: 271 frames, 1226x370, front end sift
   frame 0/271: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
   initialized with frames 0 and 1: essential, R_H=0.33, 465 points, runner up 1/466
-  frame 50/271: keyframe, inliers 198, map 0, keyframes 51, points 4183, median depth 0.95, 9 s
-  frame 100/271: keyframe, inliers 287, map 0, keyframes 101, points 7407, median depth 1.03, 18 s
-  frame 150/271: keyframe, inliers 365, map 0, keyframes 151, points 11144, median depth 0.865, 28 s
-  frame 200/271: keyframe, inliers 181, map 0, keyframes 201, points 14952, median depth 0.781, 37 s
-  frame 250/271: keyframe, inliers 306, map 0, keyframes 251, points 19176, median depth 0.936, 48 s
-  frame 270/271: keyframe, inliers 152, map 0, keyframes 271, points 20501, median depth 0.648, 52 s
+  frame 50/271: keyframe, inliers 198, map 0, keyframes 51, points 4183, median depth 0.95, 11 s
+  frame 100/271: keyframe, inliers 287, map 0, keyframes 101, points 7406, median depth 1.03, 21 s
+  frame 150/271: keyframe, inliers 365, map 0, keyframes 151, points 11142, median depth 0.865, 31 s
+  frame 200/271: keyframe, inliers 181, map 0, keyframes 201, points 14950, median depth 0.781, 40 s
+  frame 250/271: keyframe, inliers 306, map 0, keyframes 251, points 19174, median depth 0.937, 50 s
+  frame 270/271: keyframe, inliers 152, map 0, keyframes 271, points 20499, median depth 0.648, 53 s
 global bundle adjustment and final localization pass
-done: 271/271 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 271, 'keyframes': 271, 'points': 20501}]), 271 keyframes, 20501 points, 57 s. Status: {'keyframe': 271}
+done: 271/271 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 271, 'keyframes': 271, 'points': 20499}]), 271 keyframes, 20499 points, 56 s. Status: {'keyframe': 271}

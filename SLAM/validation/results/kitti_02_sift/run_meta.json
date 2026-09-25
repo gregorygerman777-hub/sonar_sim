@@ -4677,7 +4677,7 @@
       "first_frame": 0,
       "frames_posed": 4661,
       "keyframes": 4660,
-      "points": 413137
+      "points": 413135
     }
   ],
   "frames_posed_any_map": 4661,
@@ -4686,26 +4686,26 @@
     "tracked": 1
   },
   "keyframes": 4660,
-  "map_points": 413137,
+  "map_points": 413135,
   "median_observations_per_point": 4.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 1,
     "model": "essential",
-    "r_h": 0.29829539007073547,
+    "r_h": 0.29829504720533057,
     "matches": 465,
     "points": 287,
     "parallax_points": 201,
     "runner_up_points": 8,
-    "median_parallax_deg": 1.5385191192302832
+    "median_parallax_deg": 1.53847025974979
   },
   "stats": {
-    "local_ba_seconds": 576.3722167756641,
+    "local_ba_seconds": 451.4938560387818,
     "n_local_ba": 4658,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 298.1852550409967
+    "global_ba_seconds": 312.74080904200673
   },
   "settings": {
     "frontend": "sift",
@@ -4749,9 +4749,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.8365483096583402,
-    "median_px": 0.19971934773628713,
-    "observations": 2194554
+    "rmse_px": 0.8364238621360205,
+    "median_px": 0.1997765441919428,
+    "observations": 2194443
   },
   "K": [
     [
@@ -4778,10 +4778,9 @@
     "source": "KITTI odometry, camera 0 (left grayscale), rectified; GPS/INS ground truth",
     "undistorted": false
   },
-  "runtime_seconds": 1438.540165292041,
-  "tracking_seconds": 1140.3301087080035,
-  "seconds_per_frame": 0.3086333759476595,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 1194.5164137079846,
+  "tracking_seconds": 881.7542089580093,
+  "seconds_per_frame": 0.256278998864618,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }

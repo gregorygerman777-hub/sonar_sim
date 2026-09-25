@@ -1,10 +1,10 @@
 synthetic_pool_caustics: 240 frames, 640x480, front end sift
   frame 0/240: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
   initialized with frames 0 and 1: homography, R_H=0.45, 340 points, runner up 128/340
-  frame 50/240: keyframe, inliers 187, map 0, keyframes 51, points 3156, median depth 0.918, 20 s
-  frame 100/240: keyframe, inliers 243, map 0, keyframes 101, points 6496, median depth 0.894, 37 s
-  frame 150/240: keyframe, inliers 277, map 0, keyframes 151, points 9551, median depth 0.924, 54 s
-  frame 200/240: keyframe, inliers 215, map 0, keyframes 201, points 12708, median depth 0.87, 71 s
-  frame 239/240: keyframe, inliers 243, map 0, keyframes 240, points 15185, median depth 0.908, 84 s
+  frame 50/240: keyframe, inliers 187, map 0, keyframes 51, points 3156, median depth 0.918, 8 s
+  frame 100/240: keyframe, inliers 243, map 0, keyframes 101, points 6496, median depth 0.894, 18 s
+  frame 150/240: keyframe, inliers 277, map 0, keyframes 151, points 9553, median depth 0.925, 26 s
+  frame 200/240: keyframe, inliers 215, map 0, keyframes 201, points 12711, median depth 0.872, 36 s
+  frame 239/240: keyframe, inliers 243, map 0, keyframes 240, points 15187, median depth 0.909, 43 s
 global bundle adjustment and final localization pass
-done: 240/240 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 240, 'keyframes': 240, 'points': 15185}]), 240 keyframes, 15185 points, 92 s. Status: {'keyframe': 240}
+done: 240/240 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 240, 'keyframes': 240, 'points': 15187}]), 240 keyframes, 15187 points, 47 s. Status: {'keyframe': 240}

@@ -1,21 +1,21 @@
 tum_freiburg1_xyz: 798 frames, 640x480, front end sift
   frame 0/798: untracked, inliers 0, map 0, keyframes 0, points 0, median depth nan, 0 s
-  initialized with frames 0 and 2: homography, R_H=0.49, 587 points, runner up 283/587
-  frame 50/798: tracked, inliers 522, map 0, keyframes 23, points 2013, median depth 0.719, 11 s
-  frame 100/798: tracked, inliers 595, map 0, keyframes 43, points 2955, median depth 1.03, 26 s
-  frame 150/798: tracked, inliers 564, map 0, keyframes 54, points 3337, median depth 0.865, 37 s
-  frame 200/798: keyframe, inliers 249, map 0, keyframes 82, points 4646, median depth 0.795, 52 s
-  frame 250/798: tracked, inliers 378, map 0, keyframes 116, points 6282, median depth 0.839, 65 s
-  frame 300/798: keyframe, inliers 141, map 0, keyframes 136, points 6827, median depth 0.801, 75 s
-  frame 350/798: tracked, inliers 420, map 0, keyframes 150, points 7209, median depth 0.854, 83 s
-  frame 400/798: keyframe, inliers 176, map 0, keyframes 168, points 7879, median depth 0.802, 93 s
-  frame 450/798: keyframe, inliers 235, map 0, keyframes 201, points 8630, median depth 0.755, 106 s
-  frame 500/798: tracked, inliers 523, map 0, keyframes 229, points 10325, median depth 0.775, 120 s
-  frame 550/798: tracked, inliers 387, map 0, keyframes 247, points 10880, median depth 0.718, 131 s
-  frame 600/798: tracked, inliers 521, map 0, keyframes 258, points 11274, median depth 0.929, 140 s
-  frame 650/798: tracked, inliers 337, map 0, keyframes 273, points 11654, median depth 0.663, 150 s
-  frame 700/798: tracked, inliers 577, map 0, keyframes 281, points 11829, median depth 0.858, 158 s
-  frame 750/798: tracked, inliers 649, map 0, keyframes 290, points 12188, median depth 0.672, 168 s
-  frame 797/798: tracked, inliers 743, map 0, keyframes 297, points 12532, median depth 0.661, 176 s
+  initialized with frames 0 and 2: homography, R_H=0.49, 587 points, runner up 284/587
+  frame 50/798: tracked, inliers 521, map 0, keyframes 23, points 2010, median depth 0.718, 6 s
+  frame 100/798: tracked, inliers 578, map 0, keyframes 42, points 2815, median depth 1.06, 13 s
+  frame 150/798: tracked, inliers 593, map 0, keyframes 52, points 3230, median depth 0.865, 18 s
+  frame 200/798: tracked, inliers 242, map 0, keyframes 79, points 4503, median depth 0.937, 25 s
+  frame 250/798: tracked, inliers 369, map 0, keyframes 112, points 6046, median depth 0.86, 31 s
+  frame 300/798: keyframe, inliers 144, map 0, keyframes 133, points 6624, median depth 0.85, 35 s
+  frame 350/798: tracked, inliers 409, map 0, keyframes 150, points 7094, median depth 0.85, 40 s
+  frame 400/798: keyframe, inliers 185, map 0, keyframes 168, points 7685, median depth 0.842, 46 s
+  frame 450/798: keyframe, inliers 227, map 0, keyframes 201, points 8397, median depth 0.788, 51 s
+  frame 500/798: tracked, inliers 520, map 0, keyframes 229, points 10057, median depth 0.798, 60 s
+  frame 550/798: tracked, inliers 394, map 0, keyframes 248, points 10765, median depth 0.75, 68 s
+  frame 600/798: tracked, inliers 499, map 0, keyframes 258, points 11039, median depth 0.952, 75 s
+  frame 650/798: tracked, inliers 316, map 0, keyframes 274, points 11468, median depth 0.688, 82 s
+  frame 700/798: tracked, inliers 563, map 0, keyframes 281, points 11634, median depth 0.906, 88 s
+  frame 750/798: tracked, inliers 516, map 0, keyframes 286, points 11740, median depth 0.691, 93 s
+  frame 797/798: tracked, inliers 701, map 0, keyframes 291, points 12077, median depth 0.688, 98 s
 global bundle adjustment and final localization pass
-done: 798/798 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 798, 'keyframes': 297, 'points': 12529}]), 297 keyframes, 12529 points, 253 s. Status: {'keyframe': 297, 'localized_after': 1, 'tracked': 500}
+done: 798/798 frames posed by the primary map (1 map(s): [{'map': 0, 'first_frame': 0, 'frames_posed': 798, 'keyframes': 291, 'points': 12071}]), 291 keyframes, 12071 points, 169 s. Status: {'keyframe': 291, 'localized_after': 1, 'tracked': 506}

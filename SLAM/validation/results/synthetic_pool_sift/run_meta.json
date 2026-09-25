@@ -256,7 +256,7 @@
       "first_frame": 0,
       "frames_posed": 240,
       "keyframes": 212,
-      "points": 15103
+      "points": 15101
     }
   ],
   "frames_posed_any_map": 240,
@@ -265,26 +265,26 @@
     "tracked": 28
   },
   "keyframes": 212,
-  "map_points": 15103,
+  "map_points": 15101,
   "median_observations_per_point": 8.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 1,
     "model": "homography",
-    "r_h": 0.48380409165831656,
+    "r_h": 0.4838166656113628,
     "matches": 640,
     "points": 596,
     "parallax_points": 390,
     "runner_up_points": 228,
-    "median_parallax_deg": 1.1564765936555723
+    "median_parallax_deg": 1.1567648069277878
   },
   "stats": {
-    "local_ba_seconds": 171.0597063668538,
+    "local_ba_seconds": 45.74003321066266,
     "n_local_ba": 210,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 21.868083958979696
+    "global_ba_seconds": 7.852517833991442
   },
   "settings": {
     "frontend": "sift",
@@ -328,9 +328,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.6842809407101144,
-    "median_px": 0.2989429265543466,
-    "observations": 201937
+    "rmse_px": 0.6845552170761824,
+    "median_px": 0.2993006500275721,
+    "observations": 201945
   },
   "K": [
     [
@@ -357,9 +357,9 @@
     "source": "rendered by datasets/synthetic.py",
     "undistorted": false
   },
-  "runtime_seconds": 260.79128566599684,
-  "tracking_seconds": 238.92139824997867,
-  "seconds_per_frame": 1.0866303569416536,
-  "git_commit": "e9e312c66e9e679425ca8e3e5c60420150e8fdef",
+  "runtime_seconds": 71.72098674997687,
+  "tracking_seconds": 63.867386124969926,
+  "seconds_per_frame": 0.2988374447915703,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
   "git_dirty": false
 }

@@ -1116,37 +1116,37 @@
       "map": 0,
       "first_frame": 0,
       "frames_posed": 1101,
-      "keyframes": 1005,
-      "points": 75512
+      "keyframes": 1007,
+      "points": 75513
     }
   ],
   "frames_posed_any_map": 1101,
   "status_counts": {
-    "keyframe": 1005,
+    "keyframe": 1007,
     "localized_after": 3,
-    "tracked": 93
+    "tracked": 91
   },
-  "keyframes": 1005,
-  "map_points": 75512,
+  "keyframes": 1007,
+  "map_points": 75513,
   "median_observations_per_point": 5.0,
   "initialization": {
     "ref_frame": 0,
     "frame": 4,
     "model": "essential",
-    "r_h": 0.38523593256652755,
+    "r_h": 0.38524358465050224,
     "matches": 600,
     "points": 317,
     "parallax_points": 105,
     "runner_up_points": 2,
-    "median_parallax_deg": 0.7845733457380658
+    "median_parallax_deg": 0.7852024644030209
   },
   "stats": {
-    "local_ba_seconds": 101.79156275530113,
-    "n_local_ba": 1003,
+    "local_ba_seconds": 93.20947733731009,
+    "n_local_ba": 1005,
     "reinit": 0,
     "relocalizations": 0,
     "reopened": 0,
-    "global_ba_seconds": 67.95545491698431
+    "global_ba_seconds": 28.075881875003688
   },
   "settings": {
     "frontend": "sift",
@@ -1190,9 +1190,9 @@
     "global_ba_iterations": 50
   },
   "reprojection": {
-    "rmse_px": 0.9274189088889933,
-    "median_px": 0.22452837558177266,
-    "observations": 481137
+    "rmse_px": 0.9272484572972318,
+    "median_px": 0.22442393284987072,
+    "observations": 481790
   },
   "K": [
     [
@@ -1219,10 +1219,9 @@
     "source": "KITTI odometry, camera 0 (left grayscale), rectified; GPS/INS ground truth",
     "undistorted": false
   },
-  "runtime_seconds": 266.9613149999641,
-  "tracking_seconds": 198.71722150000278,
-  "seconds_per_frame": 0.2424716757492862,
-  "git_commit": "944e86e8e6fc4e4d3be053bd73188e266ae4507c",
-  "git_dirty": false,
-  "git_dirty_note": "recomputed on 2026-09-24 (CHANGELOG entry 18): recorded as true because the run rewrote tracked result files; no source file differed from 944e86e, whose SLAM code equals 4c81dab"
+  "runtime_seconds": 205.62144416599767,
+  "tracking_seconds": 177.2946128330077,
+  "seconds_per_frame": 0.18675880487374902,
+  "git_commit": "051b8a73c413341f2398f6304119bb2fae363362",
+  "git_dirty": false
 }
