@@ -76,15 +76,16 @@ for d in $GT_SETS $KITTI_SETS; do           # every run of the dataset, includin
   done
 done
 $PY $V/summarize.py
-for d in $GT_SETS $KITTI_SETS; do
-  for f in orb sift; do
-    if [ -f $V/results/${d}_$f/run_meta.json ]; then
-      $PY $V/make_figures.py $V/results/${d}_$f --baseline $V/results/${d}_colmap_sequential
-    fi
-  done
-  if [ -f $V/results/${d}_colmap_sequential/run_meta.json ]; then
-    $PY $V/make_figures.py $V/results/${d}_colmap_sequential
-  fi
+# Figures for every run of the datasets scored above, the frame stride runs included (they were once left stale);
+# a run's dataset is read from its run_meta.json, since a name prefix also matches synthetic_pool_caustics.
+for r in $V/results/*/; do
+  [ -f "${r}run_meta.json" ] || continue
+  d=$($PY -c 'import json, sys; print(json.load(open(sys.argv[1]))["dataset"])' "${r}run_meta.json")
+  case " $GT_SETS $KITTI_SETS " in *" $d "*) ;; *) continue ;; esac
+  case $r in
+    *_colmap_*) $PY $V/make_figures.py "${r%/}" ;;
+    *) $PY $V/make_figures.py "${r%/}" --baseline $V/results/${d}_colmap_sequential ;;
+  esac
 done
 for r in $V/results/pool_*/; do $PY $V/make_figures.py "${r%/}"; done
 [ -z "$KITTI_SETS" ] || for f in sift orb; do $PY $V/kitti_overview.py --frontend $f; done

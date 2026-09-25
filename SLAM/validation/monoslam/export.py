@@ -52,9 +52,13 @@ def write_ply(path, xyz, rgb=None):
 
 
 def read_ply(path):
+    """xyz (N, 3) and rgb (N, 3) uint8, or None when the file has no colour; N is 0 for a map with no point."""
     lines = Path(path).read_text().splitlines()
     n = int(next(l for l in lines if l.startswith("element vertex")).split()[-1])
     start = lines.index("end_header") + 1
+    if n == 0:     # what write_ply writes for a run that never initialized a map
+        has_rgb = "property uchar red" in lines[:start]
+        return np.empty((0, 3)), (np.empty((0, 3), np.uint8) if has_rgb else None)
     data = np.array([l.split() for l in lines[start:start + n]], dtype=float).reshape(n, -1)
     xyz = data[:, :3]
     rgb = data[:, 3:6].astype(np.uint8) if data.shape[1] >= 6 else None

@@ -21,6 +21,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.ticker import MaxNLocator  # noqa: E402
 import numpy as np  # noqa: E402
 from scipy.spatial import cKDTree  # noqa: E402
 
@@ -95,6 +96,24 @@ def load_run(run_dir, aligned):
     return dict(meta=meta, metrics=metrics, ts=ts, R=R, t=t, xyz=xyz, rgb=rgb, dir=run_dir)
 
 
+def status_line(meta, m):
+    """The line under a figure's title: the scores, or why there are none (no ground truth, or too few frames posed
+    to align with the ground truth, which is not the same thing)."""
+    posed = f"posed {meta['frames_posed']}/{meta['frames_total']} frames"
+    if m and "sim3_scale" in m:
+        stat = (f"ATE RMSE {m['ate_m']['rmse']:.3f} m ({m['ate_rmse_percent_of_path']:.2f} % of "
+                f"{m['gt_path_length_m']:.1f} m), posed {m['fraction_posed']:.0%}" +
+                ("  PARTIAL" if m["status"] == "PARTIAL" else ""))
+        if m.get("all_maps"):
+            am = m["all_maps"]
+            stat += (f"\nall {am['maps']} maps: {am['frames_posed']}/{m['frames_total']} frames posed, "
+                     f"ATE {am['ate_rmse_m_each_map_aligned_separately']:.3f} m (each map aligned separately)")
+        return stat
+    if m and m.get("status") == "TOO FEW POSED":
+        return f"too few frames posed to align with the ground truth; {posed}"
+    return f"no ground truth; {posed}"
+
+
 def frustum_lines(R_wc, c, K, size, depth):
     w, h = size
     corners = np.array([[0, 0], [w, 0], [w, h], [0, h]], float)
@@ -113,6 +132,9 @@ def main():
     args = parser.parse_args()
 
     run = load_run(args.run, aligned=True)
+    if not len(run["t"]):
+        print(f"{args.run.name}: no frame was posed, nothing to draw")
+        return
     has_gt = run["metrics"] is not None and "sim3_scale" in run["metrics"]
     base = None
     if args.baseline and (args.baseline / "trajectory_tum.txt").exists():
@@ -139,17 +161,7 @@ def main():
     P = lambda a: a @ B.T  # noqa: E731
     traj, cloud = P(run["t"]), P(xyz) if len(xyz) else np.zeros((0, 3))
     title = run["meta"]["dataset"] + "  |  " + run["dir"].name.replace(run["meta"]["dataset"] + "_", "")
-    m = run["metrics"]
-    if has_gt:
-        stat = (f"ATE RMSE {m['ate_m']['rmse']:.3f} m ({m['ate_rmse_percent_of_path']:.2f} % of "
-                f"{m['gt_path_length_m']:.1f} m), posed {m['fraction_posed']:.0%}" +
-                ("  PARTIAL" if m["status"] == "PARTIAL" else ""))
-        if m.get("all_maps"):
-            am = m["all_maps"]
-            stat += (f"\nall {am['maps']} maps: {am['frames_posed']}/{m['frames_total']} frames posed, "
-                     f"ATE {am['ate_rmse_m_each_map_aligned_separately']:.3f} m (each map aligned separately)")
-    else:
-        stat = f"no ground truth; posed {run['meta']['frames_posed']}/{run['meta']['frames_total']} frames"
+    stat = status_line(run["meta"], run["metrics"])
 
     # ---------------- 1: trajectory
     fig, axes = plt.subplots(1, 2, figsize=(12, 5.2))
@@ -189,23 +201,26 @@ def main():
     for fname, with_traj in (("2_model.png", False), ("3_overlay.png", True)):
         fig = plt.figure(figsize=(10, 8))
         ax = fig.add_subplot(projection="3d")
+        ax.computed_zorder = False      # draw in the order below, so the trajectory stays on top of the map points
         if len(cloud):
-            ax.scatter(cloud[:, 0], cloud[:, 1], cloud[:, 2], c=colors, s=1.2, depthshade=False, linewidths=0)
+            ax.scatter(cloud[:, 0], cloud[:, 1], cloud[:, 2], c=colors, s=1.2, depthshade=False, linewidths=0,
+                       zorder=1)
         if with_traj:
-            ax.plot(traj[:, 0], traj[:, 1], traj[:, 2], color=C_EST, lw=2.0, label="estimated trajectory")
+            ax.plot(traj[:, 0], traj[:, 1], traj[:, 2], color=C_EST, lw=2.0, label="estimated trajectory", zorder=3)
             if has_gt:
                 pg = P(gt)
-                ax.plot(pg[:, 0], pg[:, 1], pg[:, 2], color=C_GT, lw=1.0, alpha=0.7, label="ground truth")
+                ax.plot(pg[:, 0], pg[:, 1], pg[:, 2], color=C_GT, lw=1.0, alpha=0.7, label="ground truth", zorder=2)
             every = args.frustum_every or max(1, len(traj) // 25)
             depth = 0.04 * np.ptp(lim, axis=1).max()
             for i in range(0, len(traj), every):
                 for p0, p1 in frustum_lines(B @ run["R"][i], traj[i], K, size, depth):
-                    ax.plot(*np.column_stack((p0, p1)), color=C_EST, lw=0.6)
+                    ax.plot(*np.column_stack((p0, p1)), color=C_EST, lw=0.6, zorder=3)
             ax.legend(loc="upper left", fontsize=8)
         ax.set_xlim(*lim[0])
         ax.set_ylim(*lim[1])
         ax.set_zlim(*lim[2])
         ax.set_box_aspect(np.ptp(lim, axis=1))
+        ax.zaxis.set_major_locator(MaxNLocator(3))   # a flat box (a street, a pool floor) had overlapping labels
         ax.view_init(elev=28, azim=-60)
         ax.set_xlabel(f"along [{units}]")
         ax.set_ylabel(f"across [{units}]")

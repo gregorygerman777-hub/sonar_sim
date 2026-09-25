@@ -113,33 +113,25 @@ scores are saved in `~/sonar_work/before_entry15_17/`. When it ends: `run_all.sh
 --only-eval`, then CHANGELOG 15 to 17, REPORT.md (every number, plus a KITTI section), `report_summary.json` (KITTI
 page), the email draft and `~/sonar_work/for_dr_negahdaripour/`.
 
-## START HERE (next session): state at 23:15 on 2026-09-24
+## START HERE (next session): state on the morning of 2026-09-25
 
-Everything in the 18:10 plan is done and committed on `main` (not pushed). Nothing has been sent.
+Everything is done, committed and **pushed** to GitHub `main` (Greg asked for every commit to be pushed). Nothing has
+been sent. Greg reads the PDF and the draft and sends.
 
-* **Reruns:** every SLAM run and COLMAP baseline was made with the final code. `~/sonar_work/tools/audit_runs.py
-  --scored` prints `problems: 0`; it now also checks each run's own log, its map directories against run_meta.json,
-  its pose count, and that the SLAM code at the commit it recorded equals HEAD. The old session's background jobs were
-  killed when it closed (18:30); jobs started from a session die with it, so keep the session open while they run.
-* **Code errors found and fixed this session** (each with a test that fails on the old code; CHANGELOG 21 to 23): a
-  rerun kept the earlier run's `maps/map_k` (aqualoc_harbor_07_sift, kitti_00_orb; both rerun, bit identical); the
-  commit was read when a run ended (kitti_08_sift rerun, bit identical); `log.txt` never closed; evo picked RPE pairs
-  along the estimate (KITTI RPE was off by up to a factor of 2.4); summary map count; the PDF tables' sequence length
-  and "failed" label; an empty trajectory warning; the interactive overlay capped at 100,000 points.
-* **Scoring:** `run_all.sh --only-eval` exit 0 (commit e097b5c). **CHANGELOG** entries 15 to 23 with generated
-  before and after tables, worse results included. **REPORT.md:** every number checked by
-  `~/sonar_work/tools/check_report.py` (0 missing), plus a KITTI section. **REPORT_summary.pdf:** 3 pages, in the order
-  Dr. Negahdaripour asked for: KITTI assessment and bugs; his pool data, trajectory and 3D model from our SLAM (12 of
-  117 stills, separately and superimposed); all 117 frames from COLMAP, trajectory superimposed on the model.
-* **Email draft:** `~/sonar_work/email_draft_2026-09-23.txt` (230 words). **Package:**
-  `~/sonar_work/for_dr_negahdaripour/` holds exactly the attachments (PDF, .mat, .csv, .ply, README), identical to the
-  committed files. The reprojection check (his photos, never in the repo) is `~/sonar_work/diag/reprojection_check.jpg`
-  (made by `tools/reprojection_check.py`; not in the package, since he did not ask for it).
+* **Summary PDF, 4 pages**, exactly what Dr. Negahdaripour asked for (and what Greg promised on Sep 23, the two SLAM
+  outputs "for both datasets"): (1) the assessment on ground truth, KITTI 00 to 10 first, and the bugs found; (2) KITTI
+  07, trajectory and 3D model from our SLAM, separately and superimposed; (3) his pool data, trajectory and 3D model
+  from our SLAM (12 of 117 stills), separately and superimposed; (4) all 117 frames from COLMAP, trajectory
+  superimposed on the model.
+* **Email draft** `~/sonar_work/email_draft_2026-09-23.txt` (249 words, no dashes or hyphens). **Package**
+  `~/sonar_work/for_dr_negahdaripour/`: the PDF, `.mat`, `.csv`, `.ply` and README, identical to the committed files.
+* **Checks:** `~/sonar_work/tools/audit_runs.py --scored` prints `problems: 0`; `check_report.py` finds every REPORT.md
+  number in the results; all unit tests pass. The last `run_all.sh --only-eval` pass (after CHANGELOG entry 24, the
+  figure fixes) reproduced every metric.
+* **Code errors found and fixed on 2026-09-24** (tests fail on the old code): CHANGELOG entries 21 to 24.
 
-**Before sending (Greg):** read the PDF and the draft; push `main` (the PDF cites SLAM/validation/REPORT.md on
-GitHub, which is not pushed yet; the push adds about 300 MB of results and figures, no file over 20 MB); then send.
-
-**Open, not started:** KITTI 02 ORB now splits into 2 maps and was not traced (03 was: a knife edge at the 30 inlier
-minimum, evidence in `~/sonar_work/diag/kitti_03_knife_edge/`); no loop closure (most of the KITTI error is scale
-drift); no map merging; the pool scale needs the real lane stripe width; whether OSCalibration.mat uses 1 based pixel
-coordinates (1 px on the principal point).
+**Open, not started** (none of it was asked for): KITTI 02 ORB now splits into 2 maps and was not traced (03 was: a
+knife edge at the 30 inlier minimum, evidence in `~/sonar_work/diag/kitti_03_knife_edge/`); no loop closure (most of
+the KITTI error is scale drift); no map merging; the pool scale needs the real lane stripe width; whether
+OSCalibration.mat uses 1 based pixel coordinates (1 px on the principal point); `run_colmap.py` does not clear an
+earlier run's outputs (only matters if COLMAP ever builds no model).

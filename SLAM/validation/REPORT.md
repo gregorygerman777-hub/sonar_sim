@@ -122,9 +122,9 @@ Each run has four figures in `figures/<dataset>/<run>/`: `1_trajectory.png` (est
 against ground truth, top and side views), `2_model.png` (the 3D map points), `3_overlay.png` (the
 trajectory and camera frustums drawn over the 3D map), `4_overlay_top.png` (the same seen from above, map points
 coloured by height, arrows for the viewing direction), plus an interactive `3_overlay.html` (at most 100,000 map
-points). `REPORT_summary.pdf` (three pages, for e-mail) shows the validation on ground truth first, then our SLAM's
-trajectory and 3D model on the pool frames, then the reconstruction of all 117 frames with the trajectory over the
-model.
+points). `REPORT_summary.pdf` (four pages, for e-mail) shows the validation on ground truth first (KITTI, then the
+trajectory and 3D model of KITTI 07, separately and superimposed), then our SLAM's trajectory and 3D model on the pool
+frames, then the reconstruction of all 117 frames with the trajectory over the model.
 
 Key figures:
 
@@ -132,6 +132,7 @@ Key figures:
 |---|---|
 | **KITTI 00 to 10 seen from above, ours against ground truth (SIFT; ORB)** | `figures/kitti/overview_sift.png`, `overview_orb.png` |
 | KITTI 00 with SIFT, trajectory against ground truth (every frame, one map) | `figures/kitti_00/kitti_00_sift/1_trajectory.png` |
+| **KITTI 07 with SIFT: trajectory / 3D model / trajectory over the model, seen from above** | `figures/kitti_07/kitti_07_sift/1_trajectory.png`, `2_model.png`, `4_overlay_top.png` |
 | KITTI 07, ours (ORB) and COLMAP against ground truth | `figures/kitti_07/kitti_07_orb/1_trajectory.png` |
 | Synthetic pool, trajectory over the 3D map (exact ground truth) | `figures/synthetic_pool/synthetic_pool_orb/3_overlay.png` |
 | Synthetic pool, 3D map alone | `figures/synthetic_pool/synthetic_pool_orb/2_model.png` |

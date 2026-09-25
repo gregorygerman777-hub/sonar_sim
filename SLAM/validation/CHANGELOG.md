@@ -415,3 +415,19 @@ these numbers existed):
 * The interactive `3_overlay.html` wrote every map point (KITTI maps have up to 413,000; files of up to 20 MB). It now
   shows a fixed random subset of at most 100,000 points and says so; the PNG figures still draw every point.
   `tests/test_figures.py` covers it.
+
+## 24. Figures: stale figures of the frame stride runs; 3D views drawn more clearly (fixed)
+
+* **Stale figures (error):** `run_all.sh` drew figures only for the full rate runs and COLMAP sequential, but the
+  repository also held figures of the synthetic frame stride runs and of COLMAP exhaustive on the caustic scene, drawn
+  once by hand. The reruns replaced those runs and nothing redrew them, so 8 figure sets showed runs that no longer
+  existed. `run_all.sh` now draws every run of every scored dataset (the dataset read from `run_meta.json`), and the
+  whole `--only-eval` pass was repeated: metrics identical, every figure redrawn.
+* **Crash found by that (error):** the first repeated pass stopped at a run that never initialized a map:
+  `export.read_ply` could not read the empty PLY that `write_ply` writes for it, and `make_figures.py` would then have
+  failed on the empty trajectory. `read_ply` now returns no points, and `make_figures.py` says there is nothing to
+  draw. A figure of a run that posed too few frames to align (2 of 60) was also titled "no ground truth"; it now says
+  why it has no score. `tests/test_figures.py` (`TestRunWithoutPoses`, `TestStatusLine`) fails on the old code.
+* **Presentation:** in the 3D views the map points could be drawn over the trajectory (matplotlib sorts 3D artists by
+  depth); the trajectory, ground truth and camera frustums are now always drawn on top. On flat scenes (a street, a
+  pool floor) the vertical axis labels overlapped; that axis now has at most 3 ticks.

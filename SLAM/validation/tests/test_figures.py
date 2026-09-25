@@ -41,6 +41,48 @@ class TestInteractiveOverlay(unittest.TestCase):
             self.assertNotIn("map points shown", path.read_text())
 
 
+class TestRunWithoutPoses(unittest.TestCase):
+    """A run that never initialized a map writes an empty trajectory and an empty PLY. export.read_ply could not read
+    that PLY (it crashed run_all.sh once the figure step covered every run), and there is nothing to draw."""
+
+    def test_empty_ply_reads_as_no_points(self):
+        from monoslam import export
+        with tempfile.TemporaryDirectory() as d:
+            export.write_ply(Path(d) / "a.ply", np.empty((0, 3)))
+            export.write_ply(Path(d) / "b.ply", np.empty((0, 3)), np.empty((0, 3), np.uint8))
+            xyz, rgb = export.read_ply(Path(d) / "a.ply")
+            self.assertEqual((xyz.shape, rgb), ((0, 3), None))
+            xyz, rgb = export.read_ply(Path(d) / "b.ply")
+            self.assertEqual((xyz.shape, rgb.shape), ((0, 3), (0, 3)))
+
+    def test_no_figures_for_a_run_without_poses(self):
+        import json
+        from unittest import mock
+        from monoslam import export
+        with tempfile.TemporaryDirectory() as d:
+            run, out = Path(d) / "fake_orb_stride4", Path(d) / "figs"
+            run.mkdir()
+            (run / "run_meta.json").write_text(json.dumps(dict(dataset="fake", frames_total=60, frames_posed=0,
+                                                               K=[[100, 0, 32], [0, 100, 24], [0, 0, 1]])))
+            (run / "metrics.json").write_text(json.dumps(dict(status="TOO FEW POSED", frames_posed=0)))
+            export.write_tum(run / "trajectory_tum.txt", [], [], [])
+            export.write_ply(run / "points.ply", np.empty((0, 3)))
+            with mock.patch.object(sys, "argv", ["make_figures.py", str(run), "--out", str(out)]), \
+                    mock.patch("builtins.print"):
+                make_figures.main()
+            self.assertFalse(out.exists() and any(out.iterdir()))
+
+
+class TestStatusLine(unittest.TestCase):
+    def test_too_few_posed_is_not_called_no_ground_truth(self):
+        meta = dict(frames_posed=2, frames_total=60)
+        line = make_figures.status_line(meta, dict(status="TOO FEW POSED", frames_posed=2))
+        self.assertNotIn("no ground truth", line)
+        self.assertIn("too few frames posed", line)
+        self.assertEqual(make_figures.status_line(dict(frames_posed=12, frames_total=117), None),
+                         "no ground truth; posed 12/117 frames")
+
+
 class TestKittiOverview(unittest.TestCase):
     def test_draws_the_scored_sequences(self):
         import json
